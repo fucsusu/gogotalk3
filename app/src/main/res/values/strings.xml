@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">AiRoom</string>
+    <string name="login_title">GoGoTalk少儿英语</string>
+    <string name="login_input_phone_label">手机号</string>
+    <string name="login_input_phone_hint">请输入手机号</string>
+    <string name="login_input_password_label">密&#160;&#160;&#160;&#160;码</string>
+    <string name="login_input_password_hint">请输入密码</string>
+    <string name="login_btn_submit">登录</string>
+</resources>
