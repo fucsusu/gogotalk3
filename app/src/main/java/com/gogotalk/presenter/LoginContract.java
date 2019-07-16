@@ -5,6 +5,6 @@ public interface LoginContract {
 
     }
     interface Presenter extends BaseContract.Presenter{
-        void login(String username,String password);
+        void login(String username,String password1);
     }
 }
