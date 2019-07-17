@@ -6,6 +6,11 @@ import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.gogotalk.app.AiRoomApplication;
+import com.gogotalk.di.components.ActivityComponent;
+import com.gogotalk.di.components.DaggerActivityComponent;
+import com.gogotalk.di.modules.ActivityModule;
 import com.gogotalk.presenter.BaseContract;
 import com.gogotalk.util.AppUtils;
 import com.gogotalk.view.widget.LoadingDialog;
@@ -15,11 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 
-public abstract class BaseActivity extends AppCompatActivity implements BaseContract.View {
+public abstract class BaseActivity<T extends BaseContract.Presenter> extends AppCompatActivity implements BaseContract.View {
     private List<WeakReference<Activity>> mWeakReferenceList = new ArrayList<>();
-    BaseContract.Presenter mPresenter;
+    @Inject
+    T mPresenter;
     LoadingDialog.Builder loadingDialogBuilder;
     LoadingDialog loadingDialog;
     @Override
@@ -31,14 +39,23 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
         loadingDialog = loadingDialogBuilder.create();
         setContentView(getLayoutId());
         ButterKnife.bind(this);
-        initPresenter();
-        mPresenter = getPresenter();
+        initInject();
+        if (mPresenter != null)
+            mPresenter.attachView(this);
         initView();
     }
+    protected ActivityComponent getActivityComponent() {
+        return DaggerActivityComponent.builder()
+                .netComponent(AiRoomApplication.get(this).getNetComponent())
+                .activityModule(getActivityModule())
+                .build();
+    }
+    protected ActivityModule getActivityModule() {
+        return new ActivityModule(this);
+    }
     protected abstract int getLayoutId();
-    protected abstract void initPresenter();
+    protected abstract void initInject();
     protected void initView(){}
-    protected abstract BaseContract.Presenter getPresenter();
 
     @Override
     public Activity getActivity() {
@@ -54,16 +71,13 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-        if (mPresenter != null) {
-            mPresenter.onDestroy();
-            mPresenter = null;
-            System.gc();
-        }
+        if (mPresenter != null)
+            mPresenter.detachView();
         if(loadingDialog!=null){
             loadingDialog.dismiss();
             loadingDialog=null;
         }
+        super.onDestroy();
     }
 
     @Override

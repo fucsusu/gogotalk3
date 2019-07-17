@@ -8,8 +8,10 @@ public interface BaseContract {
         void hideLoading();
         Activity getActivity();
     }
-    interface Presenter{
-        void onDestroy();
+    interface Presenter<T extends BaseContract.View>{
+        void attachView(T view);
+        void detachView();
+
     }
     interface Moudle{
 

@@ -1,5 +1,7 @@
 package com.gogotalk.model.util;
 
+import android.widget.Toast;
+
 import com.gogotalk.presenter.BaseContract;
 import com.gogotalk.util.ToastUtils;
 
@@ -21,7 +23,7 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
             mView.hideLoading();
         }
         if(isError()){
-            ToastUtils.showLongToast(mView.getActivity(),e.getMessage());
+            ToastUtils.showShortToast(mView.getActivity(),e.getMessage());
         }
     }
 
