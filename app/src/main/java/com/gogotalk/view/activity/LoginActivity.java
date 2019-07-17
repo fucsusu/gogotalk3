@@ -1,8 +1,6 @@
 package com.gogotalk.view.activity;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
@@ -14,9 +12,9 @@ import com.gogotalk.di.modules.LoginModule;
 import com.gogotalk.presenter.BaseContract;
 import com.gogotalk.presenter.LoginContract;
 import com.gogotalk.presenter.LoginPresenter;
-import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
+
 
 import butterknife.BindView;
 import butterknife.OnClick;

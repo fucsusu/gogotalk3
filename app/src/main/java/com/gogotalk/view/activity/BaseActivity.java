@@ -20,7 +20,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppUtils.hideVirtualKeyViewYesShow(this);
+        AppUtils.hideVirtualKeyView(this);
         setContentView(getLayoutId());
         ButterKnife.bind(this);
         initPresenter();
