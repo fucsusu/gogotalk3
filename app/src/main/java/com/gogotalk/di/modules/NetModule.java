@@ -13,11 +13,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import static com.gogotalk.model.util.Constant.PATH_DEBUG_URL;
+import static com.gogotalk.model.util.Constant.PATH_RELEASE_URL;
 
 @Module
 public class NetModule {
-    public static final String Url = "https://hbrapi.gogo-talk.com";
-    public static final String DebugUrl = "https://hftestapi.gogo-talk.com";
+
     @Provides
     @Singleton
     public OkHttpClient provideOkHttpClient() {
@@ -36,7 +37,7 @@ public class NetModule {
     public Retrofit provideRetrofit(OkHttpClient okhttpClient) {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(okhttpClient)
-                .baseUrl(BuildConfig.DEBUG?DebugUrl:Url)
+                .baseUrl(BuildConfig.DEBUG?PATH_DEBUG_URL:PATH_RELEASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(EntityUtils.gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();

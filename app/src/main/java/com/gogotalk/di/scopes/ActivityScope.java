@@ -8,5 +8,5 @@ import javax.inject.Scope;
  * owspace
  */
 @Scope
-public @interface UserScope {
+public @interface ActivityScope {
 }

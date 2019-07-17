@@ -9,6 +9,8 @@ import com.gogotalk.BuildConfig;
 import com.gogotalk.di.components.DaggerNetComponent;
 import com.gogotalk.di.components.NetComponent;
 import com.gogotalk.di.modules.NetModule;
+import com.gogotalk.util.AppUtils;
+import com.gogotalk.util.SPUtils;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.DiskLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -26,6 +28,7 @@ public class AiRoomApplication extends Application {
         instance = this;
         initNet();
         initLogger();
+        SPUtils.initSpUtil(this, AppUtils.getAppName(this));
     }
 
     /**

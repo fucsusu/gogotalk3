@@ -1,18 +1,16 @@
 package com.gogotalk.model.entity;
 
-public class ResponseModel{
+public class ResponseModel<T>{
     private int result;
     private String msg;
-    public static class Data<T> extends ResponseModel{
-        private T data;
+    private T data;
 
-        public T getData() {
-            return data;
-        }
+    public T getData() {
+        return data;
+    }
 
-        public void setData(T data) {
-            this.data = data;
-        }
+    public void setData(T data) {
+        this.data = data;
     }
     public int getResult() {
         return result;

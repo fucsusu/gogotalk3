@@ -4,7 +4,7 @@ import android.app.Activity;
 
 public interface BaseContract {
     interface View{
-        void showLoading();
+        void showLoading(String msg);
         void hideLoading();
         Activity getActivity();
     }
