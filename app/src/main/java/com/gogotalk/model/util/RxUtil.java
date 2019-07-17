@@ -1,7 +1,11 @@
 package com.gogotalk.model.util;
 
+import android.content.Intent;
+
 import com.gogotalk.model.entity.ResponseModel;
 import com.gogotalk.model.exception.ApiException;
+import com.gogotalk.presenter.BaseContract;
+import com.gogotalk.view.activity.LoginActivity;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
@@ -33,18 +37,24 @@ public class RxUtil {
      * @param <T>
      * @return
      */
-    public static <T> FlowableTransformer<ResponseModel<T>, T> handleMyResult() {   //compose判断结果
+    public static <T> FlowableTransformer<ResponseModel<T>, T> handleMyResult(BaseContract.View view) {   //compose判断结果
         return new FlowableTransformer<ResponseModel<T>, T>() {
             @Override
             public Flowable<T> apply(Flowable<ResponseModel<T>> httpResponseFlowable) {
                 return httpResponseFlowable.flatMap(new Function<ResponseModel<T>, Flowable<T>>() {
                     @Override
-                    public Flowable<T> apply(ResponseModel<T> tMyHttpResponse) {
-                        if (tMyHttpResponse.getResult()==Constant.SUCCESS_CODE) {
-                            return createData(tMyHttpResponse.getData());
-                        } else {
-                            return Flowable.error(new ApiException(tMyHttpResponse.getMsg(),
-                                    Integer.valueOf(tMyHttpResponse.getResult())));
+                    public Flowable<T> apply(ResponseModel<T> responseModel) {
+                        if (responseModel.getResult()==Constant.HTTP_SUCCESS_CODE) {
+                            return createData(responseModel.getData());
+                        }else if(responseModel.getResult()==Constant.HTTP_TOKEN_EXPIRE_CODE){
+                            if(view!=null){
+                                view.getActivity().startActivity(new Intent(view.getActivity(), LoginActivity.class));
+                            }
+                            return Flowable.error(new ApiException(responseModel.getMsg(),
+                                    Integer.valueOf(responseModel.getResult())));
+                        }else {
+                            return Flowable.error(new ApiException(responseModel.getMsg(),
+                                    Integer.valueOf(responseModel.getResult())));
                         }
                     }
                 });

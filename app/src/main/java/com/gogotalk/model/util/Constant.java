@@ -9,5 +9,7 @@ public class Constant {
      */
     public static final String PATH_RELEASE_URL = "https://hbrapi.gogo-talk.com";
     public static final String PATH_DEBUG_URL = "https://hftestapi.gogo-talk.com";
-    public static final int SUCCESS_CODE = 1;
+
+    public static final int HTTP_SUCCESS_CODE = 1;
+    public static final int HTTP_TOKEN_EXPIRE_CODE = 1002;
 }
