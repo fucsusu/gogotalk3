@@ -6,9 +6,9 @@ import com.google.gson.GsonBuilder;
 import org.joda.time.DateTime;
 
 
-public final class EntityUtils {
+public final class GsonUtils {
 
-    private EntityUtils() {}
+    private GsonUtils() {}
 
     public static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())

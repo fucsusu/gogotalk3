@@ -1,6 +1,8 @@
 package com.gogotalk.model.util;
 
 import com.gogotalk.presenter.BaseContract;
+import com.gogotalk.util.ToastUtils;
+
 import io.reactivex.subscribers.ResourceSubscriber;
 
 public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
@@ -15,6 +17,12 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
         if (mView == null) {
             return;
         }
+        if(isLoading()){
+            mView.hideLoading();
+        }
+        if(isError()){
+            ToastUtils.showLongToast(mView.getActivity(),e.getMessage());
+        }
     }
 
     @Override
@@ -27,7 +35,9 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
     public boolean isLoading(){
         return true;
     }
-
+    public boolean isError(){
+        return true;
+    }
     @Override
     public void onComplete() {
         if(isLoading())

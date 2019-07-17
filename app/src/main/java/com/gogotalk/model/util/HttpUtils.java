@@ -9,7 +9,7 @@ public class HttpUtils {
         if(map==null||(map!=null&&map.size()==0)){
             throw new RuntimeException("参数不能为空！");
         }
-        return RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), EntityUtils.gson.toJson(map));
+        return RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), GsonUtils.gson.toJson(map));
     }
 
 }

@@ -1,4 +1,4 @@
-package com.gogotalk.model.util;
+package com.gogotalk.model.exception;
 
 public class ApiException extends Exception{
 

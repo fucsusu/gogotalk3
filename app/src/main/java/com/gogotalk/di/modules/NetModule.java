@@ -2,7 +2,7 @@ package com.gogotalk.di.modules;
 
 import com.gogotalk.BuildConfig;
 import com.gogotalk.model.api.ApiService;
-import com.gogotalk.model.util.EntityUtils;
+import com.gogotalk.model.util.GsonUtils;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.concurrent.TimeUnit;
@@ -38,7 +38,7 @@ public class NetModule {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(okhttpClient)
                 .baseUrl(BuildConfig.DEBUG?PATH_DEBUG_URL:PATH_RELEASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(EntityUtils.gson))
+                .addConverterFactory(GsonConverterFactory.create(GsonUtils.gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         return retrofit;

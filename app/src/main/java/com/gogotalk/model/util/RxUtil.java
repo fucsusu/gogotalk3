@@ -1,6 +1,7 @@
 package com.gogotalk.model.util;
 
 import com.gogotalk.model.entity.ResponseModel;
+import com.gogotalk.model.exception.ApiException;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
