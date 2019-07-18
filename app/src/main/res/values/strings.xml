@@ -9,4 +9,17 @@
     <string name="login_toast_empty_msg">请填写手机号或密码</string>
     <string name="login_toast_phone_error_msg">手机号输入有误</string>
 
+    <string name="main_class_list_item_empty_msg">小朋友你还没约课呦， 赶快让你的爸爸妈妈帮你约课吧！</string>
+    <string name="main_popu_setting_check_device_msg">检测设备</string>
+    <string name="main_popu_setting_clear_cache">清除缓存</string>
+    <string name="main_popu_setting_about_us">关于我们</string>
+    <string name="main_popu_setting_out_login">退出登录</string>
+    <string name="dialog_about_us_version_label">版本号：</string>
+    <string name="dialog_check_device_camera_label">摄像头检测</string>
+    <string name="dialog_check_device_speaker_label">扬声器检测</string>
+    <string name="dialog_check_device_microphone_label">麦克风检测</string>
+    <string name="dialog_check_device_btn_error">重新检查</string>
+    <string name="dialog_check_device_btn_first">看不到</string>
+    <string name="dialog_check_device_btn_two">可以看到</string>
+
 </resources>

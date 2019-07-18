@@ -1,18 +1,311 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:roundiv="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/id_mLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@mipmap/bg_app"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="305dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:background="@mipmap/bg_main_user_info"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/id_mPersonalSettings"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/ic_main_user_info_header_default"
+                    />
+
+                <TextView
+                    android:id="@+id/id_mUserName_Home"
+                    android:layout_width="59dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="6dp"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="#fff"
+                    android:textSize="13sp" />
+
+                <LinearLayout
+                    android:layout_width="75dp"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/ic_main_user_info_class_period" />
+
+                    <TextView
+                        android:id="@+id/id_mKeshi_HomePage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="2dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="0"
+                        android:textColor="#fff"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/ic_main_user_info_expiry_date" />
+
+                    <TextView
+                        android:id="@+id/tv_youxiaoqi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="2dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textColor="#fff"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingRight="11dp">
+
+                <Button
+                    android:id="@+id/id_mRecord"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@mipmap/ic_main_btn_after_class" />
+
+                <RadioButton
+                    android:id="@+id/btn_settingg"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:button="@null"
+                    android:background="@drawable/selector_btn_setting" />
+                <!--<CheckBox-->
+                    <!--android:id="@+id/id_mSetUp"-->
+                    <!--android:layout_width="40dp"-->
+                    <!--android:layout_height="40dp"-->
+                    <!--android:background="@mipmap/shazhi_icon"-->
+                    <!--android:button="@null" />-->
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:paddingTop="15dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/id_mRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible"></androidx.recyclerview.widget.RecyclerView>
+
+            <RelativeLayout
+                android:id="@+id/id_mQYK_HomePage"
+                android:layout_width="139dp"
+                android:layout_height="200dp"
+                android:layout_marginLeft="20dp"
+                android:visibility="gone"
+                android:background="@mipmap/bg_main_class_list_item_empty"
+                >
+
+                <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginBottom="4dp"-->
+                <!--android:layout_marginLeft="5dp"-->
+                <!--android:layout_marginRight="5dp"-->
+                <!--android:layout_marginTop="39dp"-->
+                <!--android:orientation="vertical">-->
+
+                <ImageView
+                    android:id="@+id/id_mBJ_Homepage"
+                    android:layout_width="130dp"
+                    android:layout_height="109dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="35dp"
+                    android:src="@mipmap/ic_main_class_list_item_empty" />
+
+                <TextView
+                    android:id="@+id/id_mStr_HomePage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/id_mBtn_HomePage"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/main_class_list_item_empty_msg"
+                    android:textColor="#333"
+                    android:textSize="10sp" />
+
+                <Button
+                    android:id="@+id/id_mBtn_HomePage"
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="19dp"
+                    android:background="@mipmap/bg_main_btn_order_class"
+                    android:gravity="center"
+                    android:text="去约课"
+                    android:textColor="#fff"
+                    android:textSize="11sp" />
+                <!--</LinearLayout>-->
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="35dp"
+                    android:src="@mipmap/ic_main_oder_class" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/id_GoGoTalk_Home"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="31dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="5dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="2dp"
+                    android:src="@mipmap/ic_main_btn_class" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="哈佛外教课"
+                    android:textColor="#fff"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:gravity="center|right"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<ImageView-->
+            <!--android:id="@+id/id_mAboutClass"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="6dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:src="@mipmap/icon_yueke" />-->
+            <!--</LinearLayout>-->
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/id_mTanChuang"
+        android:layout_width="95dp"
+        android:layout_height="136dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="11dp"
+        android:background="@mipmap/bg_main_popu_setting"
+        android:orientation="vertical"
+        android:padding="21dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/id_mEquipmentInspection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="8dp"
+            android:text="@string/main_popu_setting_check_device_msg"
+            android:textColor="#ff333333"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/id_mClearCache"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="8dp"
+            android:text="@string/main_popu_setting_clear_cache"
+            android:textColor="#ff333333"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/id_mAboutUs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="8dp"
+            android:text="@string/main_popu_setting_about_us"
+            android:textColor="#ff333333"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/id_mLogOut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/main_popu_setting_out_login"
+            android:textColor="#ff333333"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+</RelativeLayout>

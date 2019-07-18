@@ -1,10 +1,14 @@
 package com.gogotalk.presenter;
 
+import android.content.Intent;
+
 import com.gogotalk.model.api.ApiService;
 import com.gogotalk.model.util.CommonSubscriber;
 import com.gogotalk.model.util.HttpUtils;
 import com.gogotalk.model.util.RxUtil;
 import com.gogotalk.util.SPUtils;
+import com.gogotalk.view.activity.MainActivity;
+
 import java.util.HashMap;
 import java.util.Map;
 import javax.inject.Inject;
@@ -32,6 +36,9 @@ public class LoginPresenter extends RxPresenter<LoginContract.View> implements L
                         SPUtils.putString("username",username);
                         SPUtils.putString("password",password);
                         SPUtils.putString("usertoken",mapData.get("userToken"));
+                        mView.getActivity().startActivity(new Intent(mView.getActivity(), MainActivity.class));
+                        mView.getActivity().finish();
+
                     }
 
                 })

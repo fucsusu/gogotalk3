@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="235dp"
+    android:layout_height="136dp"
+    android:background="@mipmap/bg_dialog_common"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center_horizontal"
+        android:text="是否退出登录？"
+        android:textColor="#ff333333"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:layout_marginBottom="13dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="92dp"
+            android:layout_height="43dp"
+            android:background="@mipmap/ic_dialog_common_btn_first"
+            android:stateListAnimator="@null"
+            android:text="确定"
+            android:textColor="#ffffffff"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="92dp"
+            android:layout_height="43dp"
+            android:layout_marginLeft="11dp"
+            android:background="@mipmap/ic_dialog_common_btn_two"
+            android:stateListAnimator="@null"
+            android:text="取消"
+            android:textColor="#ff969696"
+            android:textSize="12sp" />
+    </LinearLayout>
+</LinearLayout>

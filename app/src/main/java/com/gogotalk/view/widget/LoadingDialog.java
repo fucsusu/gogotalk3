@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.gogotalk.R;
+import com.gogotalk.util.AppUtils;
 
 public class LoadingDialog extends Dialog {
 
@@ -25,7 +26,13 @@ public class LoadingDialog extends Dialog {
     protected LoadingDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
     }
-
+    @Override
+    public void show() {
+        AppUtils.focusNotAle(this.getWindow());
+        super.show();
+        AppUtils.fullScreenImmersive(this.getWindow());
+        AppUtils.clearFocusNotAle(this.getWindow());
+    }
     //2,创建静态内部类Builder，将dialog的部分属性封装进该类
     public static class Builder{
 
@@ -89,7 +96,7 @@ public class LoadingDialog extends Dialog {
             LayoutInflater inflater = LayoutInflater.from(context);
             View view=inflater.inflate(R.layout.dialog_loading,null);
             //设置带自定义主题的dialog
-            LoadingDialog loadingDailog=new LoadingDialog(context,R.style.loading_dialog);
+            LoadingDialog loadingDailog=new LoadingDialog(context,R.style.LoadingDialog);
             TextView msgText= (TextView) view.findViewById(R.id.tipTextView);
             if(isShowMessage){
                 if(!TextUtils.isEmpty(message)){
