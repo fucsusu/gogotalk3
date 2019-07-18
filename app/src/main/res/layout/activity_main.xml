@@ -238,74 +238,8 @@
                     android:textSize="13sp" />
             </LinearLayout>
 
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:gravity="center|right"-->
-            <!--android:orientation="horizontal">-->
-
-            <!--<ImageView-->
-            <!--android:id="@+id/id_mAboutClass"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="6dp"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:src="@mipmap/icon_yueke" />-->
-            <!--</LinearLayout>-->
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/id_mTanChuang"
-        android:layout_width="95dp"
-        android:layout_height="136dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="60dp"
-        android:layout_marginRight="11dp"
-        android:background="@mipmap/bg_main_popu_setting"
-        android:orientation="vertical"
-        android:padding="21dp"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/id_mEquipmentInspection"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingBottom="8dp"
-            android:text="@string/main_popu_setting_check_device_msg"
-            android:textColor="#ff333333"
-            android:textSize="13sp" />
-
-        <TextView
-            android:id="@+id/id_mClearCache"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingBottom="8dp"
-            android:text="@string/main_popu_setting_clear_cache"
-            android:textColor="#ff333333"
-            android:textSize="13sp" />
-
-        <TextView
-            android:id="@+id/id_mAboutUs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingBottom="8dp"
-            android:text="@string/main_popu_setting_about_us"
-            android:textColor="#ff333333"
-            android:textSize="13sp" />
-
-        <TextView
-            android:id="@+id/id_mLogOut"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/main_popu_setting_out_login"
-            android:textColor="#ff333333"
-            android:textSize="13sp" />
-    </LinearLayout>
 
 </RelativeLayout>

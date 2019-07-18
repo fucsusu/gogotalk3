@@ -2,6 +2,7 @@ package com.gogotalk.model.util;
 
 import android.content.Intent;
 
+import com.gogotalk.app.AppManager;
 import com.gogotalk.model.entity.ResponseModel;
 import com.gogotalk.model.exception.ApiException;
 import com.gogotalk.presenter.BaseContract;
@@ -48,8 +49,12 @@ public class RxUtil {
                             return createData(responseModel.getData());
                         }else if(responseModel.getResult()==Constant.HTTP_TOKEN_EXPIRE_CODE){
                             if(view!=null){
+                                AppManager.getAppManager().finishAllActivity();
                                 view.getActivity().startActivity(new Intent(view.getActivity(), LoginActivity.class));
                             }
+                            return Flowable.error(new ApiException(responseModel.getMsg(),
+                                    Integer.valueOf(responseModel.getResult())));
+                        }else if(responseModel.getResult()==Constant.HTTP_FAIL_CODE){
                             return Flowable.error(new ApiException(responseModel.getMsg(),
                                     Integer.valueOf(responseModel.getResult())));
                         }else {

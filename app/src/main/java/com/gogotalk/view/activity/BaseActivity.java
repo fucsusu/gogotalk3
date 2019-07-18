@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gogotalk.app.AiRoomApplication;
+import com.gogotalk.app.AppManager;
 import com.gogotalk.di.components.ActivityComponent;
 import com.gogotalk.di.components.DaggerActivityComponent;
 import com.gogotalk.di.modules.ActivityModule;
@@ -43,6 +44,7 @@ public abstract class BaseActivity<T extends BaseContract.Presenter> extends App
         if (mPresenter != null)
             mPresenter.attachView(this);
         initView();
+        AppManager.getAppManager().addActivity(this);
     }
     protected ActivityComponent getActivityComponent() {
         return DaggerActivityComponent.builder()

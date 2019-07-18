@@ -11,5 +11,11 @@ public class Constant {
     public static final String PATH_DEBUG_URL = "https://hftestapi.gogo-talk.com";
 
     public static final int HTTP_SUCCESS_CODE = 1;
+    public static final int HTTP_FAIL_CODE = 0;
     public static final int HTTP_TOKEN_EXPIRE_CODE = 1002;
+
+    public static final String SP_KEY_USERNAME = "username";
+    public static final String SP_KEY_PASSWORD = "password";
+    public static final String SP_KEY_USERTOKEN = "userToken";
+    public static final String SP_KEY_USERINFO = "userInfo";
 }

@@ -9,6 +9,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.gogotalk.model.entity.UserInfoBean;
+import com.gogotalk.model.util.Constant;
+import com.gogotalk.model.util.GsonUtils;
+
 public class AppUtils {
     /**
      * 获取应用程序名称
@@ -134,4 +138,11 @@ public class AppUtils {
         }
     }
 
+    public static UserInfoBean getUserInfoData(){
+        String userJson = SPUtils.getString(Constant.SP_KEY_USERINFO);
+        return GsonUtils.gson.fromJson(userJson,UserInfoBean.class);
+    }
+    public static void saveUserInfoData(UserInfoBean userInfoBean){
+        SPUtils.putString(Constant.SP_KEY_USERINFO,GsonUtils.gson.toJson(userInfoBean));
+    }
 }

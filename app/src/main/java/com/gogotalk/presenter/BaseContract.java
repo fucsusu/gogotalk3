@@ -11,7 +11,7 @@ public interface BaseContract {
     interface Presenter<T extends BaseContract.View>{
         void attachView(T view);
         void detachView();
-
+        BaseContract.View getView();
     }
     interface Moudle{
 

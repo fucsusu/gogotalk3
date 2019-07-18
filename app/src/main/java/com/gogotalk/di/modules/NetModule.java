@@ -4,9 +4,11 @@ import android.text.TextUtils;
 
 import com.gogotalk.BuildConfig;
 import com.gogotalk.model.api.ApiService;
+import com.gogotalk.model.util.Constant;
 import com.gogotalk.model.util.GsonUtils;
 import com.gogotalk.util.SPUtils;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -36,20 +38,22 @@ public class NetModule {
                 .connectTimeout(20, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)
                 .addInterceptor(loggingInterceptor)
-//                .addInterceptor(new Interceptor() {
-//                    @Override
-//                    public Response intercept(Chain chain) throws IOException {
-//                        Request request = chain.request();
-//                        Request.Builder builder = request.newBuilder();
-//                        String usertoken = SPUtils.getString("usertoken");
-//                        if(TextUtils.isEmpty(usertoken)){
-//                            builder.addHeader("Authorization", SPUtils.getString(""));
-//                        }
-//                        Request build = builder.build();
-//                        return chain.proceed(build);
-//                    }
-//                })
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request request = chain.request();
+                        Request.Builder builder = request.newBuilder();
+                        String usertoken = SPUtils.getString(Constant.SP_KEY_USERTOKEN);
+                        if(!TextUtils.isEmpty(usertoken)){
+                            builder.addHeader("Authorization", usertoken);
+                        }
+                        Request build = builder.build();
+                        Logger.i("==================="+usertoken+"=====================");
+                        return chain.proceed(build);
+                    }
+                })
                 .build();
+
         return okhttpClient;
     }
     @Provides
@@ -57,7 +61,7 @@ public class NetModule {
     public Retrofit provideRetrofit(OkHttpClient okhttpClient) {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(okhttpClient)
-                .baseUrl(BuildConfig.DEBUG?PATH_DEBUG_URL:PATH_RELEASE_URL)
+                .baseUrl(PATH_RELEASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(GsonUtils.gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();

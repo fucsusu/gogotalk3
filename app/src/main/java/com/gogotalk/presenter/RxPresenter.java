@@ -62,4 +62,10 @@ public class RxPresenter <T extends BaseContract.View> implements BaseContract.P
         this.mView = null;
         unSubscribe();
     }
+
+    @Override
+    public T getView() {
+        if(mView == null) throw new IllegalStateException("view not attached");
+        else return mView;
+    }
 }

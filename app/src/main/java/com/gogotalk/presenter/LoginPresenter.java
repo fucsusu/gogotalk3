@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import com.gogotalk.model.api.ApiService;
 import com.gogotalk.model.util.CommonSubscriber;
+import com.gogotalk.model.util.Constant;
 import com.gogotalk.model.util.HttpUtils;
 import com.gogotalk.model.util.RxUtil;
 import com.gogotalk.util.SPUtils;
@@ -23,24 +24,43 @@ public class LoginPresenter extends RxPresenter<LoginContract.View> implements L
     }
 
     @Override
-    public void login(String username,String password) {
+    public void login(String username,String password,boolean isLoading) {
         Map<String,String> map= new HashMap<>();
         map.put("UserName",username);
         map.put("Password",password);
         addSubscribe(mApiService.login(HttpUtils.getRequestBody(map))
                 .compose(RxUtil.rxSchedulerHelper())
-                .compose(RxUtil.handleMyResult(mView))
-                .subscribeWith(new CommonSubscriber<Map<String,String>>(mView){
+                .compose(RxUtil.handleMyResult( getView()))
+                .subscribeWith(new CommonSubscriber<Map<String,String>>( getView()){
                     @Override
                     public void onNext(Map<String,String> mapData) {
-                        SPUtils.putString("username",username);
-                        SPUtils.putString("password",password);
-                        SPUtils.putString("usertoken",mapData.get("userToken"));
-                        mView.getActivity().startActivity(new Intent(mView.getActivity(), MainActivity.class));
-                        mView.getActivity().finish();
-
+                        SPUtils.putString(Constant.SP_KEY_USERNAME,username);
+                        SPUtils.putString(Constant.SP_KEY_PASSWORD,password);
+                        SPUtils.putString(Constant.SP_KEY_USERTOKEN,mapData.get(Constant.SP_KEY_USERTOKEN));
+                        getView().getActivity().startActivity(new Intent(getView().getActivity(), MainActivity.class));
+                        getView().getActivity().finish();
                     }
 
+                    @Override
+                    public String getLoadingTxt() {
+                        return "登录中...";
+                    }
+
+                    @Override
+                    public boolean isShowLoading() {
+                        if(!isLoading){
+                            return false;
+                        }
+                        return super.isShowLoading();
+                    }
+
+                    @Override
+                    public boolean isHideLoading() {
+                        if(!isLoading){
+                            return false;
+                        }
+                        return super.isHideLoading();
+                    }
                 })
         );
     }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +20,13 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gogotalk.R;
 import com.gogotalk.model.entity.CoursesBean;
 import com.gogotalk.model.entity.UserInfoBean;
+import com.gogotalk.model.util.Constant;
 import com.gogotalk.presenter.MainContract;
 import com.gogotalk.presenter.MainPresenter;
 import com.gogotalk.util.AppUtils;
@@ -40,8 +45,6 @@ import java.util.List;
 import butterknife.BindView;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
-    @BindView(R.id.id_mTanChuang)
-    LinearLayout mLayout;//设置列表
     @BindView(R.id.id_mRecyclerView)
     RecyclerView mRecyclerView;//课单列表
     @BindView(R.id.id_mPersonalSettings)
@@ -61,16 +64,35 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     private SharedPreferences.Editor editor;
     MainRecyclerAdapter recyclerAdapter;
     UserInfoBean user;
-    Handler mHandler = new Handler();
     private PopupWindow popupWindow;
     TextView btn_check_device, btn_clear_cache, btn_about_us, btn_out_login;
     RadioButton btn_setting;
     UserInfoDialog.Builder userInfoDialogBuilder;
     UserInfoDialog userInfoDialog;
+    Handler mHandler = new Handler();
+    Runnable r = new Runnable() {
+        @Override
+        public void run() {
+            mPresenter.getUserInfoData(false,false);
+            mPresenter.getClassListData(false,false);
+//            mHandler.postDelayed(this, 1000 );
+        }
+    };
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initEvent();
+        mPresenter.getUserInfoData(true,false);
+        mPresenter.getClassListData(false,true);
+//        mHandler.postDelayed(r, 1000 );
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        mPresenter.getUserInfoData(true,false);
+        mPresenter.getClassListData(false,true);
+//        mHandler.postDelayed(r, 1000 );
     }
 
     @Override
@@ -107,6 +129,28 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(ScreenUtils.dip2px(getApplicationContext(), 10), 0));
     }
 
+    @Override
+    public void updateRecelyerViewData(List<CoursesBean> data) {
+        list.clear();
+        list.addAll(data);
+        recyclerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setUserInfoDataToView(String imageUrl, String name, String classTime, String expiry) {
+        mUsreName.setText(name);
+        mKeshi.setText(classTime);
+        tvYouXiaoQi.setText(expiry);
+        Glide.with(this).load(imageUrl).placeholder(R.mipmap.ic_main_user_info_header_default)
+                .circleCrop()
+                .diskCacheStrategy(DiskCacheStrategy.NONE).into(mImg);
+    }
+
+    @Override
+    public void showRecelyerViewOrEmptyViewByFlag(boolean flag){
+        mRecyclerView.setVisibility(flag?View.VISIBLE:View.GONE);
+        relativeLayout.setVisibility(!flag?View.VISIBLE:View.GONE);
+    }
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -196,8 +240,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
                 }
                 if (type == 2) {
-                    SPUtils.remove("password");
-                    SPUtils.remove("userToken");
+                    SPUtils.remove(Constant.SP_KEY_PASSWORD);
+                    SPUtils.remove(Constant.SP_KEY_USERTOKEN);
+                    SPUtils.remove(Constant.SP_KEY_USERINFO);
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     finish();
                 }
@@ -214,5 +259,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
     private void showAboutDialog() {
         new AboutDialog.Builder(MainActivity.this).create().show();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacks(r);
+        mHandler = null;
     }
 }

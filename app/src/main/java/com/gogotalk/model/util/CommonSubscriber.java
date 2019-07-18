@@ -1,10 +1,8 @@
 package com.gogotalk.model.util;
 
-import android.widget.Toast;
-
+import com.gogotalk.model.exception.ApiException;
 import com.gogotalk.presenter.BaseContract;
 import com.gogotalk.util.ToastUtils;
-
 import io.reactivex.subscribers.ResourceSubscriber;
 
 public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
@@ -16,10 +14,10 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
 
     @Override
     public void onError(Throwable e) {
-        if (mView == null) {
-            return;
+        if(e instanceof ApiException&& ((ApiException)e).getCode()==Constant.HTTP_FAIL_CODE){
+            onFail();
         }
-        if(isLoading()){
+        if(isHideLoading()){
             mView.hideLoading();
         }
         if(isError()){
@@ -30,11 +28,14 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
     @Override
     protected void onStart() {
         super.onStart();
-        if(isLoading())
-        mView.showLoading(null);
+        if(isShowLoading())
+        mView.showLoading(getLoadingTxt());
     }
 
-    public boolean isLoading(){
+    public boolean isShowLoading(){
+        return true;
+    }
+    public boolean isHideLoading(){
         return true;
     }
     public boolean isError(){
@@ -42,7 +43,13 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
     }
     @Override
     public void onComplete() {
-        if(isLoading())
+        if(isHideLoading())
         mView.hideLoading();
+    }
+    public void onFail(){
+
+    }
+    public String getLoadingTxt(){
+        return null;
     }
 }
