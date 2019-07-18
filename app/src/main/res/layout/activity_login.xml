@@ -39,7 +39,7 @@
             android:layout_width="0dp"
             android:inputType="phone"
             android:hint="@string/login_input_phone_hint"
-            android:text="18610730842"
+            android:text="18394024728"
             android:textSize="10sp"
             android:layout_weight="1"
             android:layout_marginLeft="12dp"

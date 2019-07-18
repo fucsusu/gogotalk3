@@ -1,15 +1,15 @@
 package com.gogotalk.view.activity;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -17,6 +17,7 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,10 +40,12 @@ import com.gogotalk.view.widget.AboutDialog;
 import com.gogotalk.view.widget.CommonDialog;
 import com.gogotalk.view.widget.SpaceItemDecoration;
 import com.gogotalk.view.widget.UserInfoDialog;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
     @BindView(R.id.id_mRecyclerView)
@@ -57,13 +60,26 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     TextView tvYouXiaoQi;
     @BindView(R.id.id_mQYK_HomePage)
     RelativeLayout relativeLayout;
+    @BindView(R.id.id_mRecord)
+    Button idMRecord;
+    @BindView(R.id.btn_settingg)
+    RadioButton btnSettingg;
+    @BindView(R.id.id_mBJ_Homepage)
+    ImageView idMBJHomepage;
+    @BindView(R.id.id_mStr_HomePage)
+    TextView idMStrHomePage;
+    @BindView(R.id.id_mBtn_HomePage)
+    Button idMBtnHomePage;
+    @BindView(R.id.id_GoGoTalk_Home)
+    LinearLayout idGoGoTalkHome;
+    @BindView(R.id.id_mLayout)
+    LinearLayout idMLayout;
     private List<CoursesBean> list = new ArrayList<>();
     private Dialog dialog;
     private long exitTime = 0;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     MainRecyclerAdapter recyclerAdapter;
-    UserInfoBean user;
     private PopupWindow popupWindow;
     TextView btn_check_device, btn_clear_cache, btn_about_us, btn_out_login;
     RadioButton btn_setting;
@@ -73,26 +89,27 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     Runnable r = new Runnable() {
         @Override
         public void run() {
-            mPresenter.getUserInfoData(false,false);
-            mPresenter.getClassListData(false,false);
-//            mHandler.postDelayed(this, 1000 );
+            mPresenter.getUserInfoData(false, false);
+            mPresenter.getClassListData(false, false);
+            mHandler.postDelayed(this, 1000 * 60 * 3);
         }
     };
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initEvent();
-        mPresenter.getUserInfoData(true,false);
-        mPresenter.getClassListData(false,true);
-//        mHandler.postDelayed(r, 1000 );
+        mPresenter.getUserInfoData(true, false);
+        mPresenter.getClassListData(false, true);
+        mHandler.postDelayed(r, 1000 * 60 * 3);
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        mPresenter.getUserInfoData(true,false);
-        mPresenter.getClassListData(false,true);
-//        mHandler.postDelayed(r, 1000 );
+        mPresenter.getUserInfoData(true, false);
+        mPresenter.getClassListData(false, true);
+        mHandler.postDelayed(r, 1000 * 60 * 3);
     }
 
     @Override
@@ -109,16 +126,16 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     protected void initView() {
         super.initView();
         userInfoDialogBuilder = new UserInfoDialog.Builder(this);
-        final View inflate= LayoutInflater.from(this).inflate(R.layout.popup_shezhi,null,false);
-        popupWindow = new PopupWindow(inflate, ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT , true);
+        final View inflate = LayoutInflater.from(this).inflate(R.layout.popup_shezhi, null, false);
+        popupWindow = new PopupWindow(inflate, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setBackgroundDrawable(getResources().getDrawable(R.mipmap.bg_main_popu_setting));
         popupWindow.setFocusable(false);
         popupWindow.setOutsideTouchable(false);
-        btn_check_device=inflate.findViewById(R.id.btn_check_device);
-        btn_setting=findViewById(R.id.btn_settingg);
-        btn_clear_cache=inflate.findViewById(R.id.btn_clear_cache);
-        btn_about_us=inflate.findViewById(R.id.btn_about_us);
-        btn_out_login=inflate.findViewById(R.id.btn_out_login);
+        btn_check_device = inflate.findViewById(R.id.btn_check_device);
+        btn_setting = findViewById(R.id.btn_settingg);
+        btn_clear_cache = inflate.findViewById(R.id.btn_clear_cache);
+        btn_about_us = inflate.findViewById(R.id.btn_about_us);
+        btn_out_login = inflate.findViewById(R.id.btn_out_login);
         popupWindow.getContentView().measure(0, 0);
         popupWindow.getContentView().getMeasuredWidth();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -147,10 +164,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
     @Override
-    public void showRecelyerViewOrEmptyViewByFlag(boolean flag){
-        mRecyclerView.setVisibility(flag?View.VISIBLE:View.GONE);
-        relativeLayout.setVisibility(!flag?View.VISIBLE:View.GONE);
+    public void showRecelyerViewOrEmptyViewByFlag(boolean flag) {
+        mRecyclerView.setVisibility(flag ? View.VISIBLE : View.GONE);
+        relativeLayout.setVisibility(!flag ? View.VISIBLE : View.GONE);
     }
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -159,7 +177,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         }
     }
 
-    private void initEvent(){
+    private void initEvent() {
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -171,7 +189,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             public void onClick(View view) {
                 popupWindow.setFocusable(false);
                 popupWindow.update();
-                popupWindow.showAsDropDown(view, -(popupWindow.getWidth()/2+view.getWidth()/2), 10);
+                popupWindow.showAsDropDown(view, -(popupWindow.getWidth() / 2 + view.getWidth() / 2), 10);
                 AppUtils.fullScreenImmersive(popupWindow.getContentView());
                 popupWindow.setFocusable(true);
                 popupWindow.update();
@@ -181,7 +199,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             @Override
             public void onClick(View view) {
 //                if (mShowRequestPermission) {
-                    popupWindow.dismiss();
+                popupWindow.dismiss();
 //                    showCheckDeviceDialog();
 //                } else {
 //                    Toast.makeText(HomePageActivity.this, "部分功能未授权，请授权后再试！", Toast.LENGTH_SHORT).show();
@@ -214,8 +232,31 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             }
         });
     }
+
     /**
-     *  清除缓存，退出登录通用对话框
+     * 个人信息对话框
+     */
+    private void showUserInfoDialog() {
+        userInfoDialogBuilder = new UserInfoDialog.Builder(this);
+        userInfoDialog = userInfoDialogBuilder.setName(AppUtils.getUserInfoData().getName())
+                .setSex(AppUtils.getUserInfoData().getSex())
+                .setDate(AppUtils.getUserInfoData().getAge())
+                .setHeader(AppUtils.getUserInfoData().getImageUrl()).create();
+        userInfoDialog.show();
+//        userInfoDialog.setOnNameClickLisener(new UserInfoDialog.OnNameClickLisener() {
+//            @Override
+//            public void onClick(int sex) {
+//                Intent intent = new Intent(HomePageActivity.this, SelectNameActivity.class);
+//                intent.putExtra(INTENT_SEX,sex);
+//                startActivity(intent);
+//                overridePendingTransition(0, 0);
+//            }
+//        });
+    }
+
+    /**
+     * 清除缓存，退出登录通用对话框
+     *
      * @param msg
      * @param type
      */
@@ -228,15 +269,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             public void onClick(View view) {
                 twoButtonDialog.dismiss();
                 if (type == 1) {
-                    showLoading(null);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            DataCleanManager.clearAllCache(MainActivity.this);
-                            ToastUtils.showShortToast(MainActivity.this,"清除成功");
-                            hideLoading();
-                        }
-                    }, 1000);
+                    MainActivity.this.showLoading("清除中");
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            DataCleanManager.clearAllCache(MainActivity.this);
+//                            ToastUtils.showShortToast(MainActivity.this, "清除成功");
+//                            MainActivity.this.hideLoading();
+//                        }
+//                    }, 1000);
 
                 }
                 if (type == 2) {
@@ -251,12 +292,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         builder.setNegativeButton("取消", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadingDialog.dismiss();
                 twoButtonDialog.dismiss();
             }
         });
         twoButtonDialog.show();
     }
+
     private void showAboutDialog() {
         new AboutDialog.Builder(MainActivity.this).create().show();
     }
@@ -266,5 +307,27 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         super.onDestroy();
         mHandler.removeCallbacks(r);
         mHandler = null;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+
+            if ((System.currentTimeMillis() - exitTime) > 2000)  //System.currentTimeMillis()无论何时调用，肯定大于2000
+            {
+                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @OnClick(R.id.id_mPersonalSettings)
+    public void onViewClicked() {
+        showUserInfoDialog();
     }
 }

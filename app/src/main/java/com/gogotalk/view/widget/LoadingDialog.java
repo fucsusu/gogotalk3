@@ -35,7 +35,7 @@ public class LoadingDialog extends Dialog {
     }
     //2,创建静态内部类Builder，将dialog的部分属性封装进该类
     public static class Builder{
-
+        TextView msgText;
         private Context context;
         //提示信息
         private String message;
@@ -45,9 +45,15 @@ public class LoadingDialog extends Dialog {
         private boolean isCancelable=true;
         //是否取消
         private boolean isCancelOutside=false;
-
+        LoadingDialog loadingDailog;
+        View view;
         public Builder(Context context) {
             this.context = context;
+            LayoutInflater inflater = LayoutInflater.from(context);
+            view=inflater.inflate(R.layout.dialog_loading,null);
+            //设置带自定义主题的dialog
+            loadingDailog=new LoadingDialog(context,R.style.LoadingDialog);
+            msgText= (TextView) view.findViewById(R.id.tipTextView);
         }
 
         /**
@@ -56,7 +62,11 @@ public class LoadingDialog extends Dialog {
          * @return
          */
         public Builder setMessage(String message){
-            this.message=message;
+            if(isShowMessage){
+                if(!TextUtils.isEmpty(message)){
+                    msgText.setText(message);
+                }
+            }
             return this;
         }
 
@@ -66,7 +76,11 @@ public class LoadingDialog extends Dialog {
          * @return
          */
         public Builder setShowMessage(boolean isShowMessage){
-            this.isShowMessage=isShowMessage;
+            if(isShowMessage){
+                msgText.setVisibility(View.VISIBLE);
+            }else{
+                msgText.setVisibility(View.GONE);
+            }
             return this;
         }
 
@@ -92,19 +106,6 @@ public class LoadingDialog extends Dialog {
 
         //创建Dialog
         public LoadingDialog create(){
-
-            LayoutInflater inflater = LayoutInflater.from(context);
-            View view=inflater.inflate(R.layout.dialog_loading,null);
-            //设置带自定义主题的dialog
-            LoadingDialog loadingDailog=new LoadingDialog(context,R.style.LoadingDialog);
-            TextView msgText= (TextView) view.findViewById(R.id.tipTextView);
-            if(isShowMessage){
-                if(!TextUtils.isEmpty(message)){
-                    msgText.setText(message);
-                }
-            }else{
-                msgText.setVisibility(View.GONE);
-            }
             loadingDailog.setContentView(view);
             loadingDailog.setCancelable(isCancelable);
             loadingDailog.setCanceledOnTouchOutside(isCancelOutside);

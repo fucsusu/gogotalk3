@@ -36,8 +36,8 @@ public abstract class BaseActivity<T extends BaseContract.Presenter> extends App
         super.onCreate(savedInstanceState);
         AppUtils.hideVirtualKeyView(this);
         loadingDialogBuilder = new LoadingDialog.Builder(this);
-        loadingDialogBuilder.setShowMessage(true);
         loadingDialog = loadingDialogBuilder.create();
+        loadingDialogBuilder.setShowMessage(true);
         setContentView(getLayoutId());
         ButterKnife.bind(this);
         initInject();
@@ -77,6 +77,7 @@ public abstract class BaseActivity<T extends BaseContract.Presenter> extends App
             mPresenter.detachView();
         if(loadingDialog!=null){
             loadingDialog.dismiss();
+            loadingDialogBuilder = null;
             loadingDialog=null;
         }
         super.onDestroy();

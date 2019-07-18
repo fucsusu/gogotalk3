@@ -20,7 +20,6 @@
         </activity>
         <activity
             android:name=".view.activity.LoginActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="landscape" />
         <activity
             android:name=".view.activity.MainActivity"
