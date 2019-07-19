@@ -57,6 +57,9 @@
         <activity
             android:name=".view.activity.InteractiveGamesActivity"
             android:screenOrientation="landscape" />
+        <activity
+            android:name=".view.activity.ClassListActivity"
+            android:screenOrientation="landscape" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.gogotalk.FileProvider"

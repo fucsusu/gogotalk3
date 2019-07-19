@@ -3,6 +3,7 @@ package com.gogotalk.view.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -214,7 +215,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             public void onClick(View view) {
                 popupWindow.setFocusable(false);
                 popupWindow.update();
-                popupWindow.showAsDropDown(view, ScreenUtils.dip2px(MainActivity.this, -20), 10);
+                if("MI 8".equals(Build.MODEL)){
+                    popupWindow.showAsDropDown(view, -(popupWindow.getContentView().getMeasuredWidth()-view.getWidth()-100), 10);
+                }else {
+                    popupWindow.showAsDropDown(view, -(popupWindow.getContentView().getMeasuredWidth() - view.getWidth()), 10);
+                }
                 AppUtils.fullScreenImmersive(popupWindow.getContentView());
                 popupWindow.setFocusable(true);
                 popupWindow.update();
@@ -366,7 +371,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         return super.onKeyDown(keyCode, event);
     }
 
-    @OnClick({R.id.id_mPersonalSettings, R.id.id_mRecord})
+    @OnClick({R.id.id_mPersonalSettings, R.id.id_mRecord,R.id.id_GoGoTalk_Home})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.id_mPersonalSettings:
@@ -374,6 +379,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 break;
             case R.id.id_mRecord:
                 startActivity(new Intent(MainActivity.this, RecordActivity.class));
+                break;
+            case R.id.id_GoGoTalk_Home:
+                startActivity(new Intent(MainActivity.this, ClassListActivity.class));
                 break;
         }
     }

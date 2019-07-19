@@ -36,5 +36,8 @@ public class ScreenUtils {
         Logger.i(scale+"++++++++++++++++++++++++++++++++");
         return (int) (dpValue * scale + 0.5f);
     }
-
+    public static float getDensity(Context context) {
+        float scale = context.getResources().getDisplayMetrics().density;
+        return scale;
+    }
 }

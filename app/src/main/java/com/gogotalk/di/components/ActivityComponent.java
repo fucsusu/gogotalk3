@@ -3,6 +3,7 @@ package com.gogotalk.di.components;
 import com.gogotalk.di.modules.ActivityModule;
 import com.gogotalk.di.scopes.ActivityScope;
 import com.gogotalk.view.activity.ClassDetailActivity;
+import com.gogotalk.view.activity.ClassListActivity;
 import com.gogotalk.view.activity.InteractiveGamesActivity;
 import com.gogotalk.view.activity.LoginActivity;
 import com.gogotalk.view.activity.MainActivity;
@@ -20,4 +21,5 @@ public interface ActivityComponent {
     void inject(WelcomeActivity activity);
     void inject(RecordActivity activity);
     void inject(ClassDetailActivity activity);
+    void inject(ClassListActivity activity);
 }

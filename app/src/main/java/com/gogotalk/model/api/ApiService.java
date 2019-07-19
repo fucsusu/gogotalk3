@@ -1,8 +1,10 @@
 package com.gogotalk.model.api;
 
 
+import com.gogotalk.model.entity.BookLevelBean;
 import com.gogotalk.model.entity.ClassDetailBean;
 import com.gogotalk.model.entity.CoursesBean;
+import com.gogotalk.model.entity.GoGoBean;
 import com.gogotalk.model.entity.RecordBean;
 import com.gogotalk.model.entity.ResponseModel;
 import com.gogotalk.model.entity.UserInfoBean;
@@ -35,5 +37,12 @@ public interface ApiService {
 
     @GET("/api/Lesson/GetChapterInfo")
     Flowable<ResponseModel<ClassDetailBean>> getClassDetailData(@Query("detialRecordId") String id);
+
+    @GET("/api/Lesson/GetBookInfoList")
+    Flowable<ResponseModel<List<BookLevelBean>>> getLevelListData();
+
+    @GET("/api/Lesson/GetLessonUnitList")
+    Flowable<ResponseModel<List<GoGoBean>>> getClassByLevel(@Query("level") String level);
+
 }
 
