@@ -44,6 +44,7 @@ public abstract class BaseActivity<T extends BaseContract.Presenter> extends App
         if (mPresenter != null)
             mPresenter.attachView(this);
         initView();
+        getIntentData();
         AppManager.getAppManager().addActivity(this);
     }
     protected ActivityComponent getActivityComponent() {
@@ -83,6 +84,9 @@ public abstract class BaseActivity<T extends BaseContract.Presenter> extends App
         super.onDestroy();
     }
 
+    public void getIntentData(){
+        if(getIntent()==null)return;
+    }
     @Override
     public void showLoading(String msg) {
         if(!TextUtils.isEmpty(msg)){

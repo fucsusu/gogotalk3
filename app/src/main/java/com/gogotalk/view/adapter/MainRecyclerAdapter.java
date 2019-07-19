@@ -22,6 +22,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gogotalk.R;
 import com.gogotalk.model.entity.CoursesBean;
 import com.gogotalk.util.DateUtils;
+import com.gogotalk.view.activity.VideoActivity;
 import com.gogotalk.view.widget.CommonDialog;
 
 import org.json.JSONException;
@@ -126,9 +127,9 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             holder.mPreview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Intent mIntent = new Intent(context, VideoActivity.class);
-//                    mIntent.putExtra("url", holder.BeforeFilePath);
-//                    context.startActivity(mIntent);
+                    Intent mIntent = new Intent(context, VideoActivity.class);
+                    mIntent.putExtra("url", holder.BeforeFilePath);
+                    context.startActivity(mIntent);
                 }
             });
             final String endDateTime;

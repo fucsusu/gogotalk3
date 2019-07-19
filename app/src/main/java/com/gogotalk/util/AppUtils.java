@@ -4,11 +4,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.gogotalk.R;
 import com.gogotalk.model.entity.UserInfoBean;
 import com.gogotalk.model.util.Constant;
 import com.gogotalk.model.util.GsonUtils;
@@ -144,5 +151,65 @@ public class AppUtils {
     }
     public static void saveUserInfoData(UserInfoBean userInfoBean){
         SPUtils.putString(Constant.SP_KEY_USERINFO,GsonUtils.gson.toJson(userInfoBean));
+    }
+    /**
+     * 非全面屏下 虚拟键实际高度(隐藏后高度为0)
+     * @param activity
+     * @return
+     */
+    public static int getCurrentNavigationBarHeight(Activity activity){
+        if(isNavigationBarShown(activity)){
+            return getNavigationBarHeight(activity);
+        } else{
+            return 0;
+        }
+    }
+    /**
+     * 非全面屏下 虚拟按键是否打开
+     * @param activity
+     * @return
+     */
+    public static boolean isNavigationBarShown(Activity activity){
+        //虚拟键的view,为空或者不可见时是隐藏状态
+        View view  = activity.findViewById(android.R.id.navigationBarBackground);
+        if(view == null){
+            return false;
+        }
+        int visible = view.getVisibility();
+        if(visible == View.GONE || visible == View.INVISIBLE){
+            return false ;
+        }else{
+            return true;
+        }
+    }
+    /**
+     * 非全面屏下 虚拟键高度(无论是否隐藏)
+     * @param context
+     * @return
+     */
+    public static int getNavigationBarHeight(Context context){
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("navigation_bar_height","dimen", "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
+    /**
+     * 异步加载图片
+     * @param context
+     * @param imageUrl
+     * @param defaultResId
+     * @param view
+     */
+    public static void bindImageToView(Context context, String imageUrl, int defaultResId, ImageView view,DiskCacheStrategy cache,boolean isCircle){
+        RequestBuilder<Drawable> placeholder = Glide.with(context)
+                .load(imageUrl)
+                .placeholder(defaultResId);
+                if(isCircle){
+                    placeholder.apply(RequestOptions.circleCropTransform());
+                }
+                placeholder.diskCacheStrategy(cache==null?DiskCacheStrategy.NONE:cache).into(view);
     }
 }

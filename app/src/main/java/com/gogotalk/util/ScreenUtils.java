@@ -2,6 +2,8 @@ package com.gogotalk.util;
 
 import android.content.Context;
 
+import com.orhanobut.logger.Logger;
+
 /**
  * Copyright (C)
  * <p>
@@ -31,6 +33,7 @@ public class ScreenUtils {
     }
     public static int dip2px(Context context, float dpValue) {
         float scale = context.getResources().getDisplayMetrics().density;
+        Logger.i(scale+"++++++++++++++++++++++++++++++++");
         return (int) (dpValue * scale + 0.5f);
     }
 

@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_app"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/id_mBack_Details"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/btn_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="课程详情"
+            android:textColor="#ffffffff"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal">
+
+        <LinearLayout
+            android:layout_width="185dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="249dp"
+                android:background="@mipmap/bg_class_detail_left"
+                android:padding="5dp">
+
+                <LinearLayout
+                    android:id="@+id/layout_jiangbei"
+                    android:layout_width="63dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="3dp"
+                    android:background="@mipmap/bg_class_detail_trophy">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginRight="9dp"
+                        android:src="@mipmap/ic_class_detail_trophy" />
+
+                    <TextView
+                        android:id="@+id/id_mNumberTrophies_Details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="0"
+                        android:textColor="#ff9961b6"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/id_mImge_Details"
+                    android:layout_width="match_parent"
+                    android:layout_height="98dp"
+                    android:layout_below="@+id/layout_jiangbei"
+                    android:src="@mipmap/ic_main_list_item_header_default" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/id_mImge_Details"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/id_mUserName_Details"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="The first lesson"
+                        android:textColor="#ff333333"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/id_mEnglishName_Details"
+                        android:layout_width="113dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="第一课"
+                        android:textColor="#ff333333"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="14dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="上课时间"
+                            android:textColor="#ffab76c1"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/id_mTime_Details"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="5-17 19:00"
+                            android:textColor="#ffab76c1"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:id="@+id/id_mPreview_Details"
+                    android:layout_width="72dp"
+                    android:layout_height="25dp"
+                    android:background="@mipmap/ic_class_detail_btn_01"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="课程预览"
+                        android:textColor="#fff64869"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/id_mMakeAppointment_Details"
+                    android:layout_width="72dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="12dp"
+                    android:background="@mipmap/ic_class_detail_btn_01"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="立即预约"
+                        android:textColor="#fff64869"
+                        android:textSize="11sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="327dp"
+            android:layout_height="286dp"
+            android:background="@mipmap/bg_class_detail_right"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="课后作业"
+                android:textColor="#ff333333"
+                android:textSize="14sp" />
+
+            <!--<RelativeLayout-->
+                <!--android:layout_width="281dp"-->
+                <!--android:layout_height="45dp"-->
+                <!--android:layout_marginTop="24dp"-->
+                <!--android:background="@drawable/bg_class_detail_item"-->
+                <!--android:paddingLeft="11dp"-->
+                <!--android:paddingRight="14dp">-->
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_shipin"-->
+                    <!--android:layout_width="39dp"-->
+                    <!--android:layout_height="35dp"-->
+                    <!--android:layout_marginTop="9dp"-->
+                    <!--android:src="@mipmap/shipin" />-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginLeft="5dp"-->
+                    <!--android:layout_toRightOf="@+id/iv_shipin"-->
+                    <!--android:text="主课视频"-->
+                    <!--android:textColor="#ff333333"-->
+                    <!--android:textSize="12sp" />-->
+
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/id_mMainCourseView_Details"-->
+                    <!--android:layout_width="50dp"-->
+                    <!--android:layout_height="23dp"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:background="@mipmap/btn_xiangqing2"-->
+                    <!--android:gravity="center">-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="前往"-->
+                        <!--android:textColor="#fffffefe"-->
+                        <!--android:textSize="11sp" />-->
+                <!--</LinearLayout>-->
+            <!--</RelativeLayout>-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="67dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/shap_class_detail_right_item"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="20dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="19dp"
+                    android:src="@mipmap/ic_class_detail_right_video" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:text="主课视频"
+                    android:textColor="#333"
+                    android:textSize="13sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center|right"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/id_mMainCourseView_Details"
+                        android:layout_width="50dp"
+                        android:layout_height="23dp"
+                        android:background="@mipmap/ic_class_detail_btn_02"
+                        android:gravity="center"
+                        android:text="前往"
+                        android:textColor="#fff"
+                        android:textSize="11sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--<RelativeLayout-->
+                <!--android:layout_width="281dp"-->
+                <!--android:layout_height="45dp"-->
+                <!--android:layout_marginTop="21dp"-->
+                <!--android:background="@drawable/bg_class_detail_item"-->
+                <!--android:paddingLeft="11dp"-->
+                <!--android:paddingRight="14dp">-->
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_youxi"-->
+                    <!--android:layout_width="39dp"-->
+                    <!--android:layout_height="35dp"-->
+                    <!--android:layout_marginTop="9dp"-->
+                    <!--android:src="@mipmap/youxi" />-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginLeft="5dp"-->
+                    <!--android:layout_toRightOf="@+id/iv_youxi"-->
+                    <!--android:text="游戏互动"-->
+                    <!--android:textColor="#ff333333"-->
+                    <!--android:textSize="12sp" />-->
+
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/id_mGame_Details"-->
+                    <!--android:layout_width="50dp"-->
+                    <!--android:layout_height="23dp"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:background="@mipmap/btn_xiangqing2"-->
+                    <!--android:gravity="center">-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="前往"-->
+                        <!--android:textColor="#fffffefe"-->
+                        <!--android:textSize="11sp" />-->
+                <!--</LinearLayout>-->
+            <!--</RelativeLayout>-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="67dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/shap_class_detail_right_item"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="20dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="19dp"
+                    android:src="@mipmap/ic_class_detail_right_game" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:text="互动游戏"
+                    android:textColor="#333"
+                    android:textSize="13sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center|right"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/id_mGame_Details"
+                        android:layout_width="50dp"
+                        android:layout_height="23dp"
+                        android:background="@mipmap/ic_class_detail_btn_02"
+                        android:gravity="center"
+                        android:text="前往"
+                        android:textColor="#fff"
+                        android:textSize="11sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

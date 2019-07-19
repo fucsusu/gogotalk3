@@ -22,4 +22,7 @@
     <string name="dialog_check_device_btn_first">看不到</string>
     <string name="dialog_check_device_btn_two">可以看到</string>
 
+    <string name="record_empty_msg">小朋友你还没有上过我们的课程,\n赶快去上课赢取更多奖杯哦~</string>
+    <string name="record_order_class">去约课</string>
+    <string name="record_after_class">课后练习</string>
 </resources>

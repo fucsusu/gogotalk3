@@ -18,4 +18,9 @@ public class Constant {
     public static final String SP_KEY_PASSWORD = "password";
     public static final String SP_KEY_USERTOKEN = "userToken";
     public static final String SP_KEY_USERINFO = "userInfo";
+
+    public static final String INTENT_DATA_KEY_RECORD_ID = "recordId";
+    public static final String INTENT_DATA_KEY_VIDEO_URL = "videoUrl";
+    public static final String INTENT_DATA_KEY_GAME_URL = "gameUrl";
+
 }

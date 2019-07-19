@@ -26,7 +26,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gogotalk.R;
 import com.gogotalk.model.entity.CoursesBean;
-import com.gogotalk.model.entity.UserInfoBean;
 import com.gogotalk.model.util.Constant;
 import com.gogotalk.presenter.MainContract;
 import com.gogotalk.presenter.MainPresenter;
@@ -85,6 +84,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     RadioButton btn_setting;
     UserInfoDialog.Builder userInfoDialogBuilder;
     UserInfoDialog userInfoDialog;
+    /**
+     * 轮训刷新数据
+     */
     Handler mHandler = new Handler();
     Runnable r = new Runnable() {
         @Override
@@ -104,6 +106,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         mHandler.postDelayed(r, 1000 * 60 * 3);
     }
 
+    /**
+     * 复用activity实例回调刷新数据并重新启动轮训
+     *
+     * @param intent
+     */
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -136,8 +143,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         btn_clear_cache = inflate.findViewById(R.id.btn_clear_cache);
         btn_about_us = inflate.findViewById(R.id.btn_about_us);
         btn_out_login = inflate.findViewById(R.id.btn_out_login);
-        popupWindow.getContentView().measure(0, 0);
-        popupWindow.getContentView().getMeasuredWidth();
+        View contentView = popupWindow.getContentView();
+        contentView.measure(makeDropDownMeasureSpec(popupWindow.getWidth()),
+                makeDropDownMeasureSpec(popupWindow.getHeight()));
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -169,6 +177,23 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         relativeLayout.setVisibility(!flag ? View.VISIBLE : View.GONE);
     }
 
+    /**
+     * 计算popupwindow的弹窗
+     *
+     * @param measureSpec
+     * @return
+     */
+    private static int makeDropDownMeasureSpec(int measureSpec) {
+        int mode;
+        if (measureSpec == ViewGroup.LayoutParams.WRAP_CONTENT) {
+            mode = View.MeasureSpec.UNSPECIFIED;
+        } else {
+            mode = View.MeasureSpec.EXACTLY;
+        }
+        return View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(measureSpec), mode);
+    }
+
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -189,7 +214,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             public void onClick(View view) {
                 popupWindow.setFocusable(false);
                 popupWindow.update();
-                popupWindow.showAsDropDown(view, -(popupWindow.getWidth() / 2 + view.getWidth() / 2), 10);
+                popupWindow.showAsDropDown(view, ScreenUtils.dip2px(MainActivity.this, -20), 10);
                 AppUtils.fullScreenImmersive(popupWindow.getContentView());
                 popupWindow.setFocusable(true);
                 popupWindow.update();
@@ -255,6 +280,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
     /**
+     * 暂停轮训
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mHandler.removeCallbacks(r);
+    }
+
+    /**
      * 清除缓存，退出登录通用对话框
      *
      * @param msg
@@ -269,15 +303,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             public void onClick(View view) {
                 twoButtonDialog.dismiss();
                 if (type == 1) {
-                    MainActivity.this.showLoading("清除中");
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            DataCleanManager.clearAllCache(MainActivity.this);
-//                            ToastUtils.showShortToast(MainActivity.this, "清除成功");
-//                            MainActivity.this.hideLoading();
-//                        }
-//                    }, 1000);
+                    showLoading("清除中...");
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            DataCleanManager.clearAllCache(MainActivity.this);
+                            ToastUtils.showShortToast(MainActivity.this, "清除成功");
+                            hideLoading();
+                        }
+                    }, 1000);
 
                 }
                 if (type == 2) {
@@ -298,10 +332,16 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         twoButtonDialog.show();
     }
 
+    /**
+     * 关于弹窗
+     */
     private void showAboutDialog() {
         new AboutDialog.Builder(MainActivity.this).create().show();
     }
 
+    /**
+     * 关闭轮训释放资源
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -326,8 +366,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         return super.onKeyDown(keyCode, event);
     }
 
-    @OnClick(R.id.id_mPersonalSettings)
-    public void onViewClicked() {
-        showUserInfoDialog();
+    @OnClick({R.id.id_mPersonalSettings, R.id.id_mRecord})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.id_mPersonalSettings:
+                showUserInfoDialog();
+                break;
+            case R.id.id_mRecord:
+                startActivity(new Intent(MainActivity.this, RecordActivity.class));
+                break;
+        }
     }
 }

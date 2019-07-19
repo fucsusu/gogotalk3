@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_app">
+
+
+    <Button
+        android:id="@+id/id_mBack_Record"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_margin="10dp"
+        android:background="@mipmap/btn_back" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/id_mBack_Record"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/record_after_class"
+        android:textColor="#fff"
+        android:textSize="15sp" />
+
+    <GridView
+        android:id="@+id/id_mGridView_Record"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/id_mBack_Record"
+        android:layout_marginTop="15dp"
+        android:horizontalSpacing="15dp"
+        android:numColumns="2"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:scrollbars="none"
+        android:verticalSpacing="10dp"
+        android:visibility="visible"></GridView>
+
+    <LinearLayout
+        android:id="@+id/id_mWUJL_Record"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_record_empty" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:text="@string/record_empty_msg"
+            android:textColor="#000000"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/aboutclass_record"
+            android:layout_width="64dp"
+            android:layout_height="23dp"
+            android:layout_marginTop="20dp"
+            android:textColor="#FFFFFF"
+            android:background="@mipmap/ic_record_btn_order_class"
+            android:text="@string/record_order_class"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+</RelativeLayout>

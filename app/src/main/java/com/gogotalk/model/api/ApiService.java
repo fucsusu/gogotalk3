@@ -1,7 +1,9 @@
 package com.gogotalk.model.api;
 
 
+import com.gogotalk.model.entity.ClassDetailBean;
 import com.gogotalk.model.entity.CoursesBean;
+import com.gogotalk.model.entity.RecordBean;
 import com.gogotalk.model.entity.ResponseModel;
 import com.gogotalk.model.entity.UserInfoBean;
 
@@ -14,6 +16,8 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
+import retrofit2.http.QueryName;
 
 public interface ApiService {
     @Headers({"Content-Type:application/json","Accept: application/json"})
@@ -22,7 +26,14 @@ public interface ApiService {
 
     @GET("/api/Lesson/GetUnFinishLessonList")
     Flowable<ResponseModel<List<CoursesBean>>> getClassListData();
+
     @GET("/api/User/GetStudentInfo")
     Flowable<ResponseModel<UserInfoBean>> getUserInfoData();
+
+    @GET("/api/Lesson/GetFinishLessonList")
+    Flowable<ResponseModel<List<RecordBean>>> getClassRecordData();
+
+    @GET("/api/Lesson/GetChapterInfo")
+    Flowable<ResponseModel<ClassDetailBean>> getClassDetailData(@Query("detialRecordId") String id);
 }
 
