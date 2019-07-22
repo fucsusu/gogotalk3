@@ -8,18 +8,18 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login_title"
-        android:textColor="@color/color_white"
-        android:textSize="14sp"
+        android:text="GoGoTalk少儿英语"
+        android:textColor="#ffffffff"
+        android:textSize="20sp"
         />
     <LinearLayout
         android:layout_marginTop="27dp"
-        android:layout_width="wrap_content"
+        android:layout_width="337dp"
         android:background="@mipmap/bg_login_input_boder"
         android:gravity="center_vertical"
         android:paddingLeft="14dp"
         android:paddingRight="14dp"
-        android:layout_height="31dp">
+        android:layout_height="41dp">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,31 +28,34 @@
             android:layout_marginLeft="7dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login_input_phone_label"
-            android:textColor="@color/color_white"
-            android:textSize="11sp"
+            android:text="手机号"
+            android:textColor="#ffffffff"
+            android:textSize="15sp"
             />
         <EditText
-            android:id="@+id/et_login_phone"
             android:textCursorDrawable="@null"
             android:background="@null"
             android:layout_width="0dp"
+            android:text=""
             android:inputType="phone"
-            android:hint="@string/login_input_phone_hint"
-            android:text="15533286512"
-            android:textSize="10sp"
+            android:hint="请输入手机号"
+            android:id="@+id/et_login_phone"
+            android:textColorHint="#ffb7a6ed"
+            android:maxLength="11"
+            android:textColor="#ffffffff"
+            android:textSize="16sp"
             android:layout_weight="1"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="14dp"
             android:layout_height="match_parent" />
     </LinearLayout>
     <LinearLayout
         android:layout_marginTop="25dp"
-        android:layout_width="wrap_content"
+        android:layout_width="337dp"
         android:background="@mipmap/bg_login_input_boder"
         android:gravity="center_vertical"
         android:paddingLeft="14dp"
         android:paddingRight="14dp"
-        android:layout_height="31dp">
+        android:layout_height="41dp">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,61 +64,62 @@
             android:layout_marginLeft="7dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login_input_password_label"
-            android:textColor="@color/color_white"
-            android:textSize="11sp"
+            android:text="密     码"
+            android:textColor="#ffffffff"
+            android:textSize="15sp"
             />
         <EditText
             android:id="@+id/et_login_password"
             android:textCursorDrawable="@null"
             android:background="@null"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="test01"
+            android:text=""
             android:inputType="textPassword"
-            android:layout_marginLeft="12dp"
-            android:hint="@string/login_input_password_hint"
-            android:textSize="10sp"
+            android:layout_weight="1"
+            android:textColorHint="#ffb7a6ed"
+            android:layout_marginLeft="14dp"
+            android:hint="请输入密码"
+            android:textColor="#ffffffff"
+            android:textSize="16sp"
             android:layout_height="match_parent" />
     </LinearLayout>
-    <TextView
-        android:visibility="gone"
-        android:layout_marginTop="13dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="忘记密码？"
-        android:layout_marginLeft="107dp"
-        android:textColor="@color/color_white"
-        android:textSize="10sp"
-        />
+    <!--<TextView-->
+        <!--android:layout_marginTop="13dp"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="忘记密码？"-->
+        <!--android:layout_marginLeft="107dp"-->
+        <!--android:textColor="#ffffffff"-->
+        <!--android:textSize="10sp"-->
+        <!--/>-->
     <Button
         android:id="@+id/btn_login_submit"
-        android:layout_marginTop="8dp"
-        android:text="@string/login_btn_submit"
-        android:textColor="@color/color_white"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
+        android:layout_marginTop="28dp"
+        android:text="登录"
+        android:textColor="@android:color/white"
+        android:layout_width="343dp"
+        android:layout_height="46dp"
+        android:textSize="16sp"
         android:background="@mipmap/bg_login_btn_submit"/>
-    <LinearLayout
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_marginTop="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="登录即代表阅读并同意"
-            android:textColor="@color/color_white"
-            android:textSize="10sp"
-            />
-        <TextView
-            android:layout_marginTop="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="《用户服务协议》"
-            android:textColor="#41E5FD"
-            android:textSize="10sp"
-            />
-    </LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content">-->
+        <!--<TextView-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="登录即代表阅读并同意"-->
+            <!--android:textColor="#ffffffff"-->
+            <!--android:textSize="10sp"-->
+            <!--/>-->
+        <!--<TextView-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="《用户服务协议》"-->
+            <!--android:textColor="#41E5FD"-->
+            <!--android:textSize="10sp"-->
+            <!--/>-->
+    <!--</LinearLayout>-->
 
 </LinearLayout>
