@@ -3,6 +3,7 @@ package com.gogotalk.presenter;
 import com.gogotalk.model.api.ApiService;
 import com.gogotalk.model.entity.BookLevelBean;
 import com.gogotalk.model.entity.GoGoBean;
+import com.gogotalk.model.entity.WeekMakeBean;
 import com.gogotalk.model.util.CommonSubscriber;
 import com.gogotalk.model.util.RxUtil;
 import java.util.List;
@@ -58,6 +59,34 @@ public class ClassListPresenter extends RxPresenter<ClassListContract.View> impl
                         getView().updateUnitAndClassRecelyerViewData(beans);
                     }
 
+                })
+        );
+    }
+
+    @Override
+    public void getWeekMakeBean() {
+        addSubscribe(mApiService.getWeekMakeBean()
+                .compose(RxUtil.rxSchedulerHelper())
+                .compose(RxUtil.handleMyResult(getView(),false))
+                .subscribeWith(new CommonSubscriber<List<WeekMakeBean>>(getView()) {
+                    @Override
+                    public void onNext(List<WeekMakeBean> beans) {
+                        getView().setDataToYuyueDialogShow(beans);
+                    }
+                })
+        );
+    }
+
+    @Override
+    public void orderClass(int bookID, int chapterID, String lessonTime) {
+        addSubscribe(mApiService.orderClass(bookID,chapterID,lessonTime)
+                .compose(RxUtil.rxSchedulerHelper())
+                .compose(RxUtil.handleMyResult(getView(),false))
+                .subscribeWith(new CommonSubscriber<Object>(getView()) {
+                    @Override
+                    public void onNext(Object bean) {
+                        getView().onOrderClassSuccess();
+                    }
                 })
         );
     }

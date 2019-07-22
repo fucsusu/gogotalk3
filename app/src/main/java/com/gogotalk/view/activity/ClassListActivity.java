@@ -3,6 +3,7 @@ package com.gogotalk.view.activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +18,18 @@ import com.gogotalk.R;
 import com.gogotalk.model.entity.BookLevelBean;
 import com.gogotalk.model.entity.GoGoBean;
 import com.gogotalk.model.entity.GoItemBean;
+import com.gogotalk.model.entity.WeekMakeBean;
+import com.gogotalk.model.util.Constant;
 import com.gogotalk.presenter.ClassListContract;
 import com.gogotalk.presenter.ClassListPresenter;
 import com.gogotalk.util.AppUtils;
+import com.gogotalk.util.ToastUtils;
 import com.gogotalk.view.adapter.ClassListAdapter;
 import com.gogotalk.view.adapter.ClassListLevelAdapter;
 import com.gogotalk.view.adapter.ClassListUnitAdapter;
 import com.gogotalk.view.widget.SpaceItemDecoration;
+import com.gogotalk.view.widget.YuYueDialog;
+
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
@@ -51,7 +57,10 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
     ClassListAdapter classAdapter;
     ClassListLevelAdapter levelAdapter;
     private PopupWindow popupWindow;
-
+    private YuYueDialog yuYueDialog;
+    private YuYueDialog.Builder builder;
+    private int mBookId;
+    private int mChaptId;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +94,19 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
      */
     @Override
     public void initView() {
+        builder = new YuYueDialog.Builder(ClassListActivity.this);
+        yuYueDialog = builder.create();
+        builder.setIyuYuClickListener(new YuYueDialog.IyuYuClickListener() {
+            @Override
+            public void yuYuClick(String date, String time) {
+                if (TextUtils.isEmpty(time)) {
+                    ToastUtils.showShortToast(ClassListActivity.this, "请选择约课时间");
+                    return;
+                }
+                String lessonTime = date + " " + time;
+                mPresenter.orderClass(mBookId,mChaptId,lessonTime);
+            }
+        });
         View inflate = LayoutInflater.from(this).inflate(R.layout.popup_level, null, false);
         lvLevel = inflate.findViewById(R.id.lv_level);
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -124,6 +146,35 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
         mRecyclerView.setLayoutManager(manager2);
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(10, 0));
         classAdapter = new ClassListAdapter(this, classBeans);
+        classAdapter.setBtnClickLisener(new ClassListAdapter.IBtnClickLisener() {
+
+            @Override
+            public void onBtnClassPreviewClick(String path) {
+                Intent mIntent = new Intent(ClassListActivity.this, VideoActivity.class);
+                mIntent.putExtra(Constant.INTENT_DATA_KEY_VIDEO_URL, path);
+                startActivity(mIntent);
+            }
+
+            @Override
+            public void onBtnGoClassRoomClick(boolean flag, int attendId, String path, String time) {
+                if(!flag){
+                    ToastUtils.showShortToast(ClassListActivity.this,"课前10分钟才可以进入教室");
+                    return;
+                }
+//                if (isPermissions()) {
+//
+//                } else {
+//                    ToastUtils.showShortToast( ClassListActivity.this,"部分功能未授权，请授权后再试！");
+//                }
+            }
+
+            @Override
+            public void onYuYueClick(int bookId, int chaptId) {
+                mBookId = bookId;
+                mChaptId = chaptId;
+                mPresenter.getWeekMakeBean();
+            }
+        });
         mRecyclerView.setAdapter(classAdapter);
         popupWindow = new PopupWindow(inflate, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setFocusable(true);
@@ -174,13 +225,6 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
         startActivity(new Intent(this, MainActivity.class));
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if(classAdapter!=null){
-            classAdapter.destoryDialog();
-        }
-    }
 
     @Override
     public void updateLevelRecelyerViewData(List<BookLevelBean> beans) {
@@ -198,5 +242,16 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
         classBeans.addAll(beans.get(0).getChapterData());
         unitAdapter.notifyDataSetChanged();
         classAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onOrderClassSuccess() {
+        yuYueDialog.dismiss();
+    }
+
+    @Override
+    public void setDataToYuyueDialogShow(List<WeekMakeBean> beans) {
+        builder.setWeekBeans(beans);
+        yuYueDialog.show();
     }
 }
