@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical">
-    <com.gogotalk.view.CameraSurfaceView
+    <com.gogotalk.view.widget.CameraSurfaceView
         android:id="@+id/view_camera_surface"
         android:layout_width="184dp"
         android:layout_height="99dp" />

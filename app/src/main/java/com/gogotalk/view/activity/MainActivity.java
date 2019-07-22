@@ -1,15 +1,18 @@
 package com.gogotalk.view.activity;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,15 +40,22 @@ import com.gogotalk.util.ScreenUtils;
 import com.gogotalk.util.ToastUtils;
 import com.gogotalk.view.adapter.MainRecyclerAdapter;
 import com.gogotalk.view.widget.AboutDialog;
+import com.gogotalk.view.widget.CheckDeviceDialog;
 import com.gogotalk.view.widget.CommonDialog;
 import com.gogotalk.view.widget.SpaceItemDecoration;
 import com.gogotalk.view.widget.UserInfoDialog;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
     @BindView(R.id.id_mRecyclerView)
@@ -85,6 +95,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     RadioButton btn_setting;
     UserInfoDialog.Builder userInfoDialogBuilder;
     UserInfoDialog userInfoDialog;
+    List<Boolean> permissionList = new ArrayList<>();
     /**
      * 轮训刷新数据
      */
@@ -101,6 +112,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestPermissions();
         initEvent();
         mPresenter.getUserInfoData(true, false);
         mPresenter.getClassListData(false, true);
@@ -228,12 +240,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         btn_check_device.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (mShowRequestPermission) {
-                popupWindow.dismiss();
-//                    showCheckDeviceDialog();
-//                } else {
-//                    Toast.makeText(HomePageActivity.this, "部分功能未授权，请授权后再试！", Toast.LENGTH_SHORT).show();
-//                }
+                if (permissionList.size()==3) {
+                      popupWindow.dismiss();
+                    showCheckDeviceDialog();
+                } else {
+                    requestPermissions();
+                    Toast.makeText(MainActivity.this, "部分功能未授权，请授权后再试！", Toast.LENGTH_LONG).show();
+                }
             }
         });
         btn_clear_cache.setOnClickListener(new View.OnClickListener() {
@@ -262,7 +275,46 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             }
         });
     }
-
+    /**
+     * 检测设备对话框
+     */
+    private void showCheckDeviceDialog() {
+        final CheckDeviceDialog.Builder builder = new CheckDeviceDialog.Builder(MainActivity.this);
+        builder.setPositiveButton("", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                builder.setState(false);
+                if (builder.getCurrentStep() == 0) {
+                    builder.setCurrentStep(1);
+                } else if (builder.getCurrentStep() == 1) {
+                    builder.setCurrentStep(2);
+                }
+            }
+        });
+        builder.setNegativeButton("", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                builder.setState(true);
+                if (builder.getCurrentStep() == 0) {
+                    builder.setCurrentStep(1);
+                } else if (builder.getCurrentStep() == 1) {
+                    builder.setCurrentStep(2);
+                }
+            }
+        });
+        builder.setSingleButton("", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                builder.reset();
+            }
+        });
+        CheckDeviceDialog twoButtonDialog = builder.createTwoButtonDialog();
+        twoButtonDialog.show();
+        WindowManager.LayoutParams params = twoButtonDialog.getWindow().getAttributes();
+        params.width = ScreenUtils.dip2px(getApplicationContext(), 366);
+        params.height = ScreenUtils.dip2px(getApplicationContext(), 297);
+        twoButtonDialog.getWindow().setAttributes(params);
+    }
     /**
      * 个人信息对话框
      */
@@ -384,5 +436,22 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 startActivity(new Intent(MainActivity.this, ClassListActivity.class));
                 break;
         }
+    }
+    private void requestPermissions() {
+        permissionList.clear();
+        RxPermissions rxPermission = new RxPermissions(MainActivity.this);
+        rxPermission
+                .requestEach(Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.RECORD_AUDIO
+                        )
+                .subscribe(new Consumer<Permission>() {
+                    @Override
+                    public void accept(Permission permission) throws Exception {
+                        if(permission.granted){
+                            permissionList.add(permission.granted);
+                        }
+                    }
+                });
     }
 }

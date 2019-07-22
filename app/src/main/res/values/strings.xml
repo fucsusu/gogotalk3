@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AiRoom</string>
+    <string name="app_name">GogoTalk少儿英语</string>
     <string name="login_title">GoGoTalk少儿英语</string>
     <string name="login_input_phone_label">手机号</string>
     <string name="login_input_phone_hint">请输入手机号</string>

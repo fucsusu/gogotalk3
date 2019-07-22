@@ -20,7 +20,6 @@ import com.gogotalk.model.entity.GoItemBean;
 import com.gogotalk.presenter.ClassListContract;
 import com.gogotalk.presenter.ClassListPresenter;
 import com.gogotalk.util.AppUtils;
-import com.gogotalk.util.ScreenUtils;
 import com.gogotalk.view.adapter.ClassListAdapter;
 import com.gogotalk.view.adapter.ClassListLevelAdapter;
 import com.gogotalk.view.adapter.ClassListUnitAdapter;
@@ -72,6 +71,7 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+
     }
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
