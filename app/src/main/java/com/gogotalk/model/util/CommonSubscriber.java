@@ -1,5 +1,6 @@
 package com.gogotalk.model.util;
 
+import com.gogotalk.model.entity.ResponseModel;
 import com.gogotalk.model.exception.ApiException;
 import com.gogotalk.presenter.BaseContract;
 import com.gogotalk.util.ToastUtils;
@@ -40,6 +41,9 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
     }
     public boolean isError(){
         return true;
+    }
+    public boolean isShowSuccessMsg(){
+        return false;
     }
     @Override
     public void onComplete() {

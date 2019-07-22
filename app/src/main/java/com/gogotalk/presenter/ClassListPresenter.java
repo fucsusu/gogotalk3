@@ -22,7 +22,7 @@ public class ClassListPresenter extends RxPresenter<ClassListContract.View> impl
     public void getLevelListData() {
         addSubscribe(mApiService.getLevelListData()
         .compose(RxUtil.rxSchedulerHelper())
-        .compose(RxUtil.handleMyResult(getView()))
+        .compose(RxUtil.handleMyResult(getView(),false))
         .subscribeWith(new CommonSubscriber<List<BookLevelBean>>(getView()) {
             @Override
             public void onNext(List<BookLevelBean> levelBeans) {
@@ -47,7 +47,7 @@ public class ClassListPresenter extends RxPresenter<ClassListContract.View> impl
     public void getClassByLevel(int level) {
         addSubscribe(mApiService.getClassByLevel(String.valueOf(level))
                 .compose(RxUtil.rxSchedulerHelper())
-                .compose(RxUtil.handleMyResult(getView()))
+                .compose(RxUtil.handleMyResult(getView(),false))
                 .subscribeWith(new CommonSubscriber<List<GoGoBean>>(getView()) {
                     @Override
                     public void onNext(List<GoGoBean> beans) {

@@ -30,7 +30,7 @@ public class LoginPresenter extends RxPresenter<LoginContract.View> implements L
         map.put("Password",password);
         addSubscribe(mApiService.login(HttpUtils.getRequestBody(map))
                 .compose(RxUtil.rxSchedulerHelper())
-                .compose(RxUtil.handleMyResult( getView()))
+                .compose(RxUtil.handleMyResult( getView(),false))
                 .subscribeWith(new CommonSubscriber<Map<String,String>>( getView()){
                     @Override
                     public void onNext(Map<String,String> mapData) {

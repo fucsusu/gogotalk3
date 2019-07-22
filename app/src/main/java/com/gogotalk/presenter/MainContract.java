@@ -9,9 +9,11 @@ public interface MainContract {
         void showRecelyerViewOrEmptyViewByFlag(boolean flag);
         void updateRecelyerViewData(List<CoursesBean> data);
         void setUserInfoDataToView(String imageUrl,String name,String classTime,String expiry);
+        void onCanelOrderClassSuccess();
     }
     interface Presenter extends BaseContract.Presenter<MainContract.View>{
         void getClassListData(boolean isShowLoading,boolean isHideLoading);
         void getUserInfoData(boolean isShowLoading,boolean isHideLoading);
+        void canelOrderClass(int demandId);
     }
 }

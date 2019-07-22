@@ -22,27 +22,28 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gogotalk.R;
 import com.gogotalk.model.entity.CoursesBean;
 import com.gogotalk.util.DateUtils;
+import com.gogotalk.util.XClickUtil;
+import com.gogotalk.view.activity.MainActivity;
 import com.gogotalk.view.activity.VideoActivity;
 import com.gogotalk.view.widget.CommonDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Copyright (C)
- * <p>
- * FileName: RecyclerListAdapter
- * <p>
- * Author: 赵小钧
- * <p>
- * Date: 2019\6\12 0012 18:37
- */
+
 public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.ViewHolder> {
     private List<CoursesBean> mDataList;
     private Activity context;
+    private IBtnClickLisener btnClickLisener;
+
+    public void setBtnClickLisener(IBtnClickLisener btnClickLisener) {
+        this.btnClickLisener = btnClickLisener;
+    }
+
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         RelativeLayout mLayout;
@@ -103,18 +104,6 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             holder.LessonTime = coursesBean.getLessonTime();
             holder.contentsText.setText(coursesBean.getChapterName());
             holder.TeacherName = coursesBean.getTeacherName();
-//        if (holder.LessonStatus == 0) {
-//            holder.contentsText.setText("未开始");
-//        }
-//        if (holder.LessonStatus == 1) {
-//            holder.contentsText.setText("上课中");
-//        }
-//        if (holder.LessonStatus == 2) {
-//            holder.contentsText.setText("即将开始");
-//        }
-//        if (holder.LessonStatus == 3) {
-//            holder.contentsText.setText("已结束");
-//        }
             holder.AttendLessonID = coursesBean.getAttendLessonID();
             holder.ChapterFilePath = coursesBean.getChapterFilePath();
             holder.mTitle.setText(coursesBean.getChapterEnglishName());
@@ -127,9 +116,9 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             holder.mPreview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent mIntent = new Intent(context, VideoActivity.class);
-                    mIntent.putExtra("url", holder.BeforeFilePath);
-                    context.startActivity(mIntent);
+                    if(btnClickLisener!=null){
+                        btnClickLisener.onBtnClassPreviewClick(holder.BeforeFilePath);
+                    }
                 }
             });
             final String endDateTime;
@@ -147,17 +136,9 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 holder.mEnterClassroom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        if (HomePageActivity.mShowRequestPermission) {
-//                            Coustant.TeacherName = holder.TeacherName;
-//                            Log.e("TAG", "剩下：" + min + "分钟");
-//                            Intent mIntent = new Intent(context, MyClassRoomActivity.class);
-//                            mIntent.putExtra("AttendLessonID", holder.AttendLessonID);
-//                            mIntent.putExtra("ChapterFilePath", holder.ChapterFilePath);
-//                            mIntent.putExtra("LessonTime", endDateTime);
-//                            context.startActivity(mIntent);
-//                        }else {
-//                            Toast.makeText(context, "部分功能未授权，请授权后再试！", Toast.LENGTH_SHORT).show();
-//                        }
+                        if(btnClickLisener!=null){
+                            btnClickLisener.onBtnGoClassRoomClick(true);
+                        }
                     }
                 });
             } else {
@@ -165,7 +146,9 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 holder.mEnterClassroom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(context, "课前10分钟才可以进入教室", Toast.LENGTH_LONG).show();
+                        if(btnClickLisener!=null){
+                            btnClickLisener.onBtnGoClassRoomClick(false);
+                        }
                     }
                 });
             }
@@ -173,65 +156,14 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             holder.mTime1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    if (XClickUtil.isFastDoubleClick(v, 1000)) {
-//                        return;
-//                    }
-//                    LayoutInflater inflater = LayoutInflater.from(context);
-//                    View view = inflater.inflate(R.layout.dialog_cancellation, null, false);// 得到加载view
-//                    LinearLayout layout = view.findViewById(R.id.id_mLayout_Cancellation);// 加载布局
-//                    final Dialog loadingDialog = new Dialog(context, R.style.MyDialogStyle);// 创建自定义样式dialog
-//                    loadingDialog.setCancelable(true); // 是否可以按“返回键”消失
-//                    loadingDialog.setCanceledOnTouchOutside(false); // 点击加载框以外的区域
-//                    loadingDialog.setContentView(layout, new LinearLayout.LayoutParams(
-//                            LinearLayout.LayoutParams.MATCH_PARENT,
-//                            LinearLayout.LayoutParams.MATCH_PARENT));// 设置布局
-//                    CommonDialog.Builder builder = new CommonDialog.Builder(context);
-//                    builder.setMessage(context.getResources().getString(R.string.ask_cancel_class));
-//                    final CommonDialog twoButtonDialog = builder.createTwoButtonDialog();
-//                    builder.setPositiveButton("确定", new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-////                        final Dialog dialog = LoadingDialogUtils.createLoadingDialog(context, "请稍等...");
-//                            Map<String, Object> params = new HashMap<>();
-//                            params.put("DemandId", holder.DetailRecordID);
-//                            XutilsHttp.getInstance().get(CountUri.CANCELLATION_APPOINTMENT, params, new XutilsHttp.XCallBack() {
-//                                @Override
-//                                public void onResponse(String result) {
-//                                    Log.e("TAG", result);
-//                                    try {
-//                                        JSONObject object = new JSONObject(result);
-//                                        int result1 = object.getInt("result");
-//                                        String msg = object.getString("msg");
-//                                        if (result1 == 1) {
-//                                            Toast.makeText(context, "" + msg, Toast.LENGTH_LONG).show();
-//                                            context.startActivity(new Intent(context, HomePageActivity.class));
-//                                            twoButtonDialog.dismiss();
-//                                        } else if (result1 == 0) {
-//                                            Toast.makeText(context, "" + msg, Toast.LENGTH_LONG).show();
-//                                        }
-//                                        if (result1 == 1002) {
-//                                            context.startActivity(new Intent(context, MainActivity.class));
-//                                            twoButtonDialog.dismiss();
-//                                        }
-////                                    LoadingDialogUtils.closeDialog(dialog);
-////                                    loadingDialog.dismiss();
-//                                    } catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            });
-                        }
-                    });
-//                    builder.setNegativeButton("取消", new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-////                        loadingDialog.dismiss();
-//                            twoButtonDialog.dismiss();
-//                        }
-//                    });
-//                    twoButtonDialog.show();
-//                }
-//            });
+                    if (XClickUtil.isFastDoubleClick(v, 1000)) {
+                        return;
+                    }
+                    if(btnClickLisener!=null){
+                        btnClickLisener.onBtnCancelOrderClass(holder.DetailRecordID);
+                    }
+                }
+            });
         }
     }
 
@@ -250,5 +182,22 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             return mDataList.size() + 2;
         }
         return 0;
+    }
+
+    public interface IBtnClickLisener{
+        /**
+         * 课程预览事件
+         */
+        void onBtnClassPreviewClick(String path);
+
+        /**
+         * 进入教室事件
+         */
+        void onBtnGoClassRoomClick(boolean flag);
+
+        /**
+         * 取消预约课程事件
+         */
+        void onBtnCancelOrderClass(int demandId);
     }
 }

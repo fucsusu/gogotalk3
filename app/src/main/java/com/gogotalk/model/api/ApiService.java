@@ -8,6 +8,7 @@ import com.gogotalk.model.entity.GoGoBean;
 import com.gogotalk.model.entity.RecordBean;
 import com.gogotalk.model.entity.ResponseModel;
 import com.gogotalk.model.entity.UserInfoBean;
+import com.gogotalk.model.entity.WeekMakeBean;
 
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,16 @@ public interface ApiService {
 
     @GET("/api/Lesson/GetLessonUnitList")
     Flowable<ResponseModel<List<GoGoBean>>> getClassByLevel(@Query("level") String level);
+
+
+    @GET("/api/Lesson/CancelLesson")
+    Flowable<ResponseModel<Object>> cancelOrderClass(@Query("DemandId") int demandId);
+
+    @GET("/api/Lesson/GetLessonDate")
+    Flowable<ResponseModel<List<WeekMakeBean> >> getWeekMakeBean();
+
+    @GET("/api/Lesson/JoinAttendLesson")
+    Flowable<ResponseModel<Object>> orderClass(@Query("bookID") int bookID,@Query("chapterID") int chapterID,@Query("lessonTime") String lessonTime);
 
 }
 

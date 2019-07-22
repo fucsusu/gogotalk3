@@ -22,7 +22,7 @@ public class RecordPresenter extends RxPresenter<RecordContract.View> implements
     public void getClassRecordData() {
         addSubscribe(mApiService.getClassRecordData()
         .compose(RxUtil.rxSchedulerHelper())
-        .compose(RxUtil.handleMyResult(getView()))
+        .compose(RxUtil.handleMyResult(getView(),false))
         .subscribeWith(new CommonSubscriber<List<RecordBean>>(getView()) {
             @Override
             public void onNext(List<RecordBean> recordBeans) {

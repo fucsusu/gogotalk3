@@ -7,14 +7,23 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import com.gogotalk.R;
 import com.gogotalk.model.entity.ClassDetailBean;
+import com.gogotalk.model.entity.WeekMakeBean;
 import com.gogotalk.model.util.Constant;
 import com.gogotalk.presenter.ClassDetailContract;
 import com.gogotalk.presenter.ClassDetailPresenter;
 import com.gogotalk.util.AppUtils;
+import com.gogotalk.util.ToastUtils;
 import com.gogotalk.view.widget.YuYueDialog;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -39,7 +48,6 @@ public class ClassDetailActivity extends BaseActivity<ClassDetailPresenter> impl
     private String previewUrl;//课前联系
     private YuYueDialog yuYueDialog;
     private YuYueDialog.Builder builder;
-    Dialog dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +69,17 @@ public class ClassDetailActivity extends BaseActivity<ClassDetailPresenter> impl
     public void initView() {
         builder = new YuYueDialog.Builder(ClassDetailActivity.this);
         yuYueDialog = builder.create();
+        builder.setIyuYuClickListener(new YuYueDialog.IyuYuClickListener() {
+            @Override
+            public void yuYuClick(String date, String time) {
+                if (TextUtils.isEmpty(time)) {
+                    ToastUtils.showShortToast(ClassDetailActivity.this, "请选择约课时间");
+                    return;
+                }
+                String lessonTime = date + " " + time;
+                mPresenter.orderClass(bookId,chapterId,lessonTime);
+            }
+        });
     }
 
     @Override
@@ -98,6 +117,7 @@ public class ClassDetailActivity extends BaseActivity<ClassDetailPresenter> impl
                 }
                 break;
             case R.id.id_mMakeAppointment_Details://立即预约
+                mPresenter.getWeekMakeBean();
                 break;
 
         }
@@ -118,4 +138,16 @@ public class ClassDetailActivity extends BaseActivity<ClassDetailPresenter> impl
         chapterId = bean.getChapterID();
         bookId = bean.getBookID();
     }
+
+    @Override
+    public void setDataToYuyueDialogShow(List<WeekMakeBean> beans) {
+        builder.setWeekBeans(beans);
+        yuYueDialog.show();
+    }
+
+    @Override
+    public void onOrderClassSuccess() {
+        yuYueDialog.dismiss();
+    }
+
 }

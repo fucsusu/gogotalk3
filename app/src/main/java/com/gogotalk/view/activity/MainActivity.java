@@ -47,9 +47,11 @@ import com.gogotalk.view.widget.UserInfoDialog;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -163,6 +165,40 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecyclerView.setLayoutManager(layoutManager);
         recyclerAdapter = new MainRecyclerAdapter(this, list);
+        recyclerAdapter.setBtnClickLisener(new MainRecyclerAdapter.IBtnClickLisener() {
+            @Override
+            public void onBtnClassPreviewClick(String path) {
+                Intent mIntent = new Intent(MainActivity.this, VideoActivity.class);
+                mIntent.putExtra(Constant.INTENT_DATA_KEY_VIDEO_URL, path);
+                startActivity(mIntent);
+            }
+
+            @Override
+            public void onBtnGoClassRoomClick(boolean flag) {
+                if(!flag){
+                    ToastUtils.showShortToast(MainActivity.this,"课前10分钟才可以进入教室");
+                    return;
+                }
+                if (isPermissions()) {
+//                    Intent mIntent = new Intent(MainActivity.this, MyClassRoomActivity.class);
+//                    mIntent.putExtra("AttendLessonID", holder.AttendLessonID);
+//                    mIntent.putExtra("ChapterFilePath", holder.ChapterFilePath);
+//                    mIntent.putExtra("LessonTime", endDateTime);
+//                    startActivity(mIntent);
+                } else {
+                    ToastUtils.showShortToast( MainActivity.this,"部分功能未授权，请授权后再试！");
+                }
+            }
+
+            @Override
+            public void onBtnCancelOrderClass(int demandId) {
+                String str = "是否取消约课？";
+                int s = 3;
+                Map<String,String> data = new HashMap<>();
+                data.put("demandId",String.valueOf(demandId));
+                dialogCommon(str, s,data);
+            }
+        });
         mRecyclerView.setAdapter(recyclerAdapter);
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(ScreenUtils.dip2px(getApplicationContext(), 10), 0));
     }
@@ -182,6 +218,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         Glide.with(this).load(imageUrl).placeholder(R.mipmap.ic_main_user_info_header_default)
                 .circleCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE).into(mImg);
+    }
+
+    @Override
+    public void onCanelOrderClassSuccess() {
+        mPresenter.getClassListData(true, true);
     }
 
     @Override
@@ -227,9 +268,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             public void onClick(View view) {
                 popupWindow.setFocusable(false);
                 popupWindow.update();
-                if("MI 8".equals(Build.MODEL)){
-                    popupWindow.showAsDropDown(view, -(popupWindow.getContentView().getMeasuredWidth()-view.getWidth()-100), 10);
-                }else {
+                if ("MI 8".equals(Build.MODEL)) {
+                    popupWindow.showAsDropDown(view, -(popupWindow.getContentView().getMeasuredWidth() - view.getWidth() - 100), 10);
+                } else {
                     popupWindow.showAsDropDown(view, -(popupWindow.getContentView().getMeasuredWidth() - view.getWidth()), 10);
                 }
                 AppUtils.fullScreenImmersive(popupWindow.getContentView());
@@ -240,8 +281,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         btn_check_device.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (permissionList.size()==3) {
-                      popupWindow.dismiss();
+                if (isPermissions()) {
+                    popupWindow.dismiss();
                     showCheckDeviceDialog();
                 } else {
                     requestPermissions();
@@ -255,7 +296,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 popupWindow.dismiss();
                 String str = "是否需要清除缓存？";
                 int s = 1;
-                dialogCommon(str, s);
+                dialogCommon(str, s,null);
             }
         });
         btn_about_us.setOnClickListener(new View.OnClickListener() {
@@ -271,10 +312,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 popupWindow.dismiss();
                 String str1 = "是否退出登录？";
                 int s1 = 2;
-                dialogCommon(str1, s1);
+                dialogCommon(str1, s1,null);
             }
         });
     }
+
     /**
      * 检测设备对话框
      */
@@ -315,6 +357,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         params.height = ScreenUtils.dip2px(getApplicationContext(), 297);
         twoButtonDialog.getWindow().setAttributes(params);
     }
+
     /**
      * 个人信息对话框
      */
@@ -351,7 +394,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
      * @param msg
      * @param type
      */
-    private void dialogCommon(String msg, final int type) {
+    private void dialogCommon(String msg, final int type,Map<String,String> data) {
         CommonDialog.Builder builder = new CommonDialog.Builder(this);
         builder.setMessage(msg);
         final CommonDialog twoButtonDialog = builder.createTwoButtonDialog();
@@ -369,7 +412,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                             hideLoading();
                         }
                     }, 1000);
-
+                    return;
                 }
                 if (type == 2) {
                     SPUtils.remove(Constant.SP_KEY_PASSWORD);
@@ -377,6 +420,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     SPUtils.remove(Constant.SP_KEY_USERINFO);
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     finish();
+                    return;
+                }
+                if (type==3){
+                    if(data==null)return;
+                    mPresenter.canelOrderClass(Integer.parseInt(data.get("demandId")));
+                    return;
                 }
             }
         });
@@ -423,7 +472,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         return super.onKeyDown(keyCode, event);
     }
 
-    @OnClick({R.id.id_mPersonalSettings, R.id.id_mRecord,R.id.id_GoGoTalk_Home})
+    @OnClick({R.id.id_mPersonalSettings, R.id.id_mRecord, R.id.id_GoGoTalk_Home,R.id.id_mBtn_HomePage})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.id_mPersonalSettings:
@@ -435,23 +484,33 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             case R.id.id_GoGoTalk_Home:
                 startActivity(new Intent(MainActivity.this, ClassListActivity.class));
                 break;
+            case R.id.id_mBtn_HomePage:
+                startActivity(new Intent(MainActivity.this, ClassListActivity.class));
+                break;
+
         }
     }
-    private void requestPermissions() {
+
+    public boolean isPermissions() {
+        return permissionList.size() == 3;
+    }
+
+    public void requestPermissions() {
         permissionList.clear();
         RxPermissions rxPermission = new RxPermissions(MainActivity.this);
         rxPermission
                 .requestEach(Manifest.permission.CAMERA,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.RECORD_AUDIO
-                        )
+                )
                 .subscribe(new Consumer<Permission>() {
                     @Override
                     public void accept(Permission permission) throws Exception {
-                        if(permission.granted){
+                        if (permission.granted) {
                             permissionList.add(permission.granted);
                         }
                     }
                 });
     }
+
 }

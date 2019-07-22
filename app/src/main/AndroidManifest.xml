@@ -28,7 +28,7 @@
         android:name="com.gogotalk.app.AiRoomApplication"
         android:allowBackup="true"
         android:usesCleartextTraffic="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/demo_icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
