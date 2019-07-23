@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_app"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/id_mBack_GoGo"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@mipmap/btn_back" />
+        </LinearLayout>
+
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="4"-->
+            <!--android:gravity="center"-->
+            <!--android:text="哈佛外教课"-->
+            <!--android:textColor="#fff"-->
+            <!--android:textSize="15sp" />-->
+
+        <LinearLayout
+            android:id="@+id/layout_level"
+            android:layout_width="126dp"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/bg_class_list_level"
+            android:gravity="center"
+            android:paddingLeft="12dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:id="@+id/tv_level"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="哈佛外教课L1"
+                android:textColor="#ffffffff"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/iv_level"
+                android:layout_width="10dp"
+                android:layout_height="6dp"
+                android:src="@mipmap/ic_class_list_drop_down" />
+        </LinearLayout>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"></View>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/id_mRecycler1_GoGo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"></androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/id_mRecycler_GoGo"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_gravity="center"></androidx.recyclerview.widget.RecyclerView>
+
+</LinearLayout>

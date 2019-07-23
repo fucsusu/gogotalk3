@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">GogoTalk少儿英语</string>
+    <string name="login_title">GoGoTalk少儿英语</string>
+    <string name="login_input_phone_label">手机号</string>
+    <string name="login_input_phone_hint">请输入手机号</string>
+    <string name="login_input_password_label">密&#160;&#160;&#160;&#160;码</string>
+    <string name="login_input_password_hint">请输入密码</string>
+    <string name="login_btn_submit">登录</string>
+    <string name="login_toast_empty_msg">请填写手机号或密码</string>
+    <string name="login_toast_phone_error_msg">手机号输入有误</string>
+
+    <string name="main_class_list_item_empty_msg">小朋友你还没约课呦， 赶快让你的爸爸妈妈帮你约课吧！</string>
+    <string name="main_popu_setting_check_device_msg">检测设备</string>
+    <string name="main_popu_setting_clear_cache">清除缓存</string>
+    <string name="main_popu_setting_about_us">关于我们</string>
+    <string name="main_popu_setting_out_login">退出登录</string>
+    <string name="dialog_about_us_version_label">版本号：</string>
+    <string name="dialog_check_device_camera_label">摄像头检测</string>
+    <string name="dialog_check_device_speaker_label">扬声器检测</string>
+    <string name="dialog_check_device_microphone_label">麦克风检测</string>
+    <string name="dialog_check_device_btn_error">重新检查</string>
+    <string name="dialog_check_device_btn_first">看不到</string>
+    <string name="dialog_check_device_btn_two">可以看到</string>
+
+    <string name="record_empty_msg">小朋友你还没有上过我们的课程,\n赶快去上课赢取更多奖杯哦~</string>
+    <string name="record_order_class">去约课</string>
+    <string name="record_after_class">课后练习</string>
+</resources>

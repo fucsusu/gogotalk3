@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="45dp"
+    android:layout_gravity="center"
+    android:gravity="bottom|center"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/id_mBtn_RecyItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@mipmap/ic_class_list_unit_item"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/id_mName_RecyItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UNIT 1"
+            android:textColor="#fff"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+</LinearLayout>

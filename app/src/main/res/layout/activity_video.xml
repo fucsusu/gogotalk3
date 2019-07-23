@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.gogotalk.view.widget.FullScreenVideoView
+        android:id="@+id/id_mVideo_Vis1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:id="@+id/control_video"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:gravity="center_vertical"
+        android:layout_gravity="bottom">
+
+        <ImageView
+            android:id="@+id/play_video"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:clickable="false"
+            android:layout_alignParentBottom="true"
+            android:src="@mipmap/video_pause" />
+
+        <TextView
+            android:id="@+id/time_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:text="00:00"
+            android:textSize="12sp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            />
+
+        <SeekBar
+            android:id="@+id/seekbar_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="20dp"
+            android:layout_toLeftOf="@id/time_video"
+            android:layout_toRightOf="@id/play_video"
+            android:maxHeight="4dp"
+            android:progressDrawable="@drawable/video_seekbar_bg"
+            android:thumb="@drawable/video_seekbar_progress" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/goback_video"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@mipmap/video_gobanck_bg"
+        android:layout_margin="10dp"/>
+
+</merge>
