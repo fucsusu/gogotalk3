@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.gogotalk.view.widget.FullScreenVideoView
+    <com.gogotalk.system.view.widget.FullScreenVideoView
         android:id="@+id/id_mVideo_Vis1"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -3,8 +3,6 @@ package com.gogotalk.system.zego;
 import android.view.Surface;
 import android.view.View;
 
-import com.gogotalk.zego.AppLogger;
-import com.gogotalk.zego.ZGBaseHelper;
 import com.zego.zegoliveroom.ZegoLiveRoom;
 import com.zego.zegoliveroom.callback.IZegoLivePublisherCallback;
 import com.zego.zegoliveroom.constants.ZegoConstants;
@@ -43,7 +41,7 @@ public class ZGPublishHelper {
      *
      * @param view 要渲染的视图，sdk会把采集到的数据渲染到view上,
      */
-    public void startPreview(View view) {
+    public void startPreview( View view) {
         if (!isInitSDKSuccess()) {
             AppLogger.getInstance().w(ZGPublishHelper.class, "推流预览失败, 请先初始化sdk");
             return;
@@ -61,7 +59,7 @@ public class ZGPublishHelper {
      *
      * @param view 要渲染的视图，sdk会把采集到的数据渲染到view上,
      */
-    public void startPreview(View view, String publishStreamID) {
+    public void startPreview( View view, String publishStreamID) {
         if (!isInitSDKSuccess()) {
             AppLogger.getInstance().w(ZGPublishHelper.class, "推流预览失败, 请先初始化sdk");
             return;
@@ -87,7 +85,7 @@ public class ZGPublishHelper {
      * @param flag     推流标记, 详见 {@link com.zego.zegoliveroom.constants.ZegoConstants.PublishFlag}
      * @return true 为推流成功 false 为推流失败
      */
-    public boolean startPublishing(String streamID, String title, int flag) {
+    public boolean startPublishing( String streamID,  String title, int flag) {
         if (!isInitSDKSuccess()) {
             AppLogger.getInstance().w(ZGPublishHelper.class, "推流失败, 请先初始化sdk再进行推流");
             return false;
