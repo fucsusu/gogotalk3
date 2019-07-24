@@ -34,7 +34,9 @@ import com.gogotalk.model.util.Constant;
 import com.gogotalk.presenter.MainContract;
 import com.gogotalk.presenter.MainPresenter;
 import com.gogotalk.util.AppUtils;
+import com.gogotalk.util.CoursewareDownLoadUtil;
 import com.gogotalk.util.DataCleanManager;
+import com.gogotalk.util.PermissionsUtil;
 import com.gogotalk.util.SPUtils;
 import com.gogotalk.util.ScreenUtils;
 import com.gogotalk.util.ToastUtils;
@@ -65,6 +67,8 @@ import io.reactivex.functions.Consumer;
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
     @BindView(R.id.id_mRecyclerView)
     RecyclerView mRecyclerView;//课单列表
+    @BindView(R.id.mian_root_view)
+    RelativeLayout root_view;
     @BindView(R.id.id_mPersonalSettings)
     ImageView mImg;
     @BindView(R.id.id_mUserName_Home)
@@ -100,7 +104,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     RadioButton btn_setting;
     UserInfoDialog.Builder userInfoDialogBuilder;
     UserInfoDialog userInfoDialog;
-    List<Boolean> permissionList = new ArrayList<>();
     /**
      * 轮训刷新数据
      */
@@ -117,7 +120,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestPermissions();
+        PermissionsUtil.getInstance().requestPermissions(this);
         initEvent();
         mPresenter.getUserInfoData(true, false);
         mPresenter.getClassListData(false, true);
@@ -177,19 +180,27 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             }
 
             @Override
-            public void onBtnGoClassRoomClick(boolean flag) {
-                if(!flag){
-                    ToastUtils.showShortToast(MainActivity.this,"课前10分钟才可以进入教室");
-                    return;
-                }
-                if (isPermissions()) {
-//                    Intent mIntent = new Intent(MainActivity.this, MyClassRoomActivity.class);
-//                    mIntent.putExtra("AttendLessonID", holder.AttendLessonID);
-//                    mIntent.putExtra("ChapterFilePath", holder.ChapterFilePath);
-//                    mIntent.putExtra("LessonTime", endDateTime);
-//                    startActivity(mIntent);
+            public void onBtnGoClassRoomClick(boolean flag, CoursesBean coursesBean) {
+//                if (!flag) {
+//                    ToastUtils.showShortToast(MainActivity.this, "课前10分钟才可以进入教室");
+//                    return;
+//                }
+                if (PermissionsUtil.getInstance().isPermissions()) {
+                    CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(MainActivity.this, coursesBean.getZipDownLoadUrl(),
+                            root_view, coursesBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
+                                @Override
+                                public void finsh(String filePath) {
+                                    Intent mIntent = new Intent(MainActivity.this, ClassRoomActivity.class);
+                                    mIntent.putExtra("AttendLessonID", coursesBean.getAttendLessonID());
+                                    mIntent.putExtra("ChapterFilePath", coursesBean.getChapterFilePath());
+                                    mIntent.putExtra("LessonTime", coursesBean.getLessonTime());
+                                    mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, coursesBean.getTeacherName());
+                                    mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
+                                    startActivity(mIntent);
+                                }
+                            });
                 } else {
-                    ToastUtils.showShortToast( MainActivity.this,"部分功能未授权，请授权后再试！");
+                    ToastUtils.showShortToast(MainActivity.this, "部分功能未授权，请授权后再试！");
                 }
             }
 
@@ -197,9 +208,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             public void onBtnCancelOrderClass(int demandId) {
                 String str = "是否取消约课？";
                 int s = 3;
-                Map<String,String> data = new HashMap<>();
-                data.put("demandId",String.valueOf(demandId));
-                dialogCommon(str, s,data);
+                Map<String, String> data = new HashMap<>();
+                data.put("demandId", String.valueOf(demandId));
+                dialogCommon(str, s, data);
             }
         });
         mRecyclerView.setAdapter(recyclerAdapter);
@@ -250,15 +261,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         return View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(measureSpec), mode);
     }
 
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            AppUtils.fullScreenImmersive(getWindow());
-        }
-    }
-
     private void initEvent() {
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -284,11 +286,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         btn_check_device.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isPermissions()) {
+                if (PermissionsUtil.getInstance().isPermissions()) {
                     popupWindow.dismiss();
                     showCheckDeviceDialog();
                 } else {
-                    requestPermissions();
+                    PermissionsUtil.getInstance().requestPermissions(MainActivity.this);
                     Toast.makeText(MainActivity.this, "部分功能未授权，请授权后再试！", Toast.LENGTH_LONG).show();
                 }
             }
@@ -299,7 +301,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 popupWindow.dismiss();
                 String str = "是否需要清除缓存？";
                 int s = 1;
-                dialogCommon(str, s,null);
+                dialogCommon(str, s, null);
             }
         });
         btn_about_us.setOnClickListener(new View.OnClickListener() {
@@ -315,7 +317,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 popupWindow.dismiss();
                 String str1 = "是否退出登录？";
                 int s1 = 2;
-                dialogCommon(str1, s1,null);
+                dialogCommon(str1, s1, null);
             }
         });
     }
@@ -397,7 +399,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
      * @param msg
      * @param type
      */
-    private void dialogCommon(String msg, final int type,Map<String,String> data) {
+    private void dialogCommon(String msg, final int type, Map<String, String> data) {
         CommonDialog.Builder builder = new CommonDialog.Builder(this);
         builder.setMessage(msg);
         final CommonDialog twoButtonDialog = builder.createTwoButtonDialog();
@@ -425,8 +427,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     finish();
                     return;
                 }
-                if (type==3){
-                    if(data==null)return;
+                if (type == 3) {
+                    if (data == null) return;
                     mPresenter.canelOrderClass(Integer.parseInt(data.get("demandId")));
                     return;
                 }
@@ -475,7 +477,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         return super.onKeyDown(keyCode, event);
     }
 
-    @OnClick({R.id.id_mPersonalSettings, R.id.id_mRecord, R.id.id_GoGoTalk_Home,R.id.id_mBtn_HomePage})
+    @OnClick({R.id.id_mPersonalSettings, R.id.id_mRecord, R.id.id_GoGoTalk_Home, R.id.id_mBtn_HomePage})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.id_mPersonalSettings:
@@ -492,28 +494,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 break;
 
         }
-    }
-
-    public boolean isPermissions() {
-        return permissionList.size() == 3;
-    }
-
-    public void requestPermissions() {
-        permissionList.clear();
-        RxPermissions rxPermission = new RxPermissions(MainActivity.this);
-        rxPermission
-                .requestEach(Manifest.permission.CAMERA,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.RECORD_AUDIO
-                )
-                .subscribe(new Consumer<Permission>() {
-                    @Override
-                    public void accept(Permission permission) throws Exception {
-                        if (permission.granted) {
-                            permissionList.add(permission.granted);
-                        }
-                    }
-                });
     }
 
 }

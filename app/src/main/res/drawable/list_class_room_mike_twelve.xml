@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@mipmap/ic_class_room_mike_1"
+        android:duration="100" />
+    <item
+        android:drawable="@mipmap/ic_class_room_mike_2"
+        android:duration="1000" />
+    <item
+        android:drawable="@mipmap/ic_class_room_mike_3"
+        android:duration="1000" />
+    <item
+        android:drawable="@mipmap/ic_class_room_mike_4"
+        android:duration="1000" />
+    <item
+        android:drawable="@mipmap/ic_class_room_mike_5"
+        android:duration="1000" />
+    <item
+        android:drawable="@mipmap/ic_class_room_mike_6"
+        android:duration="1000" />
+    <item
+        android:drawable="@mipmap/ic_class_room_mike_7"
+        android:duration="1000" />
+    <item
+        android:drawable="@mipmap/ic_class_room_mike_8"
+        android:duration="100" />
+    <item
+        android:drawable="@mipmap/ic_class_room_mike_9"
+        android:duration="1000" />
+    <item
+        android:drawable="@mipmap/ic_class_room_mike_10"
+        android:duration="1000" />
+    <item
+        android:drawable="@mipmap/ic_class_room_mike_11"
+        android:duration="1000" />
+    <item
+        android:drawable="@mipmap/ic_class_room_mike_12"
+        android:duration="1000" />
+    <item
+        android:drawable="@mipmap/ic_class_room_mike_13"
+        android:duration="1000" />
+    <item
+        android:drawable="@mipmap/ic_class_room_mike_g"
+        android:duration="1000" />
+
+</animation-list>

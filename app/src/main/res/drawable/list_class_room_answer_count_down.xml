@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@mipmap/ic_class_room_answer_count_down10"
+        android:duration="100" />
+    <item
+        android:drawable="@mipmap/ic_class_room_answer_count_down9"
+        android:duration="1000" />
+    <item
+        android:drawable="@mipmap/ic_class_room_answer_count_down8"
+        android:duration="1000" />
+    <item
+        android:drawable="@mipmap/ic_class_room_answer_count_down7"
+        android:duration="1000" />
+    <item
+        android:drawable="@mipmap/ic_class_room_answer_count_down6"
+        android:duration="1000" />
+    <item
+        android:drawable="@mipmap/ic_class_room_answer_count_down5"
+        android:duration="1000" />
+    <item
+        android:drawable="@mipmap/ic_class_room_answer_count_down4"
+        android:duration="1000" />
+    <item
+        android:drawable="@mipmap/ic_class_room_answer_count_down3"
+        android:duration="1000" />
+    <item
+        android:drawable="@mipmap/ic_class_room_answer_count_down2"
+        android:duration="1000" />
+    <item
+        android:drawable="@mipmap/ic_class_room_answer_count_down1"
+        android:duration="1000" />
+    <item
+        android:drawable="@mipmap/ic_class_room_answer_count_down0"
+        android:duration="1000" />
+</animation-list>

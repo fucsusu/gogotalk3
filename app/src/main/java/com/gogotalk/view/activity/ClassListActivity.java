@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.gogotalk.R;
 import com.gogotalk.model.entity.BookLevelBean;
 import com.gogotalk.model.entity.GoGoBean;
@@ -23,6 +26,8 @@ import com.gogotalk.model.util.Constant;
 import com.gogotalk.presenter.ClassListContract;
 import com.gogotalk.presenter.ClassListPresenter;
 import com.gogotalk.util.AppUtils;
+import com.gogotalk.util.CoursewareDownLoadUtil;
+import com.gogotalk.util.PermissionsUtil;
 import com.gogotalk.util.ToastUtils;
 import com.gogotalk.view.adapter.ClassListAdapter;
 import com.gogotalk.view.adapter.ClassListLevelAdapter;
@@ -32,6 +37,7 @@ import com.gogotalk.view.widget.YuYueDialog;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -44,6 +50,8 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
     RecyclerView recyclerView;
     @BindView(R.id.id_mRecycler1_GoGo)
     RecyclerView mRecyclerView;
+    @BindView(R.id.class_list_rootview)
+    LinearLayout root_view;
 
     @BindView(R.id.layout_level)
     LinearLayout layoutLevel;
@@ -63,6 +71,7 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
     private YuYueDialog.Builder builder;
     private int mBookId;
     private int mChaptId;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +93,7 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
         super.onNewIntent(intent);
 
     }
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -91,6 +101,7 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
             AppUtils.fullScreenImmersive(getWindow());
         }
     }
+
     /**
      * 初始化
      */
@@ -106,7 +117,7 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
                     return;
                 }
                 String lessonTime = date + " " + time;
-                mPresenter.orderClass(mBookId,mChaptId,lessonTime);
+                mPresenter.orderClass(mBookId, mChaptId, lessonTime);
             }
         });
         View inflate = LayoutInflater.from(this).inflate(R.layout.popup_level, null, false);
@@ -158,16 +169,28 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
             }
 
             @Override
-            public void onBtnGoClassRoomClick(boolean flag, int attendId, String path, String time) {
-                if(!flag){
-                    ToastUtils.showShortToast(ClassListActivity.this,"课前10分钟才可以进入教室");
+            public void onBtnGoClassRoomClick(boolean flag, GoItemBean goItemBean) {
+                if (!flag) {
+                    ToastUtils.showShortToast(ClassListActivity.this, "课前10分钟才可以进入教室");
                     return;
                 }
-//                if (isPermissions()) {
-//
-//                } else {
-//                    ToastUtils.showShortToast( ClassListActivity.this,"部分功能未授权，请授权后再试！");
-//                }
+                if (PermissionsUtil.getInstance().isPermissions()) {
+                    CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(ClassListActivity.this, goItemBean.getZipDownLoadUrl(),
+                            root_view, goItemBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
+                                @Override
+                                public void finsh(String filePath) {
+                                    Intent mIntent = new Intent(ClassListActivity.this, ClassRoomActivity.class);
+                                    mIntent.putExtra("AttendLessonID", goItemBean.getAttendLessonID());
+                                    mIntent.putExtra("ChapterFilePath", goItemBean.getChapterFilePath());
+                                    mIntent.putExtra("LessonTime", goItemBean.getLessonTime());
+                                    mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, goItemBean.getTeacherName());
+                                    mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
+                                    startActivity(mIntent);
+                                }
+                            });
+                } else {
+                    ToastUtils.showShortToast(ClassListActivity.this, "部分功能未授权，请授权后再试！");
+                }
             }
 
             @Override
@@ -205,9 +228,9 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
                     ivLevel.setImageResource(R.mipmap.ic_class_list_drop_up);
                     popupWindow.setFocusable(false);
                     popupWindow.update();
-                    if("MI 8".equals(Build.MODEL)){
-                        popupWindow.showAsDropDown(v, AppUtils.getNavigationBarHeight(ClassListActivity.this)-25, 10);
-                    }else{
+                    if ("MI 8".equals(Build.MODEL)) {
+                        popupWindow.showAsDropDown(v, AppUtils.getNavigationBarHeight(ClassListActivity.this) - 25, 10);
+                    } else {
                         popupWindow.showAsDropDown(v, 10, 10);
                     }
                     AppUtils.fullScreenImmersive(popupWindow.getContentView());

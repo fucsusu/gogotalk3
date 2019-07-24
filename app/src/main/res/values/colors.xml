@@ -4,4 +4,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="color_white">#ffffffff</color>
+
+    <color name="popup_courseware_title">#B46CDB</color>
+    <color name="popup_courseware_title2">#A3B46CDB</color>
 </resources>

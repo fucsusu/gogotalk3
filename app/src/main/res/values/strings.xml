@@ -1,5 +1,5 @@
-<resources>
-    <string name="app_name">GogoTalk少儿英语</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" tools:ignore="ExtraTranslation">GogoTalk少儿英语</string>
     <string name="login_title">GoGoTalk少儿英语</string>
     <string name="login_input_phone_label">手机号</string>
     <string name="login_input_phone_hint">请输入手机号</string>
@@ -25,4 +25,16 @@
     <string name="record_empty_msg">小朋友你还没有上过我们的课程,\n赶快去上课赢取更多奖杯哦~</string>
     <string name="record_order_class">去约课</string>
     <string name="record_after_class">课后练习</string>
+
+    <string name="teacher">teacher</string>
+    <string name="cancel_class">取消约课</string>
+    <string name="ask_cancel_class">是否取消约课？</string>
+    <string name="close_video">您已经关闭自己的视频，其他小朋友将不能看到你了哦！</string>
+    <string name="open_video">您已经打开自己的视频，其他小朋友将能看到你了哦！</string>
+    <string name="birth_date">出生日期</string>
+    <string name="default_name">Bella</string>
+
+    <string name="courseware_load_txt1">课件加载中......  请耐心等待！</string>
+    <string name="courseware_load_txt2">为保证正常加载，请您不要退出或处于后台运行。</string>
+    <string name="courseware_load_txt">已加载:</string>
 </resources>

@@ -13,12 +13,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gogotalk.R;
 import com.gogotalk.model.entity.GoItemBean;
 import com.gogotalk.util.DateUtils;
+
 import java.util.List;
 
 public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.ViewHolder> {
@@ -166,8 +169,8 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
                 holder.mBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(btnClickLisener!=null){
-                            btnClickLisener.onYuYueClick(holder.BookID,holder.ChapterID);
+                        if (btnClickLisener != null) {
+                            btnClickLisener.onYuYueClick(holder.BookID, holder.ChapterID);
                         }
                     }
                 });
@@ -192,7 +195,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
             holder.mPreview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {//课前预习
-                    if(btnClickLisener!=null){
+                    if (btnClickLisener != null) {
                         btnClickLisener.onBtnClassPreviewClick(holder.BeforeFilePath);
                     }
                 }
@@ -208,8 +211,8 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
                     holder.mEnterClassroom.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {//进入教师
-                            if(btnClickLisener!=null){
-                                btnClickLisener.onBtnGoClassRoomClick(true,holder.AttendLessonIDs,holder.ChapterFilePath,LessonTimes);
+                            if (btnClickLisener != null) {
+                                btnClickLisener.onBtnGoClassRoomClick(true, goItemBean1);
                             }
                         }
                     });
@@ -218,8 +221,8 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
                     holder.mEnterClassroom.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {//进入教师
-                            if(btnClickLisener!=null){
-                                btnClickLisener.onBtnGoClassRoomClick(false,0,"","");
+                            if (btnClickLisener != null) {
+                                btnClickLisener.onBtnGoClassRoomClick(false, goItemBean1);
                             }
                         }
                     });
@@ -236,7 +239,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
         return 0;
     }
 
-    public interface IBtnClickLisener{
+    public interface IBtnClickLisener {
         /**
          * 课程预览事件
          */
@@ -245,9 +248,9 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
         /**
          * 进入教室事件
          */
-        void onBtnGoClassRoomClick(boolean flag,int attendId,String path,String time);
+        void onBtnGoClassRoomClick(boolean flag, GoItemBean goItemBean);
 
-        void onYuYueClick(int bookId,int chaptId);
+        void onYuYueClick(int bookId, int chaptId);
 
 
     }

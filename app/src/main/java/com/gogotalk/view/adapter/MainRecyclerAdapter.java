@@ -116,7 +116,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             holder.mPreview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(btnClickLisener!=null){
+                    if (btnClickLisener != null) {
                         btnClickLisener.onBtnClassPreviewClick(holder.BeforeFilePath);
                     }
                 }
@@ -136,8 +136,8 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 holder.mEnterClassroom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(btnClickLisener!=null){
-                            btnClickLisener.onBtnGoClassRoomClick(true);
+                        if (btnClickLisener != null) {
+                            btnClickLisener.onBtnGoClassRoomClick(true, coursesBean);
                         }
                     }
                 });
@@ -146,8 +146,8 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 holder.mEnterClassroom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(btnClickLisener!=null){
-                            btnClickLisener.onBtnGoClassRoomClick(false);
+                        if (btnClickLisener != null) {
+                            btnClickLisener.onBtnGoClassRoomClick(false, coursesBean);
                         }
                     }
                 });
@@ -159,7 +159,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                     if (XClickUtil.isFastDoubleClick(v, 1000)) {
                         return;
                     }
-                    if(btnClickLisener!=null){
+                    if (btnClickLisener != null) {
                         btnClickLisener.onBtnCancelOrderClass(holder.DetailRecordID);
                     }
                 }
@@ -184,7 +184,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         return 0;
     }
 
-    public interface IBtnClickLisener{
+    public interface IBtnClickLisener {
         /**
          * 课程预览事件
          */
@@ -193,7 +193,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         /**
          * 进入教室事件
          */
-        void onBtnGoClassRoomClick(boolean flag);
+        void onBtnGoClassRoomClick(boolean flag, CoursesBean coursesBean);
 
         /**
          * 取消预约课程事件

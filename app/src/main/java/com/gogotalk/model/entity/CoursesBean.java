@@ -30,6 +30,25 @@ public class CoursesBean {
     String Serial;//    -- 房间号 目前没用
     String SystemTime;// 系统时间，跟上课时间比较，判断什么时候进入教室按钮可点击
 
+    private String ZipDownLoadUrl;//zip下载路径
+    private String ZipEncrypInfo;//zip的md5
+
+    public String getZipDownLoadUrl() {
+        return ZipDownLoadUrl;
+    }
+
+    public void setZipDownLoadUrl(String zipDownLoadUrl) {
+        ZipDownLoadUrl = zipDownLoadUrl;
+    }
+
+    public String getZipEncrypInfo() {
+        return ZipEncrypInfo;
+    }
+
+    public void setZipEncrypInfo(String zipEncrypInfo) {
+        ZipEncrypInfo = zipEncrypInfo;
+    }
+
     public String getChapterFilePath() {
         return ChapterFilePath;
     }

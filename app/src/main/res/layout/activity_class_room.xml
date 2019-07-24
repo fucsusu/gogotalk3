@@ -1,9 +1,368 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:roundiv="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activity.ClassRoomActivity">
+    android:background="@mipmap/bg_app">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/user_video_class"
+        android:layout_width="163dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="163dp"
+            android:layout_height="0dp"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:background="@mipmap/bg_class_room_wait_teacher">
+
+            <ImageView
+                android:id="@+id/id_mWJR1_Class"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@mipmap/bg_class_room_wait_teacher"
+                roundiv:corner_radius="8dp" />
+
+            <TextureView
+                android:id="@+id/id_mVideo1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/id_mTeacherName_Class"
+                android:layout_width="29dp"
+                android:layout_height="12dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/shap_class_room_teacher_name_bg"
+                android:gravity="center"
+                android:text="@string/teacher"
+                android:textColor="#fff"
+                android:textSize="7sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/id_mRela_Class"
+            android:layout_width="163dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1">
+
+
+            <TextureView
+                android:id="@+id/id_mVideo2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:visibility="visible" />
+
+            <TextView
+                android:layout_width="29dp"
+                android:layout_height="12dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/shap_class_room_student_name_bg"
+                android:gravity="center"
+                android:text="me"
+                android:textColor="#fff"
+                android:textSize="7sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:gravity="bottom"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="3dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_class_room_jb" />
+
+                <TextView
+                    android:id="@+id/id_mMyJB_Class"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="0"
+                    android:textColor="#fff"
+                    android:textSize="10sp" />
+
+
+                <TextView
+                    android:id="@+id/id_mMyName_Class"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:textColor="#FFFFFF"
+                    android:textSize="8sp" />
+            </LinearLayout>
+
+
+            <CheckBox
+                android:id="@+id/id_SXTCheck1_Class"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/select_class_room_video"
+                android:button="@null"
+                android:checked="true"
+                android:clickable="true" />
+
+            <ImageView
+                android:id="@+id/id_mImageJY_Class"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:src="@mipmap/ic_class_room_jb_jiayi"
+                android:visibility="invisible" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="163dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/id_mWJR2_Class"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@mipmap/bg_class_room_student_video_off"
+                roundiv:corner_radius="8dp" />
+
+            <TextureView
+                android:id="@+id/id_mVideo3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:gravity="bottom"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="3dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_class_room_jb" />
+
+                <TextView
+                    android:id="@+id/jb_num_other_class"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="0"
+                    android:textColor="#fff"
+                    android:textSize="10sp" />
+
+
+                <TextView
+                    android:id="@+id/id_mYouName_Class"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/default_name"
+                    android:textColor="#fff"
+                    android:textSize="8sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/id_SXTCheck2_Class"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/select_class_room_video"
+                    android:button="@null"
+                    android:checked="false"
+                    android:clickable="false" />
+
+                <CheckBox
+                    android:id="@+id/id_SYCheck_Class"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/select_class_room_voice"
+                    android:button="@null"
+                    android:checked="false"
+                    android:clickable="false" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/jb_jiayi_other_Class"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:src="@mipmap/ic_class_room_jb_jiayi"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+    <!--课件-->
+    <FrameLayout
+        android:id="@+id/courseware_class"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@id/user_video_class">
+
+
+        <WebView
+            android:id="@+id/id_mWebView_Class"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/id_mDJS_Class"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/bg_class_room_wait_class_begin"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="105dp"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="bottom"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/id_mTime_Class"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="15:30"
+                        android:textColor="#fff"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/id_mGuanB_Class"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:src="@mipmap/ic_class_room_sign_out" />
+
+        <ImageView
+            android:id="@+id/id_mMkfPhoto_Class"
+            android:layout_width="119dp"
+            android:layout_height="80dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:src="@mipmap/ic_class_room_mike_a"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/answer_countdown_class"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:background="@drawable/list_class_room_answer_count_down"
+            android:visibility="invisible" />
+
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/id_mImageJB_Class"
+        android:layout_width="120dp"
+        android:layout_height="125dp"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="60dp"
+        android:src="@mipmap/ic_class_room_jb_big"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/class_jb_xing"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:layout_marginLeft="80dp"
+        android:background="@mipmap/bg_class_room_jb_xing_big"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/jb_other_class"
+        android:layout_width="100dp"
+        android:layout_height="105dp"
+        android:layout_alignRight="@id/courseware_class"
+        android:layout_alignBottom="@id/courseware_class"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="50dp"
+        android:src="@mipmap/ic_class_room_jb_big"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/jb_xing_other_class"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignRight="@id/courseware_class"
+        android:layout_alignBottom="@id/courseware_class"
+        android:src="@mipmap/bg_class_room_jb_xing_big"
+        android:visibility="invisible" />
+</RelativeLayout>

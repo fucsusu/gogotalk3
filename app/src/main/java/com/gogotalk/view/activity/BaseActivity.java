@@ -43,8 +43,8 @@ public abstract class BaseActivity<T extends BaseContract.Presenter> extends App
         initInject();
         if (mPresenter != null)
             mPresenter.attachView(this);
-        initView();
         getIntentData();
+        initView();
         AppManager.getAppManager().addActivity(this);
     }
     protected ActivityComponent getActivityComponent() {
@@ -101,6 +101,14 @@ public abstract class BaseActivity<T extends BaseContract.Presenter> extends App
     public void hideLoading() {
         if (loadingDialog.isShowing()) {
             loadingDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            AppUtils.fullScreenImmersive(getWindow());
         }
     }
 }

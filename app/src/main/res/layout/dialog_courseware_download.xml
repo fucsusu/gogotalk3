@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="420dp"
+        android:layout_height="220dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:background="@mipmap/bg_dialog_coursware_load">
+
+        <TextView
+            android:id="@+id/courseware_title_popup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="35dp"
+            android:layout_marginRight="50dp"
+            android:text="@string/courseware_load_txt1"
+            android:textColor="@color/popup_courseware_title"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/courseware_load_txt_popup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/courseware_title_popup"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="@string/courseware_load_txt"
+            android:textColor="@color/popup_courseware_title" />
+
+        <ProgressBar
+            android:id="@+id/courseware_load_progress_popup"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="330dp"
+            android:layout_height="35dp"
+            android:layout_below="@id/courseware_load_txt_popup"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:progressDrawable="@drawable/list_coursware_load_progress" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/courseware_load_progress_popup"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="@string/courseware_load_txt2"
+            android:textColor="@color/popup_courseware_title2"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

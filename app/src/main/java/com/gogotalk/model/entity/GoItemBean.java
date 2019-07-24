@@ -12,6 +12,7 @@ package com.gogotalk.model.entity;
 public class GoItemBean {
     private String BeforeFilePath;//课前练习
     private int ChapterID;// --教材ID
+    String TeacherName="";//--外教名称
     private int BookID;// --书本ID
     private String ChapterName;//--教材名称
     private String ChapterEnglishtName;//--教材英文名
@@ -26,6 +27,25 @@ public class GoItemBean {
     private String AttendLessonID;//--课程ID（目前作为房间推流ID使用）
     private int LessonStatus;//--状态 0 是未开始  1 上课中 2 即将开始 3 已结
     private String SystemTime;//-- 系统时间，跟上课时间比较，判断什么时候进入教
+
+    private String ZipDownLoadUrl;//zip下载路径
+    private String ZipEncrypInfo;//zip的md5
+
+    public String getZipDownLoadUrl() {
+        return ZipDownLoadUrl;
+    }
+
+    public void setZipDownLoadUrl(String zipDownLoadUrl) {
+        ZipDownLoadUrl = zipDownLoadUrl;
+    }
+
+    public String getZipEncrypInfo() {
+        return ZipEncrypInfo;
+    }
+
+    public void setZipEncrypInfo(String zipEncrypInfo) {
+        ZipEncrypInfo = zipEncrypInfo;
+    }
 
 
     public String getChapterFilePath() {
@@ -154,6 +174,14 @@ public class GoItemBean {
 
     public void setLessonTime(String lessonTime) {
         LessonTime = lessonTime;
+    }
+
+    public String getTeacherName() {
+        return TeacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        TeacherName = teacherName;
     }
 
     @Override
