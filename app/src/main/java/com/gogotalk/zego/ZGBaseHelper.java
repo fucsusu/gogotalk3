@@ -2,6 +2,7 @@ package com.gogotalk.zego;
 
 import android.app.Application;
 
+import com.gogotalk.system.zego.ZGPublishHelper;
 import com.zego.zegoliveroom.ZegoLiveRoom;
 import com.zego.zegoliveroom.callback.IZegoInitSDKCompletionCallback;
 import com.zego.zegoliveroom.callback.IZegoLoginCompletionCallback;
