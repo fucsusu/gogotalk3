@@ -3,6 +3,8 @@ package com.gogotalk.system.zego;
 import android.view.Surface;
 import android.view.View;
 
+import com.gogotalk.zego.AppLogger;
+import com.gogotalk.zego.ZGBaseHelper;
 import com.zego.zegoliveroom.ZegoLiveRoom;
 import com.zego.zegoliveroom.callback.IZegoLivePublisherCallback;
 import com.zego.zegoliveroom.constants.ZegoConstants;
