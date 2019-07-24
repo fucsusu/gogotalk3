@@ -4,12 +4,12 @@ import android.util.Log;
 import android.view.View;
 
 import com.gogotalk.model.util.Constant;
+import com.gogotalk.system.zego.ZGPublishHelper;
 import com.gogotalk.util.AppUtils;
 import com.gogotalk.zego.AppLogger;
 import com.gogotalk.zego.ZGBaseHelper;
 import com.gogotalk.zego.ZGMediaSideInfoDemo;
 import com.gogotalk.zego.ZGPlayHelper;
-import com.gogotalk.zego.ZGPublishHelper;
 import com.gogotalk.zego.ZegoUtil;
 import com.orhanobut.logger.Logger;
 import com.zego.zegoliveroom.ZegoLiveRoom;
