@@ -34,6 +34,7 @@ import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.presenter.MainContract;
 import com.gogotalk.system.presenter.MainPresenter;
 import com.gogotalk.system.util.AppUtils;
+import com.gogotalk.system.util.AutoUpdateUtil;
 import com.gogotalk.system.util.CoursewareDownLoadUtil;
 import com.gogotalk.system.util.DataCleanManager;
 import com.gogotalk.system.util.DelectFileUtil;
@@ -123,7 +124,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         mPresenter.getUserInfoData(true, false);
         mPresenter.getClassListData(false, true);
         mHandler.postDelayed(r, 1000 * 60 * 3);
-//        AutoUpdateUtil.getInstance().checkForUpdates(this);
+        AutoUpdateUtil.getInstance().checkForUpdates(this);
         delectCoursewareFile();
     }
 
