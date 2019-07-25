@@ -463,7 +463,14 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
      * 关于弹窗
      */
     private void showAboutDialog() {
-        new AboutDialog.Builder(MainActivity.this).create().show();
+        new AboutDialog.Builder(MainActivity.this).create(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mIntent3 = new Intent(MainActivity.this, InteractiveGamesActivity.class);
+                mIntent3.putExtra("AfterFilePath", "https://hbr.gogo-talk.com/Privacy/index.html");
+                startActivity(mIntent3);
+            }
+        }).show();
     }
 
     /**

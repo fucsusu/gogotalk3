@@ -1,58 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="304dp"
-    android:layout_height="174dp"
+    android:layout_height="194dp"
     android:background="@mipmap/bg_dialog_about_us"
     android:orientation="vertical">
+
     <ImageView
-        android:layout_marginRight="17dp"
-        android:layout_marginTop="17dp"
-        android:layout_gravity="right"
+        android:id="@+id/btn_close"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:id="@+id/btn_close"
-        android:src="@mipmap/ic_btn_common_close"/>
+        android:layout_gravity="right"
+        android:layout_marginTop="17dp"
+        android:layout_marginRight="17dp"
+        android:src="@mipmap/ic_btn_common_close" />
+
     <LinearLayout
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
         <ImageView
-            android:layout_marginTop="33dp"
             android:layout_width="57dp"
             android:layout_height="57dp"
-            android:src="@mipmap/ic_dialog_about_us_header"/>
+            android:layout_marginTop="33dp"
+            android:src="@mipmap/ic_dialog_about_us_header" />
+
         <TextView
-            android:layout_marginTop="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:text="GogoTalk少儿英语"
             android:textColor="#ff333333"
-            android:textSize="10sp"
-            />
+            android:textSize="10sp" />
+
         <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:paddingLeft="25dp"
             android:layout_marginBottom="20dp"
             android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:paddingLeft="25dp">
+
             <TextView
                 android:id="@+id/tv_version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="版本号：1.0.0"
                 android:textColor="#ff333333"
-                android:textSize="10sp"
-                />
+                android:textSize="10sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="客服电话：400-6767-671"
                 android:textColor="#ff333333"
-                android:textSize="10sp"
-                />
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/dialog_about_private"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/poivacy_statement"
+                android:textColor="#ff333333"
+                android:textSize="10sp" />
         </LinearLayout>
 
     </LinearLayout>

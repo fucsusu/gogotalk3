@@ -22,6 +22,7 @@ import com.gogotalk.system.R;
 import com.gogotalk.system.model.util.Constant;
 
 import java.lang.reflect.Method;
+
 import butterknife.BindView;
 
 /**
@@ -35,14 +36,6 @@ public class InteractiveGamesActivity extends BaseActivity {
     @BindView(R.id.goback_game)
     ImageView gobank_game;
     private String gameUrl;
-    private Dialog dialog;
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            webView.loadUrl(gameUrl);
-        }
-    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,6 +56,8 @@ public class InteractiveGamesActivity extends BaseActivity {
         super.getIntentData();
         Intent mIntent = getIntent();
         gameUrl = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_GAME_URL);
+        webView.loadUrl(gameUrl);
+        showLoading("加载中...");
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -135,6 +130,7 @@ public class InteractiveGamesActivity extends BaseActivity {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 view.loadUrl("javascript:try{autoplay();}catch(e){}");
+                hideLoading();
             }
 
         });
@@ -149,7 +145,6 @@ public class InteractiveGamesActivity extends BaseActivity {
                 super.onShowCustomView(view, callback);
             }
         });
-        handler.sendEmptyMessageDelayed(1, 1000);
 //        webSettings.setDefaultTextEncodingName("UTF-8");
         gobank_game.setOnClickListener(new View.OnClickListener() {
             @Override
