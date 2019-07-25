@@ -5,6 +5,7 @@ import com.gogotalk.system.model.entity.AppInfoDownLoadBean;
 import com.gogotalk.system.model.entity.BookLevelBean;
 import com.gogotalk.system.model.entity.ClassDetailBean;
 import com.gogotalk.system.model.entity.CoursesBean;
+import com.gogotalk.system.model.entity.EnglishNameListBean;
 import com.gogotalk.system.model.entity.GoGoBean;
 import com.gogotalk.system.model.entity.RecordBean;
 import com.gogotalk.system.model.entity.ResponseModel;
@@ -55,7 +56,17 @@ public interface ApiService {
     @GET("/api/Lesson/JoinAttendLesson")
     Flowable<ResponseModel<Object>> orderClass(@Query("bookID") int bookID, @Query("chapterID") int chapterID, @Query("lessonTime") String lessonTime);
 
-    @GET("api/User/GetNewestVersionInfo?devicetype=4")
+    @GET("/api/User/GetNewestVersionInfo?devicetype=4")
     Flowable<ResponseModel<AppInfoDownLoadBean>> getNewAppVersionInfo();
+
+    @Headers({"Content-Type:application/json", "Accept: application/json"})
+    @POST("/api/User/UpdateStudentInfo")
+    Flowable<ResponseModel<Object>> updateUserInfo(@Body RequestBody body);
+
+    @GET("/api/User/GetEnglishNameList")
+    Flowable<ResponseModel<EnglishNameListBean>> getEnglishNameListData(@Query("sexFlag") int sex);
+
+    @GET("/api/User/SeacheEnglishName")
+    Flowable<ResponseModel<List<String>>> searchEnglishNameListData(@Query("sexFlag") int sex,@Query("wordName") String keyword);
 }
 

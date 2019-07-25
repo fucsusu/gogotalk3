@@ -8,6 +8,8 @@ import com.gogotalk.system.view.activity.ClassRoomActivity;
 import com.gogotalk.system.view.activity.LoginActivity;
 import com.gogotalk.system.view.activity.MainActivity;
 import com.gogotalk.system.view.activity.RecordActivity;
+import com.gogotalk.system.view.activity.SearchNameActivity;
+import com.gogotalk.system.view.activity.SelectNameActivity;
 import com.gogotalk.system.view.activity.WelcomeActivity;
 
 import dagger.Component;
@@ -22,4 +24,6 @@ public interface ActivityComponent {
     void inject(ClassDetailActivity activity);
     void inject(ClassListActivity activity);
     void inject(ClassRoomActivity activity);
+    void inject(SelectNameActivity activity);
+    void inject(SearchNameActivity activity);
 }
