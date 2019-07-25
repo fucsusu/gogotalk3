@@ -178,13 +178,15 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
                             root_view, goItemBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
                                 @Override
                                 public void finsh(String filePath) {
-                                    Intent mIntent = new Intent(ClassListActivity.this, ClassRoomActivity.class);
-                                    mIntent.putExtra("AttendLessonID", goItemBean.getAttendLessonID());
-                                    mIntent.putExtra("ChapterFilePath", goItemBean.getChapterFilePath());
-                                    mIntent.putExtra("LessonTime", goItemBean.getLessonTime());
-                                    mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, goItemBean.getTeacherName());
-                                    mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
-                                    startActivity(mIntent);
+                                    if (!TextUtils.isEmpty(filePath)) {
+                                        Intent mIntent = new Intent(ClassListActivity.this, ClassRoomActivity.class);
+                                        mIntent.putExtra("AttendLessonID", goItemBean.getAttendLessonID());
+                                        mIntent.putExtra("ChapterFilePath", goItemBean.getChapterFilePath());
+                                        mIntent.putExtra("LessonTime", goItemBean.getLessonTime());
+                                        mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, goItemBean.getTeacherName());
+                                        mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
+                                        startActivity(mIntent);
+                                    }
                                 }
                             });
                 } else {

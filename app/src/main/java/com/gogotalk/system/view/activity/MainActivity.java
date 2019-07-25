@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +36,7 @@ import com.gogotalk.system.presenter.MainPresenter;
 import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.util.CoursewareDownLoadUtil;
 import com.gogotalk.system.util.DataCleanManager;
+import com.gogotalk.system.util.DelectFileUtil;
 import com.gogotalk.system.util.PermissionsUtil;
 import com.gogotalk.system.util.SPUtils;
 import com.gogotalk.system.util.ScreenUtils;
@@ -45,6 +48,7 @@ import com.gogotalk.system.view.widget.CommonDialog;
 import com.gogotalk.system.view.widget.SpaceItemDecoration;
 import com.gogotalk.system.view.widget.UserInfoDialogV2;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -120,6 +124,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         mPresenter.getClassListData(false, true);
         mHandler.postDelayed(r, 1000 * 60 * 3);
 //        AutoUpdateUtil.getInstance().checkForUpdates(this);
+        delectCoursewareFile();
     }
 
     /**
@@ -194,13 +199,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                             root_view, coursesBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
                                 @Override
                                 public void finsh(String filePath) {
-                                    Intent mIntent = new Intent(MainActivity.this, ClassRoomActivity.class);
-                                    mIntent.putExtra("AttendLessonID", coursesBean.getAttendLessonID());
-                                    mIntent.putExtra("ChapterFilePath", coursesBean.getChapterFilePath());
-                                    mIntent.putExtra("LessonTime", coursesBean.getLessonTime());
-                                    mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, coursesBean.getTeacherName());
-                                    mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
-                                    startActivity(mIntent);
+                                    if (!TextUtils.isEmpty(filePath)) {
+                                        Intent mIntent = new Intent(MainActivity.this, ClassRoomActivity.class);
+                                        mIntent.putExtra("AttendLessonID", coursesBean.getAttendLessonID());
+                                        mIntent.putExtra("ChapterFilePath", coursesBean.getChapterFilePath());
+                                        mIntent.putExtra("LessonTime", coursesBean.getLessonTime());
+                                        mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, coursesBean.getTeacherName());
+                                        mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
+                                        startActivity(mIntent);
+                                    }
                                 }
                             });
                 } else {
@@ -395,7 +402,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
     private void showUserInfoDialogV2() {
-        if(AppUtils.getUserInfoData()==null)return;
+        if (AppUtils.getUserInfoData() == null) return;
         userInfoDialogBuilder.setSex(AppUtils.getUserInfoData().getSex()).setName(AppUtils.getUserInfoData().getNameEn());
         userInfoDialog.setSaveClickLisener(new UserInfoDialogV2.OnSaveClickLisener() {
             @Override
@@ -523,6 +530,21 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 startActivity(new Intent(MainActivity.this, ClassListActivity.class));
                 break;
 
+        }
+    }
+
+
+    //删除过期文件夹
+    private void delectCoursewareFile() {
+        File filesDir = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+        File[] files = filesDir.listFiles();
+        for (int i = 0; i < files.length; i++) {
+            if (!files[i].getName().contains("apk")) {
+                //创建超出一天删除
+                if (System.currentTimeMillis() - files[i].lastModified() > 24 * 60 * 60 * 1000) {
+                    DelectFileUtil.DeleteFolder(files[i]);
+                }
+            }
         }
     }
 
