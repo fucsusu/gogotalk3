@@ -391,7 +391,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
     private void showUserInfoDialogV2() {
         if(AppUtils.getUserInfoData()==null)return;
-        userInfoDialogBuilder.setName(AppUtils.getUserInfoData().getNameEn()).setSex(AppUtils.getUserInfoData().getSex());
+        userInfoDialogBuilder.setSex(AppUtils.getUserInfoData().getSex()).setName(AppUtils.getUserInfoData().getNameEn());
         userInfoDialog.setSaveClickLisener(new UserInfoDialogV2.OnSaveClickLisener() {
             @Override
             public void onClick(int sex, String name) {
