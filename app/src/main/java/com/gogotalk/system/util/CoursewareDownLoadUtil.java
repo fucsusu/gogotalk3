@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -23,10 +24,11 @@ import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.gogotalk.system.R;
-
+import com.gogotalk.system.app.AiRoomApplication;
 import java.io.File;
+
+import javax.inject.Inject;
 
 /**
  * Created by fucc
@@ -43,6 +45,8 @@ public class CoursewareDownLoadUtil {
     public long downloadId;
     private boolean isDowFinsh = false;
     private CoursewareDownFinsh mDownFinsh;
+    @Inject
+    BaseDownLoadFileImpl downLoadFile;
 
     Handler handler = new Handler() {
         @Override
@@ -55,10 +59,24 @@ public class CoursewareDownLoadUtil {
                     break;
                 case 2:
                     Log.e("TAG", "dispatchMessage: 解压成功");
+                    saveFile.renameTo(new File(mContent.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + fileMd5));
                     destory();
                     if (mDownFinsh != null) {
                         mDownFinsh.finsh(saveFile.getAbsolutePath());
                     }
+                    break;
+                case 3:
+                    String downLoadFileUrl = msg.getData().getString("downLoadFileUrl");
+                    isDowFinsh = true;
+                    mProgress.setMax(100);
+                    mProgress.setProgress(100);
+                    mProgressTxt.setText(mContent.getResources().getString(R.string.courseware_load_txt) + "100%");
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mZipProcess(new File(downLoadFileUrl));
+                        }
+                    }).start();
                     break;
             }
         }
@@ -128,7 +146,7 @@ public class CoursewareDownLoadUtil {
         }
     }
 
-    public void downloadCourseware(Context mContent, String fileUrl, View view, String fileMd5, CoursewareDownFinsh finsh) {
+    public void downloadCourseware(final Context mContent, String fileUrl, final View view, String fileMd5, CoursewareDownFinsh finsh) {
         this.mDownFinsh = finsh;
         this.mContent = mContent;
         this.fileMd5 = fileMd5;
@@ -141,29 +159,32 @@ public class CoursewareDownLoadUtil {
             return;
         }
         //创建文件夹
-        saveFile = new File(mContent.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + fileMd5);
+        saveFile = new File(mContent.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + fileMd5+"_");
         if (!saveFile.exists()) {
             saveFile.mkdirs();
         }
-        //创建request对象
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(fileUrl))
-                //设置什么网络情况下可以下载
-                .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE)
-                //设置通知栏的标题
-                .setTitle("下载")
-                //设置通知栏的message
-                .setDescription("正在加载最新课件.....")
-                //设置漫游状态下是否可以下载
-                .setAllowedOverRoaming(false)
-                //设置文件存放目录
-                .setDestinationInExternalFilesDir(mContent, Environment.DIRECTORY_DOWNLOADS, fileMd5 + "zip");
-        //获取系统服务
-        downloadManager = (DownloadManager) mContent.getSystemService(Context.DOWNLOAD_SERVICE);
-        //进行下载
-        downloadId = downloadManager.enqueue(request);
-        showDownloadPopup(mContent, view);
-        registerReceiver();
-        handler.sendEmptyMessageDelayed(1, 500);
+        if(isDownLoadFileExit(fileMd5)){
+            showDownloadPopup(mContent, view);
+            Message message = handler.obtainMessage();
+            message.what = 3;
+            Bundle data = message.getData();
+            data.putString("downLoadFileUrl",mContent.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + fileMd5+"zip");
+            handler.sendMessage(message);
+            return;
+        }
+        downLoadFile = AiRoomApplication.getInstance().getNetComponent().getDownLoadFileImpl();
+        downLoadFile.setDownLoadingLisener(new BaseDownLoadFileImpl.IDownLoadingLisener() {
+            @Override
+            public void onDownLoading(long downLoadId) {
+                downloadId = downLoadId;
+                showDownloadPopup(mContent, view);
+                registerReceiver();
+                handler.sendEmptyMessageDelayed(1, 500);
+            }
+        });
+        downLoadFile.downLoadFile(mContent,fileUrl,fileMd5);
+        downloadManager = downLoadFile.getDownloadManager();
+
     }
 
     //判断文件是否存在
@@ -173,7 +194,7 @@ public class CoursewareDownLoadUtil {
         File[] files = filesDir.listFiles();
         boolean isApkExit = false;
         for (int i = 0; i < files.length; i++) {
-            if (files[i].getName().contains(fileMd5)) {
+            if (files[i].getName().equals(fileMd5)) {
                 Log.e("TAG", "isCoursewareExistence: 已存在课件");
                 isApkExit = true;
                 break;
@@ -181,7 +202,22 @@ public class CoursewareDownLoadUtil {
         }
         return isApkExit;
     }
-
+    //判断下载文件是否存在
+    private boolean isDownLoadFileExit(String fileMd5) {
+        File filesDir = mContent.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+        File[] files = filesDir.listFiles();
+        boolean isApkExit = false;
+        for (int i = 0; i < files.length; i++) {
+            if (files[i].getName().contains("zip")) {
+                String zipMd5 = files[i].getName().substring(0, files[i].getName().lastIndexOf("zip"));
+                if(zipMd5.equals(fileMd5)){
+                    isApkExit = true;
+                }
+                break;
+            }
+        }
+        return isApkExit;
+    }
     /**
      * Zip处理
      */
