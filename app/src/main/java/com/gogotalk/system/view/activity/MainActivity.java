@@ -19,9 +19,11 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gogotalk.system.R;
@@ -42,10 +44,12 @@ import com.gogotalk.system.view.widget.CheckDeviceDialog;
 import com.gogotalk.system.view.widget.CommonDialog;
 import com.gogotalk.system.view.widget.SpaceItemDecoration;
 import com.gogotalk.system.view.widget.UserInfoDialogV2;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -90,7 +94,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     private PopupWindow popupWindow;
     TextView btn_check_device, btn_clear_cache, btn_about_us, btn_out_login;
     RadioButton btn_setting;
-//    UserInfoDialog.Builder userInfoDialogBuilder;
+    //    UserInfoDialog.Builder userInfoDialogBuilder;
 //    UserInfoDialog userInfoDialog;
     UserInfoDialogV2.Builder userInfoDialogBuilder;
     UserInfoDialogV2 userInfoDialog;
@@ -242,7 +246,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     public void onUpdateUserInfoSuceess() {
         userInfoDialog.dismiss();
-        mPresenter.getUserInfoData(false,true);
+        mPresenter.getUserInfoData(false, true);
     }
 
     @Override
@@ -389,17 +393,19 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 //            }
 //        });
     }
+
     private void showUserInfoDialogV2() {
-        if(AppUtils.getUserInfoData()==null)return;
+        if (AppUtils.getUserInfoData() == null) return;
         userInfoDialogBuilder.setName(AppUtils.getUserInfoData().getNameEn()).setSex(AppUtils.getUserInfoData().getSex());
         userInfoDialog.setSaveClickLisener(new UserInfoDialogV2.OnSaveClickLisener() {
             @Override
             public void onClick(int sex, String name) {
-                mPresenter.updateUserInfo(name,sex);
+                mPresenter.updateUserInfo(name, sex);
             }
         });
         userInfoDialog.show();
     }
+
     /**
      * 暂停轮训
      */
@@ -467,7 +473,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             @Override
             public void onClick(View view) {
                 Intent mIntent3 = new Intent(MainActivity.this, InteractiveGamesActivity.class);
-                mIntent3.putExtra("AfterFilePath", "https://hbr.gogo-talk.com/Privacy/index.html");
+                mIntent3.putExtra(Constant.INTENT_DATA_KEY_GAME_URL, "https://hbr.gogo-talk.com/Privacy/index.html");
                 startActivity(mIntent3);
             }
         }).show();
