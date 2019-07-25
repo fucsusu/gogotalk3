@@ -7,7 +7,7 @@
     android:background="@mipmap/bg_main_class_list_item_empty">
 
 
-    <ImageView
+    <com.gogotalk.system.view.widget.RoundedImageView
         android:id="@+id/id_mImg_XX"
         android:layout_width="130dp"
         android:layout_height="68dp"
@@ -17,6 +17,7 @@
         android:layout_marginTop="38dp"
         android:scaleType="fitXY"
         android:src="@mipmap/ic_main_user_info_header_default"
+        roundiv:corner_radius="9dp"
          />
 
     <ImageView
