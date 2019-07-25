@@ -21,7 +21,7 @@ public class WelcomeActivity extends BaseActivity<LoginPresenter> implements Log
                 String username = SPUtils.getString(Constant.SP_KEY_USERNAME, "");
                 String password = SPUtils.getString(Constant.SP_KEY_PASSWORD, "");
                 if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
-                    mPresenter.login(username,password,false);
+                    mPresenter.login(username,password,false,true);
                     return;
                 }
                 startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));

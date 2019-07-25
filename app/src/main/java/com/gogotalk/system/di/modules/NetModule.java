@@ -3,9 +3,11 @@ package com.gogotalk.system.di.modules;
 import android.text.TextUtils;
 
 import com.gogotalk.system.BuildConfig;
+import com.gogotalk.system.di.scopes.DownLoadUtilcope;
 import com.gogotalk.system.model.api.ApiService;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.model.util.GsonUtils;
+import com.gogotalk.system.util.BaseDownLoadFileImpl;
 import com.gogotalk.system.util.SPUtils;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.orhanobut.logger.Logger;
@@ -30,6 +32,18 @@ import static com.gogotalk.system.model.util.Constant.PATH_RELEASE_URL;
 
 @Module
 public class NetModule {
+
+    private BaseDownLoadFileImpl downLoadFile;
+
+    public NetModule(BaseDownLoadFileImpl downLoadFile) {
+        this.downLoadFile = downLoadFile;
+    }
+
+    @Provides
+    @Singleton
+    public BaseDownLoadFileImpl provideDownLoadFileImpl() {
+        return this.downLoadFile;
+    }
 
     @Provides
     @Singleton
@@ -66,7 +80,7 @@ public class NetModule {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(okhttpClient)
                 .baseUrl(PATH_RELEASE_URL)
-                //.baseUrl(PATH_DEBUG_URL)
+//                .baseUrl(PATH_DEBUG_URL)
                 .addConverterFactory(GsonConverterFactory.create(GsonUtils.gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="366dp"
+    android:layout_height="297dp"
+    android:background="@mipmap/bg_dialog_check_device"
+    android:orientation="vertical">
+    <ImageView
+        android:layout_marginRight="17dp"
+        android:layout_marginTop="17dp"
+        android:layout_gravity="right"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:id="@+id/btn_close"
+        android:src="@mipmap/ic_btn_common_close"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <RadioGroup
+            android:id="@+id/rg_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="47dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_man"
+                android:layout_width="58dp"
+                android:layout_height="68dp"
+                android:button="@null"
+                android:checked="true"
+                android:drawableTop="@drawable/selector_sex_man"
+                android:gravity="center" />
+
+            <RadioButton
+                android:id="@+id/rb_women"
+                android:layout_width="58dp"
+                android:layout_height="68dp"
+                android:layout_marginLeft="34dp"
+                android:button="@null"
+                android:drawableTop="@drawable/selector_sex_women"
+                android:gravity="center" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:id="@+id/layout_select_name"
+            android:layout_width="wrap_content"
+            android:layout_height="31dp"
+            android:layout_below="@+id/rg_sex"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:background="@mipmap/bg_user_info_input"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:text="英文名"
+                android:textColor="#ff666666"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="12dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center"
+                android:textColor="#ff333333"
+                android:textCursorDrawable="@null"
+                android:textSize="10sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="6dp"
+                android:src="@mipmap/btn_user_info_right" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@mipmap/btn_user_info_update"
+            android:stateListAnimator="@null"
+            android:text="保存信息"
+            android:textColor="@android:color/white"
+            android:textSize="11sp" />
+    </LinearLayout>
+</FrameLayout>

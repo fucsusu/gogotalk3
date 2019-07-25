@@ -19,11 +19,9 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gogotalk.system.R;
@@ -32,7 +30,6 @@ import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.presenter.MainContract;
 import com.gogotalk.system.presenter.MainPresenter;
 import com.gogotalk.system.util.AppUtils;
-import com.gogotalk.system.util.AutoUpdateUtil;
 import com.gogotalk.system.util.CoursewareDownLoadUtil;
 import com.gogotalk.system.util.DataCleanManager;
 import com.gogotalk.system.util.PermissionsUtil;
@@ -44,13 +41,11 @@ import com.gogotalk.system.view.widget.AboutDialog;
 import com.gogotalk.system.view.widget.CheckDeviceDialog;
 import com.gogotalk.system.view.widget.CommonDialog;
 import com.gogotalk.system.view.widget.SpaceItemDecoration;
-import com.gogotalk.system.view.widget.UserInfoDialog;
-
+import com.gogotalk.system.view.widget.UserInfoDialogV2;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -95,8 +90,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     private PopupWindow popupWindow;
     TextView btn_check_device, btn_clear_cache, btn_about_us, btn_out_login;
     RadioButton btn_setting;
-    UserInfoDialog.Builder userInfoDialogBuilder;
-    UserInfoDialog userInfoDialog;
+//    UserInfoDialog.Builder userInfoDialogBuilder;
+//    UserInfoDialog userInfoDialog;
+    UserInfoDialogV2.Builder userInfoDialogBuilder;
+    UserInfoDialogV2 userInfoDialog;
     /**
      * 轮训刷新数据
      */
@@ -118,7 +115,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         mPresenter.getUserInfoData(true, false);
         mPresenter.getClassListData(false, true);
         mHandler.postDelayed(r, 1000 * 60 * 3);
-        AutoUpdateUtil.getInstance().checkForUpdates(this);
+//        AutoUpdateUtil.getInstance().checkForUpdates(this);
     }
 
     /**
@@ -129,6 +126,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        if (intent != null) {
+            switch (intent.getIntExtra(Constant.INTENT_DATA_KEY_DIRECTION, 0)) {
+                case Constant.DIRECTION_SELECTNAME_TO_HOME:
+                    userInfoDialogBuilder.setName(intent.getStringExtra(Constant.INTENT_DATA_KEY_NAME));
+                    return;
+            }
+        }
         mPresenter.getUserInfoData(true, false);
         mPresenter.getClassListData(false, true);
         mHandler.postDelayed(r, 1000 * 60 * 3);
@@ -147,7 +151,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     protected void initView() {
         super.initView();
-        userInfoDialogBuilder = new UserInfoDialog.Builder(this);
+//        userInfoDialogBuilder = new UserInfoDialog.Builder(this);
+        userInfoDialogBuilder = new UserInfoDialogV2.Builder(this);
+        userInfoDialog = userInfoDialogBuilder.create();
         final View inflate = LayoutInflater.from(this).inflate(R.layout.popup_shezhi, null, false);
         popupWindow = new PopupWindow(inflate, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setBackgroundDrawable(getResources().getDrawable(R.mipmap.bg_main_popu_setting));
@@ -231,6 +237,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     public void onCanelOrderClassSuccess() {
         mPresenter.getClassListData(true, true);
+    }
+
+    @Override
+    public void onUpdateUserInfoSuceess() {
+        userInfoDialog.dismiss();
+        mPresenter.getUserInfoData(false,true);
     }
 
     @Override
@@ -361,12 +373,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
      * 个人信息对话框
      */
     private void showUserInfoDialog() {
-        userInfoDialogBuilder = new UserInfoDialog.Builder(this);
-        userInfoDialog = userInfoDialogBuilder.setName(AppUtils.getUserInfoData().getName())
-                .setSex(AppUtils.getUserInfoData().getSex())
-                .setDate(AppUtils.getUserInfoData().getAge())
-                .setHeader(AppUtils.getUserInfoData().getImageUrl()).create();
-        userInfoDialog.show();
+//        userInfoDialogBuilder = new UserInfoDialog.Builder(this);
+//        userInfoDialog = userInfoDialogBuilder.setName(AppUtils.getUserInfoData().getName())
+//                .setSex(AppUtils.getUserInfoData().getSex())
+//                .setDate(AppUtils.getUserInfoData().getAge())
+//                .setHeader(AppUtils.getUserInfoData().getImageUrl()).create();
+//        userInfoDialog.show();
 //        userInfoDialog.setOnNameClickLisener(new UserInfoDialog.OnNameClickLisener() {
 //            @Override
 //            public void onClick(int sex) {
@@ -377,7 +389,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 //            }
 //        });
     }
-
+    private void showUserInfoDialogV2() {
+        if(AppUtils.getUserInfoData()==null)return;
+        userInfoDialogBuilder.setName(AppUtils.getUserInfoData().getNameEn()).setSex(AppUtils.getUserInfoData().getSex());
+        userInfoDialog.setSaveClickLisener(new UserInfoDialogV2.OnSaveClickLisener() {
+            @Override
+            public void onClick(int sex, String name) {
+                mPresenter.updateUserInfo(name,sex);
+            }
+        });
+        userInfoDialog.show();
+    }
     /**
      * 暂停轮训
      */
@@ -475,7 +497,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.id_mPersonalSettings:
-                showUserInfoDialog();
+//                showUserInfoDialog();
+                showUserInfoDialogV2();
                 break;
             case R.id.id_mRecord:
                 startActivity(new Intent(MainActivity.this, RecordActivity.class));

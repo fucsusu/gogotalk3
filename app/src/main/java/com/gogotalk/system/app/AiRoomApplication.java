@@ -11,6 +11,7 @@ import com.gogotalk.system.di.components.NetComponent;
 import com.gogotalk.system.di.modules.NetModule;
 import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.util.SPUtils;
+import com.gogotalk.system.util.SystemDownLoadFileImpl;
 import com.gogotalk.system.zego.ZGBaseHelper;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.DiskLogAdapter;
@@ -53,7 +54,7 @@ public class AiRoomApplication extends Application {
      */
     private void initNet() {
         netComponent = DaggerNetComponent.builder()
-                .netModule(new NetModule())
+                .netModule(new NetModule(new SystemDownLoadFileImpl()))
                 .build();
     }
 

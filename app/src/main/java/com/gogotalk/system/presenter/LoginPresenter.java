@@ -8,7 +8,9 @@ import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.model.util.HttpUtils;
 import com.gogotalk.system.model.util.RxUtil;
 import com.gogotalk.system.util.SPUtils;
+import com.gogotalk.system.view.activity.LoginActivity;
 import com.gogotalk.system.view.activity.MainActivity;
+import com.gogotalk.system.view.activity.WelcomeActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +26,7 @@ public class LoginPresenter extends RxPresenter<LoginContract.View> implements L
     }
 
     @Override
-    public void login(String username,String password,boolean isLoading) {
+    public void login(String username,String password,boolean isLoading,boolean isAuto) {
         Map<String,String> map= new HashMap<>();
         map.put("UserName",username);
         map.put("Password",password);
@@ -60,6 +62,15 @@ public class LoginPresenter extends RxPresenter<LoginContract.View> implements L
                             return false;
                         }
                         return super.isHideLoading();
+                    }
+
+                    @Override
+                    public void onFail() {
+                        super.onFail();
+                        if(isAuto){
+                            getView().getActivity().startActivity(new Intent(getView().getActivity(), LoginActivity.class));
+                            getView().getActivity().finish();
+                        }
                     }
                 })
         );

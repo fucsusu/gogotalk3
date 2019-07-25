@@ -46,7 +46,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @OnClick(R.id.btn_login_submit) void submit() {
         if(validateInputData()){
-            mPresenter.login(etLoginPhone.getText().toString(),etLoginPassword.getText().toString(),true);
+            mPresenter.login(etLoginPhone.getText().toString(),etLoginPassword.getText().toString(),true,false);
         }
     }
     /**
