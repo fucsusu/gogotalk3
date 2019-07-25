@@ -45,6 +45,12 @@ public class CommonDialog extends Dialog {
             tvMessage.setText(msg);
             return this;
         }
+        public Builder(Context context, View layout) {
+            dialog = new CommonDialog(context, R.style.Dialog);
+            this.layout = layout;
+            tvMessage = layout.findViewById(R.id.tv_message);
+            dialog.addContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
 
         //设置正确按钮点击事件
         public CommonDialog.Builder setPositiveButton(String positiveButtonText, View.OnClickListener listener) {
@@ -77,6 +83,12 @@ public class CommonDialog extends Dialog {
             return dialog;
         }
 
+        public CommonDialog create(boolean flag) {
+            dialog.setContentView(layout);
+            dialog.setCancelable(flag);     //用户可以点击手机Back键取消对话框显示
+            dialog.setCanceledOnTouchOutside(false);        //用户不能通过点击对话框之外的地方取消对话框显示
+            return dialog;
+        }
     }
 
 }

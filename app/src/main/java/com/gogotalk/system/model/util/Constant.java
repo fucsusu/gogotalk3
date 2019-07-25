@@ -27,6 +27,8 @@ public class Constant {
     //文件下载路径
     public static final String INTENT_DATA_KEY_DOWNLOAD_FILE_PATH = "LessonFile";
 
+    //apk下载默认前缀
+    public static final String DOWNLOAD_APK = "gogotalk";
     //媒体信息标识
     public static final int HANDLE_INFO_CLASS_BEGIN = 1;
     public static final int HANDLE_INFO_ANSWER = 2;

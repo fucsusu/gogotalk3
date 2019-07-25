@@ -12,7 +12,9 @@ import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+
 import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Interceptor;
@@ -23,6 +25,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.gogotalk.system.model.util.Constant.PATH_DEBUG_URL;
 import static com.gogotalk.system.model.util.Constant.PATH_RELEASE_URL;
 
 @Module
@@ -44,11 +47,11 @@ public class NetModule {
                         Request request = chain.request();
                         Request.Builder builder = request.newBuilder();
                         String usertoken = SPUtils.getString(Constant.SP_KEY_USERTOKEN);
-                        if(!TextUtils.isEmpty(usertoken)){
+                        if (!TextUtils.isEmpty(usertoken)) {
                             builder.addHeader("Authorization", usertoken);
                         }
                         Request build = builder.build();
-                        Logger.i("==================="+usertoken+"=====================");
+                        Logger.i("===================" + usertoken + "=====================");
                         return chain.proceed(build);
                     }
                 })
@@ -56,20 +59,23 @@ public class NetModule {
 
         return okhttpClient;
     }
+
     @Provides
     @Singleton
     public Retrofit provideRetrofit(OkHttpClient okhttpClient) {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(okhttpClient)
                 .baseUrl(PATH_RELEASE_URL)
+                //.baseUrl(PATH_DEBUG_URL)
                 .addConverterFactory(GsonConverterFactory.create(GsonUtils.gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         return retrofit;
     }
+
     @Provides
     @Singleton
-    public ApiService provideApiService(Retrofit retrofit){
+    public ApiService provideApiService(Retrofit retrofit) {
         return retrofit.create(ApiService.class);
     }
 }
