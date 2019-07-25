@@ -16,6 +16,11 @@ import com.gogotalk.system.zego.ZGBaseHelper;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.DiskLogAdapter;
 import com.orhanobut.logger.Logger;
+import com.pgyersdk.Pgyer;
+import com.pgyersdk.PgyerActivityManager;
+import com.pgyersdk.crash.PgyCrashManager;
+import com.pgyersdk.crash.PgyerCrashObservable;
+import com.pgyersdk.crash.PgyerObserver;
 
 public class AiRoomApplication extends Application {
     private static AiRoomApplication instance;
@@ -30,6 +35,7 @@ public class AiRoomApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        initPgyCrash();
         initNet();
         initLogger();
         initJGSDK();
@@ -68,5 +74,20 @@ public class AiRoomApplication extends Application {
 
     private void initJGSDK() {
         ZGBaseHelper.sharedInstance().setSDKContextEx(null, null, 10 * 1024 * 1024, this);
+    }
+    private void initPgyCrash(){
+        PgyCrashManager.register();
+        PgyerCrashObservable.get().attach(new PgyerObserver() {
+            @Override
+            public void receivedCrash(Thread thread, Throwable throwable) {
+
+            }
+        });
+        PgyerActivityManager.set(this);
+    }
+    @Override
+    protected void attachBaseContext(Context context) {
+        super.attachBaseContext(context);
+        Pgyer.setAppId("3910c14dcae4e4ffae296905a2fff5d3");
     }
 }

@@ -21,10 +21,6 @@ public class SystemDownLoadFileImpl extends BaseDownLoadFileImpl{
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(fileUrl))
                 //设置什么网络情况下可以下载
                 .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE)
-                //设置通知栏的标题
-                .setTitle("下载")
-                //设置通知栏的message
-                .setDescription("正在加载最新课件.....")
                 //设置漫游状态下是否可以下载
                 .setAllowedOverRoaming(false)
                 //设置文件存放目录
