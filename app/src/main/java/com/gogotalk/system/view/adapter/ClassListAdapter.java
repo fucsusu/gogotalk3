@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -20,7 +21,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.entity.GoItemBean;
+import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.util.DateUtils;
+import com.gogotalk.system.view.activity.ClassDetailActivity;
 
 import java.util.List;
 
@@ -40,7 +43,9 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
         RelativeLayout mLayout1;//背景
         ImageView mImg, mImg1;
         ImageView mImgs;
-        LinearLayout mLayout2, mLayout3;
+        LinearLayout mLayout2;
+        FrameLayout mLayout3;
+        ImageView ivSuoBg;
         Button mBtn, mPreview, mEnterClassroom;
         int stye;
         int ChapterStatus;
@@ -68,6 +73,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
                 mImgs = itemView.findViewById(R.id.id_mImg_XXItem);
                 mTime = itemView.findViewById(R.id.id_mTime_GoItem);
                 mLayout3 = itemView.findViewById(R.id.id_mSuo_GoItem);
+                ivSuoBg = itemView.findViewById(R.id.iv_suo_bg);
                 mPreview = itemView.findViewById(R.id.id_mPreview_GoItem);
                 mStey = itemView.findViewById(R.id.id_mStey_GoItem);
                 mEnterClassroom = itemView.findViewById(R.id.id_mEnterClassroom_GoItem);
@@ -123,8 +129,9 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
             holder.BeforeFilePath = goItemBean1.getBeforeFilePath();
             holder.LessonTime = goItemBean1.getLessonTime();
             String url = goItemBean1.getChapterImagePath();
-            Glide.with(context).load(url).placeholder(R.mipmap.ic_main_list_item_header_default)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE).into(holder.mImgs);
+            AppUtils.bindImageToView(context
+                    ,url,R.mipmap.ic_main_list_item_header_default
+                    ,holder.mImgs,null,9,137,77);
 //        String mYear = DateUtils.StringDatas();
 //        holder.LessonTimes = mYear + "-" + holder.LessonTime;
 //        String startDateTime = DateUtils.getCurrentTime();

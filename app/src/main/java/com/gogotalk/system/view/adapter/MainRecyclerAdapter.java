@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.entity.CoursesBean;
+import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.util.DateUtils;
 import com.gogotalk.system.util.XClickUtil;
 
@@ -98,8 +99,9 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             holder.BeforeFilePath = coursesBean.getBeforeFilePath();
             holder.AfterFilePath = coursesBean.getAfterFilePath();
             String url = coursesBean.getChapterCoverImgUrl();
-            Glide.with(context).load(url).placeholder(R.mipmap.ic_main_list_item_header_default)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE).into(holder.mImg);
+            AppUtils.bindImageToView(context
+                    ,url,R.mipmap.ic_main_list_item_header_default
+                    ,holder.mImg,null,9,137,77);
             holder.mPreview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

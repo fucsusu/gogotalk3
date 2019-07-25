@@ -79,10 +79,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             ToastUtils.showLongToast(LoginActivity.this,R.string.login_toast_empty_msg);
             return false;
         }
-        if(!RegexUtils.isMobileExact(phone)){
-            ToastUtils.showLongToast(LoginActivity.this,R.string.login_toast_phone_error_msg);
-            return false;
-        }
+//        if(!RegexUtils.isMobileExact(phone)){
+//            ToastUtils.showLongToast(LoginActivity.this,R.string.login_toast_phone_error_msg);
+//            return false;
+//        }
         return true;
     }
 }

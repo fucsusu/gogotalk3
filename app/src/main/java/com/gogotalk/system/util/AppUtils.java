@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.entity.UserInfoBean;
@@ -206,10 +207,24 @@ public class AppUtils {
     public static void bindImageToView(Context context, String imageUrl, int defaultResId, ImageView view,DiskCacheStrategy cache,boolean isCircle){
         RequestBuilder<Drawable> placeholder = Glide.with(context)
                 .load(imageUrl)
-                .placeholder(defaultResId);
-                if(isCircle){
-                    placeholder.apply(RequestOptions.circleCropTransform());
-                }
-                placeholder.diskCacheStrategy(cache==null?DiskCacheStrategy.NONE:cache).into(view);
+                .placeholder(defaultResId)
+                .error(defaultResId);
+        if(isCircle){
+            RoundedCorners roundedCorners= new RoundedCorners(6);
+            RequestOptions options=RequestOptions.bitmapTransform(roundedCorners).override(300, 300);
+            placeholder.apply(RequestOptions.circleCropTransform());
+        }
+        placeholder.diskCacheStrategy(cache==null?DiskCacheStrategy.NONE:cache).into(view);
+    }
+
+    public static void bindImageToView(Context context, String imageUrl, int defaultResId, ImageView view,DiskCacheStrategy cache,int roundingRadius,int width,int height){
+        RequestBuilder<Drawable> placeholder = Glide.with(context)
+                .load(imageUrl)
+                .placeholder(defaultResId)
+                .error(defaultResId);
+            RoundedCorners roundedCorners= new RoundedCorners(roundingRadius);
+            RequestOptions options=RequestOptions.bitmapTransform(roundedCorners).override(width, height);
+            placeholder.apply(options);
+            placeholder.diskCacheStrategy(cache==null?DiskCacheStrategy.NONE:cache).into(view);
     }
 }
