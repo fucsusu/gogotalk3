@@ -100,8 +100,8 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             holder.AfterFilePath = coursesBean.getAfterFilePath();
             String url = coursesBean.getChapterCoverImgUrl();
             AppUtils.bindImageToView(context
-                    ,url,R.mipmap.ic_main_list_item_header_default
-                    ,holder.mImg,null,9,137,77);
+                    , url, R.mipmap.ic_main_list_item_header_default
+                    , holder.mImg, null, 9, 137, 77);
             holder.mPreview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -125,6 +125,9 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 holder.mEnterClassroom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if (XClickUtil.isFastDoubleClick(v, 1000)) {
+                            return;
+                        }
                         if (btnClickLisener != null) {
                             btnClickLisener.onBtnGoClassRoomClick(true, coursesBean);
                         }
@@ -135,6 +138,9 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 holder.mEnterClassroom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if (XClickUtil.isFastDoubleClick(v, 1000)) {
+                            return;
+                        }
                         if (btnClickLisener != null) {
                             btnClickLisener.onBtnGoClassRoomClick(false, coursesBean);
                         }

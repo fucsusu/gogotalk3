@@ -3,7 +3,6 @@ package com.gogotalk.system.di.modules;
 import android.text.TextUtils;
 
 import com.gogotalk.system.BuildConfig;
-import com.gogotalk.system.di.scopes.DownLoadUtilcope;
 import com.gogotalk.system.model.api.ApiService;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.model.util.GsonUtils;

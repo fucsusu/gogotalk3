@@ -15,28 +15,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.core.content.FileProvider;
 
 import com.gogotalk.system.R;
 import com.gogotalk.system.app.AiRoomApplication;
-import com.gogotalk.system.model.api.ApiService;
 import com.gogotalk.system.model.entity.AppInfoDownLoadBean;
 import com.gogotalk.system.model.entity.ResponseModel;
-import com.gogotalk.system.model.util.CommonSubscriber;
 import com.gogotalk.system.model.util.Constant;
-import com.gogotalk.system.model.util.GsonUtils;
 import com.gogotalk.system.model.util.RxUtil;
 import com.gogotalk.system.view.widget.CommonDialog;
-import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
 
 import io.reactivex.functions.Consumer;
 
@@ -55,6 +48,7 @@ public class AutoUpdateUtil {
     public int versionNumber;
     public DownloadCompleteReceiver completeReceiver;
     public Context activity;
+    public TextView progressRate;
 
 
     private class DownloadCompleteReceiver extends BroadcastReceiver {
@@ -162,6 +156,7 @@ public class AutoUpdateUtil {
         LayoutInflater lInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View inflate = lInflater.inflate(R.layout.dialog_download_progress, null);
         progressBar = inflate.findViewById(R.id.progress_download);
+        progressRate = inflate.findViewById(R.id.progress_rate);
         CommonDialog.Builder builder = new CommonDialog.Builder(activity, inflate);
         commonDialog = builder.create(false);
         commonDialog.show();
@@ -228,6 +223,9 @@ public class AutoUpdateUtil {
             int mDownload_all = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
             progressBar.setProgress(mDownload_so_far);
             progressBar.setMax(mDownload_all);
+            if (mDownload_so_far > 0 && mDownload_all > 0) {
+                progressRate.setText("下载进度：" + mDownload_so_far / (mDownload_all / 100) + "%");
+            }
             if (!c.isClosed()) {
                 c.close();
             }
@@ -242,7 +240,7 @@ public class AutoUpdateUtil {
             while (isDownLoad) {
                 getDownloadPercent();
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

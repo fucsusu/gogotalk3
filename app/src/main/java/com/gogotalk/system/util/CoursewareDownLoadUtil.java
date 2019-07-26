@@ -269,6 +269,7 @@ public class CoursewareDownLoadUtil {
                     }
                 }else {
                     oldIndex=mDownload_so_far;
+                    pause=0;
                 }
                 handler.sendEmptyMessageDelayed(1, 500);
             } else {

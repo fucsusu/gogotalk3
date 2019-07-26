@@ -13,6 +13,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
@@ -217,12 +218,12 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         }
 
         //是否需要开启课程开始倒计时
-//        int timeDiff = DateUtils.getTimeDiff(endDateTime);
-//        if (timeDiff > 0) {
-//            sendHandleMessage(Constant.HANDLE_INFO_CLASS_BEGIN, 1000, timeDiff);
-//        } else {
-//        }
-        classBegin();
+        int timeDiff = DateUtils.getTimeDiff(endDateTime);
+        if (timeDiff > 0) {
+            sendHandleMessage(Constant.HANDLE_INFO_CLASS_BEGIN, 1000, timeDiff);
+        } else {
+            classBegin();
+        }
     }
 
     @OnClick(R.id.id_mGuanB_Class)
@@ -688,5 +689,14 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
             handler = null;
         }
         AnimatorUtils.destory();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            dialog();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

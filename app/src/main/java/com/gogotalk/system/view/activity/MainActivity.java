@@ -191,10 +191,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             @Override
             public void onBtnGoClassRoomClick(boolean flag, CoursesBean coursesBean) {
-//                if (!flag) {
-//                    ToastUtils.showShortToast(MainActivity.this, "课前10分钟才可以进入教室");
-//                    return;
-//                }
+                if (!flag) {
+                    ToastUtils.showShortToast(MainActivity.this, "课前10分钟才可以进入教室");
+                    return;
+                }
                 if (PermissionsUtil.getInstance().isPermissions()) {
                     CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(MainActivity.this, coursesBean.getZipDownLoadUrl(),
                             root_view, coursesBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {

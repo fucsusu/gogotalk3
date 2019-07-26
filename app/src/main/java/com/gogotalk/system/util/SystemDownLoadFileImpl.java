@@ -3,6 +3,7 @@ package com.gogotalk.system.util;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 
 import javax.inject.Inject;
@@ -28,6 +29,7 @@ public class SystemDownLoadFileImpl extends BaseDownLoadFileImpl {
                 .setAllowedOverRoaming(false)
                 //设置文件存放目录
                 .setDestinationInExternalFilesDir(context.getApplicationContext(), Environment.DIRECTORY_DOWNLOADS, fileName + "zip");
+
         //获取系统服务
         downloadManager = (DownloadManager) context.getApplicationContext().getSystemService(Context.DOWNLOAD_SERVICE);
         //进行下载
