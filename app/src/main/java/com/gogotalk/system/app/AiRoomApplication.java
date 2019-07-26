@@ -60,7 +60,7 @@ public class AiRoomApplication extends Application {
      */
     private void initNet() {
         netComponent = DaggerNetComponent.builder()
-                .netModule(new NetModule(new SystemDownLoadFileImpl()))
+                .netModule(new NetModule())
                 .build();
     }
 
@@ -75,7 +75,8 @@ public class AiRoomApplication extends Application {
     private void initJGSDK() {
         ZGBaseHelper.sharedInstance().setSDKContextEx(null, null, 10 * 1024 * 1024, this);
     }
-    private void initPgyCrash(){
+
+    private void initPgyCrash() {
         PgyCrashManager.register();
         PgyerCrashObservable.get().attach(new PgyerObserver() {
             @Override
@@ -85,6 +86,7 @@ public class AiRoomApplication extends Application {
         });
         PgyerActivityManager.set(this);
     }
+
     @Override
     protected void attachBaseContext(Context context) {
         super.attachBaseContext(context);

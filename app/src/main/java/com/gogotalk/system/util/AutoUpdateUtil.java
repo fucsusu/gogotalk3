@@ -40,54 +40,13 @@ import io.reactivex.functions.Consumer;
 public class AutoUpdateUtil {
     private static AutoUpdateUtil autoUpdateUtil = new AutoUpdateUtil();
     public ProgressDialog dialog;
-    private DownloadManager downloadManager;
-    private boolean isDownLoad = false;
-    public long downloadId;
     public ProgressBar progressBar;
     public CommonDialog commonDialog;
     public int versionNumber;
-    public DownloadCompleteReceiver completeReceiver;
     public Context activity;
     public TextView progressRate;
+    public String filename;
 
-
-    private class DownloadCompleteReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            //在广播中取出下载任务的id
-            long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-            DownloadManager.Query query = new DownloadManager.Query();
-            DownloadManager dm = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-            query.setFilterById(id);
-            Log.e("TAG", "onReceive: 下载完成通知");
-            Cursor c = dm.query(query);
-            if (c != null) {
-                try {
-                    if (c.moveToFirst()) {
-                        String uri = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
-                        String filename = "";
-                        if (uri != null) {
-                            File file = new File(Uri.parse(uri).getPath());
-                            filename = file.getName();
-                        }
-                        if (!filename.contains("gogotalk")) {
-                            return;
-                        }
-                        int status = c.getInt(c.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS));
-                        if (status == DownloadManager.STATUS_SUCCESSFUL) {
-                            String path = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + filename;
-                            installApk(context, path);
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    c.close();
-                }
-            }
-        }
-    }
 
     public static AutoUpdateUtil getInstance() {
         if (autoUpdateUtil != null) {
@@ -168,83 +127,29 @@ public class AutoUpdateUtil {
         if (isApkExistence()) {
             return;
         }
-        //创建request对象
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(fileUrl))
-                //设置什么网络情况下可以下载
-                .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE)
-                //设置通知栏的标题
-                .setTitle("下载")
-                //设置通知栏的message
-                .setDescription("GoGoTalk正在下载.....")
-                //设置漫游状态下是否可以下载
-                .setAllowedOverRoaming(false)
-                //设置文件存放目录
-                .setDestinationInExternalFilesDir(activity, Environment.DIRECTORY_DOWNLOADS, Constant.DOWNLOAD_APK + versionNumber + ".apk");
-        //获取系统服务
-        downloadManager = (DownloadManager) activity.getSystemService(Context.DOWNLOAD_SERVICE);
-        //进行下载
-        downloadId = downloadManager.enqueue(request);
+        //开始下载
+        AiRoomApplication.getInstance().getNetComponent().getDownLoadFileImpl()
+                .setDownLoadingLisener(downLoadingLisener)
+                .downLoadFile(activity, fileUrl, Constant.DOWNLOAD_APK + versionNumber + ".apk");
         showDownLoadProgress();
-        isDownLoad = true;
-        progessThread.start();
-        registerReceiver();
     }
 
-    //注册下载完成广播
-    private void registerReceiver() {
-        completeReceiver = new DownloadCompleteReceiver();
-        activity.registerReceiver(completeReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-    }
-
-    //注销广播
-    private void unregisterReceiver() {
-        if (completeReceiver != null) {
-            activity.unregisterReceiver(completeReceiver);
-        }
-    }
-
-
-    //获取下载进度刷新界面
-    private void getDownloadPercent() {
-        Cursor c = downloadManager.query(new DownloadManager.Query().setFilterById(downloadId));
-        if (c == null) {
-            Log.e("TAG", "getDownloadPercent:下载失败 ");
-            destory();
-        } else { // 以下是从游标中进行信息提取
-            if (!c.moveToFirst()) {
-                Log.e("TAG", "getDownloadPercent:下载失败 ");
-                if (!c.isClosed()) {
-                    c.close();
-                }
-                destory();
-                return;
-            }
-            int mDownload_so_far = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
-            int mDownload_all = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
-            progressBar.setProgress(mDownload_so_far);
-            progressBar.setMax(mDownload_all);
-            if (mDownload_so_far > 0 && mDownload_all > 0) {
-                progressRate.setText("下载进度：" + mDownload_so_far / (mDownload_all / 100) + "%");
-            }
-            if (!c.isClosed()) {
-                c.close();
-            }
-        }
-    }
-
-    //获取下载进度线程
-    Thread progessThread = new Thread() {
+    BaseDownLoadFileImpl.IDownLoadingLisener downLoadingLisener = new BaseDownLoadFileImpl.IDownLoadingLisener() {
         @Override
-        public void run() {
-            super.run();
-            while (isDownLoad) {
-                getDownloadPercent();
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+        public void onDownLoadFinsh() {
+            installApk(activity, activity.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator +filename );
+        }
+
+        @Override
+        public void onDownLoadFail() {
+            destory();
+        }
+
+        @Override
+        public void onDownLoadProgress(int current, int toatal) {
+            progressBar.setProgress(current);
+            progressBar.setMax(toatal);
+            progressRate.setText("下载进度：" + current / (toatal / 100) + "%");
         }
     };
 
@@ -253,7 +158,7 @@ public class AutoUpdateUtil {
         File filesDir = activity.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
         File[] files = filesDir.listFiles();
         List<String> s = new ArrayList<>();
-        String filename = Constant.DOWNLOAD_APK + versionNumber + ".apk";
+        filename = Constant.DOWNLOAD_APK + versionNumber + ".apk";
         boolean isApkExit = false;
         for (int i = 0; i < files.length; i++) {
             if (filename.equals(files[i].getName())) {
@@ -288,12 +193,8 @@ public class AutoUpdateUtil {
 
     //释放资源
     public void destory() {
-        isDownLoad = false;
         if (commonDialog != null) {
             commonDialog.dismiss();
-        }
-        if (completeReceiver != null) {
-            unregisterReceiver();
         }
     }
 }

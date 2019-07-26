@@ -1,17 +1,10 @@
 package com.gogotalk.system.util;
 
-import android.app.DownloadManager;
-import android.content.BroadcastReceiver;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -26,10 +19,18 @@ import android.widget.Toast;
 
 import com.gogotalk.system.R;
 import com.gogotalk.system.app.AiRoomApplication;
+import com.gogotalk.system.model.util.RxUtil;
 
 import java.io.File;
 
 import javax.inject.Inject;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by fucc
@@ -39,46 +40,17 @@ import javax.inject.Inject;
 public class CoursewareDownLoadUtil {
     private static CoursewareDownLoadUtil mUtil;
     public ProgressBar mProgress;
-    public DownloadCompleteReceiver completeReceiver;
     public Context mContent;
-    public DownloadManager downloadManager;
     public PopupWindow popupWindow;
     public long downloadId;
-    private boolean isDowFinsh = false;
     private CoursewareDownFinsh mDownFinsh;
     @Inject
     BaseDownLoadFileImpl downLoadFile;
-
-    Handler handler = new Handler() {
-        @Override
-        public void dispatchMessage(Message msg) {
-            switch (msg.what) {
-                case 1:
-                    if (!isDowFinsh) {
-                        getDownloadPercent();
-                    }
-                    break;
-                case 2:
-                    Log.e("TAG", "dispatchMessage: 解压成功");
-                    File file = new File(mContent.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + fileMd5);
-                    saveFile.renameTo(file);
-                    destory();
-                    if (mDownFinsh != null) {
-                        mDownFinsh.finsh(file.getAbsolutePath());
-                    }
-                    break;
-                case 3:
-                    downLoadFail();
-                    break;
-            }
-        }
-    };
     public TextView mProgressTxt;
     //存储路径
     public String fileMd5;
     public File saveFile;
-    public int oldIndex;
-    public int pause;
+    public File zipFile;
 
     public static CoursewareDownLoadUtil getCoursewareUtil() {
         if (mUtil == null) {
@@ -94,52 +66,7 @@ public class CoursewareDownLoadUtil {
         }
     }
 
-    private class DownloadCompleteReceiver extends BroadcastReceiver {
-
-        public File file;
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            //在广播中取出下载任务的id
-            long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-            DownloadManager.Query query = new DownloadManager.Query();
-            DownloadManager dm = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-            query.setFilterById(id);
-            Log.e("TAG", "onReceive: 下载完成通知");
-            Cursor c = dm.query(query);
-            if (c != null) {
-                try {
-                    if (c.moveToFirst()) {
-                        String uri = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
-                        String filename = "";
-                        if (uri != null) {
-                            file = new File(Uri.parse(uri).getPath());
-                            filename = file.getName();
-                        }
-                        Log.e("TAG", "onReceive:下载完成 " + file.getAbsolutePath());
-
-                        if (filename.contains("zip")) {
-                            isDowFinsh = true;
-                            mProgress.setMax(100);
-                            mProgress.setProgress(100);
-                            mProgressTxt.setText(mContent.getResources().getString(R.string.courseware_load_txt) + "100%");
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mZipProcess(file);
-                                }
-                            }).start();
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    c.close();
-                }
-            }
-        }
-    }
-
+    //开始下载文件
     public void downloadCourseware(final Context mContent, String fileUrl, final View view, String fileMd5, CoursewareDownFinsh finsh) {
         this.mDownFinsh = finsh;
         this.mContent = mContent;
@@ -157,64 +84,77 @@ public class CoursewareDownLoadUtil {
         if (!saveFile.exists()) {
             saveFile.mkdirs();
         }
-        downLoadFile = AiRoomApplication.getInstance().getNetComponent().getDownLoadFileImpl();
-        downLoadFile.setDownLoadingLisener(new BaseDownLoadFileImpl.IDownLoadingLisener() {
-            @Override
-            public void onDownLoading(long downLoadId) {
-                downloadId = downLoadId;
-                showDownloadPopup(mContent, view);
-                registerReceiver();
-                handler.sendEmptyMessageDelayed(1, 500);
-            }
-        });
-        downLoadFile.downLoadFile(mContent, fileUrl, fileMd5);
-        downloadManager = downLoadFile.getDownloadManager();
+
+        zipFile = new File(mContent.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + fileMd5 + "zip");
+        if (zipFile.exists()) {
+            DelectFileUtil.deleteDirectory(zipFile);
+        }
+        //开始下载
+        AiRoomApplication.getInstance().getNetComponent().getDownLoadFileImpl()
+                .setDownLoadingLisener(downLoadingLisener)
+                .downLoadFile(mContent, fileUrl, fileMd5 + "zip1");
+        showDownloadPopup(mContent, view);
     }
 
-    //判断文件是否存在
-    private boolean isCoursewareExistence(String fileMd5) {
-        File filesDir = mContent.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-        Log.e("TAG", "isCoursewareExistence: " + filesDir.getAbsolutePath());
-        File[] files = filesDir.listFiles();
-        boolean isFileExit = false;
-        for (int i = 0; i < files.length; i++) {
-            if (files[i].getName().equals(fileMd5)) {
-                Log.e("TAG", "isCoursewareExistence: 已存在课件");
-                isFileExit = true;
-                break;
-            }
+    BaseDownLoadFileImpl.IDownLoadingLisener downLoadingLisener = new BaseDownLoadFileImpl.IDownLoadingLisener() {
+        @Override
+        public void onDownLoadFinsh() {
+            mZipProcess();
         }
-        return isFileExit;
-    }
+
+        @Override
+        public void onDownLoadFail() {
+            downLoadFail();
+        }
+
+        @Override
+        public void onDownLoadProgress(int current, int toatal) {
+            mProgress.setMax(toatal);
+            mProgress.setProgress(current);
+            mProgressTxt.setText(mContent.getResources().getString(R.string.courseware_load_txt) + Math.abs(current / (toatal / 100)) + "%");
+            Log.e("TAG", "getDownloadPercent: " + current + "||" + toatal + "|||" + Math.abs(current / (toatal / 100)));
+        }
+    };
 
     /**
      * Zip处理
      */
-    public void mZipProcess(File zipFile) {
-        ZipUtils.UnZipFolder(zipFile.getAbsolutePath(), saveFile.getAbsolutePath(), new ZipUtils.IProgress() {
+    public void mZipProcess() {
+        Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
-            public void onProgress(int progress) {
-                Log.e("TAG", "onProgress: " + progress);
-            }
+            public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
+                ZipUtils.UnZipFolder(zipFile.getAbsolutePath(), saveFile.getAbsolutePath(), new ZipUtils.IProgress() {
+                    @Override
+                    public void onProgress(int progress) {
+                        Log.e("TAG", "onProgress: " + progress);
+                    }
 
-            //解压失败
-            @Override
-            public void onError(String msg) {
-                Toast.makeText(mContent, "解压失败！", Toast.LENGTH_SHORT).show();
-                if (handler != null) {
-                    handler.sendEmptyMessage(3);
-                }
-            }
+                    //解压失败
+                    @Override
+                    public void onError(String msg) {
+                        e.onNext(false);
+                    }
 
-            //成功
+                    //成功
+                    @Override
+                    public void onDone() {
+                        e.onNext(true);
+                    }
+                });
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
             @Override
-            public void onDone() {
-                //解压成功对文件夹做个标识
-                if (handler != null) {
-                    handler.sendEmptyMessage(2);
+            public void accept(Boolean s) throws Exception {
+                if (s) {
+                    downLoadSucess();
+                } else {
+                    downLoadFail();
+                    Toast.makeText(mContent, "解压失败！", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+
     }
 
     //显示下载界面
@@ -243,77 +183,41 @@ public class CoursewareDownLoadUtil {
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 
-    //获取下载进度刷新界面
-    private void getDownloadPercent() {
-        Cursor c = downloadManager.query(new DownloadManager.Query().setFilterById(downloadId));
-        if (c == null || !c.moveToFirst()) {
-            if (c != null && !c.isClosed()) {
-                c.close();
-            }
-            downLoadFail();
-        } else { // 以下是从游标中进行信息提取
-            int mDownload_so_far = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
-            int mDownload_all = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
-            if (!isDowFinsh) {
-                if (mDownload_all > 0 && mDownload_so_far <= mDownload_all) {
-                    mProgress.setMax(mDownload_all);
-                    mProgress.setProgress(mDownload_so_far);
-                    mProgressTxt.setText(mContent.getResources().getString(R.string.courseware_load_txt) + Math.abs(mDownload_so_far / (mDownload_all / 100)) + "%");
-                    Log.e("TAG", "getDownloadPercent: " + mDownload_so_far + "||" + mDownload_all + "|||" + Math.abs(mDownload_so_far / (mDownload_all / 100)));
-                }
-                if (oldIndex ==mDownload_so_far) {
-                    pause ++;
-                    if (pause>20) {
-                        downLoadFail();
-                        return;
-                    }
-                }else {
-                    oldIndex=mDownload_so_far;
-                    pause=0;
-                }
-                handler.sendEmptyMessageDelayed(1, 500);
-            } else {
-                mProgressTxt.setText(mContent.getResources().getString(R.string.courseware_load_txt) + "100%");
-            }
-            if (!c.isClosed()) {
-                c.close();
-            }
-        }
-    }
-
     public interface CoursewareDownFinsh {
         void finsh(String filePath);
     }
 
-
-    //注册下载完成广播
-    private void registerReceiver() {
-        completeReceiver = new DownloadCompleteReceiver();
-        mContent.registerReceiver(completeReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-    }
-
-    //注销广播
-    private void unregisterReceiver() {
-        if (completeReceiver != null) {
-            mContent.unregisterReceiver(completeReceiver);
+    //判断文件是否存在
+    private boolean isCoursewareExistence(String fileMd5) {
+        File filesDir = mContent.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+        Log.e("TAG", "isCoursewareExistence: " + filesDir.getAbsolutePath());
+        File[] files = filesDir.listFiles();
+        boolean isFileExit = false;
+        for (int i = 0; i < files.length; i++) {
+            if (files[i].getName().equals(fileMd5)) {
+                Log.e("TAG", "isCoursewareExistence: 已存在课件");
+                isFileExit = true;
+                break;
+            }
         }
+        return isFileExit;
     }
 
-    //释放资源
-    public void destory() {
+
+    private void downLoadSucess() {
         if (popupWindow != null) {
             popupWindow.dismiss();
         }
-        if (completeReceiver != null) {
-            unregisterReceiver();
+        //解压成功对文件夹做个标识
+        File file = new File(mContent.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + fileMd5);
+        saveFile.renameTo(file);
+        if (mDownFinsh != null) {
+            mDownFinsh.finsh(file.getAbsolutePath());
         }
     }
 
     //下载失败
     private void downLoadFail() {
-        if (downloadManager != null) {
-            downloadManager.remove(downloadId);
-        }
         if (saveFile != null) {
             if (saveFile.exists()) {
                 DelectFileUtil.DeleteFolder(saveFile);
@@ -323,8 +227,11 @@ public class CoursewareDownLoadUtil {
         if (file.exists()) {
             file.delete();
         }
-        destory();
+        if (popupWindow != null) {
+            popupWindow.dismiss();
+        }
         mDownFinsh.finsh("");
+        Toast.makeText(mContent, "下载失败，请查看网络环境是否正常！", Toast.LENGTH_SHORT).show();
         Log.e("TAG", "getDownloadPercent:下载失败 ");
     }
 }
