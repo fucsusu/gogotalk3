@@ -111,23 +111,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     private PopupWindow popupWindow;
     TextView btn_check_device, btn_clear_cache, btn_about_us, btn_out_login;
     RadioButton btn_setting;
-    //    UserInfoDialog.Builder userInfoDialogBuilder;
-//    UserInfoDialog userInfoDialog;
     UserInfoDialogV2.Builder userInfoDialogBuilder;
     UserInfoDialogV2 userInfoDialog;
-    /**
-     * 轮训刷新数据
-     */
-//    Handler mHandler = new Handler();
-//    Runnable r = new Runnable() {
-//        @Override
-//        public void run() {
-//            mPresenter.getUserInfoData(false, false);
-//            mPresenter.getClassListData(false, false);
-//            mHandler.postDelayed(this, 1000 * 60 * 3);
-//        }
-//    };
-
     boolean isFirstLoadData;
     Disposable disposable;
     @Override
@@ -135,9 +120,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         super.onCreate(savedInstanceState);
         PermissionsUtil.getInstance().requestPermissions(this);
         initEvent();
-//        mPresenter.getUserInfoData(true, false);
-//        mPresenter.getClassListData(false, true);
-//        mHandler.postDelayed(r, 1000 * 60 * 3);
         isFirstLoadData = false;
         intervalUpdateData();
         AutoUpdateUtil.getInstance().checkForUpdates(this);
@@ -159,14 +141,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     return;
             }
         }
-//        mPresenter.getUserInfoData(true, false);
-//        mPresenter.getClassListData(false, true);
-//        mHandler.postDelayed(r, 1000 * 60 * 3);
-        Logger.e("===============onNewIntent==================");
         isFirstLoadData = false;
         intervalUpdateData();
     }
 
+    /**
+     * 轮训请求操作
+     */
     private void intervalUpdateData(){
         Observable.interval(1,3 * 60 ,TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -175,7 +156,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                    @Override
                    public void onSubscribe(Disposable d) {
                        disposable = d;
-                       Logger.e("onSubscribe。。。。。。。。。。。");
                    }
 
                    @Override
@@ -188,17 +168,14 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                             mPresenter.getUserInfoData(false, false);
                             mPresenter.getClassListData(false, false);
                         }
-                        Logger.e("我在轮训。。。。。。。。。。。");
                    }
 
                    @Override
                    public void onError(Throwable e) {
-                       Logger.e("onError。。。。。。。。。。。");
                    }
 
                    @Override
                    public void onComplete() {
-                       Logger.e("onComplete。。。。。。。。。。。");
                    }
                });
     }
@@ -221,7 +198,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     protected void initView() {
         super.initView();
-//        userInfoDialogBuilder = new UserInfoDialog.Builder(this);
         userInfoDialogBuilder = new UserInfoDialogV2.Builder(this);
         userInfoDialog = userInfoDialogBuilder.create();
         final View inflate = LayoutInflater.from(this).inflate(R.layout.popup_shezhi, null, false);
@@ -439,27 +415,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         params.width = ScreenUtils.dip2px(getApplicationContext(), 366);
         params.height = ScreenUtils.dip2px(getApplicationContext(), 297);
         twoButtonDialog.getWindow().setAttributes(params);
-    }
-
-    /**
-     * 个人信息对话框
-     */
-    private void showUserInfoDialog() {
-//        userInfoDialogBuilder = new UserInfoDialog.Builder(this);
-//        userInfoDialog = userInfoDialogBuilder.setName(AppUtils.getUserInfoData().getName())
-//                .setSex(AppUtils.getUserInfoData().getSex())
-//                .setDate(AppUtils.getUserInfoData().getAge())
-//                .setHeader(AppUtils.getUserInfoData().getImageUrl()).create();
-//        userInfoDialog.show();
-//        userInfoDialog.setOnNameClickLisener(new UserInfoDialog.OnNameClickLisener() {
-//            @Override
-//            public void onClick(int sex) {
-//                Intent intent = new Intent(HomePageActivity.this, SelectNameActivity.class);
-//                intent.putExtra(INTENT_SEX,sex);
-//                startActivity(intent);
-//                overridePendingTransition(0, 0);
-//            }
-//        });
     }
 
     private void showUserInfoDialogV2() {
