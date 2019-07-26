@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.entity.CoursesBean;
+import com.gogotalk.system.model.util.CommonSubscriber;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.presenter.MainContract;
 import com.gogotalk.system.presenter.MainPresenter;
@@ -48,15 +49,26 @@ import com.gogotalk.system.view.widget.CheckDeviceDialog;
 import com.gogotalk.system.view.widget.CommonDialog;
 import com.gogotalk.system.view.widget.SpaceItemDecoration;
 import com.gogotalk.system.view.widget.UserInfoDialogV2;
+import com.orhanobut.logger.Logger;
+
+import org.reactivestreams.Subscription;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableSubscriber;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 课程界面主界面
@@ -106,24 +118,28 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     /**
      * 轮训刷新数据
      */
-    Handler mHandler = new Handler();
-    Runnable r = new Runnable() {
-        @Override
-        public void run() {
-            mPresenter.getUserInfoData(false, false);
-            mPresenter.getClassListData(false, false);
-            mHandler.postDelayed(this, 1000 * 60 * 3);
-        }
-    };
+//    Handler mHandler = new Handler();
+//    Runnable r = new Runnable() {
+//        @Override
+//        public void run() {
+//            mPresenter.getUserInfoData(false, false);
+//            mPresenter.getClassListData(false, false);
+//            mHandler.postDelayed(this, 1000 * 60 * 3);
+//        }
+//    };
 
+    boolean isFirstLoadData;
+    Disposable disposable;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PermissionsUtil.getInstance().requestPermissions(this);
         initEvent();
-        mPresenter.getUserInfoData(true, false);
-        mPresenter.getClassListData(false, true);
-        mHandler.postDelayed(r, 1000 * 60 * 3);
+//        mPresenter.getUserInfoData(true, false);
+//        mPresenter.getClassListData(false, true);
+//        mHandler.postDelayed(r, 1000 * 60 * 3);
+        isFirstLoadData = false;
+        intervalUpdateData();
         AutoUpdateUtil.getInstance().checkForUpdates(this);
         delectCoursewareFile();
     }
@@ -143,11 +159,55 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     return;
             }
         }
-        mPresenter.getUserInfoData(true, false);
-        mPresenter.getClassListData(false, true);
-        mHandler.postDelayed(r, 1000 * 60 * 3);
+//        mPresenter.getUserInfoData(true, false);
+//        mPresenter.getClassListData(false, true);
+//        mHandler.postDelayed(r, 1000 * 60 * 3);
+        Logger.e("===============onNewIntent==================");
+        isFirstLoadData = false;
+        intervalUpdateData();
     }
 
+    private void intervalUpdateData(){
+        Observable.interval(1,3 * 60 ,TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Long>() {
+
+                   @Override
+                   public void onSubscribe(Disposable d) {
+                       disposable = d;
+                       Logger.e("onSubscribe。。。。。。。。。。。");
+                   }
+
+                   @Override
+                   public void onNext(Long aLong) {
+                        if(!isFirstLoadData){
+                            isFirstLoadData = true;
+                            mPresenter.getUserInfoData(true, false);
+                            mPresenter.getClassListData(false, true);
+                        }else{
+                            mPresenter.getUserInfoData(false, false);
+                            mPresenter.getClassListData(false, false);
+                        }
+                        Logger.e("我在轮训。。。。。。。。。。。");
+                   }
+
+                   @Override
+                   public void onError(Throwable e) {
+                       Logger.e("onError。。。。。。。。。。。");
+                   }
+
+                   @Override
+                   public void onComplete() {
+                       Logger.e("onComplete。。。。。。。。。。。");
+                   }
+               });
+    }
+    private void cancelIntervalUpdateData(){
+        if(disposable!=null&&!disposable.isDisposed()){
+            disposable.dispose();
+            disposable = null;
+        }
+    }
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -414,13 +474,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         userInfoDialog.show();
     }
 
-    /**
-     * 暂停轮训
-     */
+
     @Override
-    protected void onPause() {
-        super.onPause();
-        mHandler.removeCallbacks(r);
+    protected void onStop() {
+        super.onStop();
+        cancelIntervalUpdateData();
     }
 
     /**
@@ -493,8 +551,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mHandler.removeCallbacks(r);
-        mHandler = null;
+        cancelIntervalUpdateData();
     }
 
     @Override
