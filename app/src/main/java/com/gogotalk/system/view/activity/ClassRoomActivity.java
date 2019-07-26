@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.http.SslError;
 import android.os.Build;
@@ -166,6 +167,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     });
     public String teacherName;
     public String ownName;
+    public Drawable mikeSix;
+    public Drawable mikeTwelve;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -375,6 +378,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     //开启奖杯
     private void openJBAnim() {
         mMkfPhoto.setVisibility(View.GONE);
+
         mJBNum++;
         AnimatorUtils.showOwnJiangbei(mJbX, mJB, mJB_jiayi, mMyJB, new Animator.AnimatorListener() {
             @Override
@@ -465,10 +469,16 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     private void openMikeTimer(int time) {
         mMkfPhoto.setVisibility(View.VISIBLE);
         if (time == 6) {
-            mMkfPhoto.setBackground(getResources().getDrawable(R.drawable.list_class_room_mike_six));
+            if (mikeSix == null) {
+                mikeSix = getResources().getDrawable(R.drawable.list_class_room_mike_six);
+            }
+            mMkfPhoto.setBackground(mikeSix);
             ((AnimationDrawable) mMkfPhoto.getBackground()).start();
         } else {
-            mMkfPhoto.setBackground(getResources().getDrawable(R.drawable.list_class_room_mike_twelve));
+            if (mikeTwelve == null) {
+                mikeTwelve = getResources().getDrawable(R.drawable.list_class_room_mike_twelve);
+            }
+            mMkfPhoto.setBackground(mikeTwelve);
             ((AnimationDrawable) mMkfPhoto.getBackground()).start();
         }
         sendHandleMessage(Constant.HANDLE_INFO_JB, time * 1000);
