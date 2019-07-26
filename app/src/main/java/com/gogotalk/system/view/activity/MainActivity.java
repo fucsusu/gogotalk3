@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.entity.CoursesBean;
+import com.gogotalk.system.model.util.CommonSubscriber;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.presenter.MainContract;
 import com.gogotalk.system.presenter.MainPresenter;
@@ -48,15 +49,26 @@ import com.gogotalk.system.view.widget.CheckDeviceDialog;
 import com.gogotalk.system.view.widget.CommonDialog;
 import com.gogotalk.system.view.widget.SpaceItemDecoration;
 import com.gogotalk.system.view.widget.UserInfoDialogV2;
+import com.orhanobut.logger.Logger;
+
+import org.reactivestreams.Subscription;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableSubscriber;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 课程界面主界面
@@ -99,31 +111,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     private PopupWindow popupWindow;
     TextView btn_check_device, btn_clear_cache, btn_about_us, btn_out_login;
     RadioButton btn_setting;
-    //    UserInfoDialog.Builder userInfoDialogBuilder;
-//    UserInfoDialog userInfoDialog;
     UserInfoDialogV2.Builder userInfoDialogBuilder;
     UserInfoDialogV2 userInfoDialog;
-    /**
-     * 轮训刷新数据
-     */
-    Handler mHandler = new Handler();
-    Runnable r = new Runnable() {
-        @Override
-        public void run() {
-            mPresenter.getUserInfoData(false, false);
-            mPresenter.getClassListData(false, false);
-            mHandler.postDelayed(this, 1000 * 60 * 3);
-        }
-    };
-
+    boolean isFirstLoadData;
+    Disposable disposable;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PermissionsUtil.getInstance().requestPermissions(this);
         initEvent();
-        mPresenter.getUserInfoData(true, false);
-        mPresenter.getClassListData(false, true);
-        mHandler.postDelayed(r, 1000 * 60 * 3);
+        isFirstLoadData = false;
+        intervalUpdateData();
         AutoUpdateUtil.getInstance().checkForUpdates(this);
         delectCoursewareFile();
     }
@@ -143,11 +141,50 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     return;
             }
         }
-        mPresenter.getUserInfoData(true, false);
-        mPresenter.getClassListData(false, true);
-        mHandler.postDelayed(r, 1000 * 60 * 3);
+        isFirstLoadData = false;
+        intervalUpdateData();
     }
 
+    /**
+     * 轮训请求操作
+     */
+    private void intervalUpdateData(){
+        Observable.interval(1,3 * 60 ,TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Long>() {
+
+                   @Override
+                   public void onSubscribe(Disposable d) {
+                       disposable = d;
+                   }
+
+                   @Override
+                   public void onNext(Long aLong) {
+                        if(!isFirstLoadData){
+                            isFirstLoadData = true;
+                            mPresenter.getUserInfoData(true, false);
+                            mPresenter.getClassListData(false, true);
+                        }else{
+                            mPresenter.getUserInfoData(false, false);
+                            mPresenter.getClassListData(false, false);
+                        }
+                   }
+
+                   @Override
+                   public void onError(Throwable e) {
+                   }
+
+                   @Override
+                   public void onComplete() {
+                   }
+               });
+    }
+    private void cancelIntervalUpdateData(){
+        if(disposable!=null&&!disposable.isDisposed()){
+            disposable.dispose();
+            disposable = null;
+        }
+    }
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -161,7 +198,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     protected void initView() {
         super.initView();
-//        userInfoDialogBuilder = new UserInfoDialog.Builder(this);
         userInfoDialogBuilder = new UserInfoDialogV2.Builder(this);
         userInfoDialog = userInfoDialogBuilder.create();
         final View inflate = LayoutInflater.from(this).inflate(R.layout.popup_shezhi, null, false);
@@ -381,27 +417,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         twoButtonDialog.getWindow().setAttributes(params);
     }
 
-    /**
-     * 个人信息对话框
-     */
-    private void showUserInfoDialog() {
-//        userInfoDialogBuilder = new UserInfoDialog.Builder(this);
-//        userInfoDialog = userInfoDialogBuilder.setName(AppUtils.getUserInfoData().getName())
-//                .setSex(AppUtils.getUserInfoData().getSex())
-//                .setDate(AppUtils.getUserInfoData().getAge())
-//                .setHeader(AppUtils.getUserInfoData().getImageUrl()).create();
-//        userInfoDialog.show();
-//        userInfoDialog.setOnNameClickLisener(new UserInfoDialog.OnNameClickLisener() {
-//            @Override
-//            public void onClick(int sex) {
-//                Intent intent = new Intent(HomePageActivity.this, SelectNameActivity.class);
-//                intent.putExtra(INTENT_SEX,sex);
-//                startActivity(intent);
-//                overridePendingTransition(0, 0);
-//            }
-//        });
-    }
-
     private void showUserInfoDialogV2() {
         if (AppUtils.getUserInfoData() == null) return;
         userInfoDialogBuilder.setSex(AppUtils.getUserInfoData().getSex()).setName(AppUtils.getUserInfoData().getNameEn());
@@ -414,13 +429,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         userInfoDialog.show();
     }
 
-    /**
-     * 暂停轮训
-     */
+
     @Override
-    protected void onPause() {
-        super.onPause();
-        mHandler.removeCallbacks(r);
+    protected void onStop() {
+        super.onStop();
+        cancelIntervalUpdateData();
     }
 
     /**
@@ -493,8 +506,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mHandler.removeCallbacks(r);
-        mHandler = null;
+        cancelIntervalUpdateData();
     }
 
     @Override

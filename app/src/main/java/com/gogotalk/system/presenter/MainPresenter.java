@@ -38,6 +38,12 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
                         getView().showRecelyerViewOrEmptyViewByFlag(true);
                         getView().updateRecelyerViewData(coursesBeans);
                     }
+
+                    @Override
+                    public boolean isError() {
+                        return isHideLoading;
+                    }
+
                     @Override
                     public boolean isShowLoading() {
                         if(!isShowLoading){
