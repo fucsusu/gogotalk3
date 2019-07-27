@@ -7,6 +7,7 @@ import com.gogotalk.system.model.api.ApiService;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.model.util.GsonUtils;
 import com.gogotalk.system.util.BaseDownLoadFileImpl;
+import com.gogotalk.system.util.OkHttpDownLoadFileImpl;
 import com.gogotalk.system.util.SPUtils;
 import com.gogotalk.system.util.SystemDownLoadFileImpl;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -26,8 +27,6 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static com.gogotalk.system.model.util.Constant.PATH_DEBUG_URL;
 import static com.gogotalk.system.model.util.Constant.PATH_RELEASE_URL;
 
 @Module
@@ -72,8 +71,8 @@ public class NetModule {
     public Retrofit provideRetrofit(OkHttpClient okhttpClient) {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(okhttpClient)
-                //.baseUrl(PATH_RELEASE_URL)
-                .baseUrl(PATH_DEBUG_URL)
+                .baseUrl(PATH_RELEASE_URL)
+//                .baseUrl(PATH_DEBUG_URL)
                 .addConverterFactory(GsonConverterFactory.create(GsonUtils.gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();

@@ -92,7 +92,7 @@ public class CoursewareDownLoadUtil {
         //开始下载
         AiRoomApplication.getInstance().getNetComponent().getDownLoadFileImpl()
                 .setDownLoadingLisener(downLoadingLisener)
-                .downLoadFile(mContent, fileUrl, fileMd5 + "zip1");
+                .downLoadFile(mContent, fileUrl, fileMd5 + "zip");
         showDownloadPopup(mContent, view);
     }
 

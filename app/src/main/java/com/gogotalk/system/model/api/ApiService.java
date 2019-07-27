@@ -16,12 +16,17 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 
 public interface ApiService {
     @Headers({"Content-Type:application/json", "Accept: application/json"})
@@ -68,5 +73,10 @@ public interface ApiService {
 
     @GET("/api/User/SeacheEnglishName")
     Flowable<ResponseModel<List<String>>> searchEnglishNameListData(@Query("sexFlag") int sex,@Query("wordName") String keyword);
+
+    @Streaming
+    @GET
+    Observable<ResponseBody> downLoadClassFile(@Url String url);
+
 }
 
