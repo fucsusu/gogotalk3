@@ -331,7 +331,6 @@
             android:id="@+id/answer_countdown_class"
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:background="@drawable/list_class_room_answer_count_down"
             android:visibility="invisible" />
 
     </FrameLayout>

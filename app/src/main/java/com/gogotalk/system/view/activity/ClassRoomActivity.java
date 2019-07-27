@@ -171,8 +171,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     });
     public String teacherName;
     public String ownName;
-    public Drawable mikeSix;
-    public Drawable mikeTwelve;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -538,6 +536,9 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         webSettings.setPluginState(WebSettings.PluginState.ON);
         webSettings.setDomStorageEnabled(true);// 必须保留，否则无法播放优酷视频，其他的OK
+        //设置不缓存
+        webSettings.setAppCacheEnabled(false);
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webSettings.setMixedContentMode(webSettings.MIXED_CONTENT_ALWAYS_ALLOW);

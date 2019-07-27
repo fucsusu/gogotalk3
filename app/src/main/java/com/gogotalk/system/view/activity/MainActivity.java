@@ -149,7 +149,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
      * 轮训请求操作
      */
     private void intervalUpdateData(){
-        Observable.interval(1,3 * 60 ,TimeUnit.SECONDS)
+        Observable.interval(0,3 * 60 ,TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Long>() {
 

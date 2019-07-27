@@ -45,7 +45,7 @@ public class AnswerCountDown extends View {
         mTxtPaint = new TextPaint();
         mTxtPaint.setColor(Color.WHITE);
 
-        countDownTimer = new CountDownTimer(10 * 1000, 1000) {
+        countDownTimer = new CountDownTimer(10 * 1000+100, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 time = (int) (millisUntilFinished / 1000);

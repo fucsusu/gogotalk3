@@ -32,15 +32,16 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/demo_icon"
         android:supportsRtl="true"
-        android:configChanges="orientation|keyboardHidden|screenSize"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
             android:name=".view.activity.ClassRoomActivity"
             android:hardwareAccelerated="true"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"/>
         <activity
             android:name=".view.activity.WelcomeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,31 +51,40 @@
         </activity>
         <activity
             android:name=".view.activity.LoginActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape" />
         <activity
             android:name=".view.activity.MainActivity"
             android:launchMode="singleTask"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape" />
         <activity
             android:name=".view.activity.VideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape" />
         <activity
             android:name=".view.activity.RecordActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape" />
         <activity
             android:name=".view.activity.ClassDetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape" />
         <activity
             android:name=".view.activity.InteractiveGamesActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape" />
         <activity
             android:name=".view.activity.ClassListActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape" />
         <activity
             android:name=".view.activity.SelectNameActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape" />
         <activity
             android:name=".view.activity.SearchNameActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape" />
         <provider
             android:name="androidx.core.content.FileProvider"

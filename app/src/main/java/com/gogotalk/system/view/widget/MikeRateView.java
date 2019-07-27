@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.CountDownTimer;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -21,7 +22,6 @@ public class MikeRateView extends View {
     public int penWidth = 20;
     Paint paint = new Paint();
     private int angle = 0;
-    public ValueAnimator valueAnimator;
 
     public MikeRateView(Context context) {
         super(context);
@@ -35,6 +35,8 @@ public class MikeRateView extends View {
         super(context, attrs, defStyleAttr);
     }
 
+    public CountDownTimer countDownTimer;
+
     {
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(Color.parseColor("#FF6601"));
@@ -42,15 +44,6 @@ public class MikeRateView extends View {
         paint.setStrokeWidth(penWidth);
         paint.setAntiAlias(true);
 
-        valueAnimator = ValueAnimator.ofInt(0, 180);
-        valueAnimator.setInterpolator(new LinearInterpolator());
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                angle = (int) animation.getAnimatedValue();
-                postInvalidate();
-            }
-        });
     }
 
     @Override
@@ -68,21 +61,17 @@ public class MikeRateView extends View {
 
 
     public void start(int time) {
-        valueAnimator.setDuration(1000 * time);
-        valueAnimator.setEvaluator(new MikeEvaluator(time));
-        valueAnimator.start();
-    }
+        countDownTimer = new CountDownTimer(time * 1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                angle = (int) (time - (millisUntilFinished / 1000)) * 180 / time;
+                postInvalidate();
+            }
 
-    class MikeEvaluator implements TypeEvaluator<Integer> {
-        int time;
-
-        public MikeEvaluator(int time) {
-            this.time = time;
-        }
-
-        @Override
-        public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
-            return (int) (fraction / (1f / time)) * (endValue - startValue) / time;
-        }
+            @Override
+            public void onFinish() {
+            }
+        };
+        countDownTimer.start();
     }
 }
