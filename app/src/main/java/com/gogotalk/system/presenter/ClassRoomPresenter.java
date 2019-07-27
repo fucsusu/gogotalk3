@@ -179,7 +179,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                     seqNumber = seq;
                     if (action.equals("open_answer")) {//调用JS的exec()方法
                         //开始答题
-                        getView().sendHandleMessage(Constant.HANDLE_INFO_ANSWER, 0, 1);
+                        getView().sendHandleMessage(Constant.HANDLE_INFO_ANSWER);
                     }
                     if (action.equals("next_page")) {//调用JS的PageDown()方法
                         JSONObject mObjcet = new JSONObject(data);

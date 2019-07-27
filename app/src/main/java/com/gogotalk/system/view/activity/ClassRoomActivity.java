@@ -39,6 +39,8 @@ import com.gogotalk.system.R;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.presenter.ClassRoomContract;
 import com.gogotalk.system.presenter.ClassRoomPresenter;
+import com.gogotalk.system.view.widget.AnswerCountDown;
+import com.gogotalk.system.view.widget.MikeRateView;
 import com.gogotalk.system.zego.ZGPublishHelper;
 import com.gogotalk.system.util.AnimatorUtils;
 import com.gogotalk.system.util.AppUtils;
@@ -94,6 +96,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public TextView otherSNText;
     @BindView(R.id.id_mMkfPhoto_Class)
     public ImageView mMkfPhoto;
+    @BindView(R.id.class_room_mike_progress)
+    public MikeRateView mikeRateView;
 
     @BindView(R.id.id_mImageJB_Class)
     public ImageView mJB;//奖杯
@@ -109,7 +113,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public ImageView mJB_jiayi_other;//其他学生加一
 
     @BindView(R.id.answer_countdown_class)
-    public ImageView answer_countdown;//答题倒计时
+    public AnswerCountDown answer_countdown;//答题倒计时
 
     @BindView(R.id.courseware_class)
     public FrameLayout courseware_class;
@@ -150,7 +154,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                     }
                     break;
                 case Constant.HANDLE_INFO_ANSWER:
-                    startAnswer(msg.arg1);
+                    startAnswer();
                     break;
                 case Constant.HANDLE_INFO_NEXTPAGE:
                     toPage(msg.arg1);
@@ -378,7 +382,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     //开启奖杯
     private void openJBAnim() {
         mMkfPhoto.setVisibility(View.GONE);
-
+        mikeRateView.setVisibility(View.GONE);
         mJBNum++;
         AnimatorUtils.showOwnJiangbei(mJbX, mJB, mJB_jiayi, mMyJB, new Animator.AnimatorListener() {
             @Override
@@ -468,19 +472,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     //开启麦克风倒计时
     private void openMikeTimer(int time) {
         mMkfPhoto.setVisibility(View.VISIBLE);
-        if (time == 6) {
-            if (mikeSix == null) {
-                mikeSix = getResources().getDrawable(R.drawable.list_class_room_mike_six);
-            }
-            mMkfPhoto.setBackground(mikeSix);
-            ((AnimationDrawable) mMkfPhoto.getBackground()).start();
-        } else {
-            if (mikeTwelve == null) {
-                mikeTwelve = getResources().getDrawable(R.drawable.list_class_room_mike_twelve);
-            }
-            mMkfPhoto.setBackground(mikeTwelve);
-            ((AnimationDrawable) mMkfPhoto.getBackground()).start();
-        }
+        mikeRateView.setVisibility(View.VISIBLE);
+        mikeRateView.start(time);
         sendHandleMessage(Constant.HANDLE_INFO_JB, time * 1000);
     }
 
@@ -495,23 +488,14 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     }
 
     //答题处理
-    private void startAnswer(int status) {
-        if (status > 0) {
-            webView.evaluateJavascript("javascript:exec()", new ValueCallback<String>() {
-                @Override
-                public void onReceiveValue(String value) {
-                    Log.i("TAG", value);
-                }
-            });
-            answer_countdown.setVisibility(View.VISIBLE);
-            ((AnimationDrawable) answer_countdown.getBackground()).start();
-            sendHandleMessage(Constant.HANDLE_INFO_ANSWER, 10000, 0);
-        } else {
-            //答题结束
-            ((AnimationDrawable) answer_countdown.getBackground()).stop();
-            ((AnimationDrawable) answer_countdown.getBackground()).selectDrawable(0);
-            answer_countdown.setVisibility(View.INVISIBLE);
-        }
+    private void startAnswer() {
+        webView.evaluateJavascript("javascript:exec()", new ValueCallback<String>() {
+            @Override
+            public void onReceiveValue(String value) {
+                Log.i("TAG", value);
+            }
+        });
+        answer_countdown.startCountDown();
     }
 
     //教室开始上课
