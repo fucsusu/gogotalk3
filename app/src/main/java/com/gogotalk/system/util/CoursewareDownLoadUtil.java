@@ -117,6 +117,7 @@ public class CoursewareDownLoadUtil {
      * Zip处理
      */
     public void mZipProcess() {
+        mProgressTxt.setText("加载中...");
         Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
             public void subscribe(ObservableEmitter<Boolean> e) throws Exception {

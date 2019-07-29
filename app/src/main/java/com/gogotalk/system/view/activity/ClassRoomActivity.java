@@ -171,6 +171,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     });
     public String teacherName;
     public String ownName;
+    public WebSettings webSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -514,6 +515,18 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        webSettings.setJavaScriptEnabled(true);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        webSettings.setJavaScriptEnabled(false);
+    }
+
     /**
      * 加载webview
      */
@@ -523,7 +536,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         webView.setWebViewClient(new WebViewClient());
         webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);//滚动条风格，为0指滚动条不占用空间，直接覆盖在网页上
         //得到webview设置
-        WebSettings webSettings = webView.getSettings();
+        webSettings = webView.getSettings();
         //允许使用javascript
         webSettings.setJavaScriptEnabled(true);
         webSettings.setUseWideViewPort(true);
