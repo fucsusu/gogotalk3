@@ -1,27 +1,44 @@
 package com.gogotalk.system.view.widget;
 
-import android.animation.TypeEvaluator;
-import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PathMeasure;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
 
 /**
  * Created by fucc
  * Date: 2019-07-26 19:34
  */
 public class MikeRateView extends View {
-    public int width;
-    public int height;
-    public int penWidth = 20;
-    Paint paint = new Paint();
-    private int angle = 0;
+    private Paint mPaint;
+    private int mStrokeWidth = 20;
+    private Path mPath;
+    private int width;
+    private int height;
+    private PathMeasure pathMeasure;
+    private Path dstPath;
+    private float detPathMeasure;
+    private CountDownTimer countDownTimer;
+    private int speed;
+
+    {
+        mPaint = new Paint();
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setColor(Color.parseColor("#FF6601"));
+        mPaint.setStrokeWidth(mStrokeWidth);
+        mPaint.setStrokeCap(Paint.Cap.ROUND);
+        mPaint.setAntiAlias(true);
+
+        pathMeasure = new PathMeasure();
+        mPath = new Path();
+
+        dstPath = new Path();
+    }
 
     public MikeRateView(Context context) {
         super(context);
@@ -35,43 +52,43 @@ public class MikeRateView extends View {
         super(context, attrs, defStyleAttr);
     }
 
-    public CountDownTimer countDownTimer;
-
-    {
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(Color.parseColor("#FF6601"));
-        paint.setStrokeCap(Paint.Cap.ROUND);
-        paint.setStrokeWidth(penWidth);
-        paint.setAntiAlias(true);
-
-    }
-
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        width = MeasureSpec.getSize(widthMeasureSpec);
-        height = MeasureSpec.getSize(heightMeasureSpec);
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        width = right - left;
+        height = bottom - top;
+        mPath.moveTo(mStrokeWidth / 2, height / 2 - mStrokeWidth);
+        mPath.cubicTo(mStrokeWidth / 2 + 5, -mStrokeWidth / 4 * 3, width - mStrokeWidth / 2 - 5, -mStrokeWidth / 4 * 3, width - mStrokeWidth / 2, height / 2 - mStrokeWidth);
+        pathMeasure.setPath(mPath, false);
     }
 
-    @SuppressLint("NewApi")
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawArc(penWidth / 2, penWidth / 2, width - penWidth / 2, width - penWidth / 2, -180, angle, false, paint);
+        super.onDraw(canvas);
+        dstPath.reset();
+        pathMeasure.getSegment(0, detPathMeasure * speed, dstPath, true);
+        canvas.drawPath(dstPath, mPaint);
     }
 
-
-    public void start(int time) {
-        countDownTimer = new CountDownTimer(time * 1000, 1000) {
+    public void start(final int times) {
+        detPathMeasure = pathMeasure.getLength() / times;
+        speed = 0;
+        postInvalidate();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+            countDownTimer = null;
+        }
+        countDownTimer = new CountDownTimer((times + 1) * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                angle = (int) (time - (millisUntilFinished / 1000)) * 180 / time;
+                speed = times - (int) millisUntilFinished / 1000;
                 postInvalidate();
             }
 
             @Override
             public void onFinish() {
+
             }
-        };
-        countDownTimer.start();
+        }.start();
     }
 }
