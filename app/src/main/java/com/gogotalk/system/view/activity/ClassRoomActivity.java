@@ -2,9 +2,11 @@ package com.gogotalk.system.view.activity;
 
 import android.animation.Animator;
 import android.app.Dialog;
+import android.app.Service;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.http.SslError;
 import android.os.Build;
@@ -49,7 +51,9 @@ import com.gogotalk.system.zego.AppLogger;
 import com.gogotalk.system.zego.ZGBaseHelper;
 import com.gogotalk.system.zego.ZGMediaSideInfoDemo;
 import com.gogotalk.system.zego.ZGPlayHelper;
+import com.gogotalk.system.zego.ZegoUtil;
 import com.orhanobut.logger.Logger;
+import com.zego.zegoavkit2.audioaux.ZegoAudioAux;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 
 import java.io.File;
@@ -171,8 +175,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     });
     public String teacherName;
     public String ownName;
+    private AudioManager audioManager;
     public WebSettings webSettings;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //屏幕全屏和屏幕常亮和支持视频播放
@@ -180,7 +184,16 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         super.onCreate(savedInstanceState);
+        audioManager = (AudioManager) getSystemService(Service.AUDIO_SERVICE);
         mPresenter.initSdk(finalRoomId, roomRole);//初始化SDK
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC ,7 ,AudioManager.FLAG_PLAY_SOUND);
+        audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL ,5 ,AudioManager.FLAG_PLAY_SOUND);
+        webSettings.setJavaScriptEnabled(true);
     }
 
     //获取初始化数据
@@ -514,19 +527,11 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
             Log.e("TAG", "classBegin: " + ChapterFilePath);
         }
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        webSettings.setJavaScriptEnabled(true);
-    }
-
     @Override
     protected void onStop() {
         super.onStop();
         webSettings.setJavaScriptEnabled(false);
     }
-
     /**
      * 加载webview
      */
@@ -534,6 +539,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         //加载assets目录下的html
         //加上下面这段代码可以使网页中的链接不以浏览器的方式打开
         webView.setWebViewClient(new WebViewClient());
+        webView.setLayerType(View.LAYER_TYPE_HARDWARE,null);
         webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);//滚动条风格，为0指滚动条不占用空间，直接覆盖在网页上
         //得到webview设置
         webSettings = webView.getSettings();
