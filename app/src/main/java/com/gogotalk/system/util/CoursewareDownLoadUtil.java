@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.gogotalk.system.R;
 import com.gogotalk.system.app.AiRoomApplication;
@@ -147,7 +146,7 @@ public class CoursewareDownLoadUtil {
                     downLoadSucess();
                 } else {
                     downLoadFail();
-                    Toast.makeText(mContent, "解压失败！", Toast.LENGTH_SHORT).show();
+                    ToastUtils.showLongToast(mContent,"解压失败！");
                 }
             }
         });
@@ -229,7 +228,7 @@ public class CoursewareDownLoadUtil {
             popupWindow.dismiss();
         }
         mDownFinsh.finsh("");
-        Toast.makeText(mContent, "下载失败，请查看网络环境是否正常！", Toast.LENGTH_SHORT).show();
+        ToastUtils.showLongToast(mContent,"下载失败，请查看网络环境是否正常！");
         Log.e("TAG", "getDownloadPercent:下载失败 ");
     }
 }

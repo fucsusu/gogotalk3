@@ -10,10 +10,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.util.Constant;
+import com.gogotalk.system.util.ToastUtils;
 import com.gogotalk.system.view.widget.FullScreenVideoView;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -131,7 +132,7 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnPrepare
     private class MyPlayerOnCompletionListener implements MediaPlayer.OnCompletionListener {
         @Override
         public void onCompletion(MediaPlayer mp) {
-            Toast.makeText(VideoActivity.this, "播放完毕", Toast.LENGTH_LONG).show();
+            ToastUtils.showLongToast(VideoActivity.this,"播放完毕");
             mSeekBar.setProgress(0);
             timeVideo.setText("00:00");
             playVideo.setImageResource(R.mipmap.video_play);

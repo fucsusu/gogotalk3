@@ -20,7 +20,6 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,7 +29,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.entity.CoursesBean;
-import com.gogotalk.system.model.util.CommonSubscriber;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.presenter.MainContract;
 import com.gogotalk.system.presenter.MainPresenter;
@@ -49,9 +47,6 @@ import com.gogotalk.system.view.widget.CheckDeviceDialog;
 import com.gogotalk.system.view.widget.CommonDialog;
 import com.gogotalk.system.view.widget.SpaceItemDecoration;
 import com.gogotalk.system.view.widget.UserInfoDialogV2;
-import com.orhanobut.logger.Logger;
-
-import org.reactivestreams.Subscription;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -62,13 +57,10 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.Flowable;
-import io.reactivex.FlowableSubscriber;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * 课程界面主界面
@@ -115,6 +107,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     UserInfoDialogV2 userInfoDialog;
     boolean isFirstLoadData;
     Disposable disposable;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,43 +141,45 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     /**
      * 轮训请求操作
      */
-    private void intervalUpdateData(){
-        Observable.interval(0,3 * 60 ,TimeUnit.SECONDS)
+    private void intervalUpdateData() {
+        Observable.interval(0, 3 * 60, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Long>() {
 
-                   @Override
-                   public void onSubscribe(Disposable d) {
-                       disposable = d;
-                   }
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposable = d;
+                    }
 
-                   @Override
-                   public void onNext(Long aLong) {
-                        if(!isFirstLoadData){
+                    @Override
+                    public void onNext(Long aLong) {
+                        if (!isFirstLoadData) {
                             isFirstLoadData = true;
                             mPresenter.getUserInfoData(true, false);
                             mPresenter.getClassListData(false, true);
-                        }else{
+                        } else {
                             mPresenter.getUserInfoData(false, false);
                             mPresenter.getClassListData(false, false);
                         }
-                   }
+                    }
 
-                   @Override
-                   public void onError(Throwable e) {
-                   }
+                    @Override
+                    public void onError(Throwable e) {
+                    }
 
-                   @Override
-                   public void onComplete() {
-                   }
-               });
+                    @Override
+                    public void onComplete() {
+                    }
+                });
     }
-    private void cancelIntervalUpdateData(){
-        if(disposable!=null&&!disposable.isDisposed()){
+
+    private void cancelIntervalUpdateData() {
+        if (disposable != null && !disposable.isDisposed()) {
             disposable.dispose();
             disposable = null;
         }
     }
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -227,28 +222,30 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             @Override
             public void onBtnGoClassRoomClick(boolean flag, CoursesBean coursesBean) {
-//                if (!flag) {
-//                    ToastUtils.showShortToast(MainActivity.this, "课前10分钟才可以进入教室");
-//                    return;
-//                }
+                if (!flag) {
+                    ToastUtils.showLongToast(MainActivity.this, "课前10分钟才可以进入教室");
+                    return;
+                }
                 if (PermissionsUtil.getInstance().isPermissions()) {
                     CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(MainActivity.this, coursesBean.getZipDownLoadUrl(),
                             root_view, coursesBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
                                 @Override
                                 public void finsh(String filePath) {
-                                    if (!TextUtils.isEmpty(filePath)) {
-                                        Intent mIntent = new Intent(MainActivity.this, ClassRoomActivity.class);
-                                        mIntent.putExtra("AttendLessonID", coursesBean.getAttendLessonID());
-                                        mIntent.putExtra("ChapterFilePath", coursesBean.getChapterFilePath());
-                                        mIntent.putExtra("LessonTime", coursesBean.getLessonTime());
-                                        mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, coursesBean.getTeacherName());
-                                        mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
-                                        startActivity(mIntent);
+                                    if (TextUtils.isEmpty(filePath)) {
+                                        ToastUtils.showLongToast(MainActivity.this, "课件下载失败请查看网络是否连接正常！");
+                                        return;
                                     }
+                                    Intent mIntent = new Intent(MainActivity.this, ClassRoomActivity.class);
+                                    mIntent.putExtra("AttendLessonID", coursesBean.getAttendLessonID());
+                                    mIntent.putExtra("ChapterFilePath", coursesBean.getChapterFilePath());
+                                    mIntent.putExtra("LessonTime", coursesBean.getLessonTime());
+                                    mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, coursesBean.getTeacherName());
+                                    mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
+                                    startActivity(mIntent);
                                 }
                             });
                 } else {
-                    ToastUtils.showShortToast(MainActivity.this, "部分功能未授权，请授权后再试！");
+                    ToastUtils.showLongToast(MainActivity.this, "部分功能未授权，请授权后再试！");
                 }
             }
 
@@ -345,7 +342,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     showCheckDeviceDialog();
                 } else {
                     PermissionsUtil.getInstance().requestPermissions(MainActivity.this);
-                    Toast.makeText(MainActivity.this, "部分功能未授权，请授权后再试！", Toast.LENGTH_LONG).show();
+                    ToastUtils.showLongToast(MainActivity.this, "部分功能未授权，请授权后再试！");
                 }
             }
         });
@@ -456,7 +453,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                         @Override
                         public void run() {
                             DataCleanManager.clearAllCache(MainActivity.this);
-                            ToastUtils.showShortToast(MainActivity.this, "清除成功");
+                            ToastUtils.showLongToast(MainActivity.this, "清除成功");
                             hideLoading();
                         }
                     }, 1000);
@@ -515,7 +512,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             if ((System.currentTimeMillis() - exitTime) > 2000)  //System.currentTimeMillis()无论何时调用，肯定大于2000
             {
-                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                ToastUtils.showLongToast(getApplicationContext(), "再按一次退出程序");
                 exitTime = System.currentTimeMillis();
             } else {
                 finish();

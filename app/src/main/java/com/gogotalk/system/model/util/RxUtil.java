@@ -48,7 +48,7 @@ public class RxUtil {
                     public Flowable<T> apply(ResponseModel<T> responseModel) {
                         if (responseModel.getResult()==Constant.HTTP_SUCCESS_CODE) {
                             if(isShowSuccessMsg){
-                                ToastUtils.showShortToast(view.getActivity(),responseModel.getMsg());
+                                ToastUtils.showLongToast(view.getActivity(),responseModel.getMsg());
                             }
                             return createData(responseModel.getData()==null?((T)new Object()):responseModel.getData());
                         }else if(responseModel.getResult()==Constant.HTTP_TOKEN_EXPIRE_CODE){

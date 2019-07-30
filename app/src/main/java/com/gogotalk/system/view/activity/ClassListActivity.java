@@ -112,7 +112,7 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
             @Override
             public void yuYuClick(String date, String time) {
                 if (TextUtils.isEmpty(time)) {
-                    ToastUtils.showShortToast(ClassListActivity.this, "请选择约课时间");
+                    ToastUtils.showLongToast(ClassListActivity.this, "请选择约课时间");
                     return;
                 }
                 String lessonTime = date + " " + time;
@@ -170,7 +170,7 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
             @Override
             public void onBtnGoClassRoomClick(boolean flag, GoItemBean goItemBean) {
                 if (!flag) {
-                    ToastUtils.showShortToast(ClassListActivity.this, "课前10分钟才可以进入教室");
+                    ToastUtils.showLongToast(ClassListActivity.this, "课前10分钟才可以进入教室");
                     return;
                 }
                 if (PermissionsUtil.getInstance().isPermissions()) {
@@ -178,19 +178,21 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
                             root_view, goItemBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
                                 @Override
                                 public void finsh(String filePath) {
-                                    if (!TextUtils.isEmpty(filePath)) {
-                                        Intent mIntent = new Intent(ClassListActivity.this, ClassRoomActivity.class);
-                                        mIntent.putExtra("AttendLessonID", goItemBean.getAttendLessonID());
-                                        mIntent.putExtra("ChapterFilePath", goItemBean.getChapterFilePath());
-                                        mIntent.putExtra("LessonTime", goItemBean.getLessonTime());
-                                        mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, goItemBean.getTeacherName());
-                                        mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
-                                        startActivity(mIntent);
+                                    if (TextUtils.isEmpty(filePath)) {
+                                        ToastUtils.showLongToast(ClassListActivity.this, "课件下载失败请查看网络是否连接正常！");
+                                        return;
                                     }
+                                    Intent mIntent = new Intent(ClassListActivity.this, ClassRoomActivity.class);
+                                    mIntent.putExtra("AttendLessonID", goItemBean.getAttendLessonID());
+                                    mIntent.putExtra("ChapterFilePath", goItemBean.getChapterFilePath());
+                                    mIntent.putExtra("LessonTime", goItemBean.getLessonTime());
+                                    mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, goItemBean.getTeacherName());
+                                    mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
+                                    startActivity(mIntent);
                                 }
                             });
                 } else {
-                    ToastUtils.showShortToast(ClassListActivity.this, "部分功能未授权，请授权后再试！");
+                    ToastUtils.showLongToast(ClassListActivity.this, "部分功能未授权，请授权后再试！");
                 }
             }
 
@@ -270,9 +272,11 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
         classAdapter.notifyDataSetChanged();
     }
 
+    //约课成功
     @Override
     public void onOrderClassSuccess() {
         yuYueDialog.dismiss();
+        ToastUtils.showLongToast(this, "约课成功！");
     }
 
     @Override

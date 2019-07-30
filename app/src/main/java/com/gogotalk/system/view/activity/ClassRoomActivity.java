@@ -3,8 +3,6 @@ package com.gogotalk.system.view.activity;
 import android.animation.Animator;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.http.SslError;
 import android.os.Build;
@@ -33,12 +31,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.presenter.ClassRoomContract;
 import com.gogotalk.system.presenter.ClassRoomPresenter;
+import com.gogotalk.system.util.ToastUtils;
 import com.gogotalk.system.view.widget.AnswerCountDown;
 import com.gogotalk.system.view.widget.MikeRateView;
 import com.gogotalk.system.zego.ZGPublishHelper;
@@ -638,9 +636,9 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         if (buttonView == mvideo_swtich_own) {
             if (isChecked) {
                 ZGPublishHelper.sharedInstance().startPublishing(ownStreamID, "", ZegoConstants.PublishFlag.JoinPublish);
-                Toast.makeText(this, getResources().getString(R.string.open_video), Toast.LENGTH_SHORT).show();
+                ToastUtils.showLongToast(this, getResources().getString(R.string.open_video));
             } else {
-                Toast.makeText(this, getResources().getString(R.string.close_video), Toast.LENGTH_SHORT).show();
+                ToastUtils.showLongToast(this,getResources().getString(R.string.close_video));
                 ZGPublishHelper.sharedInstance().stopPublishing();
             }
         }

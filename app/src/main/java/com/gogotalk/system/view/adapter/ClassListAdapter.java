@@ -23,6 +23,7 @@ import com.gogotalk.system.R;
 import com.gogotalk.system.model.entity.GoItemBean;
 import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.util.DateUtils;
+import com.gogotalk.system.util.ToastUtils;
 import com.gogotalk.system.view.activity.ClassDetailActivity;
 
 import java.util.List;
@@ -132,15 +133,6 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
             AppUtils.bindImageToView(context
                     ,url,R.mipmap.ic_main_list_item_header_default
                     ,holder.mImgs,null,9,137,77);
-//        String mYear = DateUtils.StringDatas();
-//        holder.LessonTimes = mYear + "-" + holder.LessonTime;
-//        String startDateTime = DateUtils.getCurrentTime();
-//        holder.min = DateUtils.getTimeDifferences(startDateTime, holder.LessonTimes);
-//        if (holder.min < 11) {
-//            holder.mEnterClassroom.setBackgroundResource(R.mipmap.anniu_jinrujiaoshi);
-//        } else {
-//            holder.mEnterClassroom.setBackgroundResource(R.mipmap.anniu_zhihui);
-//        }
             if (holder.stye == 0) {
                 holder.mLayout3.setVisibility(View.GONE);//锁的背景Layout
                 holder.mBtn.setBackgroundResource(R.mipmap.bg_main_list_item_btn_go_room);//立即预约按钮颜色
@@ -151,8 +143,6 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
                     holder.mBtn.setVisibility(View.VISIBLE);//立即预约按钮
                     holder.mImg1.setVisibility(View.VISIBLE);//已完成图片
                     holder.mTime.setVisibility(View.GONE);//左上角时间显示
-//                holder.mBtn.setBackgroundResource(R.mipmap.anniu_zhihui);//立即预约按钮颜色
-//                holder.mBtn.setText("已完成");
                 }
                 if (holder.ChapterStatus == 1) {
                     holder.mLayout1.setBackgroundResource(R.mipmap.bg_class_list_item_selected);
@@ -194,7 +184,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
                 holder.mBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(context, "学完前面的课时才可以解锁学习这节课哦~", Toast.LENGTH_LONG).show();
+                        ToastUtils.showLongToast(context,"学完前面的课时才可以解锁学习这节课哦~");
                     }
                 });
             }
