@@ -314,17 +314,23 @@
 
         <ImageView
             android:id="@+id/id_mMkfPhoto_Class"
-            android:layout_width="119dp"
+            android:layout_width="120dp"
             android:layout_height="80dp"
             android:layout_gravity="bottom|center_horizontal"
             android:src="@mipmap/ic_class_room_mike_a"
             android:visibility="gone" />
 
-        <ImageView
+        <com.gogotalk.system.view.widget.MikeRateView
+            android:id="@+id/class_room_mike_progress"
+            android:layout_width="62dp"
+            android:layout_height="80dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:visibility="gone" />
+
+        <com.gogotalk.system.view.widget.AnswerCountDown
             android:id="@+id/answer_countdown_class"
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:background="@drawable/list_class_room_answer_count_down"
             android:visibility="invisible" />
 
     </FrameLayout>

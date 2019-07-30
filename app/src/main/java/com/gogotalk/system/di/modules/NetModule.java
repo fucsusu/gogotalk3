@@ -72,7 +72,7 @@ public class NetModule {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(okhttpClient)
                 .baseUrl(PATH_RELEASE_URL)
-//                .baseUrl(PATH_DEBUG_URL)
+                //.baseUrl(PATH_DEBUG_URL)
                 .addConverterFactory(GsonConverterFactory.create(GsonUtils.gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();

@@ -1,6 +1,5 @@
 package com.gogotalk.system.util;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -19,7 +18,6 @@ import android.widget.Toast;
 
 import com.gogotalk.system.R;
 import com.gogotalk.system.app.AiRoomApplication;
-import com.gogotalk.system.model.util.RxUtil;
 
 import java.io.File;
 
@@ -42,7 +40,6 @@ public class CoursewareDownLoadUtil {
     public ProgressBar mProgress;
     public Context mContent;
     public PopupWindow popupWindow;
-    public long downloadId;
     private CoursewareDownFinsh mDownFinsh;
     @Inject
     BaseDownLoadFileImpl downLoadFile;
