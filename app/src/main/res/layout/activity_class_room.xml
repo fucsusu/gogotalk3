@@ -247,7 +247,7 @@
         android:layout_toLeftOf="@id/user_video_class">
 
 
-        <WebView
+        <com.tencent.smtt.sdk.WebView
             android:id="@+id/id_mWebView_Class"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

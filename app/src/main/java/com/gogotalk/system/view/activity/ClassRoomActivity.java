@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.app.Dialog;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,12 +17,6 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.SslErrorHandler;
-import android.webkit.ValueCallback;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -36,18 +29,24 @@ import com.gogotalk.system.R;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.presenter.ClassRoomContract;
 import com.gogotalk.system.presenter.ClassRoomPresenter;
-import com.gogotalk.system.util.ToastUtils;
-import com.gogotalk.system.view.widget.AnswerCountDown;
-import com.gogotalk.system.view.widget.MikeRateView;
-import com.gogotalk.system.zego.ZGPublishHelper;
 import com.gogotalk.system.util.AnimatorUtils;
 import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.util.DateUtils;
+import com.gogotalk.system.util.ToastUtils;
+import com.gogotalk.system.view.widget.AnswerCountDown;
+import com.gogotalk.system.view.widget.MikeRateView;
 import com.gogotalk.system.zego.AppLogger;
 import com.gogotalk.system.zego.ZGBaseHelper;
 import com.gogotalk.system.zego.ZGMediaSideInfoDemo;
 import com.gogotalk.system.zego.ZGPlayHelper;
+import com.gogotalk.system.zego.ZGPublishHelper;
 import com.orhanobut.logger.Logger;
+import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
+import com.tencent.smtt.sdk.ValueCallback;
+import com.tencent.smtt.sdk.WebChromeClient;
+import com.tencent.smtt.sdk.WebSettings;
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 
 import java.io.File;
@@ -300,6 +299,9 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         Logger.e("登录房间成功 roomId:", finalRoomId);
         // 预览自己的视频且推流
         mPresenter.startPreviewOwn(mOwnTV);
+        mvideo_swtich_own.setClickable(true);
+        mvideo_swtich_own.setChecked(true);
+        mvideo_swtich_own.setOnCheckedChangeListener(this);
     }
 
     @Override
@@ -310,9 +312,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         teacherStreamID = streamID;
         mImgs1.setVisibility(View.GONE);
         mTeacherTV.setVisibility(View.VISIBLE);
-        mvideo_swtich_own.setChecked(true);
-        mvideo_swtich_own.setClickable(true);
-        mvideo_swtich_own.setOnCheckedChangeListener(this);
         classBegin();
     }
 
@@ -341,7 +340,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         mImgs1.setImageResource(R.mipmap.bg_class_room_finish);
         mTeacherTV.setVisibility(View.GONE);
         mvideo_swtich_own.setClickable(false);
-        mvideo_swtich_own.setChecked(false);
         mLeaveMessage = 2;
     }
 
@@ -476,6 +474,9 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
 
     //跳转页数
     private void toPage(int page) {
+        webView.clearHistory();
+        webView.clearCache(true);
+        webView.freeMemory();
         webView.evaluateJavascript("javascript:ToPage(" + page + ")", new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
@@ -532,11 +533,15 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         //加载assets目录下的html
         //加上下面这段代码可以使网页中的链接不以浏览器的方式打开
         webView.setWebViewClient(new WebViewClient());
+        //硬件加速
+        webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+
         webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);//滚动条风格，为0指滚动条不占用空间，直接覆盖在网页上
         //得到webview设置
         webSettings = webView.getSettings();
         //允许使用javascript
         webSettings.setJavaScriptEnabled(true);
+
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setAllowFileAccessFromFileURLs(true);
@@ -551,9 +556,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         webSettings.setAppCacheEnabled(false);
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            webSettings.setMixedContentMode(webSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        }
 
         if (Build.VERSION.SDK_INT >= 19) {//设置是否自动加载图片
             webSettings.setLoadsImagesAutomatically(true);
@@ -584,13 +586,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 return true;
             }
 
-            /**
-             * 处理ssl请求
-             */
-            @Override
-            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                handler.proceed();
-            }
 
             /**
              * 页面载入完成回调
@@ -610,7 +605,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
              * 显示自定义视图，无此方法视频不能播放
              */
             @Override
-            public void onShowCustomView(View view, CustomViewCallback callback) {
+            public void onShowCustomView(View view, IX5WebChromeClient.CustomViewCallback callback) {
                 super.onShowCustomView(view, callback);
             }
         });
@@ -638,7 +633,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 ZGPublishHelper.sharedInstance().startPublishing(ownStreamID, "", ZegoConstants.PublishFlag.JoinPublish);
                 ToastUtils.showLongToast(this, getResources().getString(R.string.open_video));
             } else {
-                ToastUtils.showLongToast(this,getResources().getString(R.string.close_video));
+                ToastUtils.showLongToast(this, getResources().getString(R.string.close_video));
                 ZGPublishHelper.sharedInstance().stopPublishing();
             }
         }
