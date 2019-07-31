@@ -78,7 +78,7 @@ public class MikeRateView extends View {
             countDownTimer.cancel();
             countDownTimer = null;
         }
-        countDownTimer = new CountDownTimer((times + 1) * 1000, 1000) {
+        countDownTimer = new CountDownTimer((times) * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 speed = times - (int) millisUntilFinished / 1000 + 1;
