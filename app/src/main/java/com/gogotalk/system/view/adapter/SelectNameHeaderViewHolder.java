@@ -16,4 +16,7 @@ public class SelectNameHeaderViewHolder extends RecyclerView.ViewHolder {
     public void render(String title){
         tv_title.setText(title);
     }
+    public void isShow(boolean flag){
+        tv_title.setVisibility(flag?View.VISIBLE:View.GONE);
+    }
 }

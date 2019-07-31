@@ -33,10 +33,14 @@ public class SelectNameAdapter extends SimpleSectionedAdapter<SelectNameAdapter.
     }
     @Override
     protected String getSectionHeaderTitle(int section) {
-        if(section==0){
-            return "推荐";
-        }
-        return mNameListBean.getGroupData().get(section-1).getFirstWord();
+//        if(section==0){
+//            if(mNameListBean.getRecommendData().size()>0){
+//                return "推荐";
+//            }else{
+//                return null;
+//            }
+//        }
+        return mNameListBean.getGroupData().get(section).getFirstWord();
     }
 
     /**
@@ -45,7 +49,7 @@ public class SelectNameAdapter extends SimpleSectionedAdapter<SelectNameAdapter.
      */
     @Override
     protected int getSectionCount() {
-        return mNameListBean.getGroupData().size()+1;
+        return mNameListBean.getGroupData().size();
     }
 
     /**
@@ -55,10 +59,10 @@ public class SelectNameAdapter extends SimpleSectionedAdapter<SelectNameAdapter.
      */
     @Override
     protected int getItemCountForSection(int section) {
-        if(section==0){
-            return mNameListBean.getRecommendData().size();
-        }
-        return mNameListBean.getGroupData().get(section-1).getEnglishNames().size();
+//        if(section==0){
+//            return mNameListBean.getRecommendData().size();
+//        }
+        return mNameListBean.getGroupData().get(section).getEnglishNames().size();
     }
 
     @Override
@@ -70,11 +74,11 @@ public class SelectNameAdapter extends SimpleSectionedAdapter<SelectNameAdapter.
 
     @Override
     protected void onBindItemViewHolder(final SelectNameHodler holder, int section, final int position) {
-        if(section==0){
-            holder.tv_name.setText(mNameListBean.getRecommendData().get(position));
-        }else{
-            holder.tv_name.setText(mNameListBean.getGroupData().get(section-1).getEnglishNames().get(position));
-        }
+//        if(section==0){
+//            holder.tv_name.setText(mNameListBean.getRecommendData().get(position));
+//        }else{
+            holder.tv_name.setText(mNameListBean.getGroupData().get(section).getEnglishNames().get(position));
+//        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
