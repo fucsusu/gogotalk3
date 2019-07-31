@@ -37,7 +37,6 @@
         <activity
             android:name=".view.activity.ClassRoomActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:process=":classroom"
             android:screenOrientation="landscape" />
         <activity
             android:name=".view.activity.WelcomeActivity"

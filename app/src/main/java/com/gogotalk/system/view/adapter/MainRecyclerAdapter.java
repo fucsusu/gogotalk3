@@ -2,6 +2,7 @@ package com.gogotalk.system.view.adapter;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,7 +126,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 holder.mEnterClassroom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (XClickUtil.isFastDoubleClick(v, 1000)) {
+                        if (XClickUtil.isFastDoubleClick(v, 5000)) {
                             return;
                         }
                         if (btnClickLisener != null) {
@@ -138,7 +139,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 holder.mEnterClassroom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (XClickUtil.isFastDoubleClick(v, 1000)) {
+                        if (XClickUtil.isFastDoubleClick(v, 5000)) {
                             return;
                         }
                         if (btnClickLisener != null) {

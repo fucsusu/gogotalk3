@@ -2,9 +2,7 @@ package com.gogotalk.system.view.activity;
 
 import android.animation.Animator;
 import android.app.Dialog;
-import android.app.Service;
 import android.content.Intent;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -119,6 +117,9 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     @BindView(R.id.courseware_class)
     public FrameLayout courseware_class;
 
+    @BindView(R.id.loud_class)
+    public ImageView loud_class;
+
     public int AttendLessonID;//房间的ID
     public String ChapterFilePath;//H5的课件地址
     public String LessonTime;//开课时间
@@ -138,8 +139,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public MediaPlayer player;//奖杯声音播放
 
     public String mCoursewareFile = "";
-    private int defaultMusicVolume=7;
-    private int defaultVoiceVolume=5;
+    private int defaultMusicVolume = 7;
+    private int defaultVoiceVolume = 5;
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -172,7 +173,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     });
     public String teacherName;
     public String ownName;
-//    private AudioManager audioManager;
+    //    private AudioManager audioManager;
     public WebSettings webSettings;
 
     @Override
@@ -389,6 +390,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     private void openJBAnim() {
         mMkfPhoto.setVisibility(View.INVISIBLE);
         mikeRateView.setVisibility(View.INVISIBLE);
+        loud_class.setVisibility(View.INVISIBLE);
         mJBNum++;
         AnimatorUtils.showOwnJiangbei(mJbX, mJB, mJB_jiayi, mMyJB, new Animator.AnimatorListener() {
             @Override
@@ -479,6 +481,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     private void openMikeTimer(int time) {
         mMkfPhoto.setVisibility(View.VISIBLE);
         mikeRateView.setVisibility(View.VISIBLE);
+        loud_class.setVisibility(View.VISIBLE);
         mikeRateView.start(time);
         sendHandleMessage(Constant.HANDLE_INFO_JB, time * 1000);
     }
@@ -538,6 +541,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         //加载assets目录下的html
         //加上下面这段代码可以使网页中的链接不以浏览器的方式打开
         webView.setWebViewClient(new WebViewClient());
+        // webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
         webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);//滚动条风格，为0指滚动条不占用空间，直接覆盖在网页上
         //得到webview设置

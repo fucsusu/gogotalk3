@@ -41,7 +41,7 @@ public class AiRoomApplication extends Application {
         initNet();
         initLogger();
         initJGSDK();
-        initTenX5();
+        //initTenX5();
         SPUtils.initSpUtil(this, AppUtils.getAppName(this));
     }
 

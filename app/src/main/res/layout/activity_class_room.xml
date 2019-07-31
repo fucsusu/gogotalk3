@@ -250,8 +250,8 @@
         <com.tencent.smtt.sdk.WebView
             android:id="@+id/id_mWebView_Class"
             android:layout_width="match_parent"
-            android:background="#000000"
             android:layout_height="match_parent"
+            android:background="#000000"
             android:visibility="visible" />
 
         <LinearLayout
@@ -371,5 +371,14 @@
         android:layout_alignRight="@id/courseware_class"
         android:layout_alignBottom="@id/courseware_class"
         android:src="@mipmap/bg_class_room_jb_xing_big"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/loud_class"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:src="@mipmap/bg_class_room_loud"
         android:visibility="invisible" />
 </RelativeLayout>
