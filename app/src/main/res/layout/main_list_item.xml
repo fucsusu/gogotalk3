@@ -46,6 +46,7 @@
             android:layout_height="wrap_content"
             android:text="The first lesson"
             android:textColor="#333"
+            android:singleLine="true"
             android:textSize="12sp" />
 
         <TextView
