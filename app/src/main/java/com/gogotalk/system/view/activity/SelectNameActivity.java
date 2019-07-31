@@ -3,11 +3,14 @@ package com.gogotalk.system.view.activity;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.entity.EnglishNameListBean;
 import com.gogotalk.system.model.util.Constant;
@@ -17,6 +20,7 @@ import com.gogotalk.system.util.ScreenUtils;
 import com.gogotalk.system.view.adapter.SelectNameAdapter;
 import com.gogotalk.system.view.widget.SectionedSpanSizeLookup;
 import com.gogotalk.system.view.widget.WaveSideBar;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -30,6 +34,7 @@ public class SelectNameActivity extends BaseActivity<SelectNamePresenter> implem
     @BindView(R.id.layout_search)
     RelativeLayout layoutSearch;
     private int sex;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,25 +63,25 @@ public class SelectNameActivity extends BaseActivity<SelectNamePresenter> implem
         mSideBar.setOnTouchLetterChangeListener(new WaveSideBar.OnTouchLetterChangeListener() {
             @Override
             public void onLetterChange(int letter) {
-            //该字母首次出现的位置
-            int position = mAdapter.getPositionForSection(letter);
-            if (position != -1) {
-                manager.scrollToPositionWithOffset(position, 0);
-            }
+                //该字母首次出现的位置
+                int position = mAdapter.getPositionForSection(letter) + letter - 65;
+                if (position != -1) {
+                    manager.scrollToPositionWithOffset(position, 0);
+                }
             }
         });
         layoutSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SelectNameActivity.this, SearchNameActivity.class);
-                intent.putExtra(Constant.INTENT_DATA_KEY_SEX,sex);
+                intent.putExtra(Constant.INTENT_DATA_KEY_SEX, sex);
                 startActivity(intent);
                 overridePendingTransition(0, 0);
             }
         });
-        manager = new GridLayoutManager(this,5);
+        manager = new GridLayoutManager(this, 5);
         mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(ScreenUtils.dip2px(SelectNameActivity.this,11)));
+        mRecyclerView.addItemDecoration(new SpaceItemDecoration(ScreenUtils.dip2px(SelectNameActivity.this, 11)));
     }
 
     @Override
@@ -89,6 +94,7 @@ public class SelectNameActivity extends BaseActivity<SelectNamePresenter> implem
 
     public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
+
         public SpaceItemDecoration(int space) {
             this.space = space;
         }
@@ -99,6 +105,7 @@ public class SelectNameActivity extends BaseActivity<SelectNamePresenter> implem
         }
 
     }
+
     @OnClick(R.id.btn_back)
     public void onViewClicked() {
         finish();

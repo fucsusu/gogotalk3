@@ -75,11 +75,11 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
             @Override
             public void onLoginCompletion(int errorCode, ZegoStreamInfo[] zegoStreamInfos) {
                 if (errorCode == 0) {
-                    Log.e("TAG", "登录房间成功准备推流...");
+                    Log.e("TAG", "登录房间成功准备推流..." + roomID + "||" + role);
                     getView().joinRoomCompletion();
                     //获取教室内的流
                     for (ZegoStreamInfo info : zegoStreamInfos) {
-                        if (info.streamID.contains("s-AI-teacher-")) {//老师
+                        if (info.streamID.contains(Constant.FLAG_TEACHER)) {//老师
                             teacherStreamID = info.streamID;
                             getView().teacherJoinRoom(info.streamID, info.userName);
                         } else {
@@ -88,7 +88,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                                 getView().studentJoinRoom(info.streamID, info.userName);
                             }
                         }
-                        Logger.e("TAG", "房间用户信息：\nstreamID:" + info.streamID + "\nextraInfo:" + info.extraInfo
+                        Log.e("TAG", "房间用户信息：\nstreamID:" + info.streamID + "\nextraInfo:" + info.extraInfo
                                 + "\nuserID:" + info.userID + "\nuserName:" + info.userName);
                     }
 
@@ -169,7 +169,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
         @Override
         public void onRecvMediaSideInfo(String streamID, String content) {
             //处理媒体次要信息
-            Logger.e("TAG", "onRecvMediaSideInfo流ID：" + streamID + "\n媒体次要信息：" + content);
+            Log.e("TAG", "onRecvMediaSideInfo流ID：" + streamID + "\n媒体次要信息：" + content);
             try {
                 JSONObject object = new JSONObject(content);
                 String action = object.getString("action");

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -236,11 +237,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                                         return;
                                     }
                                     Intent mIntent = new Intent(MainActivity.this, ClassRoomActivity.class);
-                                    mIntent.putExtra("AttendLessonID", coursesBean.getAttendLessonID());
+                                    mIntent.putExtra("AttendLessonID", coursesBean.getAttendLessonID()+"");
                                     mIntent.putExtra("ChapterFilePath", coursesBean.getChapterFilePath());
                                     mIntent.putExtra("LessonTime", coursesBean.getLessonTime());
                                     mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, coursesBean.getTeacherName());
                                     mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
+                                    Log.e("TAGlist", "finsh: "+coursesBean.getAttendLessonID()+"|||"+coursesBean.getChapterFilePath()+"||"+
+                                            coursesBean.getLessonTime()+"||"+coursesBean.getTeacherName()+"||"+filePath);
                                     startActivity(mIntent);
                                 }
                             });
