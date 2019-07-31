@@ -21,7 +21,7 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
             mView.hideLoading();
         }
         if(isError()){
-            ToastUtils.showShortToast(mView.getActivity(),e.getMessage());
+            ToastUtils.showLongToast(mView.getActivity(),e.getMessage());
         }
     }
 

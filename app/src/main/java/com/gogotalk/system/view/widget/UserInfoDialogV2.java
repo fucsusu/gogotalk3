@@ -13,8 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.util.Constant;
+import com.gogotalk.system.util.ToastUtils;
 import com.gogotalk.system.view.activity.SelectNameActivity;
 
 public class UserInfoDialogV2 extends Dialog {
@@ -22,16 +24,18 @@ public class UserInfoDialogV2 extends Dialog {
     public UserInfoDialogV2(Context context) {
         super(context);
     }
+
     public UserInfoDialogV2(Context context, int theme) {
         super(context, theme);
     }
+
     private static OnSaveClickLisener saveClickLisener;
 
     public static void setSaveClickLisener(OnSaveClickLisener saveClickLisener) {
         UserInfoDialogV2.saveClickLisener = saveClickLisener;
     }
 
-    public interface OnSaveClickLisener{
+    public interface OnSaveClickLisener {
         void onClick(int sex, String name);
     }
 
@@ -43,6 +47,7 @@ public class UserInfoDialogV2 extends Dialog {
         private LinearLayout layoutName;
         private Button btnSave;
         private int currentSex = 1;
+
         public Builder(final Context context) {
             dialog = new UserInfoDialogV2(context, R.style.Dialog);
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -52,9 +57,9 @@ public class UserInfoDialogV2 extends Dialog {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, SelectNameActivity.class);
-                    intent.putExtra(Constant.INTENT_DATA_KEY_SEX,currentSex);
+                    intent.putExtra(Constant.INTENT_DATA_KEY_SEX, currentSex);
                     context.startActivity(intent);
-                    ((Activity)context).overridePendingTransition(0, 0);
+                    ((Activity) context).overridePendingTransition(0, 0);
                 }
             });
             tvName = layout.findViewById(R.id.tv_name);
@@ -63,9 +68,9 @@ public class UserInfoDialogV2 extends Dialog {
             rgSex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                    if(i== R.id.rb_man){
+                    if (i == R.id.rb_man) {
                         currentSex = 1;
-                    }else{
+                    } else {
                         currentSex = 0;
                     }
                     tvName.setText("");
@@ -75,30 +80,32 @@ public class UserInfoDialogV2 extends Dialog {
             btnSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(saveClickLisener!=null){
-                        if(TextUtils.isEmpty(tvName.getText().toString())){
-                            Toast.makeText(context,"请选择英文名！", Toast.LENGTH_SHORT).show();
+                    if (saveClickLisener != null) {
+                        if (TextUtils.isEmpty(tvName.getText().toString())) {
+                            ToastUtils.showLongToast(context, "请选择英文名！");
                             return;
                         }
-                        saveClickLisener.onClick(currentSex,tvName.getText().toString());
+                        saveClickLisener.onClick(currentSex, tvName.getText().toString());
                     }
                 }
             });
             dialog.addContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         }
 
-        public Builder setName(String name){
+        public Builder setName(String name) {
             tvName.setText(name);
-            return  this;
+            return this;
         }
-        public Builder setSex(int sex){
+
+        public Builder setSex(int sex) {
             if (sex == 0) {
                 rgSex.check(R.id.rb_women);
             } else if (sex == 1) {
                 rgSex.check(R.id.rb_man);
             }
-            return  this;
+            return this;
         }
+
         public UserInfoDialogV2 create() {
             dialog.setContentView(layout);
             dialog.setCancelable(true);     //用户可以点击手机Back键取消对话框显示

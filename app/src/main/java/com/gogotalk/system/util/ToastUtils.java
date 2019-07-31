@@ -3,6 +3,8 @@ package com.gogotalk.system.util;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.Display;
+import android.view.Gravity;
 import android.widget.Toast;
 
 /**
@@ -166,6 +168,16 @@ public class ToastUtils {
      * 显示短时吐司
      *
      * @param context 上下文
+     * @param text    文本
+     */
+    public static void showShortToast1(Context context, CharSequence text) {
+        showToast(context, text, Toast.LENGTH_SHORT);
+    }
+
+    /**
+     * 显示短时吐司
+     *
+     * @param context 上下文
      * @param resId   资源Id
      */
     public static void showShortToast(Context context, int resId) {
@@ -250,6 +262,7 @@ public class ToastUtils {
             if (sIsCancel) sToast.cancel();
             sToast.setText(text);
         }
+        sToast.setGravity(Gravity.CENTER, AppUtils.getNavigationBarHeight(context) / 2, 250);
         sToast.show();
     }
 

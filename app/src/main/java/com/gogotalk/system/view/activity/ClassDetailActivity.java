@@ -72,7 +72,7 @@ public class ClassDetailActivity extends BaseActivity<ClassDetailPresenter> impl
             @Override
             public void yuYuClick(String date, String time) {
                 if (TextUtils.isEmpty(time)) {
-                    ToastUtils.showShortToast(ClassDetailActivity.this, "请选择约课时间");
+                    ToastUtils.showLongToast(ClassDetailActivity.this, "请选择约课时间");
                     return;
                 }
                 String lessonTime = date + " " + time;

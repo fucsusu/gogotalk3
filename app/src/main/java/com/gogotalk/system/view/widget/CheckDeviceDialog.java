@@ -22,6 +22,7 @@ import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.util.AudioRecoderUtils;
 import com.gogotalk.system.util.CameraUtils;
 import com.gogotalk.system.util.RecordPlayer;
+import com.gogotalk.system.util.ToastUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -131,7 +132,7 @@ public class CheckDeviceDialog extends Dialog {
                                 player.playRecordFile(recordFile);
                             } else {
                                 btn_micro.setImageResource(R.mipmap.ic_dialog_chcek_device_item_microphone);
-                                Toast.makeText(mContext, "至少长按1秒,并说话", Toast.LENGTH_LONG).show();
+                                ToastUtils.showLongToast(mContext,"至少长按1秒,并说话");
                                 if (timer != null) {
                                     timer.cancel();
                                     timer = null;
@@ -197,7 +198,7 @@ public class CheckDeviceDialog extends Dialog {
                 iv_micro_flag.setVisibility(View.VISIBLE);
                 if(states.size()==3){
                     if(!states.contains(false)){
-                        Toast.makeText(mContext,"恭喜，您已检测完毕！", Toast.LENGTH_SHORT).show();
+                        ToastUtils.showLongToast(mContext,"恭喜，您已检测完毕！");
                         layout.findViewById(R.id.layout_camera).setVisibility(View.GONE);
                         layout.findViewById(R.id.layout_speaker).setVisibility(View.GONE);
                         layout.findViewById(R.id.layout_microphone).setVisibility(View.VISIBLE);
