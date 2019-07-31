@@ -40,6 +40,11 @@ public class DataCleanManager {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             deleteDir(context.getExternalCacheDir());
         }
+        File filesDir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+        File[] files = filesDir.listFiles();
+        for (int i = 0; i < files.length; i++) {
+            DelectFileUtil.DeleteFolder(files[i]);
+        }
     }
 
     private static boolean deleteDir(File dir) {
