@@ -50,10 +50,6 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
         Button mBtn, mPreview, mEnterClassroom;
         int stye;
         int ChapterStatus;
-        String time = "";
-        String weeks = "";
-        String dates = "";
-        String fullDate = "";
         int ChapterID;
         int BookID;
         String ChapterFilePath;

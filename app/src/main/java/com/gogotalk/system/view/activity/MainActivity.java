@@ -449,10 +449,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 twoButtonDialog.dismiss();
                 if (type == 1) {
                     showLoading("清除中...");
+                    DataCleanManager.clearAllCache(MainActivity.this);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            DataCleanManager.clearAllCache(MainActivity.this);
                             ToastUtils.showLongToast(MainActivity.this, "清除成功");
                             hideLoading();
                         }
