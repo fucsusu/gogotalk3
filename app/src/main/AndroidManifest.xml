@@ -36,9 +36,10 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".view.activity.ClassRoomActivity"
-            android:hardwareAccelerated="true"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="landscape"/>
+            android:hardwareAccelerated="true"
+            android:process=":classroom"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".view.activity.WelcomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -55,8 +56,8 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".view.activity.MainActivity"
-            android:launchMode="singleTask"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
             android:screenOrientation="landscape" />
         <activity
             android:name=".view.activity.VideoActivity"
@@ -86,6 +87,7 @@
             android:name=".view.activity.SearchNameActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.gogotalk.FileProvider"

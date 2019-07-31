@@ -2,7 +2,9 @@ package com.gogotalk.system.view.activity;
 
 import android.animation.Animator;
 import android.app.Dialog;
+import android.app.Service;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +26,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.util.Constant;
@@ -168,6 +172,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     });
     public String teacherName;
     public String ownName;
+    private AudioManager audioManager;
     public WebSettings webSettings;
 
     @Override
@@ -177,7 +182,16 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         super.onCreate(savedInstanceState);
+        audioManager = (AudioManager) getSystemService(Service.AUDIO_SERVICE);
         mPresenter.initSdk(finalRoomId, roomRole);//初始化SDK
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 7, AudioManager.FLAG_PLAY_SOUND);
+        audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, 5, AudioManager.FLAG_PLAY_SOUND);
+        webSettings.setJavaScriptEnabled(true);
     }
 
     //获取初始化数据
@@ -376,8 +390,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
 
     //开启奖杯
     private void openJBAnim() {
-        mMkfPhoto.setVisibility(View.GONE);
-        mikeRateView.setVisibility(View.GONE);
+        mMkfPhoto.setVisibility(View.INVISIBLE);
+        mikeRateView.setVisibility(View.INVISIBLE);
         mJBNum++;
         AnimatorUtils.showOwnJiangbei(mJbX, mJB, mJB_jiayi, mMyJB, new Animator.AnimatorListener() {
             @Override
@@ -515,12 +529,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        webSettings.setJavaScriptEnabled(true);
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
         webSettings.setJavaScriptEnabled(false);
@@ -533,8 +541,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         //加载assets目录下的html
         //加上下面这段代码可以使网页中的链接不以浏览器的方式打开
         webView.setWebViewClient(new WebViewClient());
-        //硬件加速
-        webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
         webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);//滚动条风格，为0指滚动条不占用空间，直接覆盖在网页上
         //得到webview设置
@@ -542,6 +548,9 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         //允许使用javascript
         webSettings.setJavaScriptEnabled(true);
 
+        webSettings.setBlockNetworkImage(false);
+
+        //大小适配
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setAllowFileAccessFromFileURLs(true);
@@ -555,6 +564,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         //设置不缓存
         webSettings.setAppCacheEnabled(false);
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
 
 
         if (Build.VERSION.SDK_INT >= 19) {//设置是否自动加载图片
@@ -690,6 +700,12 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
             handler = null;
         }
         AnimatorUtils.destory();
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mPresenter.startPreviewOwn(mOwnTV);
     }
 
     @Override
