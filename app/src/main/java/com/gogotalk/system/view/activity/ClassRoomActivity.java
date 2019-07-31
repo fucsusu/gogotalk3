@@ -141,8 +141,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public MediaPlayer player;//奖杯声音播放
 
     public String mCoursewareFile = "";
-
-
+    private int defaultMusicVolume=7;
+    private int defaultVoiceVolume=5;
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -191,8 +191,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     @Override
     protected void onResume() {
         super.onResume();
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC ,7 ,AudioManager.FLAG_PLAY_SOUND);
-        audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL ,5 ,AudioManager.FLAG_PLAY_SOUND);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC ,defaultMusicVolume ,AudioManager.FLAG_PLAY_SOUND);
+        audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL ,defaultVoiceVolume ,AudioManager.FLAG_PLAY_SOUND);
         webSettings.setJavaScriptEnabled(true);
     }
 
@@ -709,6 +709,37 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             dialog();
+            return true;
+        }
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            defaultMusicVolume++;
+            defaultVoiceVolume++;
+            if(defaultVoiceVolume<11){
+                audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,defaultVoiceVolume,AudioManager.FLAG_SHOW_UI);
+            }else{
+                defaultVoiceVolume = 5;
+            }
+            if(defaultMusicVolume<15){
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,defaultMusicVolume,AudioManager.FLAG_SHOW_UI);
+            }else{
+                defaultMusicVolume = 7;
+            }
+            return true;
+        }
+
+        if(keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
+            defaultMusicVolume--;
+            defaultVoiceVolume--;
+            if(defaultVoiceVolume>5){
+                audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,defaultVoiceVolume,AudioManager.FLAG_PLAY_SOUND|AudioManager.FLAG_SHOW_UI);
+            }else{
+                defaultVoiceVolume = 5;
+            }
+            if(defaultMusicVolume>7){
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,defaultMusicVolume,AudioManager.FLAG_PLAY_SOUND|AudioManager.FLAG_SHOW_UI);
+            }else{
+                defaultMusicVolume = 7;
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);
