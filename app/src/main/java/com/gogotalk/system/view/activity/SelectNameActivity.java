@@ -61,7 +61,7 @@ public class SelectNameActivity extends BaseActivity<SelectNamePresenter> implem
             //该字母首次出现的位置
             int position = mAdapter.getPositionForSection(letter);
             if (position != -1) {
-                manager.scrollToPositionWithOffset(position, 0);
+                manager.scrollToPositionWithOffset(position+letter-65, 0);
             }
             }
         });

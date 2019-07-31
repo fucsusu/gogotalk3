@@ -26,7 +26,7 @@ public class SelectNameAdapter extends SimpleSectionedAdapter<SelectNameAdapter.
         if(nameListBean==null)return;
         this.mNameListBean = nameListBean;
         list.clear();
-        list.addAll(mNameListBean.getRecommendData());
+//        list.addAll(mNameListBean.getRecommendData());
         for(EnglishNameListBean.GroupDataBean groupDataBean:mNameListBean.getGroupData()){
             list.addAll(groupDataBean.getEnglishNames());
         }
