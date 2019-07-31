@@ -113,6 +113,6 @@ public class AiRoomApplication extends Application {
     @Override
     protected void attachBaseContext(Context context) {
         super.attachBaseContext(context);
-        Pgyer.setAppId("3910c14dcae4e4ffae296905a2fff5d3");
+        Pgyer.setAppId("9a55702201cdb5aafc2850204e7d4795");
     }
 }
