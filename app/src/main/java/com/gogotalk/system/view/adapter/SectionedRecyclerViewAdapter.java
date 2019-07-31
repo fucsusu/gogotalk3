@@ -98,8 +98,8 @@ public abstract class SectionedRecyclerViewAdapter<H extends RecyclerView.ViewHo
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder;
-
-        if (isSectionHeaderViewType01(viewType)||isSectionHeaderViewType02(viewType)) {
+//        isSectionHeaderViewType01(viewType)||
+        if (isSectionHeaderViewType02(viewType)) {
             viewHolder = onCreateSectionHeaderViewHolder(parent, viewType);
         } else if (isSectionFooterViewType(viewType)) {
             viewHolder = onCreateSectionFooterViewHolder(parent, viewType);
@@ -146,7 +146,7 @@ public abstract class SectionedRecyclerViewAdapter<H extends RecyclerView.ViewHo
     }
 
     protected int getSectionHeaderViewType(int section) {
-        if(section==0)return TYPE_SECTION_HEADER_ONE;
+//        if(section==0)return TYPE_SECTION_HEADER_ONE;
         return TYPE_SECTION_HEADER_TWO;
     }
 

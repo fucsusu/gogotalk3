@@ -1,5 +1,6 @@
 package com.gogotalk.system.view.adapter;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,9 +37,9 @@ public abstract class SimpleSectionedAdapter<VH extends RecyclerView.ViewHolder>
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = null;
         SelectNameHeaderViewHolder holder = null;
-        if(isSectionHeaderViewType01(viewType)){
-            view = inflater.inflate(getLayoutResource01(), parent, false);
-        }
+//        if(isSectionHeaderViewType01(viewType)){
+//            view = inflater.inflate(getLayoutResource01(), parent, false);
+//        }
         if(isSectionHeaderViewType02(viewType)){
             view = inflater.inflate(getLayoutResource02(), parent, false);
         }
@@ -65,7 +66,11 @@ public abstract class SimpleSectionedAdapter<VH extends RecyclerView.ViewHolder>
     @Override
     protected void onBindSectionHeaderViewHolder(SelectNameHeaderViewHolder holder, int section) {
         String title = getSectionHeaderTitle(section);
-        holder.render(title);
+//        if(section==0){
+//            holder.isShow(false);
+//        }else{
+            holder.render(title);
+//        }
     }
 
     @Override
@@ -77,11 +82,11 @@ public abstract class SimpleSectionedAdapter<VH extends RecyclerView.ViewHolder>
      * Provides a layout identifier for the header. Override it to change the appearance of the
      * header view.
      */
-    protected
-    @LayoutRes
-    int getLayoutResource01() {
-        return R.layout.rv_item_header_01;
-    }
+//    protected
+//    @LayoutRes
+//    int getLayoutResource01() {
+//        return R.layout.rv_item_header_01;
+//    }
     protected
     @LayoutRes
     int getLayoutResource02() {
