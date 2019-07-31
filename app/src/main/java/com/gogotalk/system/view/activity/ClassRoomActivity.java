@@ -172,7 +172,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     });
     public String teacherName;
     public String ownName;
-    private AudioManager audioManager;
+//    private AudioManager audioManager;
     public WebSettings webSettings;
 
     @Override
@@ -182,15 +182,15 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         super.onCreate(savedInstanceState);
-        audioManager = (AudioManager) getSystemService(Service.AUDIO_SERVICE);
+//        audioManager = (AudioManager) getSystemService(Service.AUDIO_SERVICE);
         mPresenter.initSdk(finalRoomId, roomRole);//初始化SDK
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC ,defaultMusicVolume ,AudioManager.FLAG_PLAY_SOUND);
-        audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL ,defaultVoiceVolume ,AudioManager.FLAG_PLAY_SOUND);
+//        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC ,defaultMusicVolume ,AudioManager.FLAG_PLAY_SOUND);
+//        audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL ,defaultVoiceVolume ,AudioManager.FLAG_PLAY_SOUND);
         webSettings.setJavaScriptEnabled(true);
     }
 
@@ -711,37 +711,37 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
             dialog();
             return true;
         }
-        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-            defaultMusicVolume++;
-            defaultVoiceVolume++;
-            if(defaultVoiceVolume<11){
-                audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,defaultVoiceVolume,AudioManager.FLAG_SHOW_UI);
-            }else{
-                defaultVoiceVolume = 5;
-            }
-            if(defaultMusicVolume<15){
-                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,defaultMusicVolume,AudioManager.FLAG_SHOW_UI);
-            }else{
-                defaultMusicVolume = 7;
-            }
-            return true;
-        }
+//        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+//            defaultMusicVolume++;
+//            defaultVoiceVolume++;
+//            if(defaultVoiceVolume<11){
+//                audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,defaultVoiceVolume,AudioManager.FLAG_SHOW_UI);
+//            }else{
+//                defaultVoiceVolume = 11;
+//            }
+//            if(defaultMusicVolume<15){
+//                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,defaultMusicVolume,AudioManager.FLAG_SHOW_UI);
+//            }else{
+//                defaultMusicVolume = 15;
+//            }
+//            return true;
+//        }
 
-        if(keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
-            defaultMusicVolume--;
-            defaultVoiceVolume--;
-            if(defaultVoiceVolume>5){
-                audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,defaultVoiceVolume,AudioManager.FLAG_PLAY_SOUND|AudioManager.FLAG_SHOW_UI);
-            }else{
-                defaultVoiceVolume = 5;
-            }
-            if(defaultMusicVolume>7){
-                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,defaultMusicVolume,AudioManager.FLAG_PLAY_SOUND|AudioManager.FLAG_SHOW_UI);
-            }else{
-                defaultMusicVolume = 7;
-            }
-            return true;
-        }
+//        if(keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
+//            defaultMusicVolume--;
+//            defaultVoiceVolume--;
+//            if(defaultVoiceVolume>0){
+//                audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,defaultVoiceVolume,AudioManager.FLAG_PLAY_SOUND|AudioManager.FLAG_SHOW_UI);
+//            }else{
+//                defaultVoiceVolume = 0;
+//            }
+//            if(defaultMusicVolume>0){
+//                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,defaultMusicVolume,AudioManager.FLAG_PLAY_SOUND|AudioManager.FLAG_SHOW_UI);
+//            }else{
+//                defaultMusicVolume = 0;
+//            }
+//            return true;
+//        }
         return super.onKeyDown(keyCode, event);
     }
 }
