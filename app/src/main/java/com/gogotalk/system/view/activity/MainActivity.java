@@ -154,7 +154,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
                     @Override
                     public void onNext(Long aLong) {
-                        Log.e("wuhongjie", "我轮训了=========" );
+                        Log.e("wuhongjie", "我轮训了=========");
                         if (!isFirstLoadData) {
                             isFirstLoadData = true;
                             mPresenter.getUserInfoData(true, false);
@@ -238,11 +238,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                                         return;
                                     }
                                     Intent mIntent = new Intent(MainActivity.this, ClassRoomActivity.class);
-                                    mIntent.putExtra("AttendLessonID", coursesBean.getAttendLessonID());
+                                    mIntent.putExtra("AttendLessonID", coursesBean.getAttendLessonID() + "");
                                     mIntent.putExtra("ChapterFilePath", coursesBean.getChapterFilePath());
                                     mIntent.putExtra("LessonTime", coursesBean.getLessonTime());
                                     mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, coursesBean.getTeacherName());
                                     mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
+                                    Log.e("TAGlist", "finsh: " + coursesBean.getAttendLessonID() + "|||" + coursesBean.getChapterFilePath() + "||" +
+                                            coursesBean.getLessonTime() + "||" + coursesBean.getTeacherName() + "||" + filePath);
                                     startActivity(mIntent);
                                 }
                             });
@@ -451,10 +453,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 twoButtonDialog.dismiss();
                 if (type == 1) {
                     showLoading("清除中...");
-                    DataCleanManager.clearAllCache(MainActivity.this);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            DataCleanManager.clearAllCache(MainActivity.this);
                             ToastUtils.showLongToast(MainActivity.this, "清除成功");
                             hideLoading();
                         }

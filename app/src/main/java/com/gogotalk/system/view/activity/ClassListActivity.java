@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -188,6 +189,8 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
                                     mIntent.putExtra("LessonTime", goItemBean.getLessonTime());
                                     mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, goItemBean.getTeacherName());
                                     mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
+                                    Log.e("TAGlist", "finsh: "+goItemBean.getAttendLessonID()+"|||"+goItemBean.getChapterFilePath()+"||"+
+                                            goItemBean.getLessonTime()+"||"+goItemBean.getTeacherName()+"||"+filePath);
                                     startActivity(mIntent);
                                 }
                             });

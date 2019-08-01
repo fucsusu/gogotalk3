@@ -120,7 +120,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     @BindView(R.id.loud_class)
     public ImageView loud_class;
 
-    public int AttendLessonID;//房间的ID
+    public String AttendLessonID;//房间的ID
     public String ChapterFilePath;//H5的课件地址
     public String LessonTime;//开课时间
     public String finalRoomId;//房间号
@@ -198,15 +198,15 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     //获取初始化数据
     public void getIntentData() {
         Intent mIntent = getIntent();
-        AttendLessonID = mIntent.getIntExtra("AttendLessonID", 0);
+        AttendLessonID = mIntent.getStringExtra("AttendLessonID");
         ChapterFilePath = mIntent.getStringExtra("ChapterFilePath");
         LessonTime = mIntent.getStringExtra("LessonTime");
         mCoursewareFile = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH);
         teacherName = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME);
         ownName = AppUtils.getUserInfoData().getName();
         ownStreamID = String.valueOf(AppUtils.getUserInfoData().getAccountID());
-        finalRoomId = "#AI-ClassRoom-" + String.valueOf(AttendLessonID);
-        Log.e("TAG", "initData: " + mCoursewareFile);
+        finalRoomId = "#AI-ClassRoom-" + AttendLessonID;
+        Log.e("TAG", "initData: " + finalRoomId);
         // /storage/emulated/0/Android/data/com.gogotalk/files/Download/F3A975D50DE74124B2FB07C5E4CB7348
     }
 

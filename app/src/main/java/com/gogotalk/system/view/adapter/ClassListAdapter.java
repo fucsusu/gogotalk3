@@ -127,8 +127,8 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
             holder.LessonTime = goItemBean1.getLessonTime();
             String url = goItemBean1.getChapterImagePath();
             AppUtils.bindImageToView(context
-                    ,url,R.mipmap.ic_main_list_item_header_default
-                    ,holder.mImgs,null,9,137,77);
+                    , url, R.mipmap.ic_main_list_item_header_default
+                    , holder.mImgs, null, 9, 137, 77);
             if (holder.stye == 0) {
                 holder.mLayout3.setVisibility(View.GONE);//锁的背景Layout
                 holder.mBtn.setBackgroundResource(R.mipmap.bg_main_list_item_btn_go_room);//立即预约按钮颜色
@@ -180,7 +180,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
                 holder.mBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ToastUtils.showLongToast(context,"学完前面的课时才可以解锁学习这节课哦~");
+                        ToastUtils.showLongToast(context, "学完前面的课时才可以解锁学习这节课哦~");
                     }
                 });
             }
