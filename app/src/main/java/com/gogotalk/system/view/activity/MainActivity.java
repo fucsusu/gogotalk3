@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.entity.CoursesBean;
+import com.gogotalk.system.model.entity.RoomInfoBean;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.presenter.MainContract;
 import com.gogotalk.system.presenter.MainPresenter;
@@ -228,29 +229,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     ToastUtils.showLongToast(MainActivity.this, "课前10分钟才可以进入教室");
                     return;
                 }
-                if (PermissionsUtil.getInstance().isPermissions()) {
-                    CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(MainActivity.this, coursesBean.getZipDownLoadUrl(),
-                            root_view, coursesBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
-                                @Override
-                                public void finsh(String filePath) {
-                                    if (TextUtils.isEmpty(filePath)) {
-                                        ToastUtils.showLongToast(MainActivity.this, "课件下载失败请查看网络是否连接正常！");
-                                        return;
-                                    }
-                                    Intent mIntent = new Intent(MainActivity.this, ClassRoomActivity.class);
-                                    mIntent.putExtra("AttendLessonID", coursesBean.getAttendLessonID() + "");
-                                    mIntent.putExtra("ChapterFilePath", coursesBean.getChapterFilePath());
-                                    mIntent.putExtra("LessonTime", coursesBean.getLessonTime());
-                                    mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, coursesBean.getTeacherName());
-                                    mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
-                                    Log.e("TAGlist", "finsh: " + coursesBean.getAttendLessonID() + "|||" + coursesBean.getChapterFilePath() + "||" +
-                                            coursesBean.getLessonTime() + "||" + coursesBean.getTeacherName() + "||" + filePath);
-                                    startActivity(mIntent);
-                                }
-                            });
-                } else {
-                    ToastUtils.showLongToast(MainActivity.this, "部分功能未授权，请授权后再试！");
-                }
+                mPresenter.getRoomInfo(coursesBean);
             }
 
             @Override
@@ -264,6 +243,32 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         });
         mRecyclerView.setAdapter(recyclerAdapter);
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(ScreenUtils.dip2px(getApplicationContext(), 10), 0));
+    }
+
+    private void goRoom(RoomInfoBean roomInfoBean,CoursesBean coursesBean) {
+        if (PermissionsUtil.getInstance().isPermissions()) {
+            CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(MainActivity.this, coursesBean.getZipDownLoadUrl(),
+                    root_view, coursesBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
+                        @Override
+                        public void finsh(String filePath) {
+                            if (TextUtils.isEmpty(filePath)) {
+                                ToastUtils.showLongToast(MainActivity.this, "课件下载失败请查看网络是否连接正常！");
+                                return;
+                            }
+                            Intent mIntent = new Intent(MainActivity.this, ClassRoomActivity.class);
+                            mIntent.putExtra("AttendLessonID", roomInfoBean.getAttendLessonID() + "");
+                            mIntent.putExtra("ChapterFilePath", roomInfoBean.getChapterData().getChapterFilePath());
+                            mIntent.putExtra("LessonTime", roomInfoBean.getLessonTime());
+                            mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, roomInfoBean.getTeacherName());
+                            mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
+                            Log.e("TAGlist", "finsh: " + roomInfoBean.getAttendLessonID() + "|||" + roomInfoBean.getChapterData().getChapterFilePath() + "||" +
+                                    roomInfoBean.getLessonTime() + "||" + roomInfoBean.getTeacherName() + "||" + filePath);
+                            startActivity(mIntent);
+                        }
+                    });
+        } else {
+            ToastUtils.showLongToast(MainActivity.this, "部分功能未授权，请授权后再试！");
+        }
     }
 
     @Override
@@ -292,6 +297,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     public void onUpdateUserInfoSuceess() {
         userInfoDialog.dismiss();
         mPresenter.getUserInfoData(false, true);
+    }
+
+    @Override
+    public void onRoomInfoSuccess(RoomInfoBean bean, CoursesBean coursesBean) {
+        goRoom(bean,coursesBean);
     }
 
     @Override

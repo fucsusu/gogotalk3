@@ -435,7 +435,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         mikeRateView.setVisibility(View.VISIBLE);
         loud_class.setVisibility(View.VISIBLE);
         mikeRateView.start(time);
-        sendHandleMessage(Constant.HANDLE_INFO_JB, time * 1000);
+        sendHandleMessage(Constant.HANDLE_INFO_JB, time * 1000+100);
     }
 
     //跳转页数

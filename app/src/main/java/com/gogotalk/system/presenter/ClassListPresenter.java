@@ -3,9 +3,14 @@ package com.gogotalk.system.presenter;
 import com.gogotalk.system.model.api.ApiService;
 import com.gogotalk.system.model.entity.BookLevelBean;
 import com.gogotalk.system.model.entity.GoGoBean;
+import com.gogotalk.system.model.entity.GoItemBean;
+import com.gogotalk.system.model.entity.RoomInfoBean;
 import com.gogotalk.system.model.entity.WeekMakeBean;
 import com.gogotalk.system.model.util.CommonSubscriber;
+import com.gogotalk.system.model.util.GsonUtils;
 import com.gogotalk.system.model.util.RxUtil;
+import com.orhanobut.logger.Logger;
+
 import java.util.List;
 import javax.inject.Inject;
 
@@ -86,6 +91,21 @@ public class ClassListPresenter extends RxPresenter<ClassListContract.View> impl
                     @Override
                     public void onNext(Object bean) {
                         getView().onOrderClassSuccess();
+                    }
+                })
+        );
+    }
+
+
+    @Override
+    public void getRoomInfo(GoItemBean goItemBean) {
+        addSubscribe(mApiService.getRoomInfo(goItemBean.getAttendLessonID())
+                .compose(RxUtil.rxSchedulerHelper())
+                .compose(RxUtil.handleMyResult(getView(),false))
+                .subscribeWith(new CommonSubscriber<RoomInfoBean>(getView()) {
+                    @Override
+                    public void onNext(RoomInfoBean bean) {
+                        getView().onRoomInfoSuccess(bean,goItemBean);
                     }
                 })
         );
