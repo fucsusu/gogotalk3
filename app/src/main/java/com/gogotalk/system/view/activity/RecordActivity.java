@@ -59,8 +59,8 @@ public class RecordActivity extends BaseActivity<RecordPresenter> implements Rec
                 startActivity(new Intent(this, MainActivity.class));
                 break;
             case R.id.aboutclass_record:
-//                startActivity(new Intent(RecordActivity.this, GoGoTalkActivity.class));
-//                finish();
+                startActivity(new Intent(RecordActivity.this, ClassListActivity.class));
+                finish();
                 break;
         }
     }

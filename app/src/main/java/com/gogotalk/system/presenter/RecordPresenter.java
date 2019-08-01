@@ -26,6 +26,10 @@ public class RecordPresenter extends RxPresenter<RecordContract.View> implements
         .subscribeWith(new CommonSubscriber<List<RecordBean>>(getView()) {
             @Override
             public void onNext(List<RecordBean> recordBeans) {
+                if(recordBeans==null||(recordBeans!=null&&recordBeans.size()==0)){
+                    getView().showGridViewOrEmptyViewByFlag(false);
+                    return;
+                }
                 getView().showGridViewOrEmptyViewByFlag(true);
                 getView().updateGridViewData(recordBeans);
             }

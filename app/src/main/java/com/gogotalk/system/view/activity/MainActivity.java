@@ -152,6 +152,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
                     @Override
                     public void onNext(Long aLong) {
+                        Log.e("wuhongjie", "我轮训了=========" );
                         if (!isFirstLoadData) {
                             isFirstLoadData = true;
                             mPresenter.getUserInfoData(true, false);
