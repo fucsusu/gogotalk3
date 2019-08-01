@@ -230,14 +230,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         }
 
         String endDateTime;//开课时间
-        if (LessonTime.indexOf("今天") == -1) {//没有
-            endDateTime = LessonTime;
-        } else {//有
-            String str = LessonTime.substring(2);
-            String date = DateUtils.StringData();
-            endDateTime = date + str;
-        }
-
+        endDateTime = LessonTime;
         //是否需要开启课程开始倒计时
         int timeDiff = DateUtils.getTimeDiff(endDateTime);
         if (timeDiff > 0) {
@@ -435,7 +428,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         mikeRateView.setVisibility(View.VISIBLE);
         loud_class.setVisibility(View.VISIBLE);
         mikeRateView.start(time);
-        sendHandleMessage(Constant.HANDLE_INFO_JB, time * 1000+100);
+        sendHandleMessage(Constant.HANDLE_INFO_JB, time * 1000);
     }
 
     //跳转页数
