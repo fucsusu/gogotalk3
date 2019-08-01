@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -36,7 +35,6 @@ import com.gogotalk.system.presenter.MainPresenter;
 import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.util.AutoUpdateUtil;
 import com.gogotalk.system.util.CoursewareDownLoadUtil;
-import com.gogotalk.system.util.DataCleanManager;
 import com.gogotalk.system.util.DelectFileUtil;
 import com.gogotalk.system.util.PermissionsUtil;
 import com.gogotalk.system.util.SPUtils;
@@ -237,13 +235,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                                         return;
                                     }
                                     Intent mIntent = new Intent(MainActivity.this, ClassRoomActivity.class);
-                                    mIntent.putExtra("AttendLessonID", coursesBean.getAttendLessonID()+"");
+                                    mIntent.putExtra("AttendLessonID", coursesBean.getAttendLessonID() + "");
                                     mIntent.putExtra("ChapterFilePath", coursesBean.getChapterFilePath());
                                     mIntent.putExtra("LessonTime", coursesBean.getLessonTime());
                                     mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, coursesBean.getTeacherName());
                                     mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
-                                    Log.e("TAGlist", "finsh: "+coursesBean.getAttendLessonID()+"|||"+coursesBean.getChapterFilePath()+"||"+
-                                            coursesBean.getLessonTime()+"||"+coursesBean.getTeacherName()+"||"+filePath);
+                                    Log.e("TAGlist", "finsh: " + coursesBean.getAttendLessonID() + "|||" + coursesBean.getChapterFilePath() + "||" +
+                                            coursesBean.getLessonTime() + "||" + coursesBean.getTeacherName() + "||" + filePath);
                                     startActivity(mIntent);
                                 }
                             });
@@ -443,47 +441,48 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
      * @param type
      */
     private void dialogCommon(String msg, final int type, Map<String, String> data) {
-        CommonDialog.Builder builder = new CommonDialog.Builder(this);
-        builder.setMessage(msg);
-        final CommonDialog twoButtonDialog = builder.createTwoButtonDialog();
-        builder.setPositiveButton("确定", new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                twoButtonDialog.dismiss();
-                if (type == 1) {
-                    showLoading("清除中...");
-                    DataCleanManager.clearAllCache(MainActivity.this);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            ToastUtils.showLongToast(MainActivity.this, "清除成功");
-                            hideLoading();
-                        }
-                    }, 1000);
-                    return;
-                }
-                if (type == 2) {
-                    SPUtils.remove(Constant.SP_KEY_PASSWORD);
-                    SPUtils.remove(Constant.SP_KEY_USERTOKEN);
-                    SPUtils.remove(Constant.SP_KEY_USERINFO);
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                    finish();
-                    return;
-                }
-                if (type == 3) {
-                    if (data == null) return;
-                    mPresenter.canelOrderClass(Integer.parseInt(data.get("demandId")));
-                    return;
-                }
-            }
-        });
-        builder.setNegativeButton("取消", new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                twoButtonDialog.dismiss();
-            }
-        });
-        twoButtonDialog.show();
+//        CommonDialog.Builder builder = new CommonDialog.Builder(this);
+//        builder.setMessage(msg);
+//        final CommonDialog twoButtonDialog = builder.createTwoButtonDialog();
+//        builder.setPositiveButton("确定", new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                twoButtonDialog.dismiss();
+//                if (type == 1) {
+//
+////                    new Handler().postDelayed(new Runnable() {
+////                        @Override
+////                        public void run() {
+////                            DataCleanManager.clearAllCache(MainActivity.this);
+////                            ToastUtils.showLongToast(MainActivity.this, "清除成功");
+////                            hideLoading();
+////                        }
+////                    }, 1000);
+//                    return;
+//                }
+//                if (type == 2) {
+//                    SPUtils.remove(Constant.SP_KEY_PASSWORD);
+//                    SPUtils.remove(Constant.SP_KEY_USERTOKEN);
+//                    SPUtils.remove(Constant.SP_KEY_USERINFO);
+//                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//                    finish();
+//                    return;
+//                }
+//                if (type == 3) {
+//                    if (data == null) return;
+//                    mPresenter.canelOrderClass(Integer.parseInt(data.get("demandId")));
+//                    return;
+//                }
+//            }
+//        });
+//        builder.setNegativeButton("取消", new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                twoButtonDialog.dismiss();
+//            }
+//        });
+//        twoButtonDialog.show();
+        showLoading("清除中...");
     }
 
     /**
