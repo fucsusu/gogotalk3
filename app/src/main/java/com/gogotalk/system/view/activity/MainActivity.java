@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -153,6 +154,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
                     @Override
                     public void onNext(Long aLong) {
+                        Log.e("wuhongjie", "我轮训了=========" );
                         if (!isFirstLoadData) {
                             isFirstLoadData = true;
                             mPresenter.getUserInfoData(true, false);
