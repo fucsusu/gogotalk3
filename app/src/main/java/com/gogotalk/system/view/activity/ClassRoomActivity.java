@@ -195,6 +195,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     protected void onResume() {
         super.onResume();
         webSettings.setJavaScriptEnabled(true);
+        webView.onResume();
     }
 
     //获取初始化数据
@@ -229,14 +230,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         }
 
         String endDateTime;//开课时间
-        if (LessonTime.indexOf("今天") == -1) {//没有
-            endDateTime = LessonTime;
-        } else {//有
-            String str = LessonTime.substring(2);
-            String date = DateUtils.StringData();
-            endDateTime = date + str;
-        }
-
+        endDateTime = LessonTime;
         //是否需要开启课程开始倒计时
         int timeDiff = DateUtils.getTimeDiff(endDateTime);
         if (timeDiff > 0) {
@@ -434,7 +428,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         mikeRateView.setVisibility(View.VISIBLE);
         loud_class.setVisibility(View.VISIBLE);
         mikeRateView.start(time);
-        sendHandleMessage(Constant.HANDLE_INFO_JB, time * 1000+100);
+        sendHandleMessage(Constant.HANDLE_INFO_JB, time * 1000);
     }
 
     //跳转页数
@@ -518,13 +512,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
         webView.addJavascriptInterface(this, "androidApi");
-
-
-        if (Build.VERSION.SDK_INT >= 19) {//设置是否自动加载图片
-            webSettings.setLoadsImagesAutomatically(true);
-        } else {
-            webSettings.setLoadsImagesAutomatically(false);
-        }
 
         try {
             if (Build.VERSION.SDK_INT >= 16) {
@@ -659,6 +646,13 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mPresenter.startPreviewOwn(mOwnTV);
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        webView.onPause();
     }
 
     @Override
