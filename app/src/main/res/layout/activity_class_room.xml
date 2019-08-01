@@ -316,7 +316,7 @@
                         android:id="@+id/id_mTime_Class"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="15:30"
+                        android:text=""
                         android:textColor="#fff"
                         android:textSize="13sp" />
                 </LinearLayout>
