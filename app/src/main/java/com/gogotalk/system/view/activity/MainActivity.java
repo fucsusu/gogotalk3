@@ -541,7 +541,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.id_mPersonalSettings:
-//                showUserInfoDialog();
                 showUserInfoDialogV2();
                 break;
             case R.id.id_mRecord:

@@ -8,6 +8,7 @@ import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -28,7 +29,7 @@ public class MikeRateView extends View {
     private int speed;
 
     {
-        mStrokeWidth = (int) (35/getContext().getResources().getDisplayMetrics().density);
+        mStrokeWidth = 8 * (getContext().getResources().getDisplayMetrics().densityDpi / 160);
         mPaint = new Paint();
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setColor(Color.parseColor("#FF6601"));
@@ -59,8 +60,8 @@ public class MikeRateView extends View {
         super.onLayout(changed, left, top, right, bottom);
         width = right - left;
         height = bottom - top;
-        mPath.moveTo(mStrokeWidth / 2 , height / 2 - mStrokeWidth);
-        mPath.cubicTo(mStrokeWidth / 2 + 5 , -mStrokeWidth / 4 * 2, width - mStrokeWidth / 2 - 5 , -mStrokeWidth / 4 * 2, width - mStrokeWidth / 2 , height / 2 - mStrokeWidth);
+        mPath.moveTo(mStrokeWidth / 2, height / 2 - mStrokeWidth);
+        mPath.cubicTo(mStrokeWidth / 2 + 5, -mStrokeWidth / 4 * 2, width - mStrokeWidth / 2 - 5, -mStrokeWidth / 4 * 2, width - mStrokeWidth / 2, height / 2 - mStrokeWidth);
         pathMeasure.setPath(mPath, false);
     }
 
@@ -80,10 +81,13 @@ public class MikeRateView extends View {
             countDownTimer.cancel();
             countDownTimer = null;
         }
-        countDownTimer = new CountDownTimer((times) * 1000, 1000) {
+        countDownTimer = new CountDownTimer((times + 1) * 1000, 990) {
             @Override
             public void onTick(long millisUntilFinished) {
-                speed = times - (int) millisUntilFinished / 1000;
+                speed++;
+                if (speed > times) {
+                    speed = times;
+                }
                 postInvalidate();
             }
 

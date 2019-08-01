@@ -1,6 +1,6 @@
 package com.gogotalk.system.view.activity;
 
-import android.animation.Animator;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -102,6 +102,10 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public ImageView mJB;//奖杯
     @BindView(R.id.id_mImageJY_Class)
     public ImageView mJB_jiayi;//加一
+    @BindView(R.id.id_mImageJE_Class)
+    public ImageView mJB_jiaer;//加二
+    @BindView(R.id.id_mImageJS_Class)
+    public ImageView mJb_jiasan;//加三
     @BindView(R.id.class_jb_xing)
     public ImageView mJbX;//奖杯星星bg
     @BindView(R.id.jb_other_class)
@@ -110,6 +114,10 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public ImageView mJB_xing_other;//其他学生的星星背景
     @BindView(R.id.jb_jiayi_other_Class)
     public ImageView mJB_jiayi_other;//其他学生加一
+    @BindView(R.id.jb_jiaer_other_Class)
+    public ImageView mJB_jiaer_other;//其他学生加二
+    @BindView(R.id.jb_jiasan_other_Class)
+    public ImageView mJB_jiaSan_other;//其他学生加三
 
     @BindView(R.id.answer_countdown_class)
     public AnswerCountDown answer_countdown;//答题倒计时
@@ -139,8 +147,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public MediaPlayer player;//奖杯声音播放
 
     public String mCoursewareFile = "";
-    private int defaultMusicVolume = 7;
-    private int defaultVoiceVolume = 5;
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -173,7 +179,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     });
     public String teacherName;
     public String ownName;
-    //    private AudioManager audioManager;
     public WebSettings webSettings;
 
     @Override
@@ -183,15 +188,12 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         super.onCreate(savedInstanceState);
-//        audioManager = (AudioManager) getSystemService(Service.AUDIO_SERVICE);
         mPresenter.initSdk(finalRoomId, roomRole);//初始化SDK
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC ,defaultMusicVolume ,AudioManager.FLAG_PLAY_SOUND);
-//        audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL ,defaultVoiceVolume ,AudioManager.FLAG_PLAY_SOUND);
         webSettings.setJavaScriptEnabled(true);
     }
 
@@ -386,80 +388,29 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         }
     }
 
+    @SuppressLint("JavascriptInterface")
+    private void showJb(int num) {
+        switch (num) {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+        }
+    }
+
     //开启奖杯
     private void openJBAnim() {
         mMkfPhoto.setVisibility(View.INVISIBLE);
         mikeRateView.setVisibility(View.INVISIBLE);
         loud_class.setVisibility(View.INVISIBLE);
         mJBNum++;
-        AnimatorUtils.showOwnJiangbei(mJbX, mJB, mJB_jiayi, mMyJB, new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                mJbX.setVisibility(View.VISIBLE);
-                mJB.setVisibility(View.VISIBLE);
-                mJB_jiayi.setVisibility(View.VISIBLE);
-            }
+        //给自己发奖杯
+        AnimatorUtils.showOwnJiangbei(mJbX, mJB, mJB_jiayi, mMyJB, mJBNum);
 
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mMyJB.setText(mJBNum + "");
-                mJbX.setVisibility(View.INVISIBLE);
-                mJB.setVisibility(View.INVISIBLE);
-                mJB_jiayi.setVisibility(View.INVISIBLE);
-                mJB.setTranslationX(0);
-                mJB.setTranslationY(0);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-                mMyJB.setText(mJBNum + "");
-                mJbX.setVisibility(View.INVISIBLE);
-                mJB.setVisibility(View.INVISIBLE);
-                mJB_jiayi.setVisibility(View.INVISIBLE);
-                mJB.setTranslationX(0);
-                mJB.setTranslationY(0);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
-
-        //开始奖杯动画
-        AnimatorUtils.showOtherJiangbei(mJB_xing_other, mJB_other, mJB_jiayi_other, mOtherJBNum, new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                mJB_xing_other.setVisibility(View.VISIBLE);
-                mJB_other.setVisibility(View.VISIBLE);
-                mJB_jiayi_other.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mOtherJBNum.setText(mJBNum + "");
-                mJB_xing_other.setVisibility(View.INVISIBLE);
-                mJB_other.setVisibility(View.INVISIBLE);
-                mJB_jiayi_other.setVisibility(View.INVISIBLE);
-                mJB_other.setTranslationX(0);
-                mJB_other.setTranslationY(0);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-                mOtherJBNum.setText(mJBNum + "");
-                mJB_xing_other.setVisibility(View.INVISIBLE);
-                mJB_other.setVisibility(View.INVISIBLE);
-                mJB_jiayi_other.setVisibility(View.INVISIBLE);
-                mJB_other.setTranslationX(0);
-                mJB_other.setTranslationY(0);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
+        //给对方发奖杯
+        AnimatorUtils.showOtherJiangbei(mJB_xing_other, mJB_other, mJB_jiayi_other, mOtherJBNum, mJBNum);
 
         player = MediaPlayer.create(this, R.raw.trophy);
         if (player.isPlaying()) {
@@ -566,6 +517,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         webSettings.setAppCacheEnabled(false);
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webView.addJavascriptInterface(this, "androidApi");
 
 
         if (Build.VERSION.SDK_INT >= 19) {//设置是否自动加载图片
@@ -715,37 +667,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
             dialog();
             return true;
         }
-//        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-//            defaultMusicVolume++;
-//            defaultVoiceVolume++;
-//            if(defaultVoiceVolume<11){
-//                audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,defaultVoiceVolume,AudioManager.FLAG_SHOW_UI);
-//            }else{
-//                defaultVoiceVolume = 11;
-//            }
-//            if(defaultMusicVolume<15){
-//                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,defaultMusicVolume,AudioManager.FLAG_SHOW_UI);
-//            }else{
-//                defaultMusicVolume = 15;
-//            }
-//            return true;
-//        }
-
-//        if(keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
-//            defaultMusicVolume--;
-//            defaultVoiceVolume--;
-//            if(defaultVoiceVolume>0){
-//                audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,defaultVoiceVolume,AudioManager.FLAG_PLAY_SOUND|AudioManager.FLAG_SHOW_UI);
-//            }else{
-//                defaultVoiceVolume = 0;
-//            }
-//            if(defaultMusicVolume>0){
-//                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,defaultMusicVolume,AudioManager.FLAG_PLAY_SOUND|AudioManager.FLAG_SHOW_UI);
-//            }else{
-//                defaultMusicVolume = 0;
-//            }
-//            return true;
-//        }
         return super.onKeyDown(keyCode, event);
     }
 }

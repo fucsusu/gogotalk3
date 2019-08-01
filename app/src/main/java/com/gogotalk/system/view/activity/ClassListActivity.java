@@ -285,7 +285,7 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
     @Override
     public void onOrderClassSuccess() {
         yuYueDialog.dismiss();
-        ToastUtils.showLongToast(this, "约课成功！");
+        ToastUtils.showShortToast(this, "约课成功！");
     }
 
     @Override

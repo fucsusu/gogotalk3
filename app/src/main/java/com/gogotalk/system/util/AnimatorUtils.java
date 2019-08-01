@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.LinearInterpolator;
+import android.widget.TextView;
 
 /**
  * Created by fucc
@@ -14,9 +15,16 @@ import android.view.animation.LinearInterpolator;
 public class AnimatorUtils {
     public static AnimatorSet animOwnSet;
     public static AnimatorSet animOtherSet;
-
+    /**
+     *
+     * @param xing  背景星星
+     * @param jiangbei  奖杯
+     * @param addJbNum  奖杯增加的图片
+     * @param jbNumTxt  存放奖杯的数目
+     * @param jbNum  奖杯的数目
+     */
     //属性动画
-    public static void showOwnJiangbei(View xing, View jiangbei, final View yi, View mude, Animator.AnimatorListener listener) {
+    public static void showOwnJiangbei(View xing, View jiangbei, final View addJbNum, TextView jbNumTxt, int jbNum) {
         xing.setVisibility(View.VISIBLE);
         jiangbei.setVisibility(View.VISIBLE);
         if (animOwnSet != null) {
@@ -34,11 +42,11 @@ public class AnimatorUtils {
 
         // 移动时效果
         int[] mudeLocation = new int[2];
-        mude.getLocationInWindow(mudeLocation);
+        jbNumTxt.getLocationInWindow(mudeLocation);
         int[] jiangbeiLocation = new int[2];
         jiangbei.getLocationInWindow(jiangbeiLocation);
-        ObjectAnimator jBtranslationX = ObjectAnimator.ofFloat(jiangbei, "translationX", 0, mudeLocation[0] - mude.getWidth() / 2 - jiangbeiLocation[0] - jiangbei.getMeasuredWidth() / 2);
-        ObjectAnimator jBtranslationY = ObjectAnimator.ofFloat(jiangbei, "translationY", 0, mudeLocation[1] - mude.getHeight() / 2 - jiangbeiLocation[1] - jiangbei.getMeasuredHeight() / 2);
+        ObjectAnimator jBtranslationX = ObjectAnimator.ofFloat(jiangbei, "translationX", 0, mudeLocation[0] - jbNumTxt.getWidth() / 2 - jiangbeiLocation[0] - jiangbei.getMeasuredWidth() / 2);
+        ObjectAnimator jBtranslationY = ObjectAnimator.ofFloat(jiangbei, "translationY", 0, mudeLocation[1] - jbNumTxt.getHeight() / 2 - jiangbeiLocation[1] - jiangbei.getMeasuredHeight() / 2);
         jBtranslationX.setInterpolator(new AccelerateInterpolator());
         jBtranslationX.setDuration(800);
         jBtranslationY.setDuration(800);
@@ -51,14 +59,14 @@ public class AnimatorUtils {
         jBAlpha.setDuration(800);
 
         //数字动画
-        ObjectAnimator yiTransY = ObjectAnimator.ofFloat(yi, "translationY", 0, -150);
+        ObjectAnimator yiTransY = ObjectAnimator.ofFloat(addJbNum, "translationY", 0, -150);
         yiTransY.setDuration(600);
-        ObjectAnimator yiAlpha = ObjectAnimator.ofFloat(yi, "alpha", 0f, 0.8f, 0.2f, 0.2f, 0.8f, 0);
+        ObjectAnimator yiAlpha = ObjectAnimator.ofFloat(addJbNum, "alpha", 0f, 0.8f, 0.2f, 0.2f, 0.8f, 0);
         yiAlpha.setDuration(1300);
         yiTransY.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-                yi.setVisibility(View.VISIBLE);
+                addJbNum.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -78,7 +86,7 @@ public class AnimatorUtils {
         });
 
         //数字动画
-        ObjectAnimator yiTransY2 = ObjectAnimator.ofFloat(yi, "translationY", 0, -150);
+        ObjectAnimator yiTransY2 = ObjectAnimator.ofFloat(addJbNum, "translationY", 0, -150);
         yiTransY2.setDuration(600);
         yiTransY2.setStartDelay(610);
 
@@ -88,10 +96,42 @@ public class AnimatorUtils {
                 .after(xingAlpha).after(jianbeiScaleX).after(jianbeiScaleY)
                 .before(yiTransY).before(yiAlpha).before(yiTransY2);
         animOwnSet.start();
-        animOwnSet.addListener(listener);
+        animOwnSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+                xing.setVisibility(View.VISIBLE);
+                jiangbei.setVisibility(View.VISIBLE);
+                addJbNum.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                jbNumTxt.setText(jbNum + "");
+                xing.setVisibility(View.INVISIBLE);
+                jiangbei.setVisibility(View.INVISIBLE);
+                addJbNum.setVisibility(View.INVISIBLE);
+                jiangbei.setTranslationX(0);
+                jiangbei.setTranslationY(0);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+                jbNumTxt.setText(jbNum + "");
+                xing.setVisibility(View.INVISIBLE);
+                jiangbei.setVisibility(View.INVISIBLE);
+                addJbNum.setVisibility(View.INVISIBLE);
+                jiangbei.setTranslationX(0);
+                jiangbei.setTranslationY(0);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
     }
 
-    public static void showOtherJiangbei(View xing, View jiangbei, final View yi, View mude, Animator.AnimatorListener listener) {
+    public static void showOtherJiangbei(View xing, View jiangbei, final View yi, TextView mude, int jbNum) {
         xing.setVisibility(View.VISIBLE);
         jiangbei.setVisibility(View.VISIBLE);
 
@@ -166,7 +206,39 @@ public class AnimatorUtils {
                 .after(xingAlpha).after(jianbeiScaleX).after(jianbeiScaleY)
                 .before(yiTransY).before(yiAlpha).before(yiTransY2);
         animOtherSet.start();
-        animOtherSet.addListener(listener);
+        animOtherSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                xing.setVisibility(View.VISIBLE);
+                jiangbei.setVisibility(View.VISIBLE);
+                yi.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mude.setText(jbNum + "");
+                xing.setVisibility(View.INVISIBLE);
+                jiangbei.setVisibility(View.INVISIBLE);
+                yi.setVisibility(View.INVISIBLE);
+                jiangbei.setTranslationX(0);
+                jiangbei.setTranslationY(0);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                mude.setText(jbNum + "");
+                xing.setVisibility(View.INVISIBLE);
+                jiangbei.setVisibility(View.INVISIBLE);
+                yi.setVisibility(View.INVISIBLE);
+                jiangbei.setTranslationX(0);
+                jiangbei.setTranslationY(0);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
     }
 
     public static void destory() {
