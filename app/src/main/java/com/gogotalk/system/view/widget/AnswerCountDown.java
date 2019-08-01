@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.os.CountDownTimer;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import java.util.concurrent.TimeUnit;
@@ -17,7 +16,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 
 /**
  * Created by fucc
