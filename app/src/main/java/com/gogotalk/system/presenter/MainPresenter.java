@@ -152,6 +152,11 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
                         getView().onRoomInfoSuccess(bean,coursesBean);
                     }
 
+                    @Override
+                    public boolean isShowSuccessMsg() {
+                        return false;
+                    }
+
                 })
         );
     }

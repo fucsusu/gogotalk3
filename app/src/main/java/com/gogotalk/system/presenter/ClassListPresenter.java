@@ -107,6 +107,10 @@ public class ClassListPresenter extends RxPresenter<ClassListContract.View> impl
                     public void onNext(RoomInfoBean bean) {
                         getView().onRoomInfoSuccess(bean,goItemBean);
                     }
+                    @Override
+                    public boolean isShowSuccessMsg() {
+                        return false;
+                    }
                 })
         );
     }
