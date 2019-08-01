@@ -4,6 +4,7 @@ import android.widget.Toast;
 
 import com.gogotalk.system.model.api.ApiService;
 import com.gogotalk.system.model.entity.CoursesBean;
+import com.gogotalk.system.model.entity.RoomInfoBean;
 import com.gogotalk.system.model.entity.UserInfoBean;
 import com.gogotalk.system.model.util.CommonSubscriber;
 import com.gogotalk.system.model.util.HttpUtils;
@@ -136,6 +137,21 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
                     public boolean isHideLoading() {
                         return false;
                     }
+                })
+        );
+    }
+
+    @Override
+    public void getRoomInfo(CoursesBean coursesBean) {
+        addSubscribe(mApiService.getRoomInfo(String.valueOf(coursesBean.getAttendLessonID()))
+                .compose(RxUtil.rxSchedulerHelper())
+                .compose(RxUtil.handleMyResult(getView(),true))
+                .subscribeWith(new CommonSubscriber<RoomInfoBean>(getView()) {
+                    @Override
+                    public void onNext(RoomInfoBean bean) {
+                        getView().onRoomInfoSuccess(bean,coursesBean);
+                    }
+
                 })
         );
     }

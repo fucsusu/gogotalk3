@@ -9,6 +9,7 @@ import com.gogotalk.system.model.entity.EnglishNameListBean;
 import com.gogotalk.system.model.entity.GoGoBean;
 import com.gogotalk.system.model.entity.RecordBean;
 import com.gogotalk.system.model.entity.ResponseModel;
+import com.gogotalk.system.model.entity.RoomInfoBean;
 import com.gogotalk.system.model.entity.UserInfoBean;
 import com.gogotalk.system.model.entity.WeekMakeBean;
 
@@ -78,6 +79,9 @@ public interface ApiService {
     @Streaming
     @GET
     Observable<ResponseBody> downLoadClassFile(@Url String url);
+
+    @GET("/api/Lesson/EnterRoom")
+    Flowable<ResponseModel<RoomInfoBean>> getRoomInfo(@Query("AttendLessonId") String attendLessonId);
 
 }
 
