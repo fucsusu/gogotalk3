@@ -145,17 +145,13 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
     public void getRoomInfo(CoursesBean coursesBean) {
         addSubscribe(mApiService.getRoomInfo(String.valueOf(coursesBean.getAttendLessonID()))
                 .compose(RxUtil.rxSchedulerHelper())
-                .compose(RxUtil.handleMyResult(getView(),true))
+                .compose(RxUtil.handleMyResult(getView(),false))
                 .subscribeWith(new CommonSubscriber<RoomInfoBean>(getView()) {
                     @Override
                     public void onNext(RoomInfoBean bean) {
                         getView().onRoomInfoSuccess(bean,coursesBean);
                     }
 
-                    @Override
-                    public boolean isShowSuccessMsg() {
-                        return false;
-                    }
 
                 })
         );

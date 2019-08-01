@@ -41,9 +41,6 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
     public boolean isError(){
         return true;
     }
-    public boolean isShowSuccessMsg(){
-        return false;
-    }
     @Override
     public void onComplete() {
         if(isHideLoading())
