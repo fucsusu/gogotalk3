@@ -5,6 +5,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -54,6 +55,8 @@ public class LoadingDialog extends Dialog {
             //设置带自定义主题的dialog
             loadingDailog=new LoadingDialog(context,R.style.LoadingDialog);
             msgText= (TextView) view.findViewById(R.id.tipTextView);
+//            loadingDailog.addContentView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
         }
 
         /**

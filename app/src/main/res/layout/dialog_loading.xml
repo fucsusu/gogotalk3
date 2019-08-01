@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:background="#e0000000"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="150dp"
         android:layout_height="110dp"
-        android:background="@mipmap/loading_bg"
+        android:background="#e0000000"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingBottom="10dp"
@@ -24,7 +25,7 @@
             android:layout_gravity="center_horizontal"
             android:indeterminateBehavior="repeat"
             android:indeterminateDrawable="@drawable/dialog_loading"
-            android:indeterminateOnly="true" />
+             />
 
         <TextView
             android:id="@+id/tipTextView"
