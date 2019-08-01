@@ -146,7 +146,7 @@ public class CoursewareDownLoadUtil {
                     downLoadSucess();
                 } else {
                     downLoadFail();
-                    ToastUtils.showLongToast(mContent,"解压失败！");
+                    ToastUtils.showShortToast(mContent,"解压失败！");
                 }
             }
         });

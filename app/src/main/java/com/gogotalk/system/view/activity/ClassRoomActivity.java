@@ -1,6 +1,5 @@
 package com.gogotalk.system.view.activity;
 
-import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
@@ -18,7 +17,6 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.JavascriptInterface;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -181,7 +179,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     });
     public String teacherName;
     public String ownName;
-    //    private AudioManager audioManager;
     public WebSettings webSettings;
 
     @Override

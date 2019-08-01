@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.os.CountDownTimer;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -21,7 +22,7 @@ public class AnswerCountDown extends View {
     private Paint mPaint;
     private TextPaint mTxtPaint;
 
-    private int time = 10;
+    private int time = 11;
     private CountDownTimer countDownTimer;
     private AnswerCountDown answerCountDown = this;
 
@@ -33,7 +34,7 @@ public class AnswerCountDown extends View {
         super(context, attrs);
     }
 
-    public AnswerCountDown(Context context,  AttributeSet attrs, int defStyleAttr) {
+    public AnswerCountDown(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -45,10 +46,13 @@ public class AnswerCountDown extends View {
         mTxtPaint = new TextPaint();
         mTxtPaint.setColor(Color.WHITE);
 
-        countDownTimer = new CountDownTimer(10 * 1000+100, 999) {
+        countDownTimer = new CountDownTimer(10 * 1000, 990) {
             @Override
             public void onTick(long millisUntilFinished) {
-                time = (int) (millisUntilFinished / 1000);
+                time--;
+                if (time < 0) {
+                    time = 0;
+                }
                 postInvalidate();
             }
 
@@ -88,7 +92,7 @@ public class AnswerCountDown extends View {
     }
 
     public void startCountDown() {
-        time = 10;
+        time = 11;
         answerCountDown.setVisibility(VISIBLE);
         postInvalidate();
         if (countDownTimer != null) {

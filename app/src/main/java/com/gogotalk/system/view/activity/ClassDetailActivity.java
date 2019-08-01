@@ -147,7 +147,7 @@ public class ClassDetailActivity extends BaseActivity<ClassDetailPresenter> impl
     @Override
     public void onOrderClassSuccess() {
         yuYueDialog.dismiss();
-        ToastUtils.showLongToast(this, "约课成功！");
+        ToastUtils.showShortToast(this, "约课成功！");
     }
 
 }
