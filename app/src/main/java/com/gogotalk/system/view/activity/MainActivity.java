@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -35,6 +36,7 @@ import com.gogotalk.system.presenter.MainPresenter;
 import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.util.AutoUpdateUtil;
 import com.gogotalk.system.util.CoursewareDownLoadUtil;
+import com.gogotalk.system.util.DataCleanManager;
 import com.gogotalk.system.util.DelectFileUtil;
 import com.gogotalk.system.util.PermissionsUtil;
 import com.gogotalk.system.util.SPUtils;
@@ -152,7 +154,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
                     @Override
                     public void onNext(Long aLong) {
-                        Log.e("wuhongjie", "我轮训了=========" );
+                        Log.e("wuhongjie", "我轮训了=========");
                         if (!isFirstLoadData) {
                             isFirstLoadData = true;
                             mPresenter.getUserInfoData(true, false);
@@ -442,48 +444,47 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
      * @param type
      */
     private void dialogCommon(String msg, final int type, Map<String, String> data) {
-//        CommonDialog.Builder builder = new CommonDialog.Builder(this);
-//        builder.setMessage(msg);
-//        final CommonDialog twoButtonDialog = builder.createTwoButtonDialog();
-//        builder.setPositiveButton("确定", new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                twoButtonDialog.dismiss();
-//                if (type == 1) {
-//
-////                    new Handler().postDelayed(new Runnable() {
-////                        @Override
-////                        public void run() {
-////                            DataCleanManager.clearAllCache(MainActivity.this);
-////                            ToastUtils.showLongToast(MainActivity.this, "清除成功");
-////                            hideLoading();
-////                        }
-////                    }, 1000);
-//                    return;
-//                }
-//                if (type == 2) {
-//                    SPUtils.remove(Constant.SP_KEY_PASSWORD);
-//                    SPUtils.remove(Constant.SP_KEY_USERTOKEN);
-//                    SPUtils.remove(Constant.SP_KEY_USERINFO);
-//                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
-//                    finish();
-//                    return;
-//                }
-//                if (type == 3) {
-//                    if (data == null) return;
-//                    mPresenter.canelOrderClass(Integer.parseInt(data.get("demandId")));
-//                    return;
-//                }
-//            }
-//        });
-//        builder.setNegativeButton("取消", new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                twoButtonDialog.dismiss();
-//            }
-//        });
-//        twoButtonDialog.show();
-        showLoading("清除中...");
+        CommonDialog.Builder builder = new CommonDialog.Builder(this);
+        builder.setMessage(msg);
+        final CommonDialog twoButtonDialog = builder.createTwoButtonDialog();
+        builder.setPositiveButton("确定", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                twoButtonDialog.dismiss();
+                if (type == 1) {
+                    showLoading("清除中...");
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            DataCleanManager.clearAllCache(MainActivity.this);
+                            ToastUtils.showLongToast(MainActivity.this, "清除成功");
+                            hideLoading();
+                        }
+                    }, 1000);
+                    return;
+                }
+                if (type == 2) {
+                    SPUtils.remove(Constant.SP_KEY_PASSWORD);
+                    SPUtils.remove(Constant.SP_KEY_USERTOKEN);
+                    SPUtils.remove(Constant.SP_KEY_USERINFO);
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    finish();
+                    return;
+                }
+                if (type == 3) {
+                    if (data == null) return;
+                    mPresenter.canelOrderClass(Integer.parseInt(data.get("demandId")));
+                    return;
+                }
+            }
+        });
+        builder.setNegativeButton("取消", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                twoButtonDialog.dismiss();
+            }
+        });
+        twoButtonDialog.show();
     }
 
     /**
