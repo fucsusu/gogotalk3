@@ -198,7 +198,7 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
         });
     }
 
-    private void goRoom(RoomInfoBean roomInfoBean,GoItemBean goItemBean) {
+    private void goRoom(RoomInfoBean roomInfoBean, GoItemBean goItemBean) {
         if (PermissionsUtil.getInstance().isPermissions()) {
             CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(ClassListActivity.this, goItemBean.getZipDownLoadUrl(),
                     root_view, goItemBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
@@ -209,13 +209,13 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
                                 return;
                             }
                             Intent mIntent = new Intent(ClassListActivity.this, ClassRoomActivity.class);
-                            mIntent.putExtra("AttendLessonID", roomInfoBean.getAttendLessonID());
+                            mIntent.putExtra("AttendLessonID", roomInfoBean.getAttendLessonID() + "");
                             mIntent.putExtra("ChapterFilePath", roomInfoBean.getChapterData().getChapterFilePath());
                             mIntent.putExtra("LessonTime", roomInfoBean.getLessonTime());
                             mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, roomInfoBean.getTeacherName());
                             mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
-                            Log.e("TAGlist", "finsh: "+roomInfoBean.getAttendLessonID()+"|||"+roomInfoBean.getChapterData().getChapterFilePath()+"||"+
-                                    roomInfoBean.getLessonTime()+"||"+roomInfoBean.getTeacherName()+"||"+filePath);
+                            Log.e("TAGlist", "finsh: " + roomInfoBean.getAttendLessonID() + "|||" + roomInfoBean.getChapterData().getChapterFilePath() + "||" +
+                                    roomInfoBean.getLessonTime() + "||" + roomInfoBean.getTeacherName() + "||" + filePath);
                             startActivity(mIntent);
                         }
                     });
@@ -295,7 +295,7 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
     }
 
     @Override
-    public void onRoomInfoSuccess(RoomInfoBean bean,GoItemBean goItemBean) {
-        goRoom(bean,goItemBean);
+    public void onRoomInfoSuccess(RoomInfoBean bean, GoItemBean goItemBean) {
+        goRoom(bean, goItemBean);
     }
 }
