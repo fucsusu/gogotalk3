@@ -195,6 +195,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     protected void onResume() {
         super.onResume();
         webSettings.setJavaScriptEnabled(true);
+        webView.onResume();
     }
 
     //获取初始化数据
@@ -519,13 +520,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
         webView.addJavascriptInterface(this, "androidApi");
 
-
-        if (Build.VERSION.SDK_INT >= 19) {//设置是否自动加载图片
-            webSettings.setLoadsImagesAutomatically(true);
-        } else {
-            webSettings.setLoadsImagesAutomatically(false);
-        }
-
         try {
             if (Build.VERSION.SDK_INT >= 16) {
                 Class<?> clazz = webSettings.getClass();
@@ -659,6 +653,13 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mPresenter.startPreviewOwn(mOwnTV);
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        webView.onPause();
     }
 
     @Override
