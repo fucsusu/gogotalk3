@@ -10,6 +10,15 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+
 /**
  * Created by fucc
  * Date: 2019-07-27 11:16
@@ -25,6 +34,7 @@ public class AnswerCountDown extends View {
     private int time = 11;
     private CountDownTimer countDownTimer;
     private AnswerCountDown answerCountDown = this;
+    public Disposable mDisposable;
 
     public AnswerCountDown(Context context) {
         super(context);
@@ -45,22 +55,6 @@ public class AnswerCountDown extends View {
         mPaint.setColor(Color.parseColor("#FFA100"));
         mTxtPaint = new TextPaint();
         mTxtPaint.setColor(Color.WHITE);
-
-        countDownTimer = new CountDownTimer(10 * 1000, 990) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                time--;
-                if (time < 0) {
-                    time = 0;
-                }
-                postInvalidate();
-            }
-
-            @Override
-            public void onFinish() {
-                answerCountDown.setVisibility(GONE);
-            }
-        };
     }
 
     @Override
@@ -92,11 +86,41 @@ public class AnswerCountDown extends View {
     }
 
     public void startCountDown() {
-        time = 11;
-        answerCountDown.setVisibility(VISIBLE);
-        postInvalidate();
-        if (countDownTimer != null) {
-            countDownTimer.start();
+        if (mDisposable != null && !mDisposable.isDisposed()) {
+            mDisposable.dispose();
+            mDisposable = null;
         }
+        Observable.interval(0, 1, TimeUnit.SECONDS).
+                take(11).observeOn(AndroidSchedulers.mainThread())//ui线程中进行控件更新
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mDisposable = disposable;
+                    }
+                })
+                .subscribe(new Observer<Long>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Long num) {
+                        time = (int) (10 - num);
+                        postInvalidate();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        answerCountDown.setVisibility(GONE);
+                    }
+                });
+        time = 10;
+        answerCountDown.setVisibility(VISIBLE);
     }
 }
