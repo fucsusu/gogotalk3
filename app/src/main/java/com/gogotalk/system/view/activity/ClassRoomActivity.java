@@ -3,6 +3,7 @@ package com.gogotalk.system.view.activity;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -239,12 +240,12 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         }
 
         //是否需要开启课程开始倒计时
-        int timeDiff = DateUtils.getTimeDiff(endDateTime);
-        if (timeDiff > 0) {
-            sendHandleMessage(Constant.HANDLE_INFO_CLASS_BEGIN, 1000, timeDiff);
-        } else {
-            classBegin();
-        }
+//        int timeDiff = DateUtils.getTimeDiff(endDateTime);
+//        if (timeDiff > 0) {
+//            sendHandleMessage(Constant.HANDLE_INFO_CLASS_BEGIN, 1000, timeDiff);
+//        } else {
+//        }
+        classBegin();
     }
 
     @OnClick(R.id.id_mGuanB_Class)
@@ -518,20 +519,14 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         webSettings.setAppCacheEnabled(false);
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+
         webView.addJavascriptInterface(this, "androidApi");
 
-        try {
-            if (Build.VERSION.SDK_INT >= 16) {
-                Class<?> clazz = webSettings.getClass();
-                Method method = clazz.getMethod("setAllowUniversalAccessFromFileURLs", boolean.class);
-                if (method != null) {
-                    method.invoke(webSettings, true);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        } else {
+            webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
-
         webView.setWebViewClient(new WebViewClient() {
 
             /**
