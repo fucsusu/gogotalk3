@@ -2,6 +2,12 @@ package com.gogotalk.system.view.widget;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +43,13 @@ public class AboutDialog extends Dialog {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             layout = inflater.inflate(R.layout.dialog_about, null);
             TextView tv_version = layout.findViewById(R.id.tv_version);
+            TextView tv_private = layout.findViewById(R.id.dialog_about_private);
+            SpannableStringBuilder stringBuilder=new SpannableStringBuilder(context.getString(R.string.poivacy_statement));
+            UnderlineSpan un=new UnderlineSpan();
+            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#87CEFF"));
+            stringBuilder.setSpan(foregroundColorSpan,0,4,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            stringBuilder.setSpan(un,0,4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tv_private.setText(stringBuilder);
             tv_version.setText(context.getString(R.string.dialog_about_us_version_label) + AppUtils.getAppVersionName(context));
             dialog.addContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         }
