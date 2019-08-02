@@ -98,7 +98,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public ImageView mMkfPhoto;
     @BindView(R.id.class_room_mike_progress)
     public MikeRateView mikeRateView;
-
     @BindView(R.id.id_mImageJB_Class)
     public ImageView mJB;//奖杯
     @BindView(R.id.id_mImageJY_Class)
