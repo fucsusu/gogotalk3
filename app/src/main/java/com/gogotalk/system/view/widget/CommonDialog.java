@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.gogotalk.system.R;
 import com.gogotalk.system.util.AppUtils;
 
-public class CommonDialog extends Dialog {
+public class CommonDialog extends ABBaseDialog {
 
     public CommonDialog(Context context) {
         super(context);
@@ -19,13 +19,7 @@ public class CommonDialog extends Dialog {
     public CommonDialog(Context context, int theme) {
         super(context, theme);
     }
-    @Override
-    public void show() {
-        AppUtils.focusNotAle(this.getWindow());
-        super.show();
-        AppUtils.fullScreenImmersive(this.getWindow());
-        AppUtils.clearFocusNotAle(this.getWindow());
-    }
+
     public static class Builder {
         private View layout;
         private CommonDialog dialog;

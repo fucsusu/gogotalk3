@@ -23,7 +23,7 @@ import com.gogotalk.system.view.adapter.WeekAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class YuYueDialog extends Dialog {
+public class YuYueDialog extends ABBaseDialog {
     public interface IyuYuClickListener {
         void yuYuClick(String date, String time);
     }
@@ -304,11 +304,8 @@ public class YuYueDialog extends Dialog {
 
     @Override
     public void show() {
-        currentTime = "";
-        AppUtils.focusNotAle(this.getWindow());
         super.show();
-        AppUtils.fullScreenImmersive(this.getWindow());
-        AppUtils.clearFocusNotAle(this.getWindow());
+        currentTime = "";
     }
 }
 

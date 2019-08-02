@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class CheckDeviceDialog extends Dialog {
+public class CheckDeviceDialog extends ABBaseDialog {
 
     public CheckDeviceDialog(Context context) {
         super(context);
@@ -38,13 +38,7 @@ public class CheckDeviceDialog extends Dialog {
     public CheckDeviceDialog(Context context, int theme) {
         super(context, theme);
     }
-    @Override
-    public void show() {
-        AppUtils.focusNotAle(this.getWindow());
-        super.show();
-        AppUtils.fullScreenImmersive(this.getWindow());
-        AppUtils.clearFocusNotAle(this.getWindow());
-    }
+
     public static class Builder {
         private String positiveButtonText;
         private String negativeButtonText;

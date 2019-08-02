@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.gogotalk.system.R;
 import com.gogotalk.system.util.AppUtils;
 
-public class AboutDialog extends Dialog {
+public class AboutDialog extends ABBaseDialog {
 
     public AboutDialog(Context context) {
         super(context);
@@ -26,13 +26,6 @@ public class AboutDialog extends Dialog {
         super(context, theme);
     }
 
-    @Override
-    public void show() {
-        AppUtils.focusNotAle(this.getWindow());
-        super.show();
-        AppUtils.fullScreenImmersive(this.getWindow());
-        AppUtils.clearFocusNotAle(this.getWindow());
-    }
 
     public static class Builder {
         private View layout;

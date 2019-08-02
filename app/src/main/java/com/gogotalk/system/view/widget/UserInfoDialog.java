@@ -13,7 +13,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gogotalk.system.R;
 import com.gogotalk.system.util.AppUtils;
 
-public class UserInfoDialog extends Dialog {
+public class UserInfoDialog extends ABBaseDialog {
 
     public UserInfoDialog(Context context) {
         super(context);
@@ -29,13 +29,6 @@ public class UserInfoDialog extends Dialog {
 
     public interface OnNameClickLisener{
         void onClick(int sex);
-    }
-    @Override
-    public void show() {
-        AppUtils.focusNotAle(this.getWindow());
-        super.show();
-        AppUtils.fullScreenImmersive(this.getWindow());
-        AppUtils.clearFocusNotAle(this.getWindow());
     }
     public static class Builder {
         private View layout;

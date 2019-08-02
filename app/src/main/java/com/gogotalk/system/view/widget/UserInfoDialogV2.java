@@ -19,7 +19,7 @@ import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.util.ToastUtils;
 import com.gogotalk.system.view.activity.SelectNameActivity;
 
-public class UserInfoDialogV2 extends Dialog {
+public class UserInfoDialogV2 extends ABBaseDialog {
 
     public UserInfoDialogV2(Context context) {
         super(context);

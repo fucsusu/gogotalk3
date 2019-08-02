@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 import com.gogotalk.system.R;
 import com.gogotalk.system.util.AppUtils;
 
-public class LoadingDialog extends Dialog {
+public class LoadingDialog extends ABBaseDialog {
 
     public LoadingDialog(@NonNull Context context) {
         super(context);
@@ -27,13 +27,7 @@ public class LoadingDialog extends Dialog {
     protected LoadingDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
     }
-    @Override
-    public void show() {
-        AppUtils.focusNotAle(this.getWindow());
-        super.show();
-        AppUtils.fullScreenImmersive(this.getWindow());
-        AppUtils.clearFocusNotAle(this.getWindow());
-    }
+
     //2,创建静态内部类Builder，将dialog的部分属性封装进该类
     public static class Builder{
         TextView msgText;
