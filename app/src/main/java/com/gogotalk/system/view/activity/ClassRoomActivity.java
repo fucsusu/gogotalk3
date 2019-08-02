@@ -233,12 +233,12 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         String endDateTime;//开课时间
         endDateTime = LessonTime;
         //是否需要开启课程开始倒计时
-//        int timeDiff = DateUtils.getTimeDiff(endDateTime);
-//        if (timeDiff > 0) {
-//            sendHandleMessage(Constant.HANDLE_INFO_CLASS_BEGIN, 1000, timeDiff);
-//        } else {
-//        }
-        classBegin();
+        int timeDiff = DateUtils.getTimeDiff(endDateTime);
+        if (timeDiff > 0) {
+            sendHandleMessage(Constant.HANDLE_INFO_CLASS_BEGIN, 1000, timeDiff);
+        } else {
+            classBegin();
+        }
     }
 
     @OnClick(R.id.id_mGuanB_Class)
