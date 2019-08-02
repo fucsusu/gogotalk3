@@ -240,12 +240,12 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         }
 
         //是否需要开启课程开始倒计时
-//        int timeDiff = DateUtils.getTimeDiff(endDateTime);
-//        if (timeDiff > 0) {
-//            sendHandleMessage(Constant.HANDLE_INFO_CLASS_BEGIN, 1000, timeDiff);
-//        } else {
-//        }
-        classBegin();
+        int timeDiff = DateUtils.getTimeDiff(endDateTime);
+        if (timeDiff > 0) {
+            sendHandleMessage(Constant.HANDLE_INFO_CLASS_BEGIN, 1000, timeDiff);
+        } else {
+            classBegin();
+        }
     }
 
     @OnClick(R.id.id_mGuanB_Class)
@@ -441,9 +441,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
 
     //跳转页数
     private void toPage(int page) {
-        webView.clearHistory();
         webView.clearCache(true);
-        webView.freeMemory();
         webView.evaluateJavascript("javascript:ToPage(" + page + ")", new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
@@ -494,23 +492,27 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         //加载assets目录下的html
         //加上下面这段代码可以使网页中的链接不以浏览器的方式打开
         webView.setWebViewClient(new WebViewClient());
-        // webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
         webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);//滚动条风格，为0指滚动条不占用空间，直接覆盖在网页上
         //得到webview设置
         webSettings = webView.getSettings();
         //允许使用javascript
         webSettings.setJavaScriptEnabled(true);
-
+        //设置加载网页时暂不加载图片
         webSettings.setBlockNetworkImage(false);
-
-        //大小适配
+        //设置webview推荐使用的窗口，使html界面自适应屏幕
         webSettings.setUseWideViewPort(true);
+        //缩放至屏幕的大小
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setAllowFileAccessFromFileURLs(true);
         webSettings.setAllowUniversalAccessFromFileURLs(true);
+        //设置可以访问文件加载本地html
         webSettings.setAllowFileAccess(true);
+        //设置支持缩放
         webSettings.setSupportZoom(true);
+        //设置图片加载
+        webSettings.setLoadsImagesAutomatically(true);
+        //设置是否需要手势去播放视频
         webSettings.setMediaPlaybackRequiresUserGesture(false);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         webSettings.setPluginState(WebSettings.PluginState.ON);
@@ -518,7 +520,10 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         //设置不缓存
         webSettings.setAppCacheEnabled(false);
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        //设置渲染优先级
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+
+        webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
 
         webView.addJavascriptInterface(this, "androidApi");
 
