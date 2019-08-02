@@ -24,6 +24,8 @@ import com.pgyersdk.crash.PgyerCrashObservable;
 import com.pgyersdk.crash.PgyerObserver;
 import com.tencent.smtt.sdk.QbSdk;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class AiRoomApplication extends Application {
     private static AiRoomApplication instance;
 
@@ -41,10 +43,15 @@ public class AiRoomApplication extends Application {
         initNet();
         initLogger();
         initJGSDK();
+        initJpush();
         //initTenX5();
         SPUtils.initSpUtil(this, AppUtils.getAppName(this));
     }
 
+    private void initJpush(){
+        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);     		// 初始化 JPush
+    }
     private void initTenX5() {
         //非wifi情况下，主动下载x5内核
         QbSdk.setDownloadWithoutWifi(true);
