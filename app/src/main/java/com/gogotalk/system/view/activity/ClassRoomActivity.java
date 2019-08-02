@@ -3,7 +3,6 @@ package com.gogotalk.system.view.activity;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -53,7 +52,6 @@ import com.tencent.smtt.sdk.WebViewClient;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 
 import java.io.File;
-import java.lang.reflect.Method;
 
 import butterknife.BindView;
 import butterknife.OnClick;
