@@ -16,6 +16,7 @@ public class CommonDialog extends ABBaseDialog {
     public CommonDialog(Context context) {
         super(context);
     }
+
     public CommonDialog(Context context, int theme) {
         super(context, theme);
     }
@@ -26,6 +27,7 @@ public class CommonDialog extends ABBaseDialog {
         private String positiveButtonText;
         private String negativeButtonText;
         private TextView tvMessage;
+
         public Builder(Context context) {
             dialog = new CommonDialog(context, R.style.CustemDialog);
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -35,10 +37,11 @@ public class CommonDialog extends ABBaseDialog {
         }
 
         //设置提示信息
-        public CommonDialog.Builder setMessage(String msg){
+        public CommonDialog.Builder setMessage(String msg) {
             tvMessage.setText(msg);
             return this;
         }
+
         public Builder(Context context, View layout) {
             dialog = new CommonDialog(context, R.style.Dialog);
             this.layout = layout;
@@ -59,17 +62,31 @@ public class CommonDialog extends ABBaseDialog {
             layout.findViewById(R.id.btn_cancel).setOnClickListener(listener);
             return this;
         }
+
         //设置两按钮提示
         public CommonDialog createTwoButtonDialog() {
-            if (positiveButtonText != null&&!"".equals(positiveButtonText)) {
+            if (positiveButtonText != null && !"".equals(positiveButtonText)) {
                 ((Button) layout.findViewById(R.id.btn_ok)).setText(positiveButtonText);
             }
-            if (negativeButtonText != null&&!"".equals(negativeButtonText)) {
+            if (negativeButtonText != null && !"".equals(negativeButtonText)) {
                 ((Button) layout.findViewById(R.id.btn_cancel)).setText(negativeButtonText);
             }
             create();
             return dialog;
         }
+
+        //设置两按钮提示
+        public CommonDialog createTwoButtonDialog(boolean flag) {
+            if (positiveButtonText != null && !"".equals(positiveButtonText)) {
+                ((Button) layout.findViewById(R.id.btn_ok)).setText(positiveButtonText);
+            }
+            if (negativeButtonText != null && !"".equals(negativeButtonText)) {
+                ((Button) layout.findViewById(R.id.btn_cancel)).setText(negativeButtonText);
+            }
+            create(flag);
+            return dialog;
+        }
+
         public CommonDialog create() {
             dialog.setContentView(layout);
             dialog.setCancelable(true);     //用户可以点击手机Back键取消对话框显示

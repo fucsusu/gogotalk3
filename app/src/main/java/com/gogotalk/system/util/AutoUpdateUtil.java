@@ -21,6 +21,7 @@ import androidx.core.content.FileProvider;
 
 import com.gogotalk.system.R;
 import com.gogotalk.system.app.AiRoomApplication;
+import com.gogotalk.system.app.AppManager;
 import com.gogotalk.system.model.entity.AppInfoDownLoadBean;
 import com.gogotalk.system.model.entity.ResponseModel;
 import com.gogotalk.system.model.util.Constant;
@@ -87,7 +88,7 @@ public class AutoUpdateUtil {
     private void showUpdateMessage(String msg, String fileUrl) {
         CommonDialog.Builder builder = new CommonDialog.Builder(activity);
         builder.setMessage(msg);
-        final CommonDialog twoButtonDialog = builder.createTwoButtonDialog();
+        final CommonDialog twoButtonDialog = builder.createTwoButtonDialog(false);
         builder.setPositiveButton("确定", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,6 +100,7 @@ public class AutoUpdateUtil {
             @Override
             public void onClick(View view) {
                 twoButtonDialog.dismiss();
+                AppManager.getAppManager().finishAllActivity();
             }
         });
         twoButtonDialog.show();
