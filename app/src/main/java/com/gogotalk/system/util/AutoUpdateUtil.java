@@ -76,13 +76,7 @@ public class AutoUpdateUtil {
                             int versionCode = (int) activity.getPackageManager().getPackageInfo("com.gogotalk.system", 0).versionCode;
                             Log.e("TAG", "onResponse: " + versionNumber + "||||" + versionCode);
                             if (versionNumber > versionCode) {
-                                showUpdateMessage(data.getUpdateDescribe(), new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        //点下下载
-                                        downLoadApk(data.getDownloadUrl());
-                                    }
-                                });
+                                showUpdateMessage(data.getUpdateDescribe(), data.getDownloadUrl());
                             }
                         }
                     }
@@ -90,7 +84,7 @@ public class AutoUpdateUtil {
     }
 
     //显示更新提示
-    private void showUpdateMessage(String msg, final View.OnClickListener onClickListener) {
+    private void showUpdateMessage(String msg, String fileUrl) {
         CommonDialog.Builder builder = new CommonDialog.Builder(activity);
         builder.setMessage(msg);
         final CommonDialog twoButtonDialog = builder.createTwoButtonDialog();
@@ -98,7 +92,7 @@ public class AutoUpdateUtil {
             @Override
             public void onClick(View view) {
                 twoButtonDialog.dismiss();
-                onClickListener.onClick(view);
+                downLoadApk(fileUrl);
             }
         });
         builder.setNegativeButton("取消", new View.OnClickListener() {
@@ -137,7 +131,7 @@ public class AutoUpdateUtil {
     BaseDownLoadFileImpl.IDownLoadingLisener downLoadingLisener = new BaseDownLoadFileImpl.IDownLoadingLisener() {
         @Override
         public void onDownLoadFinsh() {
-            installApk(activity, activity.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator +filename );
+            installApk(activity, activity.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + filename);
         }
 
         @Override

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -12,10 +13,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.util.ToastUtils;
 import com.gogotalk.system.view.widget.FullScreenVideoView;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -56,9 +59,14 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnPrepare
         super.getIntentData();
         Intent mIntent = getIntent();
         videoUrl = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_VIDEO_URL);
-        showLoading(null);
-        Uri uri = Uri.parse(videoUrl);
-        videoView.setVideoURI(uri);
+        if (TextUtils.isEmpty(videoUrl)) {
+            ToastUtils.showShortToast(this, "影片地址为空！");
+            finish();
+        } else {
+            showLoading(null);
+            Uri uri = Uri.parse(videoUrl);
+            videoView.setVideoURI(uri);
+        }
     }
 
     @Override
@@ -132,7 +140,7 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnPrepare
     private class MyPlayerOnCompletionListener implements MediaPlayer.OnCompletionListener {
         @Override
         public void onCompletion(MediaPlayer mp) {
-            ToastUtils.showLongToast(VideoActivity.this,"播放完毕");
+            ToastUtils.showLongToast(VideoActivity.this, "播放完毕");
             mSeekBar.setProgress(0);
             timeVideo.setText("00:00");
             playVideo.setImageResource(R.mipmap.video_play);

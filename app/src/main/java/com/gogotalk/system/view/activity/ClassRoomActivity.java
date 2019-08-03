@@ -53,6 +53,7 @@ import com.tencent.smtt.sdk.WebViewClient;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 
 import java.io.File;
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -134,7 +135,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public String otherStudentName = "Bella";//其他学生姓名
     public int roomRole = ZegoConstants.RoomRole.Audience;//用户角色
 
-    public boolean isClassBegin=false;//是否开始上课
+    public boolean isClassBegin = false;//是否开始上课
     public int mJBNum;//奖杯的数量
 
     public String otherStreamID;//其他学生的流ID
@@ -403,20 +404,12 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         //给对方发奖杯
         AnimatorUtils.showOtherJiangbei(mJB_xing_other, mJB_other, mJB_jiayi_other, mOtherJBNum, mJBNum);
 
-        player = MediaPlayer.create(this, R.raw.trophy);
-        if (player.isPlaying()) {
-            return;
+        if (player == null) {
+                player = MediaPlayer.create(this, R.raw.trophy);
         }
-        player.start();
-        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                player.pause();
-                player.seekTo(0);
-                player.release();
-                Log.e("TAG", "停止播放");
-            }
-        });
+        if (!player.isPlaying()) {
+            player.start();
+        }
     }
 
     //开启麦克风倒计时
