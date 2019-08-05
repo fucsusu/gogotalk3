@@ -3,7 +3,6 @@ package com.gogotalk.system.view.activity;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,12 +20,13 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.Group;
 
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.util.Constant;
@@ -53,79 +53,78 @@ import com.tencent.smtt.sdk.WebViewClient;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 
 import java.io.File;
-import java.lang.reflect.Method;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implements ClassRoomContract.IClassRoomView, CompoundButton.OnCheckedChangeListener {
-    @BindView(R.id.id_mWebView_Class)
+    @BindView(R.id.class_room_web)
     public WebView webView;
-    @BindView(R.id.id_mVideo1)
+    @BindView(R.id.class_room_teacher_video)
     public TextureView mTeacherTV;
-    @BindView(R.id.id_mVideo2)
+    @BindView(R.id.class_room_own_video)
     public TextureView mOwnTV;
-    @BindView(R.id.id_mVideo3)
+    @BindView(R.id.class_room_other_video)
     public TextureView mOtherTV;
-    @BindView(R.id.id_mTime_Class)
+    @BindView(R.id.class_room_timer_tv)
     public TextView mTime;
-    @BindView(R.id.id_mTeacherName_Class)
+    @BindView(R.id.class_room_teacher_name_tv)
     public TextView mTeacherName;
-    @BindView(R.id.id_mDJS_Class)
-    public LinearLayout mLayouts;
+    @BindView(R.id.class_room_timer_group)
+    public Group timer_group;
     //自己视频开关
-    @BindView(R.id.id_SXTCheck1_Class)
+    @BindView(R.id.class_room_own_video_cb)
     public CheckBox mvideo_swtich_own;
     //其他学生视频开关
-    @BindView(R.id.id_SXTCheck2_Class)
+    @BindView(R.id.class_room_other_video_cb)
     public CheckBox mvideo_switch_other;
     //其他学生声音开关
-    @BindView(R.id.id_SYCheck_Class)
+    @BindView(R.id.class_room_other_voice_cb)
     public CheckBox mvoice_switch_other;
-    @BindView(R.id.id_mWJR1_Class)
-    public ImageView mImgs1;
-    @BindView(R.id.id_mWJR2_Class)
-    public ImageView mImgs3;
-    @BindView(R.id.id_mMyName_Class)
+    @BindView(R.id.class_room_teacher_video_bg)
+    public ImageView mTeacherVideoBg;
+    @BindView(R.id.class_room_other_video_bg)
+    public ImageView mOtherStudentVideoBg;
+    @BindView(R.id.class_room_own_name_tv)
     public TextView mMyName;
-    @BindView(R.id.id_mMyJB_Class)
+    @BindView(R.id.class_room_own_jb_num)
     public TextView mMyJB;
-    @BindView(R.id.jb_num_other_class)
+    @BindView(R.id.class_room_other_jb_num)
     public TextView mOtherJBNum;
-    @BindView(R.id.id_mYouName_Class)
+    @BindView(R.id.class_room_other_name_tv)
     public TextView otherSNText;
-    @BindView(R.id.id_mMkfPhoto_Class)
+    @BindView(R.id.class_room_mike)
     public ImageView mMkfPhoto;
     @BindView(R.id.class_room_mike_progress)
     public MikeRateView mikeRateView;
-    @BindView(R.id.id_mImageJB_Class)
-    public ImageView mJB;//奖杯
-    @BindView(R.id.id_mImageJY_Class)
+    @BindView(R.id.class_room_jb_own)
+    public ImageView mOwnJB;//奖杯
+    @BindView(R.id.class_room_jb_own_jiayi)
     public ImageView mJB_jiayi;//加一
-    @BindView(R.id.id_mImageJE_Class)
+    @BindView(R.id.class_room_jb_own_jiaer)
     public ImageView mJB_jiaer;//加二
-    @BindView(R.id.id_mImageJS_Class)
+    @BindView(R.id.class_room_jb_own_jiasan)
     public ImageView mJb_jiasan;//加三
-    @BindView(R.id.class_jb_xing)
+    @BindView(R.id.class_room_jb_own_xing)
     public ImageView mJbX;//奖杯星星bg
-    @BindView(R.id.jb_other_class)
+    @BindView(R.id.class_room_jb_other)
     public ImageView mJB_other;//其他学生奖杯
-    @BindView(R.id.jb_xing_other_class)
+    @BindView(R.id.class_room_jb_other_xing)
     public ImageView mJB_xing_other;//其他学生的星星背景
-    @BindView(R.id.jb_jiayi_other_Class)
+    @BindView(R.id.class_room_jb_other_jiayi)
     public ImageView mJB_jiayi_other;//其他学生加一
-    @BindView(R.id.jb_jiaer_other_Class)
+    @BindView(R.id.class_room_jb_other_jiaer)
     public ImageView mJB_jiaer_other;//其他学生加二
-    @BindView(R.id.jb_jiasan_other_Class)
+    @BindView(R.id.class_room_jb_other_jiasan)
     public ImageView mJB_jiaSan_other;//其他学生加三
 
-    @BindView(R.id.answer_countdown_class)
+    @BindView(R.id.class_room_answer_countdown)
     public AnswerCountDown answer_countdown;//答题倒计时
 
-    @BindView(R.id.courseware_class)
-    public FrameLayout courseware_class;
+    @BindView(R.id.class_room_root)
+    public ConstraintLayout courseware_class;
 
-    @BindView(R.id.loud_class)
+    @BindView(R.id.class_room_loud)
     public ImageView loud_class;
 
     public String AttendLessonID;//房间的ID
@@ -135,7 +134,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public String otherStudentName = "Bella";//其他学生姓名
     public int roomRole = ZegoConstants.RoomRole.Audience;//用户角色
 
-    public boolean isClassBegin;//是否开始上课
+    public boolean isClassBegin=false;//是否开始上课
     public int mJBNum;//奖杯的数量
 
     public String otherStreamID;//其他学生的流ID
@@ -240,10 +239,10 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         }
     }
 
-    @OnClick(R.id.id_mGuanB_Class)
+    @OnClick(R.id.class_room_close)
     public void btnClick(View view) {
         switch (view.getId()) {
-            case R.id.id_mGuanB_Class:
+            case R.id.class_room_close:
                 dialog();
                 break;
         }
@@ -318,7 +317,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
             AppLogger.getInstance().i(ZGPublishHelper.class, "老师拉流失败, streamID : %s", streamID);
         }
         teacherStreamID = streamID;
-        mImgs1.setVisibility(View.GONE);
         mTeacherTV.setVisibility(View.VISIBLE);
         classBegin();
     }
@@ -331,7 +329,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         otherStreamID = streamID;
         otherStudentName = userName;
         otherSNText.setText(userName);
-        mImgs3.setVisibility(View.GONE);
+        mOtherStudentVideoBg.setVisibility(View.INVISIBLE);
         mOtherTV.setVisibility(View.VISIBLE);
         mvideo_switch_other.setChecked(true);
         mvideo_switch_other.setClickable(true);
@@ -344,9 +342,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     @Override
     public void teacherLeaveRoom() {
         isClassBegin = false;
-        mImgs1.setVisibility(View.VISIBLE);
-        mImgs1.setImageResource(R.mipmap.bg_class_room_finish);
-        mTeacherTV.setVisibility(View.GONE);
+        mTeacherVideoBg.setImageResource(R.mipmap.bg_class_room_finish);
+        mTeacherTV.setVisibility(View.INVISIBLE);
         mvideo_swtich_own.setClickable(false);
         mLeaveMessage = 2;
     }
@@ -354,9 +351,9 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     @Override
     public void studentLeaveRoom() {
         otherSNText.setText("");
-        mImgs3.setImageResource(R.mipmap.bg_class_room_student_video_off);
-        mImgs3.setVisibility(View.VISIBLE);
-        mOtherTV.setVisibility(View.GONE);
+        mOtherStudentVideoBg.setImageResource(R.mipmap.bg_class_room_student_video_off);
+        mOtherStudentVideoBg.setVisibility(View.VISIBLE);
+        mOtherTV.setVisibility(View.INVISIBLE);
         mvideo_switch_other.setClickable(false);
         mvideo_switch_other.setChecked(false);
         mvoice_switch_other.setChecked(false);
@@ -401,7 +398,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         loud_class.setVisibility(View.INVISIBLE);
         mJBNum++;
         //给自己发奖杯
-        AnimatorUtils.showOwnJiangbei(mJbX, mJB, mJB_jiayi, mMyJB, mJBNum);
+        AnimatorUtils.showOwnJiangbei(mJbX, mOwnJB, mJB_jiayi, mMyJB, mJBNum);
 
         //给对方发奖杯
         AnimatorUtils.showOtherJiangbei(mJB_xing_other, mJB_other, mJB_jiayi_other, mOtherJBNum, mJBNum);
@@ -465,7 +462,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 webView.loadUrl(ChapterFilePath);
                 Log.e("TAG", "classBegin: 加载网络课件");
             }
-            mLayouts.setVisibility(View.GONE);
+            timer_group.setVisibility(View.GONE);
             webView.setVisibility(View.VISIBLE);
             Log.e("TAG", "classBegin: " + ChapterFilePath);
         }
@@ -588,7 +585,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         }
         if (buttonView == mvideo_switch_other) {
             if (isChecked) {
-                mImgs3.setVisibility(View.GONE);
+                mOtherStudentVideoBg.setVisibility(View.INVISIBLE);
                 mOtherTV.setVisibility(View.VISIBLE);
                 mvoice_switch_other.setChecked(true);
                 mvoice_switch_other.setClickable(true);
@@ -599,9 +596,9 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
             } else {
                 mvoice_switch_other.setChecked(false);
                 mvoice_switch_other.setClickable(false);
-                mImgs3.setVisibility(View.VISIBLE);
-                mOtherTV.setVisibility(View.GONE);
-                mImgs3.setImageResource(R.mipmap.bg_class_room_student_close_video);
+                mOtherStudentVideoBg.setVisibility(View.VISIBLE);
+                mOtherTV.setVisibility(View.INVISIBLE);
+                mOtherStudentVideoBg.setImageResource(R.mipmap.bg_class_room_student_close_video);
                 ZGPlayHelper.sharedInstance().stopPlaying(otherStreamID);
             }
         }
