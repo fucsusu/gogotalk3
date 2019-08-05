@@ -83,5 +83,18 @@ public interface ApiService {
     @GET("/api/Lesson/EnterRoom")
     Flowable<ResponseModel<RoomInfoBean>> getRoomInfo(@Query("AttendLessonId") String attendLessonId);
 
+    @GET("/api/User/GoGoTalkSendPhoneCode")
+    Flowable<ResponseModel<Object>> sendCode(@Query("Phone") String phone);
+
+    @GET("/api/User/CheckCodeByPhone")
+    Flowable<ResponseModel<Object>> checkCode(@Query("Phone") String phone,@Query("Code") String code);
+
+    @Headers({"Content-Type:application/json", "Accept: application/json"})
+    @POST("/api/User/ModifyPassword")
+    Flowable<ResponseModel<Object>> updatePassword(@Body RequestBody body);
+
+    @GET("/api/User/UserRegister")
+    Flowable<ResponseModel<Object>> regUser(@Query("Phone") String phone,@Query("Code") String code,@Query("Password") String password);
+
 }
 

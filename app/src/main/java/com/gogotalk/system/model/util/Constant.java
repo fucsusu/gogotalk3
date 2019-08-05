@@ -24,8 +24,11 @@ public class Constant {
     public static final String INTENT_DATA_KEY_GAME_URL = "gameUrl";
     public static final String INTENT_DATA_KEY_SEX = "sex";
     public static final String INTENT_DATA_KEY_NAME = "name";
+    public static final String INTENT_DATA_KEY_PHONE = "phone";
     public static final String INTENT_DATA_KEY_DIRECTION = "direction";
+
     public static final int DIRECTION_SELECTNAME_TO_HOME = 1;
+    public static final int DIRECTION_LOGIN_TO_REG = 2;
     //老师名字
     public static final String INTENT_DATA_KEY_TEACHER_NAME = "teachername";
     //文件下载路径
