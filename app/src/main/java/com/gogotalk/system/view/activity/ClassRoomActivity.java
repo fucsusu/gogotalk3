@@ -1,5 +1,6 @@
 package com.gogotalk.system.view.activity;
 
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
@@ -403,7 +404,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         //给对方发奖杯
         AnimatorUtils.showOtherJiangbei(mJB_xing_other, mJB_other, mJB_jiayi_other, mOtherJBNum, mJBNum);
         if (player == null) {
-                player = MediaPlayer.create(this, R.raw.trophy);
+            player = MediaPlayer.create(this, R.raw.trophy);
         }
         if (!player.isPlaying()) {
             player.start();
@@ -625,7 +626,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         if (handler != null) {
             handler = null;
         }
-        AnimatorUtils.destory();
     }
 
     @Override

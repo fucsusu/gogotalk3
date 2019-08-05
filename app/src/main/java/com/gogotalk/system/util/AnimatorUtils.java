@@ -13,24 +13,24 @@ import android.widget.TextView;
  * Date: 2019-07-13 20:31
  */
 public class AnimatorUtils {
-    public static AnimatorSet animOwnSet;
-    public static AnimatorSet animOtherSet;
+    public static int tOwnX;
+    public static int tOwnY;
+    public static int tOtherX;
+    public static int tOtherY;
+
     /**
-     *
-     * @param xing  背景星星
-     * @param jiangbei  奖杯
-     * @param addJbNum  奖杯增加的图片
-     * @param jbNumTxt  存放奖杯的数目
-     * @param jbNum  奖杯的数目
+     * @param xing     背景星星
+     * @param jiangbei 奖杯
+     * @param addJbNum 奖杯增加的图片
+     * @param jbNumTxt 存放奖杯的数目
+     * @param jbNum    奖杯的数目
      */
     //属性动画
     public static void showOwnJiangbei(View xing, View jiangbei, final View addJbNum, TextView jbNumTxt, int jbNum) {
         xing.setVisibility(View.VISIBLE);
         jiangbei.setVisibility(View.VISIBLE);
-        if (animOwnSet != null) {
-            animOwnSet.start();
-            return;
-        }
+        addJbNum.setVisibility(View.VISIBLE);
+        addJbNum.setAlpha(0);
 
         //奖杯放大缩小效果
         ObjectAnimator xingAlpha = ObjectAnimator.ofFloat(xing, "alpha", 0f, 1f, 0f, 1f, 0f);
@@ -41,12 +41,16 @@ public class AnimatorUtils {
         jianbeiScaleY.setDuration(1500);
 
         // 移动时效果
-        int[] mudeLocation = new int[2];
-        jbNumTxt.getLocationInWindow(mudeLocation);
-        int[] jiangbeiLocation = new int[2];
-        jiangbei.getLocationInWindow(jiangbeiLocation);
-        ObjectAnimator jBtranslationX = ObjectAnimator.ofFloat(jiangbei, "translationX", 0, mudeLocation[0] - jbNumTxt.getWidth() / 2 - jiangbeiLocation[0] - jiangbei.getMeasuredWidth() / 2);
-        ObjectAnimator jBtranslationY = ObjectAnimator.ofFloat(jiangbei, "translationY", 0, mudeLocation[1] - jbNumTxt.getHeight() / 2 - jiangbeiLocation[1] - jiangbei.getMeasuredHeight() / 2);
+        if (tOwnX <= 0) {
+            int[] mudeLocation = new int[2];
+            jbNumTxt.getLocationInWindow(mudeLocation);
+            int[] jiangbeiLocation = new int[2];
+            jiangbei.getLocationInWindow(jiangbeiLocation);
+            tOwnX = mudeLocation[0] - jbNumTxt.getWidth() / 2 - jiangbeiLocation[0] - jiangbei.getMeasuredWidth() / 2;
+            tOwnY = mudeLocation[1] - jbNumTxt.getHeight() / 2 - jiangbeiLocation[1] - jiangbei.getMeasuredHeight() / 2;
+        }
+        ObjectAnimator jBtranslationX = ObjectAnimator.ofFloat(jiangbei, "translationX", 0, tOwnX);
+        ObjectAnimator jBtranslationY = ObjectAnimator.ofFloat(jiangbei, "translationY", 0, tOwnY);
         jBtranslationX.setInterpolator(new AccelerateInterpolator());
         jBtranslationX.setDuration(800);
         jBtranslationY.setDuration(800);
@@ -63,39 +67,17 @@ public class AnimatorUtils {
         yiTransY.setDuration(600);
         ObjectAnimator yiAlpha = ObjectAnimator.ofFloat(addJbNum, "alpha", 0f, 0.8f, 0.2f, 0.2f, 0.8f, 0);
         yiAlpha.setDuration(1300);
-        yiTransY.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                addJbNum.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
 
         //数字动画
         ObjectAnimator yiTransY2 = ObjectAnimator.ofFloat(addJbNum, "translationY", 0, -150);
         yiTransY2.setDuration(600);
         yiTransY2.setStartDelay(610);
 
-        animOwnSet = new AnimatorSet();
+        AnimatorSet animOwnSet = new AnimatorSet();
         animOwnSet.setInterpolator(new LinearInterpolator());
         animOwnSet.play(jBtranslationY).with(jBtranslationX).with(jBScaleX).with(jBScaleY)
                 .after(xingAlpha).after(jianbeiScaleX).after(jianbeiScaleY)
                 .before(yiTransY).before(yiAlpha).before(yiTransY2);
-        animOwnSet.start();
         animOwnSet.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
@@ -129,16 +111,15 @@ public class AnimatorUtils {
 
             }
         });
+        animOwnSet.start();
+
     }
 
     public static void showOtherJiangbei(View xing, View jiangbei, final View yi, TextView mude, int jbNum) {
         xing.setVisibility(View.VISIBLE);
         jiangbei.setVisibility(View.VISIBLE);
-
-        if (animOtherSet != null) {
-            animOtherSet.start();
-            return;
-        }
+        yi.setVisibility(View.VISIBLE);
+        yi.setAlpha(0);
 
         //奖杯放大缩小效果
         ObjectAnimator xingAlpha = ObjectAnimator.ofFloat(xing, "alpha", 0f, 1f, 0f, 1f, 0f);
@@ -149,13 +130,16 @@ public class AnimatorUtils {
         jianbeiScaleY.setDuration(1500);
 
         // 移动时效果
-        int[] mudeLocation = new int[2];
-        mude.getLocationInWindow(mudeLocation);
-        int[] jiangbeiLocation = new int[2];
-        jiangbei.getLocationInWindow(jiangbeiLocation);
-
-        ObjectAnimator jBtranslationX = ObjectAnimator.ofFloat(jiangbei, "translationX", 0, mudeLocation[0] - mude.getWidth() / 2 - jiangbeiLocation[0] - jiangbei.getMeasuredWidth() / 2);
-        ObjectAnimator jBtranslationY = ObjectAnimator.ofFloat(jiangbei, "translationY", 0, mudeLocation[1] - mude.getHeight() / 2 - jiangbeiLocation[1] - jiangbei.getMeasuredHeight() / 2);
+        if (tOtherX <= 0) {
+            int[] mudeLocation = new int[2];
+            mude.getLocationInWindow(mudeLocation);
+            int[] jiangbeiLocation = new int[2];
+            jiangbei.getLocationInWindow(jiangbeiLocation);
+            tOtherX = mudeLocation[0] - mude.getWidth() / 2 - jiangbeiLocation[0] - jiangbei.getMeasuredWidth() / 2;
+            tOtherY = mudeLocation[1] - mude.getHeight() / 2 - jiangbeiLocation[1] - jiangbei.getMeasuredHeight() / 2;
+        }
+        ObjectAnimator jBtranslationX = ObjectAnimator.ofFloat(jiangbei, "translationX", 0, tOtherX);
+        ObjectAnimator jBtranslationY = ObjectAnimator.ofFloat(jiangbei, "translationY", 0, tOtherY);
 
         jBtranslationX.setInterpolator(new AccelerateInterpolator());
         jBtranslationX.setDuration(800);
@@ -173,34 +157,13 @@ public class AnimatorUtils {
         yiTransY.setDuration(600);
         ObjectAnimator yiAlpha = ObjectAnimator.ofFloat(yi, "alpha", 0f, 0.8f, 0.2f, 0.2f, 0.8f, 0);
         yiAlpha.setDuration(1300);
-        yiTransY.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                yi.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
 
         //数字动画
         ObjectAnimator yiTransY2 = ObjectAnimator.ofFloat(yi, "translationY", 0, -150);
         yiTransY2.setDuration(600);
         yiTransY2.setStartDelay(610);
 
-        animOtherSet = new AnimatorSet();
+        AnimatorSet animOtherSet = new AnimatorSet();
         animOtherSet.setInterpolator(new LinearInterpolator());
         animOtherSet.play(jBtranslationY).with(jBtranslationX).with(jBScaleX).with(jBScaleY)
                 .after(xingAlpha).after(jianbeiScaleX).after(jianbeiScaleY)
@@ -240,16 +203,4 @@ public class AnimatorUtils {
             }
         });
     }
-
-    public static void destory() {
-        if (animOtherSet != null) {
-            animOtherSet.cancel();
-            animOtherSet = null;
-        }
-        if (animOwnSet != null) {
-            animOwnSet.cancel();
-            animOwnSet = null;
-        }
-    }
-
 }
