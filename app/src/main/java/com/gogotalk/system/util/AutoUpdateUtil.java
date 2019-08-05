@@ -48,7 +48,6 @@ public class AutoUpdateUtil {
     public TextView progressRate;
     public String filename;
 
-
     public static AutoUpdateUtil getInstance() {
         if (autoUpdateUtil != null) {
             return autoUpdateUtil;

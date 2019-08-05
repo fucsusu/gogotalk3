@@ -400,10 +400,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         mJBNum++;
         //给自己发奖杯
         AnimatorUtils.showOwnJiangbei(mJbX, mOwnJB, mJB_jiayi, mMyJB, mJBNum);
-
         //给对方发奖杯
         AnimatorUtils.showOtherJiangbei(mJB_xing_other, mJB_other, mJB_jiayi_other, mOtherJBNum, mJBNum);
-
         if (player == null) {
                 player = MediaPlayer.create(this, R.raw.trophy);
         }
@@ -604,7 +602,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         }
     }
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -636,7 +633,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         super.onRestoreInstanceState(savedInstanceState);
         mPresenter.startPreviewOwn(mOwnTV);
     }
-
 
     @Override
     protected void onPause() {

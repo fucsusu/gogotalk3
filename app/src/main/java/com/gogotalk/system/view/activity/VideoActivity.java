@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -25,7 +26,7 @@ import butterknife.OnClick;
 /**
  * 视频界面
  */
-public class VideoActivity extends BaseActivity implements MediaPlayer.OnPreparedListener, SeekBar.OnSeekBarChangeListener {
+public class VideoActivity extends BaseActivity implements MediaPlayer.OnPreparedListener, SeekBar.OnSeekBarChangeListener, MediaPlayer.OnErrorListener {
     @BindView(R.id.id_mVideo_Vis1)
     FullScreenVideoView videoView;
     @BindView(R.id.play_video)
@@ -35,7 +36,6 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnPrepare
     @BindView(R.id.seekbar_video)
     SeekBar mSeekBar;
     private String videoUrl;
-    private Dialog dialog;
     public boolean threadRun = true;
     @BindView(R.id.control_video)
     RelativeLayout control_video;
@@ -72,8 +72,8 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnPrepare
     @Override
     public void initView() {
         videoView.setOnPreparedListener(this);
-        //设置视频控制器
-        //videoView.setMediaController(new MediaController(VideoActivity.this));
+        videoView.setOnErrorListener(this);
+
         //播放完成回调
         videoView.setOnCompletionListener(new MyPlayerOnCompletionListener());
         //设置视频路径
@@ -85,6 +85,7 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnPrepare
     public void onPrepared(MediaPlayer mp) {
         //开始播放视频
         videoView.start();
+        videoView.requestFocus();
         new Thread(timerRunnable).start();
         mSeekBar.setMax(videoView.getDuration());
         playVideo.setClickable(true);
@@ -135,6 +136,13 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnPrepare
             // 设置当前播放的位置
             videoView.seekTo(progress);
         }
+    }
+
+    @Override
+    public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
+        Log.e("TAG", "onError: " + i + "||" + i1);
+        ToastUtils.showShortToast(this, "播放出现问题！");
+        return true;
     }
 
     private class MyPlayerOnCompletionListener implements MediaPlayer.OnCompletionListener {
