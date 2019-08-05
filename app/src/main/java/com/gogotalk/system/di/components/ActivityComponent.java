@@ -5,11 +5,13 @@ import com.gogotalk.system.di.scopes.ActivityScope;
 import com.gogotalk.system.view.activity.ClassDetailActivity;
 import com.gogotalk.system.view.activity.ClassListActivity;
 import com.gogotalk.system.view.activity.ClassRoomActivity;
+import com.gogotalk.system.view.activity.ForgetActivity;
 import com.gogotalk.system.view.activity.LoginActivity;
 import com.gogotalk.system.view.activity.MainActivity;
 import com.gogotalk.system.view.activity.RecordActivity;
 import com.gogotalk.system.view.activity.SearchNameActivity;
 import com.gogotalk.system.view.activity.SelectNameActivity;
+import com.gogotalk.system.view.activity.UpdatePasswordActivity;
 import com.gogotalk.system.view.activity.WelcomeActivity;
 
 import dagger.Component;
@@ -26,4 +28,6 @@ public interface ActivityComponent {
     void inject(ClassRoomActivity activity);
     void inject(SelectNameActivity activity);
     void inject(SearchNameActivity activity);
+    void inject(ForgetActivity activity);
+    void inject(UpdatePasswordActivity activity);
 }

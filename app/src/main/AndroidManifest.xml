@@ -87,6 +87,14 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape" />
         <activity
+            android:name=".view.activity.ForgetActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".view.activity.UpdatePasswordActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
             android:name=".view.activity.SelectNameActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape" />
