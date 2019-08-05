@@ -15,6 +15,7 @@ import com.gogotalk.system.app.AppManager;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.presenter.UpdatePasswordContract;
 import com.gogotalk.system.presenter.UpdatePasswordPresenter;
+import com.gogotalk.system.util.FormCheckUtils;
 import com.gogotalk.system.util.SPUtils;
 import com.gogotalk.system.util.ToastUtils;
 
@@ -44,7 +45,7 @@ public class UpdatePasswordActivity extends BaseActivity<UpdatePasswordPresenter
     @Override
     public void getIntentData() {
         super.getIntentData();
-        phone = getIntent().getStringExtra("phone");
+        phone = getIntent().getStringExtra(Constant.INTENT_DATA_KEY_PHONE);
     }
 
     @Override
@@ -62,16 +63,13 @@ public class UpdatePasswordActivity extends BaseActivity<UpdatePasswordPresenter
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_submit:
-                if (TextUtils.isEmpty(etPassword01.getText())) {
-                    ToastUtils.showShortToast(UpdatePasswordActivity.this, "请输入密码！");
+                if (FormCheckUtils.checkPasswordEmpty(etPassword01.getText().toString())) {
                     return;
                 }
-                if (TextUtils.isEmpty(etPassword02.getText())) {
-                    ToastUtils.showShortToast(UpdatePasswordActivity.this, "请输入确认密码！");
+                if (FormCheckUtils.checkTwoPasswordEmpty(etPassword02.getText().toString())) {
                     return;
                 }
-                if (!etPassword01.getText().toString().equalsIgnoreCase(etPassword02.getText().toString())) {
-                    ToastUtils.showShortToast(UpdatePasswordActivity.this, "，密码不一致,请检查！");
+                if (FormCheckUtils.checkPasswordSame(etPassword01.getText().toString(),etPassword02.getText().toString())) {
                     return;
                 }
                 mPresenter.updatePassword(phone, etPassword01.getText().toString());

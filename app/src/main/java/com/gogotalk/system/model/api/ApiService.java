@@ -92,5 +92,9 @@ public interface ApiService {
     @Headers({"Content-Type:application/json", "Accept: application/json"})
     @POST("/api/User/ModifyPassword")
     Flowable<ResponseModel<Object>> updatePassword(@Body RequestBody body);
+
+    @GET("/api/User/UserRegister")
+    Flowable<ResponseModel<Object>> regUser(@Query("Phone") String phone,@Query("Code") String code,@Query("Password") String password);
+
 }
 

@@ -1,6 +1,7 @@
 package com.gogotalk.system.view.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
@@ -11,10 +12,12 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 
 import com.gogotalk.system.R;
+import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.presenter.ForgetContract;
 import com.gogotalk.system.presenter.ForgetPresenter;
 import com.gogotalk.system.presenter.LoginContract;
 import com.gogotalk.system.presenter.LoginPresenter;
+import com.gogotalk.system.util.FormCheckUtils;
 import com.gogotalk.system.util.ToastUtils;
 
 import butterknife.BindView;
@@ -41,12 +44,16 @@ public class ForgetActivity extends BaseActivity<ForgetPresenter> implements For
         countDownTimer = new CountDownTimer(60*1000,1000) {
             @Override
             public void onTick(long l) {
+                btnCode.setBackgroundResource(R.mipmap.bg_reg_code_selected);
                 btnCode.setText(((l/1000)<10?"0"+(l/1000):(l/1000))+" S");
+                btnCode.setTextColor(Color.WHITE);
                 btnCode.setEnabled(false);
             }
 
             @Override
             public void onFinish() {
+                btnCode.setBackgroundResource(R.mipmap.bg_reg_code_normal);
+                btnCode.setTextColor(Color.parseColor("#FF5F7A"));
                 btnCode.setText("获取验证码");
                 btnCode.setEnabled(true);
             }
@@ -69,24 +76,20 @@ public class ForgetActivity extends BaseActivity<ForgetPresenter> implements For
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_code:
-                if(TextUtils.isEmpty(etPhone.getText())){
-                    ToastUtils.showShortToast(ForgetActivity.this,"请填写手机号码！");
+                if(FormCheckUtils.checkPhoneEmpty(etPhone.getText().toString())){
                     return;
                 }
                 countDownTimer.start();
                 mPresenter.sendCode(etPhone.getText().toString());
                 break;
             case R.id.btn_next:
-                if(TextUtils.isEmpty(etPhone.getText())){
-                    ToastUtils.showShortToast(ForgetActivity.this,"请填写手机号码！");
+                if(FormCheckUtils.checkPhoneEmpty(etPhone.getText().toString())){
                     return;
                 }
-                if(TextUtils.isEmpty(etCode.getText())){
-                    ToastUtils.showShortToast(ForgetActivity.this,"请填写验证码！");
+                if(FormCheckUtils.checkCodeEmpty(etCode.getText().toString())){
                     return;
                 }
-                if(!etCode.getText().toString().matches("[0-9]{4}")){
-                    ToastUtils.showShortToast(ForgetActivity.this,"验证码格式不正确！");
+                if(FormCheckUtils.checkCodeFormat(etCode.getText().toString())){
                     return;
                 }
                 mPresenter.checkCode(etPhone.getText().toString(),etCode.getText().toString());
@@ -100,7 +103,7 @@ public class ForgetActivity extends BaseActivity<ForgetPresenter> implements For
     @Override
     public void onCheckCodeSuccess() {
         Intent intent = new Intent(ForgetActivity.this, UpdatePasswordActivity.class);
-        intent.putExtra("phone",etPhone.getText().toString());
+        intent.putExtra(Constant.INTENT_DATA_KEY_PHONE,etPhone.getText().toString());
         startActivity(intent);
     }
 }

@@ -8,6 +8,19 @@
     <string name="login_btn_submit">登录</string>
     <string name="login_toast_empty_msg">请填写手机号或密码</string>
     <string name="login_toast_phone_error_msg">手机号输入有误</string>
+    <string name="login_reg_tv">新用户注册</string>
+
+    <string name="reg_code_label">验证码</string>
+    <string name="reg_input_code_hint">请输入验证码</string>
+    <string name="reg_input_password_hint">登录密码(6-16位数字字母组合)</string>
+
+    <string name="reg_phone_error_empty_toast_txt">请填写手机号码！</string>
+    <string name="reg_code_error_empty_toast_txt">请填写验证码！</string>
+    <string name="reg_code_error_format_toast_txt">验证码格式不正确！</string>
+    <string name="reg_password_error_empty_toast_txt">请填写密码！</string>
+    <string name="reg_password2_error_empty_toast_txt">请输入确认密码！</string>
+    <string name="reg_password_same_error_empty_toast_txt">密码不一致,请检查！</string>
+    <string name="reg_password_error_format_toast_txt">密码格式不正确！</string>
 
     <string name="main_class_list_item_empty_msg">小朋友你还没约课呦， 赶快让你的爸爸妈妈帮你约课吧！</string>
     <string name="main_popu_setting_check_device_msg">检测设备</string>
@@ -38,4 +51,6 @@
     <string name="courseware_load_txt2">为保证正常加载，请您不要退出或处于后台运行。</string>
     <string name="courseware_load_txt">已加载:</string>
     <string name="poivacy_statement">隐私声明</string>
+    <string name="reg_login_txt">已有账号,去登录</string>
+
 </resources>

@@ -9,6 +9,7 @@ import com.gogotalk.system.view.activity.ForgetActivity;
 import com.gogotalk.system.view.activity.LoginActivity;
 import com.gogotalk.system.view.activity.MainActivity;
 import com.gogotalk.system.view.activity.RecordActivity;
+import com.gogotalk.system.view.activity.RegActivity;
 import com.gogotalk.system.view.activity.SearchNameActivity;
 import com.gogotalk.system.view.activity.SelectNameActivity;
 import com.gogotalk.system.view.activity.UpdatePasswordActivity;
@@ -30,4 +31,5 @@ public interface ActivityComponent {
     void inject(SearchNameActivity activity);
     void inject(ForgetActivity activity);
     void inject(UpdatePasswordActivity activity);
+    void inject(RegActivity activity);
 }

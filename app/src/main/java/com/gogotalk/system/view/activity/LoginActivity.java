@@ -1,8 +1,13 @@
 package com.gogotalk.system.view.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -29,6 +34,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     EditText etLoginPassword;
     @BindView(R.id.btn_forget)
     TextView btnForget;
+    @BindView(R.id.tv_reg)
+    TextView tvReg;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +53,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         return R.layout.activity_login;
     }
 
+    @Override
+    protected void initView() {
+        super.initView();
+        SpannableString spannableString = new SpannableString(getString(R.string.login_reg_tv));
+        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#FB7C78"));
+        spannableString.setSpan(colorSpan, 3, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        tvReg.setText(spannableString);
+    }
 
     @OnClick(R.id.btn_login_submit)
     void submit() {
@@ -92,8 +107,19 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         return true;
     }
 
-    @OnClick(R.id.btn_forget)
-    public void onViewClicked() {
-        startActivity(new Intent(LoginActivity.this,ForgetActivity.class));
+    @OnClick({R.id.btn_forget,R.id.tv_reg})
+    public void onViewClicked(View view) {
+        switch (view.getId()){
+            case R.id.btn_forget:
+                startActivity(new Intent(LoginActivity.this, ForgetActivity.class));
+                break;
+            case R.id.tv_reg:
+                Intent intent = new Intent(LoginActivity.this, RegActivity.class);
+                intent.putExtra(Constant.INTENT_DATA_KEY_DIRECTION,Constant.DIRECTION_LOGIN_TO_REG);
+                startActivity(intent);
+                break;
+        }
+
     }
+
 }
