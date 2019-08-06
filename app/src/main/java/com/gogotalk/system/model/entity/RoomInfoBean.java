@@ -30,6 +30,15 @@ public class RoomInfoBean {
     private String OtherStudnetName;
     private String SystemTime;
     private String LessonTime;
+    private int timeToPage;
+
+    public int getTimeToPage() {
+        return timeToPage;
+    }
+
+    public void setTimeToPage(int timeToPage) {
+        this.timeToPage = timeToPage;
+    }
 
     public int getAttendLessonID() {
         return AttendLessonID;

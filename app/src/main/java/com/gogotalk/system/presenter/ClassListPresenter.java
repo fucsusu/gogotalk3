@@ -98,14 +98,14 @@ public class ClassListPresenter extends RxPresenter<ClassListContract.View> impl
 
 
     @Override
-    public void getRoomInfo(GoItemBean goItemBean) {
+    public void getRoomInfo(GoItemBean goItemBean,String filePath) {
         addSubscribe(mApiService.getRoomInfo(goItemBean.getAttendLessonID())
                 .compose(RxUtil.rxSchedulerHelper())
                 .compose(RxUtil.handleMyResult(getView(),false))
                 .subscribeWith(new CommonSubscriber<RoomInfoBean>(getView()) {
                     @Override
                     public void onNext(RoomInfoBean bean) {
-                        getView().onRoomInfoSuccess(bean,goItemBean);
+                        getView().onRoomInfoSuccess(bean,filePath);
                     }
                 })
         );

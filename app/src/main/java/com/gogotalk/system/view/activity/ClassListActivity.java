@@ -175,8 +175,22 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
                     ToastUtils.showLongToast(ClassListActivity.this, "课前10分钟才可以进入教室");
                     return;
                 }
-                mPresenter.getRoomInfo(goItemBean);
 
+                if (PermissionsUtil.getInstance().isPermissions()) {
+                    CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(ClassListActivity.this, goItemBean.getZipDownLoadUrl(),
+                            root_view, goItemBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
+                                @Override
+                                public void finsh(String filePath) {
+                                    if (TextUtils.isEmpty(filePath)) {
+                                        ToastUtils.showLongToast(ClassListActivity.this, "课件下载失败请查看网络是否连接正常！");
+                                        return;
+                                    }
+                                    mPresenter.getRoomInfo(goItemBean, filePath);
+                                }
+                            });
+                } else {
+                    ToastUtils.showLongToast(ClassListActivity.this, "部分功能未授权，请授权后再试！");
+                }
             }
 
             @Override
@@ -198,30 +212,16 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
         });
     }
 
-    private void goRoom(RoomInfoBean roomInfoBean, GoItemBean goItemBean) {
-        if (PermissionsUtil.getInstance().isPermissions()) {
-            CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(ClassListActivity.this, goItemBean.getZipDownLoadUrl(),
-                    root_view, goItemBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
-                        @Override
-                        public void finsh(String filePath) {
-                            if (TextUtils.isEmpty(filePath)) {
-                                ToastUtils.showLongToast(ClassListActivity.this, "课件下载失败请查看网络是否连接正常！");
-                                return;
-                            }
-                            Intent mIntent = new Intent(ClassListActivity.this, ClassRoomActivity.class);
-                            mIntent.putExtra("AttendLessonID", roomInfoBean.getAttendLessonID() + "");
-                            mIntent.putExtra("ChapterFilePath", roomInfoBean.getChapterData().getChapterFilePath());
-                            mIntent.putExtra("LessonTime", roomInfoBean.getLessonTime());
-                            mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, roomInfoBean.getTeacherName());
-                            mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
-                            Log.e("TAGlist", "finsh: " + roomInfoBean.getAttendLessonID() + "|||" + roomInfoBean.getChapterData().getChapterFilePath() + "||" +
-                                    roomInfoBean.getLessonTime() + "||" + roomInfoBean.getTeacherName() + "||" + filePath);
-                            startActivity(mIntent);
-                        }
-                    });
-        } else {
-            ToastUtils.showLongToast(ClassListActivity.this, "部分功能未授权，请授权后再试！");
-        }
+
+    @Override
+    public void onRoomInfoSuccess(RoomInfoBean roomInfoBean, String filePath) {
+        Intent mIntent = new Intent(ClassListActivity.this, ClassRoomActivity.class);
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_CLASS_ID, roomInfoBean.getAttendLessonID() + "");
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_BEGIN_TIME, roomInfoBean.getLessonTime());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, roomInfoBean.getTeacherName());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_TOPAGE, roomInfoBean.getTimeToPage());
+        startActivity(mIntent);
     }
 
     /**
@@ -292,10 +292,5 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
     public void setDataToYuyueDialogShow(List<WeekMakeBean> beans) {
         builder.setWeekBeans(beans);
         yuYueDialog.show();
-    }
-
-    @Override
-    public void onRoomInfoSuccess(RoomInfoBean bean, GoItemBean goItemBean) {
-        goRoom(bean, goItemBean);
     }
 }

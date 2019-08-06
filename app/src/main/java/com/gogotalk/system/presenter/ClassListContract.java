@@ -14,13 +14,13 @@ public interface ClassListContract {
         void updateUnitAndClassRecelyerViewData(List<GoGoBean> beans);
         void onOrderClassSuccess();
         void setDataToYuyueDialogShow(List<WeekMakeBean> beans);
-        void onRoomInfoSuccess(RoomInfoBean bean, GoItemBean goItemBean);
+        void onRoomInfoSuccess(RoomInfoBean bean, String filePath);
     }
     interface Presenter extends BaseContract.Presenter<ClassListContract.View>{
         void getLevelListData();
         void getClassByLevel(int level);
         void getWeekMakeBean();
         void orderClass(int bookID, int chapterID, String lessonTime);
-        void getRoomInfo(GoItemBean goItemBean);
+        void getRoomInfo(GoItemBean goItemBean,String filePath);
     }
 }

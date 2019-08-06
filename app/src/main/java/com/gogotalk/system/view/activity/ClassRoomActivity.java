@@ -180,6 +180,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public String teacherName;
     public String ownName;
     public WebSettings webSettings;
+    public int jumpPage = -1;
+    public int pptPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,10 +203,11 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     //获取初始化数据
     public void getIntentData() {
         Intent mIntent = getIntent();
-        AttendLessonID = mIntent.getStringExtra("AttendLessonID");
-        LessonTime = mIntent.getStringExtra("LessonTime");
+        AttendLessonID = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_CLASS_ID);
+        LessonTime = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_BEGIN_TIME);
         mCoursewareFile = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH);
         teacherName = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME);
+        jumpPage = mIntent.getIntExtra(Constant.INTENT_DATA_KEY_TOPAGE, -1);
         ownName = AppUtils.getUserInfoData().getName();
         ownStreamID = String.valueOf(AppUtils.getUserInfoData().getAccountID());
         finalRoomId = "#AI-ClassRoom-" + AttendLessonID;
@@ -329,7 +332,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         otherStreamID = streamID;
         otherStudentName = userName;
         otherSNText.setText(userName);
-        mOtherStudentVideoBg.setVisibility(View.INVISIBLE);
         mOtherTV.setVisibility(View.VISIBLE);
         mvideo_switch_other.setChecked(true);
         mvideo_switch_other.setClickable(true);
@@ -431,13 +433,16 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
 
     //跳转页数
     private void toPage(int page) {
-        webView.clearCache(true);
-        webView.evaluateJavascript("javascript:ToPage(" + page + ")", new ValueCallback<String>() {
-            @Override
-            public void onReceiveValue(String value) {
-                Log.i("TAG", value);
-            }
-        });
+        if (page >= 0 && page > pptPage) {
+            pptPage = page;
+            webView.clearCache(true);
+            webView.evaluateJavascript("javascript:ToPage(" + page + ")", new ValueCallback<String>() {
+                @Override
+                public void onReceiveValue(String value) {
+                    Log.i("TAG", value);
+                }
+            });
+        }
     }
 
     //答题处理
@@ -543,6 +548,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 super.onPageFinished(view, url);
                 view.loadUrl("javascript:try{autoplay();}catch(e){}");
                 sendName(ownName, otherStudentName);
+                toPage(jumpPage);
             }
 
         });
