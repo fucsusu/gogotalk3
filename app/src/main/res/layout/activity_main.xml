@@ -106,6 +106,12 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingRight="11dp">
+                <Button
+                    android:id="@+id/id_refresh"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@mipmap/ic_main_refresh" />
 
                 <Button
                     android:id="@+id/id_mRecord"
