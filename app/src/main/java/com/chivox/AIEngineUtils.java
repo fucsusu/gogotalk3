@@ -22,6 +22,8 @@ public class AIEngineUtils {
     private String refText = "I want to know the present and past of Hong Kong.";
     private long waitEndTime;
     private long waitStartTime;
+    private int rank = 4;
+    private String type = "en.word.score";
     /**录音文件（.wav）存放本地地址*/
     String wavPath = AIEngineHelper.getFilesDir(AiRoomApplication.getInstance()).getPath() + "/record/" + System.currentTimeMillis() + ".wav";
     private IEstimateCallback iEstimateCallback;
@@ -32,7 +34,7 @@ public class AIEngineUtils {
     }
 
     public interface IEstimateCallback{
-        void onEstimateResult(String result);
+        void onEstimateResult(String result,int rank);
     }
     private AIEngineUtils() {
     }
@@ -69,8 +71,16 @@ public class AIEngineUtils {
         });
         return AIEngineUtilsHoder.aiEngineUtils;
     }
-    public AIEngineUtils setTxt(String txt){
-        refText = txt;
+    public AIEngineUtils setContent(String content){
+        refText = content;
+        return this;
+    }
+    public AIEngineUtils setType(String type){
+        if("word".equals(type)){
+            type = "en.word.score";
+        }else if("sent".equals(type)){
+            type = "en.sent.score";
+        }
         return this;
     }
     public AIEngineUtils setUserId(String id){
@@ -81,7 +91,7 @@ public class AIEngineUtils {
     AIRecorder.Callback recorderCallback = new AIRecorder.Callback() {
         public void onStarted() {
             //句子启动参数
-            String param = "{\"coreProvideType\": \"cloud\", \"app\": {\"userId\": \"" + userId + "\"}, \"audio\": {\"audioType\": \"wav\", \"channel\": 1, \"sampleBytes\": 2, \"sampleRate\": 16000,\"compress\":\"speex\"}, \"request\": {\"coreType\": \"en.sent.score\", \"refText\":\"" + refText + "\", \"rank\": 100}}";
+            String param = "{\"coreProvideType\": \"cloud\", \"app\": {\"userId\": \"" + userId + "\"}, \"audio\": {\"audioType\": \"wav\", \"channel\": 1, \"sampleBytes\": 2, \"sampleRate\": 16000,\"compress\":\"speex\"}, \"request\": {\"coreType\": \""+type+"\", \"refText\":\"" + refText + "\", \"rank\": "+rank+"}}";
             byte[] id = new byte[64];
             /*开启引擎*/
             int rv = AIEngine.aiengine_start(engine, param, id, callback, AiRoomApplication.getInstance());
@@ -159,7 +169,7 @@ public class AIEngineUtils {
                         Log.d(TAG, "wait time for result: " + (waitEndTime - waitStartTime));
                         Log.d(TAG, result);
                         if(iEstimateCallback!=null){
-                            iEstimateCallback.onEstimateResult(result);
+                            iEstimateCallback.onEstimateResult(result,rank);
                         }
                     }
                 }
