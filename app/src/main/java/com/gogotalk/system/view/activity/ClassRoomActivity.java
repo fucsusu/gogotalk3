@@ -18,6 +18,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.JavascriptInterface;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -54,7 +55,6 @@ import com.tencent.smtt.sdk.WebViewClient;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 
 import java.io.File;
-import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -130,7 +130,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public ImageView loud_class;
 
     public String AttendLessonID;//房间的ID
-    public String ChapterFilePath;//H5的课件地址
     public String LessonTime;//开课时间
     public String finalRoomId;//房间号
     public String otherStudentName = "Bella";//其他学生姓名
@@ -172,7 +171,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                     openMikeTimer(msg.arg1);
                     break;
                 case Constant.HANDLE_INFO_JB:
-                    openJBAnim();
+                    openJBAnim(mJB_jiayi);
                     break;
             }
             return false;
@@ -203,7 +202,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public void getIntentData() {
         Intent mIntent = getIntent();
         AttendLessonID = mIntent.getStringExtra("AttendLessonID");
-        ChapterFilePath = mIntent.getStringExtra("ChapterFilePath");
         LessonTime = mIntent.getStringExtra("LessonTime");
         mCoursewareFile = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH);
         teacherName = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME);
@@ -382,25 +380,36 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     }
 
     @SuppressLint("JavascriptInterface")
-    private void showJb(int num) {
-        switch (num) {
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-        }
+    @JavascriptInterface
+    public void showJb(int jbNum) {
+        Log.e("TAG", "showJb: " + jbNum);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                switch (jbNum) {
+                    case 1:
+                        openJBAnim(mJB_jiayi);
+                        break;
+                    case 2:
+                        openJBAnim(mJB_jiaer);
+                        break;
+                    case 3:
+                        openJBAnim(mJb_jiasan);
+                        break;
+                }
+            }
+        });
+
     }
 
     //开启奖杯
-    private void openJBAnim() {
+    private void openJBAnim(ImageView addNum) {
         mMkfPhoto.setVisibility(View.INVISIBLE);
         mikeRateView.setVisibility(View.INVISIBLE);
         loud_class.setVisibility(View.INVISIBLE);
         mJBNum++;
         //给自己发奖杯
-        AnimatorUtils.showOwnJiangbei(mJbX, mOwnJB, mJB_jiayi, mMyJB, mJBNum);
+        AnimatorUtils.showOwnJiangbei(mJbX, mOwnJB, addNum, mMyJB, mJBNum);
         //给对方发奖杯
         AnimatorUtils.showOtherJiangbei(mJB_xing_other, mJB_other, mJB_jiayi_other, mOtherJBNum, mJBNum);
         if (player == null) {
@@ -451,12 +460,12 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 webView.loadUrl("file://" + mCoursewareFile + File.separator + "preview.html");
                 Log.e("TAG", "classBegin: 加载本地课件");
             } else {
-                webView.loadUrl(ChapterFilePath);
-                Log.e("TAG", "classBegin: 加载网络课件");
+                ToastUtils.showLongToast(this, "课件下载失败！");
+                finish();
+                return;
             }
             timer_group.setVisibility(View.GONE);
             webView.setVisibility(View.VISIBLE);
-            Log.e("TAG", "classBegin: " + ChapterFilePath);
         }
     }
 
@@ -469,6 +478,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     /**
      * 加载webview
      */
+    @SuppressLint("SetJavaScriptEnabled")
     private void initWebView() {
         //加载assets目录下的html
         //加上下面这段代码可以使网页中的链接不以浏览器的方式打开
