@@ -176,8 +176,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                     openMikeTimer(msg.arg1);
                     break;
                 case Constant.HANDLE_INFO_JB:
-                    AIEngineUtils.getInstance().stopRecord();
-//                    openJBAnim(mJB_jiayi);
+//                    AIEngineUtils.getInstance().stopRecord();
+                    openJBAnim(mJB_jiayi);
                     break;
             }
             return false;
@@ -249,8 +249,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public void btnClick(View view) {
         switch (view.getId()) {
             case R.id.class_room_close:
-//                dialog();
-                openMikeTimer(6);
+                dialog();
+//                openMikeTimer(6);
                 break;
         }
     }
@@ -444,32 +444,32 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     //开启麦克风倒计时
     private void openMikeTimer(int time) {
         isHideMicor(false);
-        AIEngineUtils.getInstance()
-                .setUserId(ownStreamID)
-                .setTxt("my name is tom")
-                .setiEstimateCallback(new AIEngineUtils.IEstimateCallback() {
-                    @Override
-                    public void onEstimateResult(String result) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(result);
-                            String result1 = jsonObject.getString("result");
-                            if(!TextUtils.isEmpty(result1)){
-                                JSONObject jsonObject1 = new JSONObject(result1);
-                                if(jsonObject1.getInt("overall")>50){
-                                    showJb(2);
-                                }else{
-                                   isHideMicor(true);
-                                }
-                            }else{
-                                isHideMicor(true);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            isHideMicor(true);
-                        }
-                    }
-                })
-                .startRecord();
+//        AIEngineUtils.getInstance()
+//                .setUserId(ownStreamID)
+//                .setTxt("my name is tom")
+//                .setiEstimateCallback(new AIEngineUtils.IEstimateCallback() {
+//                    @Override
+//                    public void onEstimateResult(String result) {
+//                        try {
+//                            JSONObject jsonObject = new JSONObject(result);
+//                            String result1 = jsonObject.getString("result");
+//                            if(!TextUtils.isEmpty(result1)){
+//                                JSONObject jsonObject1 = new JSONObject(result1);
+//                                if(jsonObject1.getInt("overall")>50){
+//                                    showJb(2);
+//                                }else{
+//                                   isHideMicor(true);
+//                                }
+//                            }else{
+//                                isHideMicor(true);
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                            isHideMicor(true);
+//                        }
+//                    }
+//                })
+//                .startRecord();
         mikeRateView.start(time);
         sendHandleMessage(Constant.HANDLE_INFO_JB, time * 1000);
     }
