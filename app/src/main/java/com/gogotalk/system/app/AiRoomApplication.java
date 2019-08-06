@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.chivox.AIEngineUtils;
 import com.gogotalk.system.BuildConfig;
 import com.gogotalk.system.di.components.DaggerNetComponent;
 import com.gogotalk.system.di.components.NetComponent;
@@ -46,6 +47,7 @@ public class AiRoomApplication extends Application {
         initJpush();
         //initTenX5();
         SPUtils.initSpUtil(this, AppUtils.getAppName(this));
+        AIEngineUtils.getInstance();
     }
 
     private void initJpush(){

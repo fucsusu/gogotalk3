@@ -36,7 +36,7 @@ public class PermissionsUtil {
     }
 
     public boolean isPermissions() {
-        return permissionList.size() == 3;
+        return permissionList.size() == 4;
     }
 
     public void requestPermissions(Activity activity) {
@@ -44,7 +44,8 @@ public class PermissionsUtil {
         RxPermissions rxPermission = new RxPermissions((FragmentActivity) activity);
         rxPermission.requestEach(Manifest.permission.CAMERA,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.RECORD_AUDIO
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.READ_PHONE_STATE
                 )
                 .subscribe(new Consumer<Permission>() {
                     @Override

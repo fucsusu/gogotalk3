@@ -30,8 +30,10 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.Group;
 
+import com.chivox.AIEngineUtils;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.util.Constant;
+import com.gogotalk.system.model.util.GsonUtils;
 import com.gogotalk.system.presenter.ClassRoomContract;
 import com.gogotalk.system.presenter.ClassRoomPresenter;
 import com.gogotalk.system.util.AnimatorUtils;
@@ -53,6 +55,9 @@ import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 import com.zego.zegoliveroom.constants.ZegoConstants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 
@@ -171,7 +176,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                     openMikeTimer(msg.arg1);
                     break;
                 case Constant.HANDLE_INFO_JB:
-                    openJBAnim(mJB_jiayi);
+                    AIEngineUtils.getInstance().stopRecord();
+//                    openJBAnim(mJB_jiayi);
                     break;
             }
             return false;
@@ -243,7 +249,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public void btnClick(View view) {
         switch (view.getId()) {
             case R.id.class_room_close:
-                dialog();
+//                dialog();
+                openMikeTimer(6);
                 break;
         }
     }
@@ -404,9 +411,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
 
     //开启奖杯
     private void openJBAnim(ImageView addNum) {
-        mMkfPhoto.setVisibility(View.INVISIBLE);
-        mikeRateView.setVisibility(View.INVISIBLE);
-        loud_class.setVisibility(View.INVISIBLE);
+        isHideMicor(true);
         mJBNum++;
         //给自己发奖杯
         AnimatorUtils.showOwnJiangbei(mJbX, mOwnJB, addNum, mMyJB, mJBNum);
@@ -420,11 +425,51 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         }
     }
 
+    /**
+     * 是否显示麦克风view
+     * @param flag
+     */
+    private void isHideMicor(boolean flag) {
+        if(flag){
+            mMkfPhoto.setVisibility(View.INVISIBLE);
+            mikeRateView.setVisibility(View.INVISIBLE);
+            loud_class.setVisibility(View.INVISIBLE);
+        }else{
+            mMkfPhoto.setVisibility(View.VISIBLE);
+            mikeRateView.setVisibility(View.VISIBLE);
+            loud_class.setVisibility(View.VISIBLE);
+        }
+    }
+
     //开启麦克风倒计时
     private void openMikeTimer(int time) {
-        mMkfPhoto.setVisibility(View.VISIBLE);
-        mikeRateView.setVisibility(View.VISIBLE);
-        loud_class.setVisibility(View.VISIBLE);
+        isHideMicor(false);
+        AIEngineUtils.getInstance()
+                .setUserId(ownStreamID)
+                .setTxt("my name is tom")
+                .setiEstimateCallback(new AIEngineUtils.IEstimateCallback() {
+                    @Override
+                    public void onEstimateResult(String result) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+                            String result1 = jsonObject.getString("result");
+                            if(!TextUtils.isEmpty(result1)){
+                                JSONObject jsonObject1 = new JSONObject(result1);
+                                if(jsonObject1.getInt("overall")>50){
+                                    showJb(2);
+                                }else{
+                                   isHideMicor(true);
+                                }
+                            }else{
+                                isHideMicor(true);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            isHideMicor(true);
+                        }
+                    }
+                })
+                .startRecord();
         mikeRateView.start(time);
         sendHandleMessage(Constant.HANDLE_INFO_JB, time * 1000);
     }
