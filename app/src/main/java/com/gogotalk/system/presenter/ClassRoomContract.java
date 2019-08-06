@@ -1,5 +1,6 @@
 package com.gogotalk.system.presenter;
 
+import android.content.Context;
 import android.view.View;
 
 /**
@@ -16,6 +17,9 @@ public interface ClassRoomContract {
 
         //开始预览推送自己的流
         void startPreviewOwn(View view);
+
+        //发送房间信令
+        void sendRoomCommand(Context context, String content);
     }
 
     interface IClassRoomView extends BaseContract.View {

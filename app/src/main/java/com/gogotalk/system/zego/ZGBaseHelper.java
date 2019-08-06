@@ -4,12 +4,14 @@ import android.app.Application;
 
 import com.gogotalk.system.zego.ZGPublishHelper;
 import com.zego.zegoliveroom.ZegoLiveRoom;
+import com.zego.zegoliveroom.callback.IZegoCustomCommandCallback;
 import com.zego.zegoliveroom.callback.IZegoInitSDKCompletionCallback;
 import com.zego.zegoliveroom.callback.IZegoLoginCompletionCallback;
 import com.zego.zegoliveroom.callback.IZegoRoomCallback;
 import com.zego.zegoliveroom.constants.ZegoAvConfig;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 import com.zego.zegoliveroom.entity.ZegoStreamInfo;
+import com.zego.zegoliveroom.entity.ZegoUser;
 
 /**
  * Copyright (C)
@@ -167,10 +169,9 @@ public class ZGBaseHelper {
         });
 
         ZegoAvConfig zegoAvConfig = new ZegoAvConfig(ZegoAvConfig.Level.High);
-        zegoAvConfig.setVideoCaptureResolution(960,540);
-        zegoAvConfig.setVideoEncodeResolution(960,540);
+        zegoAvConfig.setVideoCaptureResolution(960, 540);
+        zegoAvConfig.setVideoEncodeResolution(960, 540);
         zegoLiveRoom.setAVConfig(zegoAvConfig);
-
         AppLogger.getInstance().i(ZGBaseHelper.class, "初始化zegoSDK");
         return initSDKResults;
     }
@@ -340,6 +341,11 @@ public class ZGBaseHelper {
      */
     public void releaseZegoRoomCallback() {
         zegoLiveRoom.setZegoRoomCallback(null);
+    }
+
+    //发送房间信令
+    public boolean sendCustomCommand(ZegoUser[] listMember, java.lang.String content, IZegoCustomCommandCallback callback) {
+        return zegoLiveRoom.sendCustomCommand(listMember, content, callback);
     }
 
 

@@ -1,10 +1,12 @@
 package com.gogotalk.system.presenter;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.util.AppUtils;
+import com.gogotalk.system.util.ToastUtils;
 import com.gogotalk.system.zego.AppLogger;
 import com.gogotalk.system.zego.ZGBaseHelper;
 import com.gogotalk.system.zego.ZGMediaSideInfoDemo;
@@ -13,11 +15,13 @@ import com.gogotalk.system.zego.ZGPublishHelper;
 import com.gogotalk.system.zego.ZegoUtil;
 import com.orhanobut.logger.Logger;
 import com.zego.zegoliveroom.ZegoLiveRoom;
+import com.zego.zegoliveroom.callback.IZegoCustomCommandCallback;
 import com.zego.zegoliveroom.callback.IZegoInitSDKCompletionCallback;
 import com.zego.zegoliveroom.callback.IZegoLoginCompletionCallback;
 import com.zego.zegoliveroom.callback.IZegoRoomCallback;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 import com.zego.zegoliveroom.entity.ZegoStreamInfo;
+import com.zego.zegoliveroom.entity.ZegoUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,11 +35,12 @@ import static com.gogotalk.system.model.util.Constant.appSign;
  * Date: 2019-07-24 10:35
  */
 public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoomView> implements ClassRoomContract.IClassRoomPresenter {
-    public String otherStreamID;//其他学生的流ID
+    private ZegoUser otherUser;
+    private String otherStreamID;//其他学生的流ID
     private String ownStreamID;//自己推流ID
-    public String teacherStreamID;//老师的流ID
-
-    public double seqNumber = 0;//媒体信息ID
+    private ZegoUser teacherUser;
+    private String teacherStreamID;//老师的流ID
+    private double seqNumber = 0;//媒体信息ID
 
     @Inject
     public ClassRoomPresenter() {
@@ -80,13 +85,17 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                     //获取教室内的流
                     for (ZegoStreamInfo info : zegoStreamInfos) {
                         if (info.streamID.contains(Constant.FLAG_TEACHER)) {//老师
+                            teacherUser = new ZegoUser();
+                            teacherUser.userID = info.userID;
+                            teacherUser.userName = info.userName;
                             teacherStreamID = info.streamID;
                             getView().teacherJoinRoom(info.streamID, info.userName);
                         } else {
-                            if (!info.streamID.equals(ownStreamID)) {
-                                otherStreamID = info.streamID;
-                                getView().studentJoinRoom(info.streamID, info.userName);
-                            }
+                            otherUser = new ZegoUser();
+                            otherUser.userID = info.userID;
+                            otherUser.userName = info.userName;
+                            otherStreamID = info.streamID;
+                            getView().studentJoinRoom(info.streamID, info.userName);
                         }
                         Log.e("TAG", "房间用户信息：\nstreamID:" + info.streamID + "\nextraInfo:" + info.extraInfo
                                 + "\nuserID:" + info.userID + "\nuserName:" + info.userName);
@@ -103,6 +112,18 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     public void startPreviewOwn(View view) {
         // 预览自己的视频且推流
         ZGPublishHelper.sharedInstance().startPreview(view, ownStreamID);
+    }
+
+    //发送房间信令
+    @Override
+    public void sendRoomCommand(Context context, String content) {
+        boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[] {teacherUser,otherUser}, content, new IZegoCustomCommandCallback() {
+            @Override
+            public void onSendCustomCommand(int i, String s) {
+                Log.e("TAG", "onSendCustomCommand: " + i + "||" + s);
+            }
+        });
+        Log.e("TAG", "sendRoomCommand: 发送信令结果 "+sendSucess );
     }
 
     @Override
@@ -139,16 +160,25 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
             for (ZegoStreamInfo streamInfo : zegoStreamInfos) {
                 if (type == ZegoConstants.StreamUpdateType.Added) {
                     if (streamInfo.streamID.contains(Constant.FLAG_TEACHER)) {//老师
+                        teacherUser = new ZegoUser();
+                        teacherUser.userID = streamInfo.userID;
+                        teacherUser.userName = streamInfo.userName;
+                        teacherStreamID = streamInfo.streamID;
                         getView().teacherJoinRoom(streamInfo.streamID, streamInfo.userName);
                     } else {//学生
+                        otherUser = new ZegoUser();
+                        otherUser.userID = streamInfo.userID;
+                        otherUser.userName = streamInfo.userName;
                         otherStreamID = streamInfo.streamID;
                         getView().studentJoinRoom(streamInfo.streamID, streamInfo.userName);
                     }
                 } else if (type == ZegoConstants.StreamUpdateType.Deleted) {
                     if (streamInfo.streamID.contains(Constant.FLAG_TEACHER)) {//老师
                         getView().teacherLeaveRoom();
+                        teacherStreamID = "";
                     } else if (streamInfo.streamID.equals(otherStreamID)) {//学生
                         getView().studentLeaveRoom();
+                        otherStreamID = "";
                     }
                 }
             }
@@ -160,8 +190,8 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
         }
 
         @Override
-        public void onRecvCustomCommand(String s, String s1, String s2, String s3) {
-
+        public void onRecvCustomCommand(String id, String name, String content, String roomid) {
+            Log.e("TAG", "onRecvCustomCommand: " + id + name + content + roomid);
         }
     };
 
