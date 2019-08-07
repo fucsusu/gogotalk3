@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
+import com.gogotalk.system.model.entity.ActionBean;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.util.ToastUtils;
@@ -13,6 +14,7 @@ import com.gogotalk.system.zego.ZGMediaSideInfoDemo;
 import com.gogotalk.system.zego.ZGPlayHelper;
 import com.gogotalk.system.zego.ZGPublishHelper;
 import com.gogotalk.system.zego.ZegoUtil;
+import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
 import com.zego.zegoliveroom.ZegoLiveRoom;
 import com.zego.zegoliveroom.callback.IZegoCustomCommandCallback;
@@ -38,9 +40,11 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     private ZegoUser otherUser;
     private String otherStreamID;//其他学生的流ID
     private String ownStreamID;//自己推流ID
+    private String ownUserName;
     private ZegoUser teacherUser;
     private String teacherStreamID;//老师的流ID
     private double seqNumber = 0;//媒体信息ID
+    private int seq = 0;
 
     @Inject
     public ClassRoomPresenter() {
@@ -48,6 +52,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
 
     {
         ownStreamID = String.valueOf(AppUtils.getUserInfoData().getAccountID());
+        ownUserName = String.valueOf(AppUtils.getUserInfoData().getName());
     }
 
     @Override
@@ -116,14 +121,22 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
 
     //发送房间信令
     @Override
-    public void sendRoomCommand(Context context, String content) {
-        boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[] {teacherUser,otherUser}, content, new IZegoCustomCommandCallback() {
+    public void sendRoomCommand(Object... contents) {
+        ActionBean.ActionData actionData = new ActionBean.ActionData();
+        actionData.setAnswer((String) contents[1]);
+        actionData.setQuestion_id("");
+        actionData.setAnswer("true");
+        actionData.setUser_id(ownStreamID);
+        actionData.setUser_name(ownUserName);
+        ActionBean actionBean = new ActionBean(seq++, "student", String.valueOf(contents[0]), actionData);
+        String content = new Gson().toJson(actionBean);
+        boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[]{teacherUser, otherUser}, content, new IZegoCustomCommandCallback() {
             @Override
             public void onSendCustomCommand(int i, String s) {
                 Log.e("TAG", "onSendCustomCommand: " + i + "||" + s);
             }
         });
-        Log.e("TAG", "sendRoomCommand: 发送信令结果 "+sendSucess );
+        Log.e("TAG", "sendRoomCommand: 发送信令结果 " + sendSucess);
     }
 
     @Override
@@ -225,15 +238,15 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                         String msg = title.replace("\\", "");
                         JSONObject object1 = new JSONObject(msg);
                         int time = object1.getInt("time");
-                        String content1="";
-                        String type="";
-                        if(object1.has("content")&&!object1.isNull("content")){
-                             content1 = object1.getString("content");
+                        String content1 = "";
+                        String type = "";
+                        if (object1.has("content") && !object1.isNull("content")) {
+                            content1 = object1.getString("content");
                         }
-                        if(object1.has("type")&&!object1.isNull("type")){
+                        if (object1.has("type") && !object1.isNull("type")) {
                             type = object1.getString("type");
                         }
-                        getView().sendHandleMessage(content1,type,Constant.HANDLE_INFO_MIKE, 0, time);
+                        getView().sendHandleMessage(content1, type, Constant.HANDLE_INFO_MIKE, 0, time);
                         Log.e("TAG", "调用麦克风发放奖杯方法\nmsg：" + msg + "\ntime：" + time);
                     }
                 }

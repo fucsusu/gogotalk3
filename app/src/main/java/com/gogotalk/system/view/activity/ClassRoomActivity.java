@@ -35,6 +35,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.Group;
 
+import com.chivox.AIEngineUtils;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.presenter.ClassRoomContract;
@@ -52,6 +53,9 @@ import com.gogotalk.system.zego.ZGPlayHelper;
 import com.gogotalk.system.zego.ZGPublishHelper;
 import com.orhanobut.logger.Logger;
 import com.zego.zegoliveroom.constants.ZegoConstants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.Random;
@@ -171,11 +175,11 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                     Bundle data = msg.getData();
                     String content = "";
                     String type = "";
-                    if(data!=null){
-                        content =  data.getString("content");
-                        type =  data.getString("type");
+                    if (data != null) {
+                        content = data.getString("content");
+                        type = data.getString("type");
                     }
-                    openMikeTimer(msg.arg1,type,content);
+                    openMikeTimer(msg.arg1, type, content);
                     break;
                 case Constant.HANDLE_INFO_JB:
                     AIEngineUtils.getInstance().stopRecord();
@@ -254,7 +258,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public void btnClick(View view) {
         switch (view.getId()) {
             case R.id.class_room_close:
-                dialog();
+               // dialog();
 //                String[] types = new String[]{"word","sent"};
 //                String[] words=new String[]{"zoo","tiger","monkey","parrot","crocodile","snake"};
 //                String[] sents=new String[]{"Let's go to the zoo!","It's a tiger","It's a monkey","It's a parrot","It's a crocodile","It's a snake"};
@@ -272,6 +276,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
 //                }
 //                Log.d("wuhongjie", "======="+currentType+"========="+currentContent+"==============");
 //                openMikeTimer(6,currentType,currentContent);
+
+               // mPresenter.sendRoomCommand("answer", "123456", true);
                 break;
         }
     }
@@ -371,7 +377,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         isClassBegin = false;
         mTeacherVideoBg.setImageResource(R.mipmap.bg_class_room_finish);
         mTeacherTV.setVisibility(View.INVISIBLE);
-        mvideo_swtich_own.setClickable(false);
         mLeaveMessage = 2;
     }
 
@@ -407,13 +412,13 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     }
 
     @Override
-    public void sendHandleMessage(String content,String type, int... ags) {
+    public void sendHandleMessage(String content, String type, int... ags) {
         if (handler != null) {
             Message msg = new Message();
             msg.what = ags[0];
             Bundle data = msg.getData();
-            data.putString("content",content);
-            data.putString("type",type);
+            data.putString("content", content);
+            data.putString("type", type);
             msg.setData(data);
             if (ags.length >= 3) {
                 msg.arg1 = ags[2];
@@ -491,7 +496,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     }
 
     //开启麦克风倒计时
-    private void openMikeTimer(int time,String type,String content) {
+    private void openMikeTimer(int time, String type, String content) {
         isHideMicor(false);
         AIEngineUtils.getInstance()
                 .setUserId(ownStreamID)
@@ -499,21 +504,21 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 .setContent(content)
                 .setiEstimateCallback(new AIEngineUtils.IEstimateCallback() {
                     @Override
-                    public void onEstimateResult(String result,int rank) {
+                    public void onEstimateResult(String result, int rank) {
                         try {
                             JSONObject jsonObject = new JSONObject(result);
                             String result1 = jsonObject.getString("result");
-                            if(!TextUtils.isEmpty(result1)){
+                            if (!TextUtils.isEmpty(result1)) {
                                 JSONObject jsonObject1 = new JSONObject(result1);
                                 JSONObject params = jsonObject.getJSONObject("params");
                                 JSONObject request = params.getJSONObject("request");
-                                Log.d("wuhongjie", "==========="+jsonObject1.getInt("overall")+"======"+request.getString("refText")+"=====");
-                                if(isRank100Overall(rank, jsonObject1)||isRank4Overall(rank, jsonObject1)){
+                                Log.d("wuhongjie", "===========" + jsonObject1.getInt("overall") + "======" + request.getString("refText") + "=====");
+                                if (isRank100Overall(rank, jsonObject1) || isRank4Overall(rank, jsonObject1)) {
                                     showJb(2);
-                                }else{
-                                   isHideMicor(true);
+                                } else {
+                                    isHideMicor(true);
                                 }
-                            }else{
+                            } else {
                                 isHideMicor(true);
                             }
                         } catch (JSONException e) {
@@ -523,10 +528,10 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                     }
 
                     private boolean isRank100Overall(int rank, JSONObject jsonObject1) throws JSONException {
-                        return rank==100&&jsonObject1.getInt("overall")>50;
+                        return rank == 100 && jsonObject1.getInt("overall") > 50;
                     }
                     private boolean isRank4Overall(int rank, JSONObject jsonObject1) throws JSONException {
-                        return rank==4&&jsonObject1.getInt("overall")>1;
+                        return rank == 4 && jsonObject1.getInt("overall") > 1;
                     }
                 })
                 .startRecord();

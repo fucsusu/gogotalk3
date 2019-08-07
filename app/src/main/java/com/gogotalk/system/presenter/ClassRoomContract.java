@@ -19,7 +19,7 @@ public interface ClassRoomContract {
         void startPreviewOwn(View view);
 
         //发送房间信令
-        void sendRoomCommand(Context context, String content);
+        void sendRoomCommand(Object... contents);
     }
 
     interface IClassRoomView extends BaseContract.View {
