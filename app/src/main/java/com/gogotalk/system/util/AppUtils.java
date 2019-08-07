@@ -15,11 +15,15 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.entity.UserInfoBean;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.model.util.GsonUtils;
+
+import static com.bumptech.glide.load.DecodeFormat.PREFER_ARGB_8888;
 
 public class AppUtils {
     /**
@@ -204,27 +208,17 @@ public class AppUtils {
      * @param defaultResId
      * @param view
      */
-    public static void bindImageToView(Context context, String imageUrl, int defaultResId, ImageView view,DiskCacheStrategy cache,boolean isCircle){
+    public static void bindImageToView(Context context, String imageUrl, int defaultResId, ImageView view,DiskCacheStrategy cache,boolean isCircle,int circle){
+        DrawableCrossFadeFactory drawableCrossFadeFactory = new DrawableCrossFadeFactory.Builder(300).setCrossFadeEnabled(true).build();
         RequestBuilder<Drawable> placeholder = Glide.with(context)
                 .load(imageUrl)
                 .placeholder(defaultResId)
                 .error(defaultResId);
+        placeholder.transition(DrawableTransitionOptions.with(drawableCrossFadeFactory));
         if(isCircle){
-            RoundedCorners roundedCorners= new RoundedCorners(6);
-            RequestOptions options=RequestOptions.bitmapTransform(roundedCorners).override(300, 300);
-            placeholder.apply(RequestOptions.circleCropTransform());
+            placeholder.transform(new RoundedCorners(circle));
         }
         placeholder.diskCacheStrategy(cache==null?DiskCacheStrategy.NONE:cache).into(view);
     }
 
-    public static void bindImageToView(Context context, String imageUrl, int defaultResId, ImageView view,DiskCacheStrategy cache,int roundingRadius,int width,int height){
-        RequestBuilder<Drawable> placeholder = Glide.with(context)
-                .load(imageUrl)
-                .placeholder(defaultResId)
-                .error(defaultResId);
-            RoundedCorners roundedCorners= new RoundedCorners(roundingRadius);
-            RequestOptions options=RequestOptions.bitmapTransform(roundedCorners).override(width, height);
-            placeholder.apply(options);
-            placeholder.diskCacheStrategy(cache==null?DiskCacheStrategy.NONE:cache).into(view);
-    }
 }

@@ -33,6 +33,12 @@ public class Constant {
     public static final String INTENT_DATA_KEY_TEACHER_NAME = "teachername";
     //文件下载路径
     public static final String INTENT_DATA_KEY_DOWNLOAD_FILE_PATH = "LessonFile";
+    // 教室ID
+    public static final String INTENT_DATA_KEY_CLASS_ID = "AttendLessonID";
+    //开始上课时间
+    public static final String INTENT_DATA_KEY_BEGIN_TIME = "LessonTime";
+    //需要跳转的页数
+    public static final String INTENT_DATA_KEY_TOPAGE = "timeToPage";
 
     //apk下载默认前缀
     public static final String DOWNLOAD_APK = "gogotalk";

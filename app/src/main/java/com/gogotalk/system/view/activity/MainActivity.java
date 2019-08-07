@@ -96,6 +96,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     LinearLayout idGoGoTalkHome;
     @BindView(R.id.id_mLayout)
     LinearLayout idMLayout;
+    @BindView(R.id.id_refresh)
+    Button btnRefresh;
     private List<CoursesBean> list = new ArrayList<>();
     private Dialog dialog;
     private long exitTime = 0;
@@ -225,11 +227,24 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             @Override
             public void onBtnGoClassRoomClick(boolean flag, CoursesBean coursesBean) {
-                if (!flag) {
-                    ToastUtils.showLongToast(MainActivity.this, "课前10分钟才可以进入教室");
-                    return;
+//                if (!flag) {
+//                    ToastUtils.showLongToast(MainActivity.this, "课前10分钟才可以进入教室");
+//                    return;
+//                }
+                if (!PermissionsUtil.getInstance().isPermissions()) {
+                    ToastUtils.showLongToast(MainActivity.this, "部分功能未授权，请授权后再试！");
                 }
-                mPresenter.getRoomInfo(coursesBean);
+                CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(MainActivity.this, coursesBean.getZipDownLoadUrl(),
+                        root_view, coursesBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
+                            @Override
+                            public void finsh(String filePath) {
+                                if (TextUtils.isEmpty(filePath)) {
+                                    ToastUtils.showLongToast(MainActivity.this, "课件下载失败请查看网络是否连接正常！");
+                                    return;
+                                }
+                                mPresenter.getRoomInfo(coursesBean, filePath);
+                            }
+                        });
             }
 
             @Override
@@ -245,30 +260,16 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(ScreenUtils.dip2px(getApplicationContext(), 10), 0));
     }
 
-    private void goRoom(RoomInfoBean roomInfoBean,CoursesBean coursesBean) {
-        if (PermissionsUtil.getInstance().isPermissions()) {
-            CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(MainActivity.this, coursesBean.getZipDownLoadUrl(),
-                    root_view, coursesBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
-                        @Override
-                        public void finsh(String filePath) {
-                            if (TextUtils.isEmpty(filePath)) {
-                                ToastUtils.showLongToast(MainActivity.this, "课件下载失败请查看网络是否连接正常！");
-                                return;
-                            }
-                            Intent mIntent = new Intent(MainActivity.this, ClassRoomActivity.class);
-                            mIntent.putExtra("AttendLessonID", roomInfoBean.getAttendLessonID() + "");
-                            mIntent.putExtra("ChapterFilePath", roomInfoBean.getChapterData().getChapterFilePath());
-                            mIntent.putExtra("LessonTime", roomInfoBean.getLessonTime());
-                            mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, roomInfoBean.getTeacherName());
-                            mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
-                            Log.e("TAGlist", "finsh: " + roomInfoBean.getAttendLessonID() + "|||" + roomInfoBean.getChapterData().getChapterFilePath() + "||" +
-                                    roomInfoBean.getLessonTime() + "||" + roomInfoBean.getTeacherName() + "||" + filePath);
-                            startActivity(mIntent);
-                        }
-                    });
-        } else {
-            ToastUtils.showLongToast(MainActivity.this, "部分功能未授权，请授权后再试！");
-        }
+    @Override
+    public void onRoomInfoSuccess(RoomInfoBean bean, String filePath) {
+        Log.e("TAG", "onRoomInfoSucces: " + bean);
+        Intent mIntent = new Intent(MainActivity.this, ClassRoomActivity.class);
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_CLASS_ID, bean.getAttendLessonID() + "");
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_BEGIN_TIME, bean.getLessonTime());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, bean.getTeacherName());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_TOPAGE, bean.getTimeToPage());
+        startActivity(mIntent);
     }
 
     @Override
@@ -299,10 +300,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         mPresenter.getUserInfoData(false, true);
     }
 
-    @Override
-    public void onRoomInfoSuccess(RoomInfoBean bean, CoursesBean coursesBean) {
-        goRoom(bean,coursesBean);
-    }
 
     @Override
     public void showRecelyerViewOrEmptyViewByFlag(boolean flag) {
@@ -537,7 +534,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         return super.onKeyDown(keyCode, event);
     }
 
-    @OnClick({R.id.id_mPersonalSettings, R.id.id_mRecord, R.id.id_GoGoTalk_Home, R.id.id_mBtn_HomePage})
+    @OnClick({R.id.id_mPersonalSettings, R.id.id_mRecord, R.id.id_GoGoTalk_Home, R.id.id_mBtn_HomePage,R.id.id_refresh})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.id_mPersonalSettings:
@@ -552,7 +549,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             case R.id.id_mBtn_HomePage:
                 startActivity(new Intent(MainActivity.this, ClassListActivity.class));
                 break;
-
+            case R.id.id_refresh:
+                cancelIntervalUpdateData();
+                isFirstLoadData = false;
+                intervalUpdateData();
+                break;
         }
     }
 

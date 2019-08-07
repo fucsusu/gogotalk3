@@ -40,5 +40,7 @@ public interface ClassRoomContract {
 
         //发送Handle信息
         void sendHandleMessage(int... ags);
+        //发送Handle信息
+        void sendHandleMessage(String content,String type,int... ags);
     }
 }
