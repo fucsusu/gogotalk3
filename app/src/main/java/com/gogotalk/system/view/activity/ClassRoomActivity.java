@@ -19,6 +19,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -30,10 +35,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.Group;
 
-import com.chivox.AIEngineUtils;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.util.Constant;
-import com.gogotalk.system.model.util.GsonUtils;
 import com.gogotalk.system.presenter.ClassRoomContract;
 import com.gogotalk.system.presenter.ClassRoomPresenter;
 import com.gogotalk.system.util.AnimatorUtils;
@@ -48,16 +51,7 @@ import com.gogotalk.system.zego.ZGMediaSideInfoDemo;
 import com.gogotalk.system.zego.ZGPlayHelper;
 import com.gogotalk.system.zego.ZGPublishHelper;
 import com.orhanobut.logger.Logger;
-import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
-import com.tencent.smtt.sdk.ValueCallback;
-import com.tencent.smtt.sdk.WebChromeClient;
-import com.tencent.smtt.sdk.WebSettings;
-import com.tencent.smtt.sdk.WebView;
-import com.tencent.smtt.sdk.WebViewClient;
 import com.zego.zegoliveroom.constants.ZegoConstants;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 
@@ -408,7 +402,12 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 }
             }
         });
+    }
 
+    @SuppressLint("JavascriptInterface")
+    @JavascriptInterface
+    public void answerResult(boolean result) {
+        Log.e("TAG", "answerResult: " + result);
     }
 
     //开启奖杯
@@ -429,14 +428,15 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
 
     /**
      * 是否显示麦克风view
+     *
      * @param flag
      */
     private void isHideMicor(boolean flag) {
-        if(flag){
+        if (flag) {
             mMkfPhoto.setVisibility(View.INVISIBLE);
             mikeRateView.setVisibility(View.INVISIBLE);
             loud_class.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             mMkfPhoto.setVisibility(View.VISIBLE);
             mikeRateView.setVisibility(View.VISIBLE);
             loud_class.setVisibility(View.VISIBLE);
@@ -508,6 +508,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
             isClassBegin = true;
             if (!TextUtils.isEmpty(mCoursewareFile) && new File(mCoursewareFile + File.separator + "preview.html").exists()) {
                 webView.loadUrl("file://" + mCoursewareFile + File.separator + "preview.html");
+                //webView.loadUrl("file:///android_asset/index2.html");
                 Log.e("TAG", "classBegin: 加载本地课件");
             } else {
                 ToastUtils.showLongToast(this, "课件下载失败！");
@@ -604,7 +605,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
              * 显示自定义视图，无此方法视频不能播放
              */
             @Override
-            public void onShowCustomView(View view, IX5WebChromeClient.CustomViewCallback callback) {
+            public void onShowCustomView(View view, CustomViewCallback callback) {
                 super.onShowCustomView(view, callback);
             }
         });
