@@ -225,7 +225,15 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                         String msg = title.replace("\\", "");
                         JSONObject object1 = new JSONObject(msg);
                         int time = object1.getInt("time");
-                        getView().sendHandleMessage(Constant.HANDLE_INFO_MIKE, 0, time);
+                        String content1="";
+                        String type="";
+                        if(object1.has("content")&&!object1.isNull("content")){
+                             content1 = object1.getString("content");
+                        }
+                        if(object1.has("type")&&!object1.isNull("type")){
+                            type = object1.getString("type");
+                        }
+                        getView().sendHandleMessage(content1,type,Constant.HANDLE_INFO_MIKE, 0, time);
                         Log.e("TAG", "调用麦克风发放奖杯方法\nmsg：" + msg + "\ntime：" + time);
                     }
                 }

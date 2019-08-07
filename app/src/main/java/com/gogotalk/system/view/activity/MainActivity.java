@@ -96,6 +96,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     LinearLayout idGoGoTalkHome;
     @BindView(R.id.id_mLayout)
     LinearLayout idMLayout;
+    @BindView(R.id.id_refresh)
+    Button btnRefresh;
     private List<CoursesBean> list = new ArrayList<>();
     private Dialog dialog;
     private long exitTime = 0;
@@ -532,7 +534,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         return super.onKeyDown(keyCode, event);
     }
 
-    @OnClick({R.id.id_mPersonalSettings, R.id.id_mRecord, R.id.id_GoGoTalk_Home, R.id.id_mBtn_HomePage})
+    @OnClick({R.id.id_mPersonalSettings, R.id.id_mRecord, R.id.id_GoGoTalk_Home, R.id.id_mBtn_HomePage,R.id.id_refresh})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.id_mPersonalSettings:
@@ -547,7 +549,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             case R.id.id_mBtn_HomePage:
                 startActivity(new Intent(MainActivity.this, ClassListActivity.class));
                 break;
-
+            case R.id.id_refresh:
+                cancelIntervalUpdateData();
+                isFirstLoadData = false;
+                intervalUpdateData();
+                break;
         }
     }
 

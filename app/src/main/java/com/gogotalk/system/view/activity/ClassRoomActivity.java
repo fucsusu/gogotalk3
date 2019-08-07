@@ -54,6 +54,7 @@ import com.orhanobut.logger.Logger;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 
 import java.io.File;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -167,11 +168,18 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                     toPage(msg.arg1);
                     break;
                 case Constant.HANDLE_INFO_MIKE:
-                    openMikeTimer(msg.arg1);
+                    Bundle data = msg.getData();
+                    String content = "";
+                    String type = "";
+                    if(data!=null){
+                        content =  data.getString("content");
+                        type =  data.getString("type");
+                    }
+                    openMikeTimer(msg.arg1,type,content);
                     break;
                 case Constant.HANDLE_INFO_JB:
-//                    AIEngineUtils.getInstance().stopRecord();
-                    openJBAnim(mJB_jiayi);
+                    AIEngineUtils.getInstance().stopRecord();
+//                    openJBAnim(mJB_jiayi);
                     break;
             }
             return false;
@@ -247,7 +255,23 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         switch (view.getId()) {
             case R.id.class_room_close:
                 dialog();
-//                openMikeTimer(6);
+//                String[] types = new String[]{"word","sent"};
+//                String[] words=new String[]{"zoo","tiger","monkey","parrot","crocodile","snake"};
+//                String[] sents=new String[]{"Let's go to the zoo!","It's a tiger","It's a monkey","It's a parrot","It's a crocodile","It's a snake"};
+//                int typeMax=types.length;
+//                int max=words.length,min=0;
+//                int typeRan = (int) (Math.random()*(typeMax-min)+min);
+//                int wordRan = (int) (Math.random()*(max-min)+min);
+//                int sentRan = (int) (Math.random()*(max-min)+min);
+//                String currentType=types[typeRan];
+//                String currentContent="";
+//                if("word".equals(currentType)){
+//                    currentContent = words[wordRan];
+//                }else{
+//                    currentContent = sents[sentRan];
+//                }
+//                Log.d("wuhongjie", "======="+currentType+"========="+currentContent+"==============");
+//                openMikeTimer(6,currentType,currentContent);
                 break;
         }
     }
@@ -382,6 +406,29 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         }
     }
 
+    @Override
+    public void sendHandleMessage(String content,String type, int... ags) {
+        if (handler != null) {
+            Message msg = new Message();
+            msg.what = ags[0];
+            Bundle data = msg.getData();
+            data.putString("content",content);
+            data.putString("type",type);
+            msg.setData(data);
+            if (ags.length >= 3) {
+                msg.arg1 = ags[2];
+            }
+            if (ags.length == 4) {
+                msg.arg2 = ags[3];
+            }
+            if (ags.length > 1 && ags[1] > 0) {
+                handler.sendMessageDelayed(msg, ags[1]);
+            } else {
+                handler.sendMessage(msg);
+            }
+        }
+    }
+
     @SuppressLint("JavascriptInterface")
     @JavascriptInterface
     public void showJb(int jbNum) {
@@ -444,34 +491,45 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     }
 
     //开启麦克风倒计时
-    private void openMikeTimer(int time) {
+    private void openMikeTimer(int time,String type,String content) {
         isHideMicor(false);
-//        AIEngineUtils.getInstance()
-//                .setUserId(ownStreamID)
-//                .setTxt("my name is tom")
-//                .setiEstimateCallback(new AIEngineUtils.IEstimateCallback() {
-//                    @Override
-//                    public void onEstimateResult(String result) {
-//                        try {
-//                            JSONObject jsonObject = new JSONObject(result);
-//                            String result1 = jsonObject.getString("result");
-//                            if(!TextUtils.isEmpty(result1)){
-//                                JSONObject jsonObject1 = new JSONObject(result1);
-//                                if(jsonObject1.getInt("overall")>50){
-//                                    showJb(2);
-//                                }else{
-//                                   isHideMicor(true);
-//                                }
-//                            }else{
-//                                isHideMicor(true);
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                            isHideMicor(true);
-//                        }
-//                    }
-//                })
-//                .startRecord();
+        AIEngineUtils.getInstance()
+                .setUserId(ownStreamID)
+                .setType(type)
+                .setContent(content)
+                .setiEstimateCallback(new AIEngineUtils.IEstimateCallback() {
+                    @Override
+                    public void onEstimateResult(String result,int rank) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+                            String result1 = jsonObject.getString("result");
+                            if(!TextUtils.isEmpty(result1)){
+                                JSONObject jsonObject1 = new JSONObject(result1);
+                                JSONObject params = jsonObject.getJSONObject("params");
+                                JSONObject request = params.getJSONObject("request");
+                                Log.d("wuhongjie", "==========="+jsonObject1.getInt("overall")+"======"+request.getString("refText")+"=====");
+                                if(isRank100Overall(rank, jsonObject1)||isRank4Overall(rank, jsonObject1)){
+                                    showJb(2);
+                                }else{
+                                   isHideMicor(true);
+                                }
+                            }else{
+                                isHideMicor(true);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            isHideMicor(true);
+                        }
+                    }
+
+                    private boolean isRank100Overall(int rank, JSONObject jsonObject1) throws JSONException {
+                        return rank==100&&jsonObject1.getInt("overall")>50;
+                    }
+                    private boolean isRank4Overall(int rank, JSONObject jsonObject1) throws JSONException {
+                        return rank==4&&jsonObject1.getInt("overall")>1;
+                    }
+                })
+                .startRecord();
         mikeRateView.start(time);
         sendHandleMessage(Constant.HANDLE_INFO_JB, time * 1000);
     }

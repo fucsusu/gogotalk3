@@ -14,6 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.entity.RecordBean;
 import com.gogotalk.system.model.util.Constant;
+import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.view.activity.ClassDetailActivity;
 
 import java.util.List;
@@ -79,8 +80,7 @@ public class RecordGridAdapter extends BaseAdapter {
         final int DetailRecordID = list.get(position).getDetailRecordID();//约课记录ID
         final String BeforeFilePath = list.get(position).getBeforeFilePath();//课前链接
         String url = list.get(position).getChapterCoverImgUrl();
-        Glide.with(context).load(url).placeholder(R.mipmap.ic_main_list_item_header_default)
-                .diskCacheStrategy(DiskCacheStrategy.NONE).into(mHolder.mImg);
+        AppUtils.bindImageToView(context,url,R.mipmap.record_grid_item_default_img,mHolder.mImg,DiskCacheStrategy.ALL,true,9);
         mHolder.mLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
