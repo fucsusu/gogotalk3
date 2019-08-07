@@ -135,20 +135,20 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:paddingTop="15dp">
+            android:paddingBottom="@dimen/qb_px_10"
+            android:paddingTop="@dimen/qb_px_10">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/id_mRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
 
             <RelativeLayout
                 android:id="@+id/id_mQYK_HomePage"
-                android:layout_width="139dp"
-                android:layout_height="200dp"
+                android:layout_width="@dimen/qb_px_159"
+                android:layout_height="@dimen/qb_px_219"
                 android:layout_marginLeft="20dp"
-                android:visibility="gone"
                 android:background="@mipmap/bg_main_class_list_item_empty"
                 >
 
@@ -163,35 +163,40 @@
 
                 <ImageView
                     android:id="@+id/id_mBJ_Homepage"
-                    android:layout_width="130dp"
-                    android:layout_height="109dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginTop="35dp"
+                    android:layout_width="@dimen/qb_px_149"
+                    android:layout_height="@dimen/qb_px_109"
+                    android:layout_marginLeft="@dimen/qb_px_5"
+                    android:layout_marginTop="@dimen/qb_px_44"
                     android:src="@mipmap/ic_main_class_list_item_empty" />
-
+                <TextView
+                    android:id="@+id/tv_label1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/id_mBJ_Homepage"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="-10dp"
+                    android:gravity="center_horizontal"
+                    android:text="小朋友你还没约课呦，赶"
+                    android:textColor="#333"
+                    android:textSize="@dimen/qb_px_10" />
                 <TextView
                     android:id="@+id/id_mStr_HomePage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/id_mBtn_HomePage"
+                    android:layout_below="@+id/tv_label1"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/main_class_list_item_empty_msg"
+                    android:text="快让你的爸爸妈妈帮你约课吧！"
                     android:textColor="#333"
-                    android:textSize="10sp" />
+                    android:textSize="@dimen/qb_px_10" />
 
                 <Button
                     android:id="@+id/id_mBtn_HomePage"
-                    android:layout_width="60dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentBottom="true"
+                    android:layout_width="@dimen/qb_px_63"
+                    android:layout_height="@dimen/qb_px_23"
+                    android:layout_below="@+id/id_mStr_HomePage"
+                    android:layout_marginTop="@dimen/qb_px_10"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="19dp"
                     android:background="@mipmap/bg_main_btn_order_class"
                     android:gravity="center"
                     android:text="去约课"
@@ -212,21 +217,21 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/qb_px_73"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/id_GoGoTalk_Home"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/qb_px_63"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="31dp"
-                android:gravity="center"
                 android:orientation="vertical"
-                android:paddingBottom="5dp">
+                android:gravity="center"
+                >
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/qb_px_63"
+                    android:layout_height="@dimen/qb_px_51"
                     android:layout_gravity="center"
                     android:layout_marginBottom="2dp"
                     android:src="@mipmap/ic_main_btn_class" />
@@ -236,7 +241,7 @@
                     android:layout_height="wrap_content"
                     android:text="哈佛外教课"
                     android:textColor="#fff"
-                    android:textSize="13sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
         </LinearLayout>
