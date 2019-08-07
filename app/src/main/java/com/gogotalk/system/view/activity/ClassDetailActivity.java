@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.entity.ClassDetailBean;
 import com.gogotalk.system.model.entity.WeekMakeBean;
@@ -127,7 +128,7 @@ public class ClassDetailActivity extends BaseActivity<ClassDetailPresenter> impl
         mNumberTrophies.setText(String.valueOf(bean.getGiftCupNum()));
         AppUtils.bindImageToView(ClassDetailActivity.this
         ,bean.getCoverImgUrl(),R.mipmap.ic_main_list_item_header_default
-        ,mImg,null);
+        ,mImg, DiskCacheStrategy.ALL,false,0);
         mUserName.setText(bean.getChapterEnglishName());
         mEnglishName.setText(bean.getChapterName());
         mTime.setText(bean.getLessonTime());

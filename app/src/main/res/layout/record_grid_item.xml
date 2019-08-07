@@ -16,7 +16,7 @@
         android:layout_width="100dp"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@mipmap/ic_main_list_item_header_default"
+        android:src="@mipmap/record_grid_item_default_img"
         roundiv:corner_radius="9dp"
        />
     <LinearLayout
