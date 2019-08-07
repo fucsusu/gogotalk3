@@ -102,7 +102,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             String url = coursesBean.getChapterCoverImgUrl();
             AppUtils.bindImageToView(context
                     , url, R.mipmap.ic_main_list_item_header_default
-                    , holder.mImg, null, 9, 137, 77);
+                    , holder.mImg, null);
             holder.mPreview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

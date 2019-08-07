@@ -127,7 +127,7 @@ public class ClassDetailActivity extends BaseActivity<ClassDetailPresenter> impl
         mNumberTrophies.setText(String.valueOf(bean.getGiftCupNum()));
         AppUtils.bindImageToView(ClassDetailActivity.this
         ,bean.getCoverImgUrl(),R.mipmap.ic_main_list_item_header_default
-        ,mImg,null,false);
+        ,mImg,null);
         mUserName.setText(bean.getChapterEnglishName());
         mEnglishName.setText(bean.getChapterName());
         mTime.setText(bean.getLessonTime());

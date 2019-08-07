@@ -21,6 +21,8 @@ import com.gogotalk.system.model.entity.UserInfoBean;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.model.util.GsonUtils;
 
+import static com.bumptech.glide.load.DecodeFormat.PREFER_ARGB_8888;
+
 public class AppUtils {
     /**
      * 获取应用程序名称
@@ -204,27 +206,13 @@ public class AppUtils {
      * @param defaultResId
      * @param view
      */
-    public static void bindImageToView(Context context, String imageUrl, int defaultResId, ImageView view,DiskCacheStrategy cache,boolean isCircle){
+    public static void bindImageToView(Context context, String imageUrl, int defaultResId, ImageView view,DiskCacheStrategy cache){
         RequestBuilder<Drawable> placeholder = Glide.with(context)
                 .load(imageUrl)
+                .format(PREFER_ARGB_8888)
                 .placeholder(defaultResId)
                 .error(defaultResId);
-        if(isCircle){
-            RoundedCorners roundedCorners= new RoundedCorners(6);
-            RequestOptions options=RequestOptions.bitmapTransform(roundedCorners).override(300, 300);
-            placeholder.apply(RequestOptions.circleCropTransform());
-        }
         placeholder.diskCacheStrategy(cache==null?DiskCacheStrategy.NONE:cache).into(view);
     }
 
-    public static void bindImageToView(Context context, String imageUrl, int defaultResId, ImageView view,DiskCacheStrategy cache,int roundingRadius,int width,int height){
-        RequestBuilder<Drawable> placeholder = Glide.with(context)
-                .load(imageUrl)
-                .placeholder(defaultResId)
-                .error(defaultResId);
-            RoundedCorners roundedCorners= new RoundedCorners(roundingRadius);
-            RequestOptions options=RequestOptions.bitmapTransform(roundedCorners).override(width, height);
-            placeholder.apply(options);
-            placeholder.diskCacheStrategy(cache==null?DiskCacheStrategy.NONE:cache).into(view);
-    }
 }
