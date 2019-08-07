@@ -35,6 +35,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.Group;
 
+import com.chivox.AIEngineUtils;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.presenter.ClassRoomContract;
@@ -52,6 +53,9 @@ import com.gogotalk.system.zego.ZGPlayHelper;
 import com.gogotalk.system.zego.ZGPublishHelper;
 import com.orhanobut.logger.Logger;
 import com.zego.zegoliveroom.constants.ZegoConstants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.Random;
@@ -151,6 +155,13 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         @Override
         public boolean handleMessage(Message msg) {
             Log.e("TAG", "handleMessage: " + msg.toString());
+            Bundle data = msg.getData();
+            String content = "";
+            String type = "";
+            if(data!=null){
+                content =  data.getString("content");
+                type =  data.getString("type");
+            }
             switch (msg.what) {
                 case Constant.HANDLE_INFO_CLASS_BEGIN://开课倒计时
                     msg.arg1 = msg.arg1 - 1;
@@ -168,18 +179,14 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                     toPage(msg.arg1);
                     break;
                 case Constant.HANDLE_INFO_MIKE:
-                    Bundle data = msg.getData();
-                    String content = "";
-                    String type = "";
-                    if(data!=null){
-                        content =  data.getString("content");
-                        type =  data.getString("type");
-                    }
                     openMikeTimer(msg.arg1,type,content);
                     break;
                 case Constant.HANDLE_INFO_JB:
-                    AIEngineUtils.getInstance().stopRecord();
-//                    openJBAnim(mJB_jiayi);
+                    if(!TextUtils.isEmpty(type)){
+                        AIEngineUtils.getInstance().stopRecord();
+                    }else{
+                        openJBAnim(mJB_jiayi);
+                    }
                     break;
             }
             return false;
@@ -493,6 +500,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     //开启麦克风倒计时
     private void openMikeTimer(int time,String type,String content) {
         isHideMicor(false);
+        if(!TextUtils.isEmpty(type)){
         AIEngineUtils.getInstance()
                 .setUserId(ownStreamID)
                 .setType(type)
@@ -530,8 +538,9 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                     }
                 })
                 .startRecord();
+        }
         mikeRateView.start(time);
-        sendHandleMessage(Constant.HANDLE_INFO_JB, time * 1000);
+        sendHandleMessage(content,type,Constant.HANDLE_INFO_JB, time * 1000);
     }
 
     //跳转页数
