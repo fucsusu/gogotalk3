@@ -53,7 +53,7 @@
                     android:layout_width="@dimen/qb_px_70"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:paddingLeft="@dimen/qb_px_5"
+                    android:paddingLeft="@dimen/qb_px_8"
                     >
 
                     <ImageView
@@ -79,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:paddingLeft="@dimen/qb_px_5"
+                    android:paddingLeft="@dimen/qb_px_8"
                    >
 
                     <ImageView
