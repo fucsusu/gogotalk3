@@ -261,7 +261,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public void btnClick(View view) {
         switch (view.getId()) {
             case R.id.class_room_close:
-                //dialog();
+                dialog();
 //                String[] types = new String[]{"word","sent"};
 //                String[] words=new String[]{"zoo","tiger","monkey","parrot","crocodile","snake"};
 //                String[] sents=new String[]{"Let's go to the zoo!","It's a tiger","It's a monkey","It's a parrot","It's a crocodile","It's a snake"};
@@ -280,7 +280,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
 //                Log.d("wuhongjie", "======="+currentType+"========="+currentContent+"==============");
 //                openMikeTimer(6,currentType,currentContent);
 
-                mPresenter.sendRoomCommand("answer", "123456", true);
+//                mPresenter.sendRoomCommand("answer", "123456", true);
                 break;
         }
     }
