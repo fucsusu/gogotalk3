@@ -1,7 +1,6 @@
 package com.gogotalk.system.view.activity;
 
 
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
@@ -47,19 +46,20 @@ import com.gogotalk.system.util.DateUtils;
 import com.gogotalk.system.util.ToastUtils;
 import com.gogotalk.system.view.widget.AnswerCountDown;
 import com.gogotalk.system.view.widget.MikeRateView;
+import com.gogotalk.system.view.widget.MyVoiceValue;
 import com.gogotalk.system.zego.AppLogger;
 import com.gogotalk.system.zego.ZGBaseHelper;
 import com.gogotalk.system.zego.ZGMediaSideInfoDemo;
 import com.gogotalk.system.zego.ZGPlayHelper;
 import com.gogotalk.system.zego.ZGPublishHelper;
 import com.orhanobut.logger.Logger;
+import com.zego.zegoavkit2.soundlevel.ZegoSoundLevelMonitor;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -100,10 +100,14 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public TextView mOtherJBNum;
     @BindView(R.id.class_room_other_name_tv)
     public TextView otherSNText;
+
     @BindView(R.id.class_room_mike)
     public ImageView mMkfPhoto;
     @BindView(R.id.class_room_mike_progress)
     public MikeRateView mikeRateView;
+    @BindView(R.id.class_room_mike_voice)
+    public MyVoiceValue myVoiceValue;
+
     @BindView(R.id.class_room_jb_own)
     public ImageView mOwnJB;//奖杯
     @BindView(R.id.class_room_jb_own_jiayi)
@@ -188,6 +192,9 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                     } else {
                         openJBAnim(mJB_jiayi);
                     }
+                    break;
+                case Constant.HANDLE_INFO_VOICE:
+                    //myVoiceValue.setVoiceNum(msg.arg1);
                     break;
             }
             return false;
@@ -279,7 +286,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
 //                    currentContent = sents[sentRan];
 //                }
 //                Log.d("wuhongjie", "======="+currentType+"========="+currentContent+"==============");
-//                openMikeTimer(6,currentType,currentContent);
+               // openMikeTimer(6, "", "");
 
                 // mPresenter.sendRoomCommand("answer", "123456", true);
                 break;
@@ -493,10 +500,14 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
             mMkfPhoto.setVisibility(View.INVISIBLE);
             mikeRateView.setVisibility(View.INVISIBLE);
             loud_class.setVisibility(View.INVISIBLE);
+            myVoiceValue.setVisibility(View.INVISIBLE);
+            ZegoSoundLevelMonitor.getInstance().stop();
         } else {
             mMkfPhoto.setVisibility(View.VISIBLE);
             mikeRateView.setVisibility(View.VISIBLE);
             loud_class.setVisibility(View.VISIBLE);
+            myVoiceValue.setVisibility(View.VISIBLE);
+            ZegoSoundLevelMonitor.getInstance().start();
         }
     }
 
@@ -745,6 +756,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
          * 关闭房间
          * 释放SDK
          */
+        ZegoSoundLevelMonitor.getInstance().stop();
         ZGPublishHelper.sharedInstance().stopPreviewView();
         ZGPublishHelper.sharedInstance().stopPublishing();
         ZGBaseHelper.sharedInstance().loginOutRoom();

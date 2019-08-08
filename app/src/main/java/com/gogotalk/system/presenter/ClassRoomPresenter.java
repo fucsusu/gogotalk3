@@ -16,6 +16,9 @@ import com.gogotalk.system.zego.ZGPublishHelper;
 import com.gogotalk.system.zego.ZegoUtil;
 import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
+import com.zego.zegoavkit2.soundlevel.IZegoSoundLevelCallback;
+import com.zego.zegoavkit2.soundlevel.ZegoSoundLevelInfo;
+import com.zego.zegoavkit2.soundlevel.ZegoSoundLevelMonitor;
 import com.zego.zegoliveroom.ZegoLiveRoom;
 import com.zego.zegoliveroom.callback.IZegoCustomCommandCallback;
 import com.zego.zegoliveroom.callback.IZegoInitSDKCompletionCallback;
@@ -69,6 +72,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                     ZGMediaSideInfoDemo.sharedInstance().activateMediaSideInfoForPublishChannel(false, 0);
                     ZGMediaSideInfoDemo.sharedInstance().setUseCutomPacket(false);
                     ZGMediaSideInfoDemo.sharedInstance().setMediaSideInfoCallback(callback);
+                    ZegoSoundLevelMonitor.getInstance().setCallback(zegoSoundLevelCallback);
                     ZGBaseHelper.sharedInstance().setZegoRoomCallback(roomCallback);
                     joinRoom(roomID, role);
                 } else {
@@ -258,6 +262,22 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
         @Override
         public void onRecvMixStreamUserData(String streamID, String content) {
 
+        }
+    };
+
+    IZegoSoundLevelCallback zegoSoundLevelCallback = new IZegoSoundLevelCallback() {
+
+        //拉流的声音变化
+        @Override
+        public void onSoundLevelUpdate(ZegoSoundLevelInfo[] zegoSoundLevelInfos) {
+
+        }
+
+        //推流声音变化
+        @Override
+        public void onCaptureSoundLevelUpdate(ZegoSoundLevelInfo zegoSoundLevelInfo) {
+            Log.e("TAG", "onCaptureSoundLevelUpdate: " + zegoSoundLevelInfo.soundLevel);
+            getView().sendHandleMessage(Constant.HANDLE_INFO_VOICE, 0, (int) zegoSoundLevelInfo.soundLevel);
         }
     };
 }

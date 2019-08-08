@@ -48,6 +48,7 @@ public class Constant {
     public static final int HANDLE_INFO_NEXTPAGE = 3;
     public static final int HANDLE_INFO_MIKE = 4;
     public static final int HANDLE_INFO_JB = 5;
+    public static final int HANDLE_INFO_VOICE = 6;
     //老师的streamId的标识
     public static final String FLAG_TEACHER = "s-AI-teacher-";
     //SDK常量
