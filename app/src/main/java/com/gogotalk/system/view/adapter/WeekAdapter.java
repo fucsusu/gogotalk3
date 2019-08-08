@@ -64,11 +64,11 @@ public class WeekAdapter extends RecyclerView.Adapter<WeekAdapter.ViewHolder> {
         holder.mDate.setText(mDataList.get(position).getDate());
         holder.FullDate = mDataList.get(position).getFullDate();
         if (mDataList.get(position).isChecked() == true) {
-            holder.mLayout.setBackgroundResource(R.drawable.dot_timesize);
+            holder.mLayout.setBackgroundResource(R.mipmap.bg_dialog_yuyue_week_btn_selected);
             holder.mWeek.setTextColor(Color.argb(255, 255, 255, 255));
             holder.mDate.setTextColor(Color.argb(255, 255, 255, 255));
         } else {
-            holder.mLayout.setBackgroundResource(R.drawable.dot_timesizes);
+            holder.mLayout.setBackgroundResource(0);
             holder.mWeek.setTextColor(Color.argb(255, 102, 102, 102));
             holder.mDate.setTextColor(Color.argb(255, 102, 102, 102));
         }

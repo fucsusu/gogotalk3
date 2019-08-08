@@ -57,15 +57,15 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.ViewHolder> {
         holder.box.setText(mDataList.get(position).getTime());
         holder.TimeIsSelect = mDataList.get(position).getTimeIsSelect();
         if (holder.TimeIsSelect == 0) {
-            holder.box.setBackgroundResource(R.mipmap.bg_dialog_yuyue_tag);
+            holder.box.setBackgroundResource(R.mipmap.bg_dialog_yuyue_btn_time);
 //            holder.box.setTextColor(Color.argb(255, 153, 153, 153));
             holder.box.setTextColor(Color.parseColor("#ffd6d6d6"));
         } else {
             if (mDataList.get(position).isChecked() == true) {
-                holder.box.setBackgroundResource(R.drawable.dot_timesize);
+                holder.box.setBackgroundResource(R.mipmap.bg_dialog_yuyue_btn_time_selected);
                 holder.box.setTextColor(Color.argb(255, 255, 255, 255));
             } else {
-                holder.box.setBackgroundResource(R.mipmap.bg_dialog_yuyue_tag);
+                holder.box.setBackgroundResource(R.mipmap.bg_dialog_yuyue_btn_time);
 //                holder.box.setTextColor(Color.argb(255, 102, 102, 102));
                 holder.box.setTextColor(Color.parseColor("#ff666666"));
             }

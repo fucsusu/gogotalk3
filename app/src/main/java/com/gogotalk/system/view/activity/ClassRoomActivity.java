@@ -155,6 +155,13 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         @Override
         public boolean handleMessage(Message msg) {
             Log.e("TAG", "handleMessage: " + msg.toString());
+            Bundle data = msg.getData();
+            String content = "";
+            String type = "";
+            if(data!=null){
+                content =  data.getString("content");
+                type =  data.getString("type");
+            }
             switch (msg.what) {
                 case Constant.HANDLE_INFO_CLASS_BEGIN://开课倒计时
                     msg.arg1 = msg.arg1 - 1;
@@ -172,18 +179,14 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                     toPage(msg.arg1);
                     break;
                 case Constant.HANDLE_INFO_MIKE:
-                    Bundle data = msg.getData();
-                    String content = "";
-                    String type = "";
-                    if (data != null) {
-                        content = data.getString("content");
-                        type = data.getString("type");
-                    }
-                    openMikeTimer(msg.arg1, type, content);
+                    openMikeTimer(msg.arg1,type,content);
                     break;
                 case Constant.HANDLE_INFO_JB:
-                    AIEngineUtils.getInstance().stopRecord();
-//                    openJBAnim(mJB_jiayi);
+                    if(!TextUtils.isEmpty(type)){
+                        AIEngineUtils.getInstance().stopRecord();
+                    }else{
+                        openJBAnim(mJB_jiayi);
+                    }
                     break;
             }
             return false;
@@ -258,7 +261,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public void btnClick(View view) {
         switch (view.getId()) {
             case R.id.class_room_close:
-               // dialog();
+                //dialog();
 //                String[] types = new String[]{"word","sent"};
 //                String[] words=new String[]{"zoo","tiger","monkey","parrot","crocodile","snake"};
 //                String[] sents=new String[]{"Let's go to the zoo!","It's a tiger","It's a monkey","It's a parrot","It's a crocodile","It's a snake"};
@@ -277,7 +280,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
 //                Log.d("wuhongjie", "======="+currentType+"========="+currentContent+"==============");
 //                openMikeTimer(6,currentType,currentContent);
 
-               // mPresenter.sendRoomCommand("answer", "123456", true);
+                mPresenter.sendRoomCommand("answer", "123456", true);
                 break;
         }
     }
@@ -498,6 +501,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     //开启麦克风倒计时
     private void openMikeTimer(int time, String type, String content) {
         isHideMicor(false);
+        if(!TextUtils.isEmpty(type)){
         AIEngineUtils.getInstance()
                 .setUserId(ownStreamID)
                 .setType(type)
@@ -535,8 +539,9 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                     }
                 })
                 .startRecord();
+        }
         mikeRateView.start(time);
-        sendHandleMessage(Constant.HANDLE_INFO_JB, time * 1000);
+        sendHandleMessage(content,type,Constant.HANDLE_INFO_JB, time * 1000);
     }
 
     //跳转页数
