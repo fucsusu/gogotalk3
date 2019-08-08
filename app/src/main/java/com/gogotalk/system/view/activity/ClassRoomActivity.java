@@ -756,6 +756,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         if (handler != null) {
             handler = null;
         }
+        AIEngineUtils.getInstance().onDestroy();
     }
 
     @Override
