@@ -123,8 +123,8 @@
         android:id="@+id/class_room_own_msg_bg"
         android:layout_width="0dp"
         android:layout_height="22dp"
-        android:background="#3B68686B"
-        android:visibility="invisible"
+        android:background="#4868686B"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/class_room_own_video"
         app:layout_constraintLeft_toLeftOf="@id/class_room_own_video"
         app:layout_constraintRight_toRightOf="@id/class_room_own_video" />
@@ -231,7 +231,7 @@
         android:layout_width="0dp"
         android:layout_height="22dp"
         android:background="#3B68686B"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/class_room_other_video"
         app:layout_constraintLeft_toLeftOf="@id/class_room_other_video"
         app:layout_constraintRight_toRightOf="@id/class_room_other_video" />
