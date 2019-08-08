@@ -15,6 +15,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.Group;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -41,12 +43,12 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
 
         String BeforeFilePath;
         TextView contentsText, mTime, mStey;
-        RelativeLayout mLayout1;//背景
+        ConstraintLayout mLayout1;//背景
         ImageView mImg, mImg1;
         ImageView mImgs;
-        LinearLayout mLayout2;
+        Group mLayout2;
         FrameLayout mLayout3;
-        ImageView ivSuoBg;
+        ImageView ivSuoBg,ivSuo;
         Button mBtn, mPreview, mEnterClassroom;
         int stye;
         int ChapterStatus;
@@ -67,9 +69,10 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
                 mLayout2 = itemView.findViewById(R.id.id_mLayouts_GoItem);
                 mBtn = itemView.findViewById(R.id.id_mMakeAppointment);
                 mImg1 = itemView.findViewById(R.id.id_mOkVer_GoItem);
-                mImgs = itemView.findViewById(R.id.id_mImg_XXItem);
+//                mImgs = itemView.findViewById(R.id.id_mImg_XXItem);
                 mTime = itemView.findViewById(R.id.id_mTime_GoItem);
-                mLayout3 = itemView.findViewById(R.id.id_mSuo_GoItem);
+//                mLayout3 = itemView.findViewById(R.id.id_mSuo_GoItem);
+                ivSuo = itemView.findViewById(R.id.iv_suo);
                 ivSuoBg = itemView.findViewById(R.id.iv_suo_bg);
                 mPreview = itemView.findViewById(R.id.id_mPreview_GoItem);
                 mStey = itemView.findViewById(R.id.id_mStey_GoItem);
@@ -92,7 +95,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
             view.setLayoutParams(new ViewGroup.LayoutParams(40, 40));
             view.setBackgroundColor(Color.TRANSPARENT);
         } else {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.class_list_item,
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.class_list_item_v2,
                     parent, false);
         }
         ViewHolder holder = new ViewHolder(view, viewType);
@@ -127,10 +130,10 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
             holder.LessonTime = goItemBean1.getLessonTime();
             String url = goItemBean1.getChapterImagePath();
             AppUtils.bindImageToView(context
-                    , url, R.mipmap.ic_main_list_item_header_default
-                    , holder.mImgs, DiskCacheStrategy.ALL,true,9);
+                    , holder.stye!=1?url:null, R.mipmap.ic_main_list_item_header_default
+                    , holder.ivSuoBg, DiskCacheStrategy.ALL,true,9);
             if (holder.stye == 0) {
-                holder.mLayout3.setVisibility(View.GONE);//锁的背景Layout
+                holder.ivSuo.setVisibility(View.GONE);//锁的背景Layout
                 holder.mBtn.setBackgroundResource(R.mipmap.bg_main_list_item_btn_go_room);//立即预约按钮颜色
                 if (holder.ChapterStatus == 2) {
                     holder.mLayout1.setBackgroundResource(R.mipmap.bg_class_list_item);//背景
@@ -169,7 +172,8 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
                 });
             }
             if (holder.stye == 1) {
-                holder.mLayout3.setVisibility(View.VISIBLE);
+//                holder.ivSuoBg.setBackgroundResource(R.mipmap.ic_main_list_item_header_default);
+                holder.ivSuo.setVisibility(View.VISIBLE);
                 holder.mBtn.setBackgroundResource(R.mipmap.bg_main_list_item_btn_disabled);
                 holder.mLayout1.setBackgroundResource(R.mipmap.bg_class_list_item);//背景
                 holder.mImg.setImageResource(R.mipmap.ic_class_list_item);//小手

@@ -8,18 +8,17 @@
     android:background="@mipmap/bg_class_list_item">
 
 
-    <com.gogotalk.system.view.widget.RoundedImageView
-        android:id="@+id/id_mImg_XXItem"
-        android:layout_width="@dimen/qb_px_136"
-        android:layout_height="@dimen/qb_px_77"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="@dimen/qb_px_4"
-        android:layout_marginTop="@dimen/qb_px_40"
-        android:scaleType="fitXY"
-        roundiv:corner_radius="9dp"
-        android:src="@mipmap/ic_dialog_about_us_header"
-       />
+    <!--<com.gogotalk.system.view.widget.RoundedImageView-->
+        <!--android:id="@+id/id_mImg_XXItem"-->
+        <!--android:layout_width="@dimen/qb_px_136"-->
+        <!--android:layout_height="@dimen/qb_px_77"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_marginStart="@dimen/qb_px_4"-->
+        <!--android:layout_marginTop="@dimen/qb_px_40"-->
+        <!--android:scaleType="fitXY"-->
+        <!--roundiv:corner_radius="9dp"-->
+       <!--/>-->
 
     <ImageView
         android:id="@+id/id_mShou_GoItem"
@@ -34,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/id_mImg_XXItem"
+        android:layout_below="@+id/id_mSuo_GoItem"
         android:gravity="center_horizontal"
         android:paddingTop="@dimen/qb_px_9"
         android:orientation="vertical"
@@ -106,8 +105,8 @@
         android:id="@+id/id_mOkVer_GoItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/id_mImg_XXItem"
-        android:layout_alignTop="@+id/id_mImg_XXItem"
+        android:layout_alignEnd="@+id/id_mSuo_GoItem"
+        android:layout_alignTop="@+id/id_mSuo_GoItem"
         android:src="@mipmap/ic_class_list_item_done" />
 
     <TextView
@@ -115,7 +114,7 @@
         android:layout_width="64dp"
         android:layout_height="13dp"
         android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/id_mImg_XXItem"
+        android:layout_alignTop="@+id/id_mSuo_GoItem"
         android:layout_marginStart="5dp"
         android:background="@drawable/shap_class_list_item"
         android:gravity="center"
@@ -142,6 +141,7 @@
             roundiv:corner_radius="9dp"
             />
         <ImageView
+            android:id="@+id/iv_suo"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

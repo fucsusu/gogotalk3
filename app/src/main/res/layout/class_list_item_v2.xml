@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:roundiv="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/qb_px_145"
+    android:layout_height="@dimen/qb_px_200"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/id_mImg_BJItem"
+    android:background="@mipmap/bg_class_list_item">
+    <com.gogotalk.system.view.widget.RoundedImageView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/iv_suo_bg"
+        android:layout_marginTop="@dimen/qb_px_40"
+        android:layout_width="@dimen/qb_px_136"
+        android:layout_marginLeft="@dimen/qb_px_4"
+        android:layout_height="@dimen/qb_px_77"
+        roundiv:corner_radius="@dimen/qb_px_9"
+        />
+    <ImageView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/id_mShou_GoItem"
+        android:layout_marginLeft="@dimen/qb_px_55"
+        android:layout_width="@dimen/qb_px_39"
+        android:layout_height="@dimen/qb_px_5"
+        android:layout_marginTop="@dimen/qb_px_38"
+        android:src="@mipmap/ic_class_list_item" />
+    <ImageView
+        roundiv:layout_constraintBottom_toBottomOf="@+id/iv_suo_bg"
+        roundiv:layout_constraintTop_toTopOf="@+id/iv_suo_bg"
+        roundiv:layout_constraintLeft_toLeftOf="@+id/iv_suo_bg"
+        roundiv:layout_constraintRight_toRightOf="@+id/iv_suo_bg"
+        android:id="@+id/iv_suo"
+        android:layout_width="@dimen/qb_px_52"
+        android:layout_height="@dimen/qb_px_65"
+        android:src="@mipmap/ic_class_list_item_lock" />
+    <ImageView
+        roundiv:layout_constraintTop_toTopOf="@+id/iv_suo_bg"
+        roundiv:layout_constraintRight_toRightOf="@+id/iv_suo_bg"
+        android:id="@+id/id_mOkVer_GoItem"
+        android:layout_marginTop="@dimen/qb_px_3"
+        android:layout_width="@dimen/qb_px_36"
+        android:layout_height="@dimen/qb_px_31"
+        android:src="@mipmap/ic_class_list_item_done" />
+    <TextView
+        android:layout_marginTop="@dimen/qb_px_5"
+        roundiv:layout_constraintLeft_toLeftOf="parent"
+        roundiv:layout_constraintRight_toRightOf="parent"
+        roundiv:layout_constraintTop_toBottomOf="@+id/iv_suo_bg"
+        android:id="@+id/id_mTitleName_GoItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lesson 21"
+        android:singleLine="true"
+        android:textColor="#333"
+        android:textSize="@dimen/qb_px_12" />
+    <TextView
+        roundiv:layout_constraintLeft_toLeftOf="parent"
+        roundiv:layout_constraintRight_toRightOf="parent"
+        roundiv:layout_constraintTop_toBottomOf="@+id/id_mTitleName_GoItem"
+        android:id="@+id/id_mStey_GoItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="The first lesson"
+        android:textColor="#333"
+        android:textSize="@dimen/qb_px_11" />
+    <Button
+        roundiv:layout_constraintLeft_toLeftOf="parent"
+        roundiv:layout_constraintRight_toRightOf="parent"
+        roundiv:layout_constraintTop_toBottomOf="@+id/id_mStey_GoItem"
+        android:id="@+id/id_mMakeAppointment"
+        android:layout_width="@dimen/qb_px_56"
+        android:layout_height="@dimen/qb_px_20"
+        android:layout_marginTop="@dimen/qb_px_6"
+        android:background="@mipmap/bg_main_list_item_btn_go_room"
+        android:stateListAnimator="@null"
+        android:text="立即预约"
+        android:visibility="gone"
+        android:textColor="#fefefe"
+        android:textSize="@dimen/qb_px_9" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/id_mLayouts_GoItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        roundiv:constraint_referenced_ids="layout_go_room,id_mTime_GoItem"/>
+    <LinearLayout
+        android:id="@+id/layout_go_room"
+        android:layout_marginTop="@dimen/qb_px_6"
+        roundiv:layout_constraintTop_toBottomOf="@+id/id_mStey_GoItem"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/id_mPreview_GoItem"
+            android:layout_width="@dimen/qb_px_56"
+            android:layout_height="@dimen/qb_px_20"
+            android:layout_marginRight="@dimen/qb_px_5"
+            android:background="@mipmap/bg_main_list_item_btn_yuxi"
+            android:gravity="center"
+            android:text="课程预览"
+            android:textColor="#fefefe"
+            android:textSize="@dimen/qb_px_9" />
+
+        <Button
+            android:id="@+id/id_mEnterClassroom_GoItem"
+            android:layout_width="@dimen/qb_px_56"
+            android:layout_height="@dimen/qb_px_20"
+            android:background="@mipmap/bg_main_list_item_btn_go_room"
+            android:gravity="center"
+            android:text="进入教室"
+            android:textColor="#fefefe"
+            android:textSize="@dimen/qb_px_9" />
+    </LinearLayout>
+    <TextView
+        roundiv:layout_constraintLeft_toLeftOf="parent"
+        roundiv:layout_constraintRight_toRightOf="parent"
+        roundiv:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/id_mTime_GoItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shap_class_list_item"
+        android:gravity="center"
+        android:paddingBottom="@dimen/qb_px_1"
+        android:layout_marginLeft="@dimen/qb_px_5"
+        android:layout_marginRight="@dimen/qb_px_5"
+        android:layout_marginBottom="@dimen/qb_px_4"
+        android:text="05-31 17:30"
+        android:textColor="#fff"
+        android:textSize="@dimen/qb_px_9"
+         />
+</androidx.constraintlayout.widget.ConstraintLayout>
