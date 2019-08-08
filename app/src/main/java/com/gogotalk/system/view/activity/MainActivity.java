@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -71,7 +72,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @BindView(R.id.id_mRecyclerView)
     RecyclerView mRecyclerView;//课单列表
     @BindView(R.id.mian_root_view)
-    RelativeLayout root_view;
+    ConstraintLayout root_view;
     @BindView(R.id.id_mPersonalSettings)
     ImageView mImg;
     @BindView(R.id.id_mUserName_Home)
@@ -94,8 +95,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     Button idMBtnHomePage;
     @BindView(R.id.id_GoGoTalk_Home)
     LinearLayout idGoGoTalkHome;
-    @BindView(R.id.id_mLayout)
-    LinearLayout idMLayout;
     @BindView(R.id.id_refresh)
     Button btnRefresh;
     private List<CoursesBean> list = new ArrayList<>();
@@ -187,7 +186,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_main;
+        return R.layout.activity_main_v2;
     }
 
     @Override
