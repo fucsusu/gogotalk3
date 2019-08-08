@@ -269,24 +269,24 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public void btnClick(View view) {
         switch (view.getId()) {
             case R.id.class_room_close:
-                dialog();
-//                String[] types = new String[]{"word","sent"};
-//                String[] words=new String[]{"zoo","tiger","monkey","parrot","crocodile","snake"};
-//                String[] sents=new String[]{"Let's go to the zoo!","It's a tiger","It's a monkey","It's a parrot","It's a crocodile","It's a snake"};
-//                int typeMax=types.length;
-//                int max=words.length,min=0;
-//                int typeRan = (int) (Math.random()*(typeMax-min)+min);
-//                int wordRan = (int) (Math.random()*(max-min)+min);
-//                int sentRan = (int) (Math.random()*(max-min)+min);
-//                String currentType=types[typeRan];
-//                String currentContent="";
-//                if("word".equals(currentType)){
-//                    currentContent = words[wordRan];
-//                }else{
-//                    currentContent = sents[sentRan];
-//                }
-//                Log.d("wuhongjie", "======="+currentType+"========="+currentContent+"==============");
-               // openMikeTimer(6, "", "");
+                //    dialog();
+                String[] types = new String[]{"word", "sent"};
+                String[] words = new String[]{"zoo", "tiger", "monkey", "parrot", "crocodile", "snake"};
+                String[] sents = new String[]{"Let's go to the zoo!", "It's a tiger", "It's a monkey", "It's a parrot", "It's a crocodile", "It's a snake"};
+                int typeMax = types.length;
+                int max = words.length, min = 0;
+                int typeRan = (int) (Math.random() * (typeMax - min) + min);
+                int wordRan = (int) (Math.random() * (max - min) + min);
+                int sentRan = (int) (Math.random() * (max - min) + min);
+                String currentType = types[typeRan];
+                String currentContent = "";
+                if ("word".equals(currentType)) {
+                    currentContent = words[wordRan];
+                } else {
+                    currentContent = sents[sentRan];
+                }
+                Log.d("wuhongjie", "=======" + currentType + "=========" + currentContent + "==============");
+                openMikeTimer(6, currentType, currentContent);
 
                 // mPresenter.sendRoomCommand("answer", "123456", true);
                 break;
@@ -369,19 +369,17 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
 
     @Override
     public void studentJoinRoom(String streamID, String userName) {
-        if (ZGPlayHelper.sharedInstance().startPlaying(streamID, mOtherTV)) {
-            AppLogger.getInstance().i(ZGPublishHelper.class, "其他学生拉流失败, streamID : %s", streamID);
-        }
         otherStreamID = streamID;
         otherStudentName = userName;
         otherSNText.setText(userName);
         mOtherTV.setVisibility(View.VISIBLE);
-        mvideo_switch_other.setChecked(true);
         mvideo_switch_other.setClickable(true);
-        mvoice_switch_other.setChecked(true);
         mvoice_switch_other.setClickable(true);
         mvoice_switch_other.setOnCheckedChangeListener(this);
         mvideo_switch_other.setOnCheckedChangeListener(this);
+        if (mvideo_switch_other.isChecked() && !ZGPlayHelper.sharedInstance().startPlaying(streamID, mOtherTV)) {
+            AppLogger.getInstance().i(ZGPublishHelper.class, "其他学生拉流失败, streamID : %s", streamID);
+        }
     }
 
     @Override
@@ -399,8 +397,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         mOtherStudentVideoBg.setVisibility(View.VISIBLE);
         mOtherTV.setVisibility(View.INVISIBLE);
         mvideo_switch_other.setClickable(false);
-        mvideo_switch_other.setChecked(false);
-        mvoice_switch_other.setChecked(false);
         mvoice_switch_other.setClickable(false);
     }
 
@@ -522,6 +518,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                     .setiEstimateCallback(new AIEngineUtils.IEstimateCallback() {
                         @Override
                         public void onEstimateResult(String result, int rank) {
+                            Log.e("TAG", "onEstimateResult: "+ result+rank);
                             try {
                                 JSONObject jsonObject = new JSONObject(result);
                                 String result1 = jsonObject.getString("result");

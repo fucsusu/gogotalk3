@@ -45,7 +45,7 @@ public class UserInfoDialogV2 extends ABBaseDialog {
         private TextView tvName;
         private RadioGroup rgSex;
         private LinearLayout layoutName;
-        private Button btnSave;
+        private LinearLayout btnSave;
         private int currentSex = 1;
 
         public Builder(final Context context) {
