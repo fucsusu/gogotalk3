@@ -8,20 +8,20 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="150dp"
-        android:layout_height="110dp"
+        android:layout_width="@dimen/qb_px_150"
+        android:layout_height="@dimen/qb_px_110"
         android:background="#e0000000"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingBottom="10dp"
-        android:paddingLeft="21dp"
-        android:paddingRight="21dp"
-        android:paddingTop="10dp">
+        android:paddingBottom="@dimen/qb_px_10"
+        android:paddingLeft="@dimen/qb_px_21"
+        android:paddingRight="@dimen/qb_px_21"
+        android:paddingTop="@dimen/qb_px_10">
 
         <ProgressBar
             android:id="@+id/progressBar1"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="@dimen/qb_px_35"
+            android:layout_height="@dimen/qb_px_35"
             android:layout_gravity="center_horizontal"
             android:indeterminateBehavior="repeat"
             android:indeterminateDrawable="@drawable/dialog_loading"
@@ -31,10 +31,10 @@
             android:id="@+id/tipTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/qb_px_15"
             android:text="加载中..."
             android:textColor="#f0f0f0"
-            android:textSize="15sp" />
+            android:textSize="@dimen/qb_px_15" />
     </LinearLayout>
 
 </LinearLayout>

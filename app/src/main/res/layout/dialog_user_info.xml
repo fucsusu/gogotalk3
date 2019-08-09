@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="366dp"
+    android:layout_width="@dimen/qb_px_366"
     xmlns:roundiv="http://schemas.android.com/apk/res-auto"
-    android:layout_height="297dp"
+    android:layout_height="@dimen/qb_px_397"
     android:background="@mipmap/bg_dialog_check_device"
     android:orientation="vertical">
     <ImageView
-        android:layout_marginRight="17dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginRight="@dimen/qb_px_17"
+        android:layout_marginTop="@dimen/qb_px_17"
         android:layout_gravity="right"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="@dimen/qb_px_20"
+        android:layout_height="@dimen/qb_px_20"
         android:id="@+id/btn_close"
         android:src="@mipmap/ic_btn_common_close"/>
     <LinearLayout
@@ -21,27 +21,27 @@
         android:layout_height="match_parent">
         <ImageView
             android:id="@+id/iv_header"
-            android:layout_marginTop="40dp"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_marginTop="@dimen/qb_px_40"
+            android:layout_width="@dimen/qb_px_64"
+            android:layout_height="@dimen/qb_px_64"
             android:layout_gravity="center"
             android:scaleType="fitXY"
             android:src="@mipmap/ic_dialog_about_us_header"
             />
         <LinearLayout
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="@dimen/qb_px_18"
             android:layout_width="wrap_content"
             android:background="@mipmap/bg_dialog_user_info_input"
             android:gravity="center_vertical"
-            android:layout_height="31dp">
+            android:layout_height="@dimen/qb_px_31">
             <TextView
-                android:layout_marginLeft="13dp"
+                android:layout_marginLeft="@dimen/qb_px_13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="英文名"
                 android:textColor="#ff666666"
-                android:textSize="11sp"
+                android:textSize="@dimen/qb_px_11"
                 />
             <TextView
                 android:gravity="right|center"
@@ -49,27 +49,27 @@
                 android:background="@null"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:paddingRight="17dp"
-                android:layout_marginLeft="12dp"
+                android:paddingRight="@dimen/qb_px_17"
+                android:layout_marginLeft="@dimen/qb_px_12"
                 android:id="@+id/tv_name"
                 android:textColor="#ff333333"
-                android:textSize="12sp"
+                android:textSize="@dimen/qb_px_12"
                 android:layout_height="match_parent" />
         </LinearLayout>
         <LinearLayout
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/qb_px_10"
             android:layout_width="wrap_content"
             android:background="@mipmap/bg_dialog_user_info_input"
             android:gravity="center_vertical"
-            android:layout_height="31dp">
+            android:layout_height="@dimen/qb_px_31">
             <TextView
-                android:layout_marginLeft="13dp"
+                android:layout_marginLeft="@dimen/qb_px_13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="性别"
                 android:textColor="#ff666666"
-                android:textSize="11sp"
+                android:textSize="@dimen/qb_px_11"
                 />
             <TextView
                 android:id="@+id/tv_sex"
@@ -78,27 +78,27 @@
                 android:background="@null"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:paddingRight="17dp"
-                android:layout_marginLeft="12dp"
+                android:paddingRight="@dimen/qb_px_17"
+                android:layout_marginLeft="@dimen/qb_px_12"
                 android:textColor="#ff333333"
-                android:textSize="12sp"
+                android:textSize="@dimen/qb_px_12"
                 android:layout_height="match_parent" />
         </LinearLayout>
         <LinearLayout
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-            android:layout_marginBottom="70dp"
+        android:layout_marginTop="@dimen/qb_px_10"
+            android:layout_marginBottom="@dimen/qb_px_70"
         android:layout_width="wrap_content"
         android:background="@mipmap/bg_dialog_user_info_input"
         android:gravity="center_vertical"
-        android:layout_height="31dp">
+        android:layout_height="@dimen/qb_px_31">
         <TextView
-            android:layout_marginLeft="13dp"
+            android:layout_marginLeft="@dimen/qb_px_13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="出生日期"
             android:textColor="#ff666666"
-            android:textSize="11sp"
+            android:textSize="@dimen/qb_px_11"
             />
         <TextView
             android:gravity="right|center"
@@ -106,11 +106,11 @@
             android:background="@null"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:paddingRight="17dp"
+            android:paddingRight="@dimen/qb_px_17"
             android:layout_marginLeft="12dp"
             android:id="@+id/tv_date"
             android:textColor="#ff333333"
-            android:textSize="12sp"
+            android:textSize="@dimen/qb_px_12"
             android:layout_height="match_parent" />
     </LinearLayout>
     </LinearLayout>

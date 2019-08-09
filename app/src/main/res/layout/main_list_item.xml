@@ -16,7 +16,7 @@
         android:layout_marginTop="@dimen/qb_px_44"
         android:scaleType="fitXY"
         android:src="@mipmap/ic_main_list_item_header_default"
-        roundiv:corner_radius="9dp"
+        roundiv:corner_radius="@dimen/qb_px_9"
          />
 
     <ImageView
@@ -44,7 +44,7 @@
             android:text="The first lesson"
             android:textColor="#333"
             android:singleLine="true"
-            android:textSize="12sp" />
+            android:textSize="@dimen/qb_px_12" />
 
         <TextView
             android:id="@+id/id_mTest_HomeItem"
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:text="第一课"
             android:textColor="#666"
-            android:textSize="11sp" />
+            android:textSize="@dimen/qb_px_11" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -64,12 +64,12 @@
                 android:id="@+id/id_mPreview_BtnItem"
                 android:layout_width="@dimen/qb_px_64"
                 android:layout_height="@dimen/qb_px_23"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="@dimen/qb_px_5"
                 android:background="@mipmap/bg_main_list_item_btn_yuxi"
                 android:gravity="center"
                 android:text="课程预览"
                 android:textColor="#fefefe"
-                android:textSize="11sp" />
+                android:textSize="@dimen/qb_px_11" />
 
             <Button
                 android:id="@+id/id_mEnterClassroom_BtnItem"
@@ -79,7 +79,7 @@
                 android:gravity="center"
                 android:text="进入教室"
                 android:textColor="#fefefe"
-                android:textSize="11sp" />
+                android:textSize="@dimen/qb_px_11" />
         </LinearLayout>
 
         <TextView
@@ -89,7 +89,7 @@
             android:layout_marginTop="@dimen/qb_px_3"
             android:text="上课时间 周一 19:00 - 19:40"
             android:textColor="#ab76c1"
-            android:textSize="8sp" />
+            android:textSize="@dimen/qb_px_8" />
     </LinearLayout>
 
     <TextView
@@ -103,6 +103,6 @@
         android:gravity="center"
         android:text="取消约课"
         android:textColor="#fff"
-        android:textSize="8sp"
+        android:textSize="@dimen/qb_px_8"
         android:visibility="visible" />
 </RelativeLayout>

@@ -17,23 +17,23 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="@dimen/qb_px_50"
+            android:layout_marginTop="@dimen/qb_px_10"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="@dimen/qb_px_297"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="@dimen/qb_px_10"
                 android:background="@mipmap/bg_main_user_info"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/id_mPersonalSettings"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="@dimen/qb_px_36"
+                    android:layout_height="@dimen/qb_px_36"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginLeft="@dimen/qb_px_8"
                     android:scaleType="fitXY"
                     android:src="@mipmap/ic_main_user_info_header_default"
                     />
@@ -47,7 +47,7 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:textColor="#fff"
-                    android:textSize="11sp" />
+                    android:textSize="@dimen/qb_px_11" />
 
                 <LinearLayout
                     android:layout_width="@dimen/qb_px_70"
@@ -67,12 +67,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="2dp"
+                        android:layout_marginLeft="@dimen/qb_px_2"
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text="0"
                         android:textColor="#fff"
-                        android:textSize="11sp" />
+                        android:textSize="@dimen/qb_px_11" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -93,11 +93,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="2dp"
+                        android:layout_marginLeft="@dimen/qb_px_2"
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:textColor="#fff"
-                        android:textSize="11sp" />
+                        android:textSize="@dimen/qb_px_11" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -107,25 +107,25 @@
                 android:layout_alignParentRight="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingRight="11dp">
+                android:paddingRight="@dimen/qb_px_11">
                 <Button
                     android:id="@+id/id_refresh"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_width="@dimen/qb_px_40"
+                    android:layout_height="@dimen/qb_px_40"
+                    android:layout_marginRight="@dimen/qb_px_10"
                     android:background="@mipmap/ic_main_refresh" />
 
                 <Button
                     android:id="@+id/id_mRecord"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_width="@dimen/qb_px_40"
+                    android:layout_height="@dimen/qb_px_40"
+                    android:layout_marginRight="@dimen/qb_px_10"
                     android:background="@mipmap/ic_main_btn_after_class" />
 
                 <RadioButton
                     android:id="@+id/btn_settingg"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="@dimen/qb_px_40"
+                    android:layout_height="@dimen/qb_px_40"
                     android:button="@null"
                     android:background="@drawable/selector_btn_setting" />
                 <!--<CheckBox-->
@@ -156,7 +156,7 @@
                 android:id="@+id/id_mQYK_HomePage"
                 android:layout_width="@dimen/qb_px_159"
                 android:layout_height="@dimen/qb_px_219"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="@dimen/qb_px_20"
                 android:background="@mipmap/bg_main_class_list_item_empty"
                 >
 
@@ -209,15 +209,15 @@
                     android:gravity="center"
                     android:text="去约课"
                     android:textColor="#fff"
-                    android:textSize="11sp" />
+                    android:textSize="@dimen/qb_px_11" />
                 <!--</LinearLayout>-->
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_marginStart="50dp"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginStart="@dimen/qb_px_50"
+                    android:layout_marginTop="@dimen/qb_px_35"
                     android:src="@mipmap/ic_main_oder_class" />
 
             </RelativeLayout>
@@ -232,7 +232,7 @@
                 android:id="@+id/id_GoGoTalk_Home"
                 android:layout_width="@dimen/qb_px_63"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="31dp"
+                android:layout_marginLeft="@dimen/qb_px_31"
                 android:orientation="vertical"
                 android:gravity="center"
                 >
@@ -241,7 +241,7 @@
                     android:layout_width="@dimen/qb_px_63"
                     android:layout_height="@dimen/qb_px_51"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="2dp"
+                    android:layout_marginBottom="@dimen/qb_px_2"
                     android:src="@mipmap/ic_main_btn_class" />
 
                 <TextView
@@ -249,7 +249,7 @@
                     android:layout_height="wrap_content"
                     android:text="哈佛外教课"
                     android:textColor="#fff"
-                    android:textSize="10sp" />
+                    android:textSize="@dimen/qb_px_10" />
             </LinearLayout>
 
         </LinearLayout>

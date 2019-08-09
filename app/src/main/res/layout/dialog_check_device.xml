@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="366dp"
-    android:layout_height="297dp"
+    android:layout_width="@dimen/qb_px_366"
+    android:layout_height="@dimen/qb_px_297"
     android:background="@mipmap/bg_dialog_check_device"
     android:orientation="vertical">
     <ImageView
-        android:layout_marginRight="17dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginRight="@dimen/qb_px_17"
+        android:layout_marginTop="@dimen/qb_px_17"
         android:layout_gravity="right"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="@dimen/qb_px_20"
+        android:layout_height="@dimen/qb_px_20"
         android:id="@+id/btn_close"
         android:src="@mipmap/ic_btn_common_close"/>
     <LinearLayout
-        android:paddingTop="33dp"
-        android:paddingLeft="40dp"
-        android:paddingRight="56dp"
+        android:paddingTop="@dimen/qb_px_33"
+        android:paddingLeft="@dimen/qb_px_40"
+        android:paddingRight="@dimen/qb_px_56"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -31,26 +31,26 @@
                 <ImageView
                     android:id="@+id/iv_camera"
                     android:src="@mipmap/ic_dialog_check_device_camera"
-                    android:layout_width="54dp"
-                    android:layout_height="54dp" />
+                    android:layout_width="@dimen/qb_px_54"
+                    android:layout_height="@dimen/qb_px_54" />
                 <TextView
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="@dimen/qb_px_2"
                     android:text="@string/dialog_check_device_camera_label"
                     android:textColor="#ff333333"
-                    android:textSize="9sp"
+                    android:textSize="@dimen/qb_px_9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <ImageView
                     android:id="@+id/iv_camera_flag"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/qb_px_5"
                     android:src="@mipmap/ic_dialog_check_device_right"
                     android:visibility="invisible"
-                    android:layout_width="10dp"
-                    android:layout_height="7dp" />
+                    android:layout_width="@dimen/qb_px_10"
+                    android:layout_height="@dimen/qb_px_7" />
             </LinearLayout>
             <ImageView
-                android:layout_marginLeft="7dp"
-                android:layout_marginRight="7dp"
+                android:layout_marginLeft="@dimen/qb_px_7"
+                android:layout_marginRight="@dimen/qb_px_7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_dialog_check_device_ellipsis"/>
@@ -62,26 +62,26 @@
                 <ImageView
                     android:id="@+id/iv_speaker"
                     android:src="@mipmap/ic_dialog_check_device_speaker"
-                    android:layout_width="54dp"
-                    android:layout_height="54dp" />
+                    android:layout_width="@dimen/qb_px_54"
+                    android:layout_height="@dimen/qb_px_54" />
                 <TextView
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="@dimen/qb_px_2"
                     android:text="@string/dialog_check_device_speaker_label"
                     android:textColor="#ff333333"
-                    android:textSize="9sp"
+                    android:textSize="@dimen/qb_px_9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <ImageView
                     android:id="@+id/iv_speaker_flag"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/qb_px_5"
                     android:src="@mipmap/ic_dialog_check_device_right"
-                    android:layout_width="10dp"
+                    android:layout_width="@dimen/qb_px_10"
                     android:visibility="invisible"
-                    android:layout_height="7dp" />
+                    android:layout_height="@dimen/qb_px_7" />
             </LinearLayout>
             <ImageView
-                android:layout_marginLeft="7dp"
-                android:layout_marginRight="7dp"
+                android:layout_marginLeft="@dimen/qb_px_7"
+                android:layout_marginRight="@dimen/qb_px_7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_dialog_check_device_ellipsis"/>
@@ -93,22 +93,22 @@
                 <ImageView
                     android:id="@+id/iv_micro"
                     android:src="@mipmap/ic_dialog_check_device_microphone"
-                    android:layout_width="54dp"
-                    android:layout_height="54dp" />
+                    android:layout_width="@dimen/qb_px_54"
+                    android:layout_height="@dimen/qb_px_54" />
                 <TextView
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="@dimen/qb_px_2"
                     android:text="@string/dialog_check_device_microphone_label"
                     android:textColor="#ff333333"
-                    android:textSize="9sp"
+                    android:textSize="@dimen/qb_px_9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <ImageView
                     android:id="@+id/iv_micro_flag"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/qb_px_5"
                     android:src="@mipmap/ic_dialog_check_device_right"
                     android:visibility="invisible"
-                    android:layout_width="10dp"
-                    android:layout_height="7dp" />
+                    android:layout_width="@dimen/qb_px_10"
+                    android:layout_height="@dimen/qb_px_7" />
             </LinearLayout>
         </LinearLayout>
         <FrameLayout
@@ -135,22 +135,22 @@
         <LinearLayout
             android:id="@+id/layout_double"
             android:layout_gravity="bottom"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="9dp"
+            android:layout_marginTop="@dimen/qb_px_5"
+            android:layout_marginBottom="@dimen/qb_px_9"
             android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
                 android:id="@+id/btn_no"
-                android:layout_width="103dp"
-                android:layout_height="46dp"
+                android:layout_width="@dimen/qb_px_103"
+                android:layout_height="@dimen/qb_px_46"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
                 android:background="@mipmap/ic_dialog_check_device_btn_first">
                 <TextView
                     android:id="@+id/tv_label_no"
-                    android:textSize="11sp"
+                    android:textSize="@dimen/qb_px_11"
                     android:textColor="@android:color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -158,15 +158,15 @@
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/btn_yes"
-                android:layout_width="103dp"
-                android:layout_height="46dp"
+                android:layout_width="@dimen/qb_px_103"
+                android:layout_height="@dimen/qb_px_46"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
                 android:background="@mipmap/ic_dialog_check_device_btn_two">
                 <TextView
                     android:id="@+id/tv_label_yes"
-                    android:textSize="11sp"
+                    android:textSize="@dimen/qb_px_11"
                     android:textColor="@android:color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -177,15 +177,15 @@
             android:visibility="gone"
             android:id="@+id/layout_sigle"
             android:layout_gravity="bottom"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="9dp"
+            android:layout_marginTop="@dimen/qb_px_5"
+            android:layout_marginBottom="@dimen/qb_px_9"
             android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
                 android:id="@+id/btn_sigle"
-                android:layout_width="103dp"
-                android:layout_height="46dp"
+                android:layout_width="@dimen/qb_px_103"
+                android:layout_height="@dimen/qb_px_46"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
@@ -193,7 +193,7 @@
                 <TextView
                     android:id="@+id/tv_label_sigle"
                     android:layout_marginTop="-2dp"
-                    android:textSize="11sp"
+                    android:textSize="@dimen/qb_px_11"
                     android:textColor="@android:color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

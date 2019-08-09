@@ -5,13 +5,13 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
     <ImageView
-        android:layout_width="109dp"
-        android:layout_height="109dp"
+        android:layout_width="@dimen/qb_px_109"
+        android:layout_height="@dimen/qb_px_109"
         android:src="@mipmap/ic_dialog_check_device_item_error"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" 设备异常，如需帮助请联系客服 400-6767-671"
         android:textColor="#ff333333"
-        android:textSize="11sp"/>
+        android:textSize="@dimen/qb_px_11"/>
 </LinearLayout>
