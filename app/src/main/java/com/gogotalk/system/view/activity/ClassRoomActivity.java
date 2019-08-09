@@ -200,6 +200,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         super.onCreate(savedInstanceState);
+        AIEngineUtils.getInstance();
         mPresenter.initSdk(finalRoomId, roomRole);//初始化SDK
     }
 
