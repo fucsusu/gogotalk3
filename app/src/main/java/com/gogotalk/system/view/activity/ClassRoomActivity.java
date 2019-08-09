@@ -154,6 +154,9 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public MediaPlayer player;//奖杯声音播放
 
     public String mCoursewareFile = "";
+
+    private boolean isWebFinsh = false;
+
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -640,8 +643,11 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 view.loadUrl("javascript:try{autoplay();}catch(e){}");
-                sendName(ownName, otherStudentName);
-                toPage(jumpPage);
+                if (!isWebFinsh) {
+                    isWebFinsh = true;
+                    sendName(ownName, otherStudentName);
+                    toPage(jumpPage);
+                }
             }
 
         });

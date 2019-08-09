@@ -353,7 +353,6 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                                 JSONObject jsonObject1 = new JSONObject(result1);
                                 JSONObject params = jsonObject.getJSONObject("params");
                                 JSONObject request = params.getJSONObject("request");
-                                Log.d("wuhongjie", "===========" + jsonObject1.getInt("overall") + "======" + request.getString("refText") + "=====");
                                 if (isRank100Overall(rank, jsonObject1) || isRank4Overall(rank, jsonObject1)) {
                                     getView().sendHandleMessage(Constant.HANDLE_INFO_JB, 0, 2);
                                 } else {
@@ -373,6 +372,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     }
 
     private boolean isRank100Overall(int rank, JSONObject jsonObject1) throws JSONException {
+        Log.e("TAG", "isRank100Overall: " + rank + jsonObject1.getInt("overall"));
         return rank == 100 && jsonObject1.getInt("overall") > 50;
     }
 

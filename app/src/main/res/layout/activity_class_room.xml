@@ -11,7 +11,7 @@
         android:id="@+id/class_room_web_parent"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="@dimen/qb_px_5"
         android:background="#00000000"
         android:clipChildren="false"
         android:visibility="visible"
@@ -31,7 +31,7 @@
         android:id="@+id/class_room_web_bg"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="@dimen/qb_px_5"
         android:background="@mipmap/bg_class_room_wait_class_begin"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/class_room_teacher_video_bg"
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:text="10:00"
         android:textColor="#fff"
-        android:textSize="13sp"
+        android:textSize="@dimen/qb_px_13"
         app:layout_constraintBottom_toBottomOf="@id/class_room_web_bg"
         app:layout_constraintHorizontal_bias="0.65"
         app:layout_constraintLeft_toLeftOf="@id/class_room_web_bg"
@@ -66,7 +66,6 @@
         android:id="@+id/class_room_teacher_video_bg"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:minWidth="180dp"
         android:scaleType="fitXY"
         android:src="@mipmap/bg_class_room_wait_teacher"
         app:layout_constraintBottom_toTopOf="@id/class_room_own_video"
@@ -81,7 +80,6 @@
         android:id="@+id/class_room_teacher_video"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:minWidth="180dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/class_room_teacher_video_bg"
         app:layout_constraintLeft_toLeftOf="@id/class_room_teacher_video_bg"
@@ -91,16 +89,16 @@
     <!--老师的名字-->
     <TextView
         android:id="@+id/class_room_teacher_name_tv"
-        android:layout_width="30dp"
-        android:layout_height="12dp"
-        android:layout_margin="4dp"
+        android:layout_width="@dimen/qb_px_30"
+        android:layout_height="@dimen/qb_px_12"
+        android:layout_margin="@dimen/qb_px_4"
         android:background="@drawable/shap_class_room_teacher_name_bg"
         android:gravity="center"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
+        android:paddingLeft="@dimen/qb_px_5"
+        android:paddingRight="@dimen/qb_px_5"
         android:text="@string/teacher"
         android:textColor="#fff"
-        android:textSize="7sp"
+        android:textSize="@dimen/qb_px_7"
         app:layout_constraintLeft_toLeftOf="@id/class_room_teacher_video_bg"
         app:layout_constraintTop_toTopOf="@id/class_room_teacher_video_bg" />
 
@@ -109,9 +107,8 @@
         android:id="@+id/class_room_own_video"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:minWidth="180dp"
+        android:layout_marginTop="@dimen/qb_px_5"
+        android:layout_marginBottom="@dimen/qb_px_5"
         app:layout_constraintBottom_toTopOf="@id/class_room_other_video_bg"
         app:layout_constraintDimensionRatio="58:39"
         app:layout_constraintRight_toRightOf="parent"
@@ -122,7 +119,7 @@
     <ImageView
         android:id="@+id/class_room_own_msg_bg"
         android:layout_width="0dp"
-        android:layout_height="22dp"
+        android:layout_height="@dimen/qb_px_22"
         android:background="#4868686B"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/class_room_own_video"
@@ -131,26 +128,26 @@
 
     <!--自己的名字-->
     <TextView
-        android:layout_width="30dp"
-        android:layout_height="12dp"
-        android:layout_margin="4dp"
+        android:layout_width="@dimen/qb_px_30"
+        android:layout_height="@dimen/qb_px_12"
+        android:layout_margin="@dimen/qb_px_4"
         android:background="@drawable/shap_class_room_student_name_bg"
         android:gravity="center"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
+        android:paddingLeft="@dimen/qb_px_5"
+        android:paddingRight="@dimen/qb_px_5"
         android:text="me"
         android:textColor="#fff"
-        android:textSize="7sp"
+        android:textSize="@dimen/qb_px_7"
         app:layout_constraintLeft_toLeftOf="@id/class_room_own_video"
         app:layout_constraintTop_toTopOf="@id/class_room_own_video" />
 
     <!--自己的视频控制-->
     <CheckBox
         android:id="@+id/class_room_own_video_cb"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="4dp"
+        android:layout_width="@dimen/qb_px_25"
+        android:layout_height="@dimen/qb_px_25"
+        android:layout_marginTop="@dimen/qb_px_4"
+        android:layout_marginRight="@dimen/qb_px_4"
         android:background="@drawable/select_class_room_video"
         android:button="@null"
         android:checked="true"
@@ -166,17 +163,17 @@
         android:layout_margin="5dp"
         android:text="name"
         android:textColor="#FFFFFF"
-        android:textSize="8sp"
+        android:textSize="@dimen/qb_px_8"
         app:layout_constraintBottom_toBottomOf="@id/class_room_own_video"
         app:layout_constraintRight_toRightOf="@id/class_room_own_video" />
 
     <!--自己奖杯图标-->
     <ImageView
         android:id="@+id/class_room_own_jb"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="5dp"
+        android:layout_width="@dimen/qb_px_12"
+        android:layout_height="@dimen/qb_px_12"
+        android:layout_marginLeft="@dimen/qb_px_10"
+        android:layout_marginBottom="@dimen/qb_px_5"
         android:src="@mipmap/ic_class_room_jb"
         app:layout_constraintBottom_toBottomOf="@id/class_room_own_video"
         app:layout_constraintLeft_toLeftOf="@id/class_room_own_video" />
@@ -185,15 +182,15 @@
     <TextView
         android:id="@+id/class_room_own_jb_num"
         android:layout_width="wrap_content"
-        android:layout_height="12dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginBottom="5dp"
+        android:layout_height="@dimen/qb_px_12"
+        android:layout_marginLeft="@dimen/qb_px_2"
+        android:layout_marginBottom="@dimen/qb_px_5"
         android:gravity="center"
-        android:paddingLeft="5dp"
-        android:paddingRight="3dp"
+        android:paddingLeft="@dimen/qb_px_5"
+        android:paddingRight="@dimen/qb_px_3"
         android:text="0"
         android:textColor="#fff"
-        android:textSize="10sp"
+        android:textSize="@dimen/qb_px_10"
         app:layout_constraintBottom_toBottomOf="@id/class_room_own_video"
         app:layout_constraintLeft_toRightOf="@id/class_room_own_jb" />
 
@@ -202,7 +199,6 @@
         android:id="@+id/class_room_other_video_bg"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:minWidth="180dp"
         android:scaleType="fitXY"
         android:src="@mipmap/bg_class_room_student_video_off"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -218,7 +214,6 @@
         android:id="@+id/class_room_other_video"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:minWidth="180dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/class_room_other_video_bg"
         app:layout_constraintLeft_toLeftOf="@id/class_room_other_video_bg"
@@ -229,7 +224,7 @@
     <ImageView
         android:id="@+id/class_room_other_msg_bg"
         android:layout_width="0dp"
-        android:layout_height="22dp"
+        android:layout_height="@dimen/qb_px_22"
         android:background="#3B68686B"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/class_room_other_video"
@@ -242,20 +237,20 @@
         android:id="@+id/class_room_other_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="@dimen/qb_px_5"
         android:text="name"
         android:textColor="#FFFFFF"
-        android:textSize="8sp"
+        android:textSize="@dimen/qb_px_8"
         app:layout_constraintBottom_toBottomOf="@id/class_room_other_video"
         app:layout_constraintRight_toRightOf="@id/class_room_other_video" />
 
     <!--其他奖杯图标-->
     <ImageView
         android:id="@+id/class_room_other_jb"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="5dp"
+        android:layout_width="@dimen/qb_px_12"
+        android:layout_height="@dimen/qb_px_12"
+        android:layout_marginLeft="@dimen/qb_px_10"
+        android:layout_marginBottom="@dimen/qb_px_5"
         android:src="@mipmap/ic_class_room_jb"
         app:layout_constraintBottom_toBottomOf="@id/class_room_other_video"
         app:layout_constraintLeft_toLeftOf="@id/class_room_other_video" />
@@ -264,25 +259,25 @@
     <TextView
         android:id="@+id/class_room_other_jb_num"
         android:layout_width="wrap_content"
-        android:layout_height="12dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginBottom="5dp"
+        android:layout_height="@dimen/qb_px_12"
+        android:layout_marginLeft="@dimen/qb_px_2"
+        android:layout_marginBottom="@dimen/qb_px_5"
         android:gravity="center"
-        android:paddingLeft="5dp"
-        android:paddingRight="3dp"
+        android:paddingLeft="@dimen/qb_px_5"
+        android:paddingRight="@dimen/qb_px_3"
         android:text="0"
         android:textColor="#fff"
-        android:textSize="10sp"
+        android:textSize="@dimen/qb_px_10"
         app:layout_constraintBottom_toBottomOf="@id/class_room_other_video"
         app:layout_constraintLeft_toRightOf="@id/class_room_other_jb" />
 
     <!--其他的视频控制-->
     <CheckBox
         android:id="@+id/class_room_other_video_cb"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="4dp"
+        android:layout_width="@dimen/qb_px_25"
+        android:layout_height="@dimen/qb_px_25"
+        android:layout_marginTop="@dimen/qb_px_4"
+        android:layout_marginRight="@dimen/qb_px_4"
         android:background="@drawable/select_class_room_video"
         android:button="@null"
         android:checked="true"
@@ -292,10 +287,10 @@
     <!--其他的声音控制-->
     <CheckBox
         android:id="@+id/class_room_other_voice_cb"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="4dp"
+        android:layout_width="@dimen/qb_px_25"
+        android:layout_height="@dimen/qb_px_25"
+        android:layout_marginTop="@dimen/qb_px_4"
+        android:layout_marginRight="@dimen/qb_px_4"
         android:background="@drawable/select_class_room_voice"
         android:button="@null"
         android:checked="true"
@@ -306,9 +301,9 @@
     <!--麦克风-->
     <ImageView
         android:id="@+id/class_room_mike"
-        android:layout_width="120dp"
-        android:layout_height="80dp"
-        android:layout_marginBottom="4dp"
+        android:layout_width="@dimen/qb_px_120"
+        android:layout_height="@dimen/qb_px_80"
+        android:layout_marginBottom="@dimen/qb_px_4"
         android:src="@mipmap/ic_class_room_mike_a"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/class_room_web_parent"
@@ -317,9 +312,9 @@
 
     <com.gogotalk.system.view.widget.MikeRateView
         android:id="@+id/class_room_mike_progress"
-        android:layout_width="62dp"
-        android:layout_height="80dp"
-        android:layout_marginBottom="4dp"
+        android:layout_width="@dimen/qb_px_62"
+        android:layout_height="@dimen/qb_px_80"
+        android:layout_marginBottom="@dimen/qb_px_4"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/class_room_web_parent"
         app:layout_constraintLeft_toLeftOf="@id/class_room_web_parent"
@@ -327,9 +322,9 @@
 
     <com.gogotalk.system.view.widget.MyVoiceValue
         android:id="@+id/class_room_mike_voice"
-        android:layout_width="240dp"
-        android:layout_height="180dp"
-        android:layout_marginBottom="4dp"
+        android:layout_width="@dimen/qb_px_240"
+        android:layout_height="@dimen/qb_px_180"
+        android:layout_marginBottom="@dimen/qb_px_4"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/class_room_web_parent"
         app:layout_constraintLeft_toLeftOf="@id/class_room_web_parent"
@@ -340,9 +335,9 @@
     <com.gogotalk.system.view.widget.AnswerCountDown
         android:id="@+id/class_room_answer_countdown"
         android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
+        android:layout_height="@dimen/qb_px_30"
+        android:layout_marginLeft="@dimen/qb_px_2"
+        android:layout_marginRight="@dimen/qb_px_2"
         android:visibility="invisible"
         app:layout_constraintLeft_toLeftOf="@id/class_room_web_parent"
         app:layout_constraintRight_toRightOf="@id/class_room_web_parent"
@@ -351,9 +346,9 @@
     <!--大声跟读-->
     <ImageView
         android:id="@+id/class_room_loud"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:layout_margin="10dp"
+        android:layout_width="@dimen/qb_px_150"
+        android:layout_height="@dimen/qb_px_60"
+        android:layout_margin="@dimen/qb_px_10"
         android:src="@mipmap/bg_class_room_loud"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/class_room_web_parent"
@@ -362,10 +357,10 @@
     <!--自己的奖杯-->
     <ImageView
         android:id="@+id/class_room_jb_own"
-        android:layout_width="120dp"
-        android:layout_height="125dp"
-        android:layout_marginLeft="130dp"
-        android:layout_marginTop="60dp"
+        android:layout_width="@dimen/qb_px_120"
+        android:layout_height="@dimen/qb_px_125"
+        android:layout_marginLeft="@dimen/qb_px_130"
+        android:layout_marginTop="@dimen/qb_px_60"
         android:src="@mipmap/ic_class_room_jb_big"
         android:visibility="invisible"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -375,9 +370,9 @@
     <!--自己学生的奖杯背景-->
     <ImageView
         android:id="@+id/class_room_jb_own_xing"
-        android:layout_width="240dp"
-        android:layout_height="240dp"
-        android:layout_marginLeft="70dp"
+        android:layout_width="@dimen/qb_px_240"
+        android:layout_height="@dimen/qb_px_240"
+        android:layout_marginLeft="@dimen/qb_px_70"
         android:background="@mipmap/bg_class_room_jb_xing_big"
         android:visibility="invisible"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -386,10 +381,10 @@
     <!--其他学生的奖杯-->
     <ImageView
         android:id="@+id/class_room_jb_other"
-        android:layout_width="100dp"
-        android:layout_height="105dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginBottom="50dp"
+        android:layout_width="@dimen/qb_px_100"
+        android:layout_height="@dimen/qb_px_105"
+        android:layout_marginRight="@dimen/qb_px_50"
+        android:layout_marginBottom="@dimen/qb_px_50"
         android:src="@mipmap/ic_class_room_jb_big"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/class_room_web_parent"
@@ -399,8 +394,8 @@
     <!--其他学生的奖杯背景-->
     <ImageView
         android:id="@+id/class_room_jb_other_xing"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="@dimen/qb_px_200"
+        android:layout_height="@dimen/qb_px_200"
         android:src="@mipmap/bg_class_room_jb_xing_big"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/class_room_web_parent"
@@ -409,8 +404,8 @@
     <!--自己奖杯加1-->
     <ImageView
         android:id="@+id/class_room_jb_own_jiayi"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/qb_px_50"
+        android:layout_height="@dimen/qb_px_50"
         android:src="@mipmap/ic_class_room_jb_jiayi"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/class_room_own_video"
@@ -418,8 +413,8 @@
     <!--自己奖杯加2-->
     <ImageView
         android:id="@+id/class_room_jb_own_jiaer"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/qb_px_50"
+        android:layout_height="@dimen/qb_px_50"
         android:src="@mipmap/ic_class_room_jb_jiaer"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/class_room_own_video"
@@ -427,8 +422,8 @@
     <!--自己奖杯加3-->
     <ImageView
         android:id="@+id/class_room_jb_own_jiasan"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/qb_px_50"
+        android:layout_height="@dimen/qb_px_50"
         android:src="@mipmap/ic_class_room_jb_jiasan"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/class_room_own_video"
@@ -436,8 +431,8 @@
     <!--学生奖杯加1-->
     <ImageView
         android:id="@+id/class_room_jb_other_jiayi"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/qb_px_50"
+        android:layout_height="@dimen/qb_px_50"
         android:src="@mipmap/ic_class_room_jb_jiayi"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/class_room_other_video"
@@ -445,8 +440,8 @@
     <!--学生奖杯加2-->
     <ImageView
         android:id="@+id/class_room_jb_other_jiaer"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/qb_px_50"
+        android:layout_height="@dimen/qb_px_50"
         android:src="@mipmap/ic_class_room_jb_jiaer"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/class_room_other_video"
@@ -454,8 +449,8 @@
     <!--学生奖杯加3-->
     <ImageView
         android:id="@+id/class_room_jb_other_jiasan"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/qb_px_50"
+        android:layout_height="@dimen/qb_px_50"
         android:src="@mipmap/ic_class_room_jb_jiasan"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/class_room_other_video"
@@ -465,7 +460,7 @@
         android:id="@+id/class_room_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/qb_px_10"
         android:src="@mipmap/ic_class_room_sign_out"
         app:layout_constraintLeft_toLeftOf="@id/class_room_web_parent"
         app:layout_constraintTop_toTopOf="@id/class_room_web_parent"
