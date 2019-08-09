@@ -52,7 +52,7 @@ public class AIRecorder {
     }
 
     /** 录音机开始录音 */
-    public int start(final String path, final Callback callback) {
+    public int start( final Callback callback) {
 
         stop();
         Log.d(TAG, "starting");
@@ -63,22 +63,8 @@ public class AIRecorder {
             @Override
             public void run() {
                 android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_AUDIO);
-                RandomAccessFile file = null;
                 AudioRecord recorder = null;
                 try {
-                    if (path != null) {
-                        file = fopen(path);
-                    }
-
-                    /*
-                    int bufferSize = 320000; // 10s is enough
-                    int minBufferSize = AudioRecord.getMinBufferSize(FREQUENCY, AudioFormat.CHANNEL_IN_MONO,
-                            AudioFormat.ENCODING_PCM_16BIT);
-
-                    if (minBufferSize > bufferSize) {
-                        bufferSize = minBufferSize;
-                    }
-                    */
                     Log.d(TAG, "#recorder new AudioRecord() 0");
                     recorder = new AudioRecord(AudioSource.DEFAULT, FREQUENCY, AudioFormat.CHANNEL_IN_MONO,
                             AudioFormat.ENCODING_PCM_16BIT, 320000); // 10s is enough
@@ -130,12 +116,6 @@ public class AIRecorder {
                                 callback.onData(buffer, size);
                                 Log.d(TAG, "#recorder callback.run() 1");
                             }
-                            if (file != null) {
-                                Log.d(TAG, "#recorder fwrite() 0");
-                                /**把音频文件存入本地.wav文件*/
-                                fwrite(file, buffer, 0, size);
-                                Log.d(TAG, "#recorder fwrite() 1");
-                            }
                         }
                     }
                 } catch (Exception e) {
@@ -154,15 +134,6 @@ public class AIRecorder {
                     }
 
                     Log.d(TAG, "record stoped");
-
-                    if (file != null) {
-                        try {
-                            fclose(file);
-                            latestPath = path;
-                        } catch (IOException e) {
-                            // ignore
-                        }
-                    }
                 }
             }
         });

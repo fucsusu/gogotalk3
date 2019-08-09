@@ -1,6 +1,5 @@
 package com.gogotalk.system.presenter;
 
-import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -9,8 +8,6 @@ import com.chivox.AIEngineUtils;
 import com.gogotalk.system.model.entity.ActionBean;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.util.AppUtils;
-import com.gogotalk.system.util.ToastUtils;
-import com.gogotalk.system.zego.AppLogger;
 import com.gogotalk.system.zego.ZGBaseHelper;
 import com.gogotalk.system.zego.ZGMediaSideInfoDemo;
 import com.gogotalk.system.zego.ZGPlayHelper;
@@ -57,7 +54,6 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     private String question_id;
     private String roomId;
     private Gson gson;
-
 
     @Inject
     public ClassRoomPresenter() {
@@ -360,7 +356,6 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                                 }
                             } else {
                                 getView().sendHandleMessage(Constant.HANDLE_INFO_JB, 0, 0);
-
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

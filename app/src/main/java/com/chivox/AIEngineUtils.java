@@ -1,8 +1,13 @@
 package com.chivox;
 
+import android.content.Context;
 import android.util.Log;
+import android.view.View;
+
+import com.chivox.android.AIRecorder;
 import com.chivox.android.MyRecorder;
 import com.gogotalk.system.app.AiRoomApplication;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,7 +18,7 @@ import java.util.concurrent.Executors;
 
 public class AIEngineUtils {
     private static final String TAG = "AIEngineUtils";
-    private static MyRecorder recorder = null;
+    private static AIRecorder recorder = null;
     private static long engine = 0;
     private static ExecutorService workerThread = Executors.newFixedThreadPool(1);
     private static String appKey = "156499804000001a";
@@ -22,112 +27,108 @@ public class AIEngineUtils {
     private String refText = "I want to know the present and past of Hong Kong.";
     private long waitEndTime;
     private long waitStartTime;
-    private int rank = 4;
+    private int rank = 100;
     private String type = "en.word.score";
-    /**录音文件（.wav）存放本地地址*/
-    String wavPath = AIEngineHelper.getFilesDir(AiRoomApplication.getInstance()).getPath() + "/record/" + System.currentTimeMillis() + ".wav";
-    private IEstimateCallback iEstimateCallback;
+   private IEstimateCallback iEstimateCallback;
     private boolean isStart;
+    public Context mContext;
+    private static AIEngineUtils aiEngineUtils;
 
     public AIEngineUtils setiEstimateCallback(IEstimateCallback iEstimateCallback) {
         this.iEstimateCallback = iEstimateCallback;
         return this;
     }
 
-    public interface IEstimateCallback{
-        void onEstimateResult(String result,int rank);
+    public interface IEstimateCallback {
+        void onEstimateResult(String result, int rank);
     }
+
     private AIEngineUtils() {
     }
 
-    static class AIEngineUtilsHoder {
-        private static AIEngineUtils aiEngineUtils = new AIEngineUtils();
+    public static AIEngineUtils getInstance() {
+        if (aiEngineUtils == null) {
+            synchronized (AIEngineUtils.class) {
+                if (aiEngineUtils == null) {
+                    aiEngineUtils = new AIEngineUtils();
+                }
+            }
+        }
+        return aiEngineUtils;
     }
 
-    public static AIEngineUtils getInstance() {
+
+    public void initSDK(Context context) {
+        this.mContext = context;
         runOnWorkerThread(new Runnable() {
             public void run() {
                 /* create aiengine instance */
                 if (engine == 0) {
                     //sdk证书路径
-                    String provisionPath = AIEngineHelper.extractResourceOnce(AiRoomApplication.getInstance(), "aiengine.provision", false);
+                    String provisionPath = AIEngineHelper.extractResourceOnce(mContext, "aiengine.provision", false);
                     //String vadPath = AIEngineHelper.extractResourceOnce(getApplicationContext(), "vad.0.12.20160802.bin", false);
-                    Log.d(TAG, "provisionPath:"+provisionPath);
-                    String path = AIEngineHelper.getFilesDir(AiRoomApplication.getInstance()).getPath();
+                    Log.d(TAG, "provisionPath:" + provisionPath);
+                    String path = AIEngineHelper.getFilesDir(mContext).getPath();
 					/*String cfg = String.format("{ \"prof\":{\"enable\":1, \"output\":\"E:/log.log\"}, \"appKey\": \"%s\", \"secretKey\": \"%s\", \"provision\": \"%s\", \"cloud\": {\"server\": \"ws://cloud.chivox.com\"}}",
 							appKey, secretKey,provisionPath);*/
-                    String cfg = String.format("{ \"prof\":{\"enable\":1, \"output\":\""+path+"/log.log\"}, \"appKey\": \"%s\", \"secretKey\": \"%s\", \"provision\": \"%s\", \"cloud\": {\"server\": \"ws://cloud.chivox.com\"}}",
-                            appKey, secretKey,provisionPath);
+                    String cfg = String.format("{ \"prof\":{\"enable\":1, \"output\":\"" + path + "/log.log\"}, \"appKey\": \"%s\", \"secretKey\": \"%s\", \"provision\": \"%s\", \"cloud\": {\"server\": \"ws://cloud.chivox.com\"}}",
+                            appKey, secretKey, provisionPath);
                     Log.d(TAG, "cfg: " + cfg);
                     /**初始化引擎实例*/
-                    engine = AIEngine.aiengine_new(cfg,  AiRoomApplication.getInstance());
+                    engine = AIEngine.aiengine_new(cfg, mContext);
                     Log.d(TAG, "aiengine: " + engine);
                 }
                 /* create airecorder instance  */
-                recorder = MyRecorder.getInstance();
+                if (recorder == null) {
+                    recorder = new AIRecorder();
+                }
             }
         });
-        return AIEngineUtilsHoder.aiEngineUtils;
     }
-    public AIEngineUtils setContent(String content){
+
+    public AIEngineUtils setContent(String content) {
         refText = content;
         return this;
     }
-    public AIEngineUtils setType(String type){
-        if("word".equals(type)){
-            type = "en.word.score";
-        }else if("sent".equals(type)){
-            type = "en.sent.score";
+
+    public AIEngineUtils setType(String type) {
+        if ("word".equals(type)) {
+            this.type = "en.word.score";
+        } else if ("sent".equals(type)) {
+            this.type = "en.sent.score";
         }
         return this;
     }
-    public AIEngineUtils setUserId(String id){
+
+    public AIEngineUtils setUserId(String id) {
         userId = id;
         return this;
     }
-    /** 需要注意：AIRecorder回调方法，不是评测回调方法 */
-    MyRecorder.Callback recorderCallback = new MyRecorder.Callback() {
+
+    /**
+     * 需要注意：AIRecorder回调方法，不是评测回调方法
+     */
+    AIRecorder.Callback recorderCallback = new AIRecorder.Callback() {
         public void onStarted() {
             //句子启动参数
-            String param = "{\"coreProvideType\": \"cloud\", \"app\": {\"userId\": \"" + userId + "\"}, \"audio\": {\"audioType\": \"wav\", \"channel\": 1, \"sampleBytes\": 2, \"sampleRate\": 16000,\"compress\":\"speex\"}, \"request\": {\"coreType\": \""+type+"\", \"refText\":\"" + refText + "\", \"rank\": "+rank+"}}";
+            String param = "{\"coreProvideType\": \"cloud\", \"app\": {\"userId\": \"" + userId + "\"}, \"audio\": {\"audioType\": \"wav\", \"channel\": 1, \"sampleBytes\": 2, \"sampleRate\": 16000,\"compress\":\"speex\"}, \"request\": {\"coreType\": \"" + type + "\", \"refText\":\"" + refText + "\", \"rank\": " + rank + "}}";
             byte[] id = new byte[64];
             /*开启引擎*/
-            int rv = AIEngine.aiengine_start(engine, param, id, callback, AiRoomApplication.getInstance());
+            int rv = AIEngine.aiengine_start(engine, param, id, callback, mContext);
 
-            Log.d(TAG, "engine start: " + rv);
-            Log.d(TAG, "engine param: " + param);
-            Log.d(TAG, "id: "+ id );
-
-            int i=0;
-            for(;i<id.length;i++)
-            {
-                if(id[i]=='\0')
+            int i = 0;
+            for (; i < id.length; i++) {
+                if (id[i] == '\0')
                     break;
             }
 
-            String tokenId = new String(id,0,i);
-            Log.d(TAG, "token id: "+ tokenId );
-
-//            runOnUiThread(new Runnable() {
-//                public void run() {
-//                    jsonResultTextEditor.setText("");
-//                    waitProgressBar.setVisibility(View.INVISIBLE);
-//                    recordButton.setText(R.string.stop);
-//                }
-//            });
+            String tokenId = new String(id, 0, i);
         }
 
         /*调用引擎停止录音接口*/
         public void onStopped() {
             AIEngine.aiengine_stop(engine);
             waitStartTime = System.currentTimeMillis();
-            Log.d(TAG, "engine stopped");
-//            runOnUiThread(new Runnable() {
-//                public void run() {
-//                    recordButton.setText(R.string.record);
-//                    waitProgressBar.setVisibility(View.VISIBLE);
-//                }
-//            });
         }
 
         public void onData(byte[] data, int size) {
@@ -141,13 +142,11 @@ public class AIEngineUtils {
     private AIEngine.aiengine_callback callback = new AIEngine.aiengine_callback() {
         @Override
         public int run(byte[] id, int type, byte[] data, int size) {
-            if (type == AIEngine.AIENGINE_MESSAGE_TYPE_JSON)
-            {
+            if (type == AIEngine.AIENGINE_MESSAGE_TYPE_JSON) {
                 String strId = new String(id);
                 Log.d(TAG, "call back token id: " + strId);
                 final String result = new String(data, 0, size).trim(); /* must trim the end '\0' */
-                try
-                {
+                try {
                     JSONObject json = new JSONObject(result);
                     if (json.has("vad_status") || json.has("volume")) {
                         int status = json.optInt("vad_status");
@@ -155,24 +154,19 @@ public class AIEngineUtils {
                         if (status == 2) {
                             runOnWorkerThread(new Runnable() {
                                 public void run() {
-                                    recorder.stopRecord();
+                                    recorder.stop();
                                 }
                             });
                         }
-                    }else {
-                        if (recorder.getStatus()==MyRecorder.Status.STATUS_START) {
-                            recorder.stopRecord();
+                    } else {
+                        if (recorder.isRunning()) {
+                            recorder.stop();
                         }
                         waitEndTime = System.currentTimeMillis();
                         Log.d(TAG, "wait time for result: " + (waitEndTime - waitStartTime));
-                        Log.d(TAG, result);
-                        if(iEstimateCallback!=null){
-                            iEstimateCallback.onEstimateResult(result,rank);
-                        }
+                        iEstimateCallback.onEstimateResult(result, rank);
                     }
-                }
-                catch (JSONException e)
-                {
+                } catch (JSONException e) {
                     /* ignore */
                 }
 
@@ -189,28 +183,24 @@ public class AIEngineUtils {
     /**
      * 开始录音
      */
-    public void startRecord(){
+    public void startRecord() {
         if (engine == 0 || recorder == null) {
             return;
         }
-        if (recorder.getStatus() == MyRecorder.Status.STATUS_NO_READY) {
-            isStart = true;
-            //初始化录音
-            String fileName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
-            recorder.createDefaultAudio(fileName);
-            recorder.startRecord(recorderCallback);
-        }
+        isStart = true;
+        //初始化录音
+        recorder.start(recorderCallback);
     }
 
     /**
      * 停止录音
      */
-    public void stopRecord(){
+    public void stopRecord() {
         if (engine == 0 || recorder == null) {
             return;
         }
-        isStart=false;
-        recorder.stopRecord();
+        isStart = false;
+        recorder.stop();
     }
 
     public boolean isStart() {
@@ -227,7 +217,7 @@ public class AIEngineUtils {
             Log.d(TAG, "engine deleted: " + engine);
         }
         if (recorder != null) {
-            recorder.stopRecord();
+            recorder.stop();
             recorder = null;
         }
     }

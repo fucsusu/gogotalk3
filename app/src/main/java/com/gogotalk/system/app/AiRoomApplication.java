@@ -2,7 +2,6 @@ package com.gogotalk.system.app;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -44,12 +43,11 @@ public class AiRoomApplication extends Application {
         initJGSDK();
         initJpush();
         SPUtils.initSpUtil(this, AppUtils.getAppName(this));
-        AIEngineUtils.getInstance();
     }
 
-    private void initJpush(){
-        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
-        JPushInterface.init(this);     		// 初始化 JPush
+    private void initJpush() {
+        JPushInterface.setDebugMode(true);    // 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);            // 初始化 JPush
     }
 
     /**
