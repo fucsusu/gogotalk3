@@ -11,6 +11,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import androidx.annotation.DrawableRes;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -208,17 +210,17 @@ public class AppUtils {
      * @param defaultResId
      * @param view
      */
-    public static void bindImageToView(Context context, String imageUrl, int defaultResId, ImageView view,DiskCacheStrategy cache,boolean isCircle,int circle){
+    public static void bindImageToView(Context context, String imageUrl, int defaultResId, ImageView view,DiskCacheStrategy cache,boolean isCircle,int circle) {
         DrawableCrossFadeFactory drawableCrossFadeFactory = new DrawableCrossFadeFactory.Builder(300).setCrossFadeEnabled(true).build();
         RequestBuilder<Drawable> placeholder = Glide.with(context)
                 .load(imageUrl)
                 .placeholder(defaultResId)
                 .error(defaultResId);
         placeholder.transition(DrawableTransitionOptions.with(drawableCrossFadeFactory));
-        if(isCircle){
+        if (isCircle) {
             placeholder.transform(new RoundedCorners(circle));
         }
-        placeholder.diskCacheStrategy(cache==null?DiskCacheStrategy.NONE:cache).into(view);
+        placeholder.diskCacheStrategy(cache == null ? DiskCacheStrategy.NONE : cache).into(view);
     }
 
 }

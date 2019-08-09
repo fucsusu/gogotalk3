@@ -1,19 +1,19 @@
 package com.chivox;
 
 import android.util.Log;
-
-import com.chivox.android.AIRecorder;
+import com.chivox.android.MyRecorder;
 import com.gogotalk.system.app.AiRoomApplication;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class AIEngineUtils {
     private static final String TAG = "AIEngineUtils";
-    private static AIRecorder recorder = null;
+    private static MyRecorder recorder = null;
     private static long engine = 0;
     private static ExecutorService workerThread = Executors.newFixedThreadPool(1);
     private static String appKey = "156499804000001a";
@@ -64,10 +64,7 @@ public class AIEngineUtils {
                     Log.d(TAG, "aiengine: " + engine);
                 }
                 /* create airecorder instance  */
-                if (recorder == null) {
-                    recorder = new AIRecorder();
-                    Log.d(TAG, "airecorder: " + recorder);
-                }
+                recorder = MyRecorder.getInstance();
             }
         });
         return AIEngineUtilsHoder.aiEngineUtils;
@@ -89,7 +86,7 @@ public class AIEngineUtils {
         return this;
     }
     /** 需要注意：AIRecorder回调方法，不是评测回调方法 */
-    AIRecorder.Callback recorderCallback = new AIRecorder.Callback() {
+    MyRecorder.Callback recorderCallback = new MyRecorder.Callback() {
         public void onStarted() {
             //句子启动参数
             String param = "{\"coreProvideType\": \"cloud\", \"app\": {\"userId\": \"" + userId + "\"}, \"audio\": {\"audioType\": \"wav\", \"channel\": 1, \"sampleBytes\": 2, \"sampleRate\": 16000,\"compress\":\"speex\"}, \"request\": {\"coreType\": \""+type+"\", \"refText\":\"" + refText + "\", \"rank\": "+rank+"}}";
@@ -158,13 +155,13 @@ public class AIEngineUtils {
                         if (status == 2) {
                             runOnWorkerThread(new Runnable() {
                                 public void run() {
-                                    recorder.stop();
+                                    recorder.stopRecord();
                                 }
                             });
                         }
                     }else {
-                        if (recorder.isRunning()) {
-                            recorder.stop();
+                        if (recorder.getStatus()==MyRecorder.Status.STATUS_START) {
+                            recorder.stopRecord();
                         }
                         waitEndTime = System.currentTimeMillis();
                         Log.d(TAG, "wait time for result: " + (waitEndTime - waitStartTime));
@@ -196,8 +193,13 @@ public class AIEngineUtils {
         if (engine == 0 || recorder == null) {
             return;
         }
-        isStart = true;
-        recorder.start(wavPath, recorderCallback);
+        if (recorder.getStatus() == MyRecorder.Status.STATUS_NO_READY) {
+            isStart = true;
+            //初始化录音
+            String fileName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
+            recorder.createDefaultAudio(fileName);
+            recorder.startRecord(recorderCallback);
+        }
     }
 
     /**
@@ -208,7 +210,7 @@ public class AIEngineUtils {
             return;
         }
         isStart=false;
-        recorder.stop();
+        recorder.stopRecord();
     }
 
     public boolean isStart() {
@@ -225,7 +227,7 @@ public class AIEngineUtils {
             Log.d(TAG, "engine deleted: " + engine);
         }
         if (recorder != null) {
-            recorder.stop();
+            recorder.stopRecord();
             recorder = null;
         }
     }
