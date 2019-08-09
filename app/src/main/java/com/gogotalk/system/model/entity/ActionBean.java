@@ -11,11 +11,12 @@ public class ActionBean {
     private ActionData data;
 
     public static class ActionData {
-        private String session_id;
-        private String question_id;
-        private String answer;
-        private String user_id;
-        private String user_name;
+        private String session_id = "";
+        private String question_id = "";
+        private boolean answer;
+        private String user_id = "";
+        private String user_name = "";
+        private int jb_num = 0;
 
         public String getSession_id() {
             return session_id;
@@ -33,11 +34,11 @@ public class ActionBean {
             this.question_id = question_id;
         }
 
-        public String getAnswer() {
+        public boolean isAnswer() {
             return answer;
         }
 
-        public void setAnswer(String answer) {
+        public void setAnswer(boolean answer) {
             this.answer = answer;
         }
 
@@ -56,6 +57,46 @@ public class ActionBean {
         public void setUser_name(String user_name) {
             this.user_name = user_name;
         }
+
+        public int getJb_num() {
+            return jb_num;
+        }
+
+        public void setJb_num(int jb_num) {
+            this.jb_num = jb_num;
+        }
+    }
+
+    public int getSeq() {
+        return seq;
+    }
+
+    public void setSeq(int seq) {
+        this.seq = seq;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public ActionData getData() {
+        return data;
+    }
+
+    public void setData(ActionData data) {
+        this.data = data;
     }
 
     public ActionBean(int seq, String role, String action, ActionData data) {

@@ -40,6 +40,9 @@ public class Constant {
     //需要跳转的页数
     public static final String INTENT_DATA_KEY_TOPAGE = "timeToPage";
 
+    //信令标识
+    public static final String MESSAGE_SHOW_JB="show_jb";
+
     //apk下载默认前缀
     public static final String DOWNLOAD_APK = "gogotalk";
     //媒体信息标识

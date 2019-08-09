@@ -56,9 +56,6 @@ import com.orhanobut.logger.Logger;
 import com.zego.zegoavkit2.soundlevel.ZegoSoundLevelMonitor;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
 
 import butterknife.BindView;
@@ -145,7 +142,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public int roomRole = ZegoConstants.RoomRole.Audience;//用户角色
 
     public boolean isClassBegin = false;//是否开始上课
-    public int mJBNum;//奖杯的数量
+    public int mOwnJBNum;//自己奖杯的数量
+    private int mOtherJbNum;//其他学生的奖杯数量
 
     public String otherStreamID;//其他学生的流ID
     public String ownStreamID;//自己推流ID
@@ -159,14 +157,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            Log.e("TAG", "handleMessage: " + msg.toString());
-            Bundle data = msg.getData();
-            String content = "";
-            String type = "";
-            if (data != null) {
-                content = data.getString("content");
-                type = data.getString("type");
-            }
             switch (msg.what) {
                 case Constant.HANDLE_INFO_CLASS_BEGIN://开课倒计时
                     msg.arg1 = msg.arg1 - 1;
@@ -184,14 +174,10 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                     toPage(msg.arg1);
                     break;
                 case Constant.HANDLE_INFO_MIKE:
-                    openMikeTimer(msg.arg1, type, content);
+                    openMikeTimer(msg.arg1);
                     break;
                 case Constant.HANDLE_INFO_JB:
-                    if (!TextUtils.isEmpty(type)) {
-                        AIEngineUtils.getInstance().stopRecord();
-                    } else {
-                        openJBAnim(mJB_jiayi);
-                    }
+                    showJb(msg.arg1);
                     break;
                 case Constant.HANDLE_INFO_VOICE:
                     //myVoiceValue.setVoiceNum(msg.arg1);
@@ -205,6 +191,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public WebSettings webSettings;
     public int jumpPage = -1;
     public int pptPage;
+    public boolean isStudentJoin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,6 +200,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         super.onCreate(savedInstanceState);
+        AIEngineUtils.getInstance();
         mPresenter.initSdk(finalRoomId, roomRole);//初始化SDK
     }
 
@@ -269,24 +257,24 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public void btnClick(View view) {
         switch (view.getId()) {
             case R.id.class_room_close:
-                //    dialog();
-                String[] types = new String[]{"word", "sent"};
-                String[] words = new String[]{"zoo", "tiger", "monkey", "parrot", "crocodile", "snake"};
-                String[] sents = new String[]{"Let's go to the zoo!", "It's a tiger", "It's a monkey", "It's a parrot", "It's a crocodile", "It's a snake"};
-                int typeMax = types.length;
-                int max = words.length, min = 0;
-                int typeRan = (int) (Math.random() * (typeMax - min) + min);
-                int wordRan = (int) (Math.random() * (max - min) + min);
-                int sentRan = (int) (Math.random() * (max - min) + min);
-                String currentType = types[typeRan];
-                String currentContent = "";
-                if ("word".equals(currentType)) {
-                    currentContent = words[wordRan];
-                } else {
-                    currentContent = sents[sentRan];
-                }
-                Log.d("wuhongjie", "=======" + currentType + "=========" + currentContent + "==============");
-                openMikeTimer(6, currentType, currentContent);
+                dialog();
+//                String[] types = new String[]{"word", "sent"};
+//                String[] words = new String[]{"zoo", "tiger", "monkey", "parrot", "crocodile", "snake"};
+//                String[] sents = new String[]{"Let's go to the zoo!", "It's a tiger", "It's a monkey", "It's a parrot", "It's a crocodile", "It's a snake"};
+//                int typeMax = types.length;
+//                int max = words.length, min = 0;
+//                int typeRan = (int) (Math.random() * (typeMax - min) + min);
+//                int wordRan = (int) (Math.random() * (max - min) + min);
+//                int sentRan = (int) (Math.random() * (max - min) + min);
+//                String currentType = types[typeRan];
+//                String currentContent = "";
+//                if ("word".equals(currentType)) {
+//                    currentContent = words[wordRan];
+//                } else {
+//                    currentContent = sents[sentRan];
+//                }
+//                Log.d("wuhongjie", "=======" + currentType + "=========" + currentContent + "==============");
+                //  openMikeTimer(6, currentType, currentContent);
 
                 // mPresenter.sendRoomCommand("answer", "123456", true);
                 break;
@@ -369,6 +357,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
 
     @Override
     public void studentJoinRoom(String streamID, String userName) {
+        isStudentJoin = true;
         otherStreamID = streamID;
         otherStudentName = userName;
         otherSNText.setText(userName);
@@ -392,6 +381,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
 
     @Override
     public void studentLeaveRoom() {
+        isStudentJoin = false;
         otherSNText.setText("");
         mOtherStudentVideoBg.setImageResource(R.mipmap.bg_class_room_student_video_off);
         mOtherStudentVideoBg.setVisibility(View.VISIBLE);
@@ -419,29 +409,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         }
     }
 
-    @Override
-    public void sendHandleMessage(String content, String type, int... ags) {
-        if (handler != null) {
-            Message msg = new Message();
-            msg.what = ags[0];
-            Bundle data = msg.getData();
-            data.putString("content", content);
-            data.putString("type", type);
-            msg.setData(data);
-            if (ags.length >= 3) {
-                msg.arg1 = ags[2];
-            }
-            if (ags.length == 4) {
-                msg.arg2 = ags[3];
-            }
-            if (ags.length > 1 && ags[1] > 0) {
-                handler.sendMessageDelayed(msg, ags[1]);
-            } else {
-                handler.sendMessage(msg);
-            }
-        }
-    }
-
     @SuppressLint("JavascriptInterface")
     @JavascriptInterface
     public void showJb(int jbNum) {
@@ -449,17 +416,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                switch (jbNum) {
-                    case 1:
-                        openJBAnim(mJB_jiayi);
-                        break;
-                    case 2:
-                        openJBAnim(mJB_jiaer);
-                        break;
-                    case 3:
-                        openJBAnim(mJb_jiasan);
-                        break;
-                }
+                openOwnJBAnim(jbNum);
             }
         });
     }
@@ -468,16 +425,30 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     @JavascriptInterface
     public void answerResult(boolean result) {
         Log.e("TAG", "answerResult: " + result);
+        showJb(1);
     }
 
     //开启奖杯
-    private void openJBAnim(ImageView addNum) {
+    private void openOwnJBAnim(int addNum) {
         isHideMicor(true);
-        mJBNum++;
+        mOwnJBNum = mOwnJBNum + addNum;
         //给自己发奖杯
-        AnimatorUtils.showOwnJiangbei(mJbX, mOwnJB, addNum, mMyJB, mJBNum);
-        //给对方发奖杯
-        AnimatorUtils.showOtherJiangbei(mJB_xing_other, mJB_other, mJB_jiayi_other, mOtherJBNum, mJBNum);
+        switch (addNum) {
+            case 1:
+                AnimatorUtils.showOwnJiangbei(mJbX, mOwnJB, mJB_jiayi, mMyJB, mOwnJBNum);
+                break;
+            case 2:
+                AnimatorUtils.showOwnJiangbei(mJbX, mOwnJB, mJB_jiaer, mMyJB, mOwnJBNum);
+                break;
+            case 3:
+                AnimatorUtils.showOwnJiangbei(mJbX, mOwnJB, mJb_jiasan, mMyJB, mOwnJBNum);
+                break;
+        }
+        mPresenter.sendShowJbRoomCommand(addNum);
+        if (!isStudentJoin) {
+            openOtherJBAnim(1);
+        }
+        //奖杯声音播放
         if (player == null) {
             player = MediaPlayer.create(this, R.raw.trophy);
         }
@@ -485,6 +456,33 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
             player.start();
         }
     }
+
+    //开启奖杯
+    public void openOtherJBAnim(int addNum) {
+        if (addNum < 0) return;
+        isHideMicor(true);
+        mOtherJbNum = mOtherJbNum + addNum;
+        //给自己发奖杯
+        switch (addNum) {
+            case 1:
+                AnimatorUtils.showOtherJiangbei(mJB_xing_other, mJB_other, mJB_jiayi_other, mOtherJBNum, mOtherJbNum);
+                break;
+            case 2:
+                AnimatorUtils.showOtherJiangbei(mJB_xing_other, mJB_other, mJB_jiayi_other, mOtherJBNum, mOtherJbNum);
+                break;
+            case 3:
+                AnimatorUtils.showOtherJiangbei(mJB_xing_other, mJB_other, mJB_jiayi_other, mOtherJBNum, mOtherJbNum);
+                break;
+        }
+        //奖杯声音播放
+        if (player == null) {
+            player = MediaPlayer.create(this, R.raw.trophy);
+        }
+        if (!player.isPlaying()) {
+            player.start();
+        }
+    }
+
 
     /**
      * 是否显示麦克风view
@@ -508,51 +506,22 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     }
 
     //开启麦克风倒计时
-    private void openMikeTimer(int time, String type, String content) {
-        isHideMicor(false);
-        if (!TextUtils.isEmpty(type)) {
-            AIEngineUtils.getInstance()
-                    .setUserId(ownStreamID)
-                    .setType(type)
-                    .setContent(content)
-                    .setiEstimateCallback(new AIEngineUtils.IEstimateCallback() {
-                        @Override
-                        public void onEstimateResult(String result, int rank) {
-                            Log.e("TAG", "onEstimateResult: "+ result+rank);
-                            try {
-                                JSONObject jsonObject = new JSONObject(result);
-                                String result1 = jsonObject.getString("result");
-                                if (!TextUtils.isEmpty(result1)) {
-                                    JSONObject jsonObject1 = new JSONObject(result1);
-                                    JSONObject params = jsonObject.getJSONObject("params");
-                                    JSONObject request = params.getJSONObject("request");
-                                    Log.d("wuhongjie", "===========" + jsonObject1.getInt("overall") + "======" + request.getString("refText") + "=====");
-                                    if (isRank100Overall(rank, jsonObject1) || isRank4Overall(rank, jsonObject1)) {
-                                        showJb(2);
-                                    } else {
-                                        isHideMicor(true);
-                                    }
-                                } else {
-                                    isHideMicor(true);
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                isHideMicor(true);
-                            }
-                        }
-
-                        private boolean isRank100Overall(int rank, JSONObject jsonObject1) throws JSONException {
-                            return rank == 100 && jsonObject1.getInt("overall") > 50;
-                        }
-
-                        private boolean isRank4Overall(int rank, JSONObject jsonObject1) throws JSONException {
-                            return rank == 4 && jsonObject1.getInt("overall") > 1;
-                        }
-                    })
-                    .startRecord();
+    private void openMikeTimer(int time) {
+        if (time > 0) {
+            //打开麦克风倒计时
+            isHideMicor(false);
+            mikeRateView.start(time);
+            sendHandleMessage(Constant.HANDLE_INFO_MIKE, time * 1000, -1);
+        } else {
+            //关闭麦克风倒计时
+            isHideMicor(true);
+            Log.e("TAG", "openMikeTimer: " + AIEngineUtils.getInstance().isStart());
+            if (AIEngineUtils.getInstance().isStart()) {
+                AIEngineUtils.getInstance().stopRecord();
+            } else {
+                sendHandleMessage(Constant.HANDLE_INFO_JB, 0, 1);
+            }
         }
-        mikeRateView.start(time);
-        sendHandleMessage(content, type, Constant.HANDLE_INFO_JB, time * 1000);
     }
 
     //跳转页数
@@ -759,6 +728,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         ZGBaseHelper.sharedInstance().loginOutRoom();
         ZGBaseHelper.sharedInstance().unInitZegoSDK();
         ZGMediaSideInfoDemo.sharedInstance().unSetMediaSideInfoCallback();
+        AIEngineUtils.getInstance().onDestroy();
         courseware_class.removeView(webView);
         webView.destroy();
         if (player != null) {

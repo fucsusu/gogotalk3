@@ -43,7 +43,6 @@ public class AiRoomApplication extends Application {
         initJGSDK();
         initJpush();
         SPUtils.initSpUtil(this, AppUtils.getAppName(this));
-        AIEngineUtils.getInstance();
     }
 
     private void initJpush(){

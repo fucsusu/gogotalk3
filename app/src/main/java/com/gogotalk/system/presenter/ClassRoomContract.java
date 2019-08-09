@@ -18,8 +18,11 @@ public interface ClassRoomContract {
         //开始预览推送自己的流
         void startPreviewOwn(View view);
 
-        //发送房间信令
-        void sendRoomCommand(Object... contents);
+        //发送答题结果
+        void sendAnswerRoomCommand(boolean answerResult);
+
+        //发送收到奖杯结果
+        void sendShowJbRoomCommand(int jbNum);
     }
 
     interface IClassRoomView extends BaseContract.View {
@@ -40,7 +43,8 @@ public interface ClassRoomContract {
 
         //发送Handle信息
         void sendHandleMessage(int... ags);
-        //发送Handle信息
-        void sendHandleMessage(String content,String type,int... ags);
+
+        //发送奖杯
+        void openOtherJBAnim(int num);
     }
 }
