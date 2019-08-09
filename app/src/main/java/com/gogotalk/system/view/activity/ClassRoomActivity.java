@@ -361,7 +361,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         otherStreamID = streamID;
         otherStudentName = userName;
         otherSNText.setText(userName);
-        mOtherTV.setVisibility(View.VISIBLE);
         mvideo_switch_other.setClickable(true);
         mvoice_switch_other.setClickable(true);
         mvoice_switch_other.setOnCheckedChangeListener(this);

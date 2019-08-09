@@ -56,6 +56,7 @@ public class ZGPlayHelper {
      */
     public boolean startPlaying(String streamID, View playView) {
         if (isInitSDKSuccess()) {
+            playView.setVisibility(View.VISIBLE);
             AppLogger.getInstance().i(ZGPlayHelper.class, "开始拉流, streamID : %s", streamID);
             ZegoLiveRoom zegoLiveRoom = ZGBaseHelper.sharedInstance().getZegoLiveRoom();
             zegoLiveRoom.startPlayingStream(streamID, playView);
