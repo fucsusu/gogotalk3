@@ -19,6 +19,7 @@ import com.zego.zegoavkit2.soundlevel.IZegoSoundLevelCallback;
 import com.zego.zegoavkit2.soundlevel.ZegoSoundLevelInfo;
 import com.zego.zegoavkit2.soundlevel.ZegoSoundLevelMonitor;
 import com.zego.zegoliveroom.ZegoLiveRoom;
+import com.zego.zegoliveroom.callback.IZegoAudioRecordCallback2;
 import com.zego.zegoliveroom.callback.IZegoCustomCommandCallback;
 import com.zego.zegoliveroom.callback.IZegoInitSDKCompletionCallback;
 import com.zego.zegoliveroom.callback.IZegoLoginCompletionCallback;
@@ -79,6 +80,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                     ZGMediaSideInfoDemo.sharedInstance().activateMediaSideInfoForPublishChannel(false, 0);
                     ZGMediaSideInfoDemo.sharedInstance().setUseCutomPacket(false);
                     ZGMediaSideInfoDemo.sharedInstance().setMediaSideInfoCallback(callback);
+                    ZGBaseHelper.sharedInstance().setAudioCallbcak(audioRecordCallback2);
                     ZegoSoundLevelMonitor.getInstance().setCallback(zegoSoundLevelCallback);
                     ZGBaseHelper.sharedInstance().setZegoRoomCallback(roomCallback);
                     joinRoom(roomID, role);
@@ -237,6 +239,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
 
         @Override
         public void onRecvCustomCommand(String id, String name, String content, String roomid) {
+            //收到教室信令
             Log.v("TAG", "onRecvCustomCommand: " + id + name + content + roomid);
             if (roomid.equals(roomId)) {
                 ActionBean actionBean = gson.fromJson(content, ActionBean.class);
@@ -334,7 +337,8 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
         }
     };
 
-    private void getAIEngineResult(String type, String content) {
+    public void getAIEngineResult(String type, String content) {
+        ZGBaseHelper.sharedInstance().startAudioRecord();
         AIEngineUtils.getInstance()
                 .setUserId(ownStreamID)
                 .setType(type)
@@ -374,5 +378,14 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     private boolean isRank4Overall(int rank, JSONObject jsonObject1) throws JSONException {
         return rank == 4 && jsonObject1.getInt("overall") > 1;
     }
+
+    //录制声音回调
+    IZegoAudioRecordCallback2 audioRecordCallback2 = new IZegoAudioRecordCallback2() {
+        @Override
+        public void onAudioRecordCallback(byte[] bytes, int i, int i1, int i2, int i3) {
+            Log.e("TAG", "onAudioRecordCallback: " + bytes.length);
+            AIEngineUtils.getInstance().writeAudioData(bytes);
+        }
+    };
 }
 

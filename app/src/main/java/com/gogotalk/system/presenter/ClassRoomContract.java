@@ -23,6 +23,8 @@ public interface ClassRoomContract {
 
         //发送收到奖杯结果
         void sendShowJbRoomCommand(int jbNum);
+
+        void getAIEngineResult(String type, String content);
     }
 
     interface IClassRoomView extends BaseContract.View {

@@ -7,6 +7,7 @@ import android.view.View;
 import com.chivox.android.AIRecorder;
 import com.chivox.android.MyRecorder;
 import com.gogotalk.system.app.AiRoomApplication;
+import com.gogotalk.system.zego.ZGBaseHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,7 +19,6 @@ import java.util.concurrent.Executors;
 
 public class AIEngineUtils {
     private static final String TAG = "AIEngineUtils";
-    private static AIRecorder recorder = null;
     private static long engine = 0;
     private static ExecutorService workerThread = Executors.newFixedThreadPool(1);
     private static String appKey = "156499804000001a";
@@ -31,7 +31,6 @@ public class AIEngineUtils {
     private String type = "en.word.score";
     private IEstimateCallback iEstimateCallback;
     private boolean isStart;
-    public Context mContext;
     private static AIEngineUtils aiEngineUtils;
 
     public AIEngineUtils setiEstimateCallback(IEstimateCallback iEstimateCallback) {
@@ -58,29 +57,24 @@ public class AIEngineUtils {
     }
 
 
-    public void initSDK(Context context) {
-        this.mContext = context;
+    public void initSDK() {
         runOnWorkerThread(new Runnable() {
             public void run() {
                 /* create aiengine instance */
                 if (engine == 0) {
                     //sdk证书路径
-                    String provisionPath = AIEngineHelper.extractResourceOnce(mContext, "aiengine.provision", false);
+                    String provisionPath = AIEngineHelper.extractResourceOnce(AiRoomApplication.getInstance().getApplicationContext(), "aiengine.provision", false);
                     //String vadPath = AIEngineHelper.extractResourceOnce(getApplicationContext(), "vad.0.12.20160802.bin", false);
                     Log.d(TAG, "provisionPath:" + provisionPath);
-                    String path = AIEngineHelper.getFilesDir(mContext).getPath();
+                    String path = AIEngineHelper.getFilesDir(AiRoomApplication.getInstance().getApplicationContext()).getPath();
 					/*String cfg = String.format("{ \"prof\":{\"enable\":1, \"output\":\"E:/log.log\"}, \"appKey\": \"%s\", \"secretKey\": \"%s\", \"provision\": \"%s\", \"cloud\": {\"server\": \"ws://cloud.chivox.com\"}}",
 							appKey, secretKey,provisionPath);*/
                     String cfg = String.format("{ \"prof\":{\"enable\":1, \"output\":\"" + path + "/log.log\"}, \"appKey\": \"%s\", \"secretKey\": \"%s\", \"provision\": \"%s\", \"cloud\": {\"server\": \"ws://cloud.chivox.com\"}}",
                             appKey, secretKey, provisionPath);
                     Log.d(TAG, "cfg: " + cfg);
                     /**初始化引擎实例*/
-                    engine = AIEngine.aiengine_new(cfg, mContext);
+                    engine = AIEngine.aiengine_new(cfg, AiRoomApplication.getInstance().getApplicationContext());
                     Log.d(TAG, "aiengine: " + engine);
-                }
-                /* create airecorder instance  */
-                if (recorder == null) {
-                    recorder = new AIRecorder();
                 }
             }
         });
@@ -114,7 +108,7 @@ public class AIEngineUtils {
             String param = "{\"coreProvideType\": \"cloud\", \"app\": {\"userId\": \"" + userId + "\"}, \"audio\": {\"audioType\": \"wav\", \"channel\": 1, \"sampleBytes\": 2, \"sampleRate\": 16000,\"compress\":\"speex\"}, \"request\": {\"coreType\": \"" + type + "\", \"refText\":\"" + refText + "\", \"rank\": " + rank + "}}";
             byte[] id = new byte[64];
             /*开启引擎*/
-            int rv = AIEngine.aiengine_start(engine, param, id, callback, mContext);
+            int rv = AIEngine.aiengine_start(engine, param, id, callback, AiRoomApplication.getInstance().getApplicationContext());
 
             int i = 0;
             for (; i < id.length; i++) {
@@ -152,16 +146,10 @@ public class AIEngineUtils {
                         int status = json.optInt("vad_status");
                         final int volume = json.optInt("volume");
                         if (status == 2) {
-                            runOnWorkerThread(new Runnable() {
-                                public void run() {
-                                    recorder.stop();
-                                }
-                            });
+                            ZGBaseHelper.sharedInstance().stopAudioRecord();
                         }
                     } else {
-                        if (recorder.isRunning()) {
-                            recorder.stop();
-                        }
+                        ZGBaseHelper.sharedInstance().stopAudioRecord();
                         waitEndTime = System.currentTimeMillis();
                         Log.d(TAG, "wait time for result: " + (waitEndTime - waitStartTime));
                         iEstimateCallback.onEstimateResult(result, rank);
@@ -184,23 +172,30 @@ public class AIEngineUtils {
      * 开始录音
      */
     public void startRecord() {
-        if (engine == 0 || recorder == null) {
+        if (engine == 0) {
             return;
         }
         isStart = true;
-        //初始化录音
-        recorder.start(recorderCallback);
+        ZGBaseHelper.sharedInstance().startAudioRecord();
+        recorderCallback.onStarted();
+    }
+
+    public void writeAudioData(byte[] bytes) {
+        if (isStart) {
+            recorderCallback.onData(bytes, bytes.length);
+        }
     }
 
     /**
      * 停止录音
      */
     public void stopRecord() {
-        if (engine == 0 || recorder == null) {
+        if (engine == 0) {
             return;
         }
         isStart = false;
-        recorder.stop();
+        ZGBaseHelper.sharedInstance().stopAudioRecord();
+        recorderCallback.onStopped();
     }
 
     public boolean isStart() {
@@ -215,10 +210,6 @@ public class AIEngineUtils {
             int i = AIEngine.aiengine_delete(engine);
             engine = 0;
             Log.d(TAG, "engine deleted: " + i);
-        }
-        if (recorder != null) {
-            recorder.stop();
-            recorder = null;
         }
     }
 

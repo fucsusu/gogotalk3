@@ -203,7 +203,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         super.onCreate(savedInstanceState);
-        AIEngineUtils.getInstance().initSDK(this);
+        AIEngineUtils.getInstance().initSDK();
         mPresenter.initSdk(finalRoomId, roomRole);//初始化SDK
     }
 
@@ -260,7 +260,9 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public void btnClick(View view) {
         switch (view.getId()) {
             case R.id.class_room_close:
-                dialog();
+//                dialog();
+                openMikeTimer(5);
+                mPresenter.getAIEngineResult("sent", "Let's go to the zoo!");
 //                String[] types = new String[]{"word", "sent"};
 //                String[] words = new String[]{"zoo", "tiger", "monkey", "parrot", "crocodile", "snake"};
 //                String[] sents = new String[]{"Let's go to the zoo!", "It's a tiger", "It's a monkey", "It's a parrot", "It's a crocodile", "It's a snake"};

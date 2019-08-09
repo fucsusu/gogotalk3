@@ -4,12 +4,14 @@ import android.app.Application;
 
 import com.gogotalk.system.zego.ZGPublishHelper;
 import com.zego.zegoliveroom.ZegoLiveRoom;
+import com.zego.zegoliveroom.callback.IZegoAudioRecordCallback2;
 import com.zego.zegoliveroom.callback.IZegoCustomCommandCallback;
 import com.zego.zegoliveroom.callback.IZegoInitSDKCompletionCallback;
 import com.zego.zegoliveroom.callback.IZegoLoginCompletionCallback;
 import com.zego.zegoliveroom.callback.IZegoRoomCallback;
 import com.zego.zegoliveroom.constants.ZegoAvConfig;
 import com.zego.zegoliveroom.constants.ZegoConstants;
+import com.zego.zegoliveroom.entity.ZegoAudioRecordConfig;
 import com.zego.zegoliveroom.entity.ZegoStreamInfo;
 import com.zego.zegoliveroom.entity.ZegoUser;
 
@@ -174,6 +176,26 @@ public class ZGBaseHelper {
         zegoLiveRoom.setAVConfig(zegoAvConfig);
         AppLogger.getInstance().i(ZGBaseHelper.class, "初始化zegoSDK");
         return initSDKResults;
+    }
+
+    public void startAudioRecord() {
+        ZegoAudioRecordConfig config = new ZegoAudioRecordConfig();
+        config.channels = 1;
+        config.mask = ZegoConstants.AudioRecordMask.Capture;
+        config.sampleRate = 16000;
+        zegoLiveRoom.enableSelectedAudioRecord(config);
+    }
+
+    public void stopAudioRecord() {
+        ZegoAudioRecordConfig config = new ZegoAudioRecordConfig();
+        config.channels = 1;
+        config.mask = ZegoConstants.AudioRecordMask.NoRecord;
+        config.sampleRate = 16000;
+        zegoLiveRoom.enableSelectedAudioRecord(config);
+    }
+
+    public void setAudioCallbcak(IZegoAudioRecordCallback2 callback) {
+        zegoLiveRoom.setZegoAudioRecordCallback(callback);
     }
 
     /**

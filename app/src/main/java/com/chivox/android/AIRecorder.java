@@ -17,9 +17,8 @@ import android.util.Log;
 /**
  * FIXME (441000, 1, 16) is the only format that is guaranteed to work on all
  * devices
- * 
+ *
  * @author shun.zhang
- * 
  */
 public class AIRecorder {
 
@@ -39,7 +38,9 @@ public class AIRecorder {
 
     public static interface Callback {
         public void onStarted();
+
         public void onData(byte[] data, int size);
+
         public void onStopped();
     }
 
@@ -51,8 +52,10 @@ public class AIRecorder {
         return running;
     }
 
-    /** 录音机开始录音 */
-    public int start( final Callback callback) {
+    /**
+     * 录音机开始录音
+     */
+    public int start(final Callback callback) {
 
         stop();
         Log.d(TAG, "starting");
@@ -66,15 +69,15 @@ public class AIRecorder {
                 AudioRecord recorder = null;
                 try {
                     Log.d(TAG, "#recorder new AudioRecord() 0");
-                    recorder = new AudioRecord(AudioSource.DEFAULT, FREQUENCY, AudioFormat.CHANNEL_IN_MONO,
-                            AudioFormat.ENCODING_PCM_16BIT, 320000); // 10s is enough
-                    Log.d(TAG, "#recorder new AudioRecord() 1");
-                    Log.d(TAG, "#recorder.startRecording() 0");
+                    int a = AudioRecord.getMinBufferSize(44100,AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.ENCODING_PCM_16BIT);//计算最小缓冲区
+
+                    recorder = new AudioRecord(AudioSource.MIC, FREQUENCY, AudioFormat.CHANNEL_IN_MONO,
+                            AudioFormat.ENCODING_PCM_16BIT, a); // 10s is enough
+                    Log.d(TAG, "#recorder new AudioRecord() "+recorder.getState());
 
                     recorder.startRecording();
 
-                    Log.d(TAG, "#recorder.startRecording() 1");
-                    Log.d(TAG, "started");
+                    Log.d(TAG, "started"+recorder.getState());
 
                     /** 启动本次请求 */
                     callback.onStarted();
@@ -84,7 +87,7 @@ public class AIRecorder {
                      * discard the beginning 100ms for fixing the transient
                      * noise bug shun.zhang, 2013-07-08
                      */
-					byte buffer[] = new byte[CHANNELS * FREQUENCY * BITS * INTERVAL / 1000 / 8];
+                    byte buffer[] = new byte[CHANNELS * FREQUENCY * BITS * INTERVAL / 1000 / 8];
                     int discardBytes = CHANNELS * FREQUENCY * BITS * 100 / 1000 / 8;
                     while (discardBytes > 0) {
                         int requestBytes = buffer.length < discardBytes ? buffer.length : discardBytes;
@@ -96,14 +99,14 @@ public class AIRecorder {
                             break;
                         }
                     }
-                    
+
                     while (running) {
-                        Log.d(TAG, "#recorder.getRecordingState() 0");
+                        Log.d(TAG, "#recorder.getRecordingState() "+recorder.getState());
                         if (recorder.getRecordingState() != AudioRecord.RECORDSTATE_RECORDING) {
-                            Log.d("wuhongjie", "#recorder.getRecordingState() break:"+recorder.getRecordingState());
+                            Log.d("wuhongjie", "#recorder.getRecordingState() break:" + recorder.getRecordingState());
                             break;
                         }
-                        Log.d("wuhongjie", "#recorder.getRecordingState() :"+recorder.getRecordingState());
+                        Log.d("wuhongjie", "#recorder.getRecordingState() :" + recorder.getRecordingState());
                         Log.d(TAG, "#recorder.getRecordingState() 1");
                         Log.d(TAG, "#recorder.read() 0");
 
@@ -141,7 +144,13 @@ public class AIRecorder {
         return 0;
     }
 
-    /** 录音机停止录音 */
+    public void writeRecorderData(byte[] bytes){
+
+    }
+
+    /**
+     * 录音机停止录音
+     */
     public int stop() {
         if (!running)
             return 0;
@@ -161,145 +170,4 @@ public class AIRecorder {
         return 0;
     }
 
-    /** 录音机回放方法 */
-    public int playback() {
-
-        stop();
-
-        if (this.latestPath == null) {
-            return -1;
-        }
-
-        Log.d(TAG, "playback starting");
-
-        running = true;
-        future = workerThread.submit(new Runnable() {
-
-            @Override
-            public void run() {
-
-                RandomAccessFile file = null;
-
-                int bufferSize = CHANNELS * FREQUENCY * BITS * INTERVAL / 1000 / 8;
-                int minBufferSize = AudioTrack.getMinBufferSize(FREQUENCY, AudioFormat.CHANNEL_OUT_MONO,
-                        AudioFormat.ENCODING_PCM_16BIT);
-
-                if (minBufferSize > bufferSize) {
-                    bufferSize = minBufferSize;
-                }
-
-                byte buffer[] = new byte[bufferSize];
-
-                AudioTrack player = null;
-
-                try {
-                    
-                    player = new AudioTrack(AudioManager.STREAM_MUSIC, FREQUENCY, AudioFormat.CHANNEL_OUT_MONO,
-                            AudioFormat.ENCODING_PCM_16BIT, bufferSize, AudioTrack.MODE_STREAM);
-                    /** 回放的是本地的音频，从音频位置44开始读 */
-                    file = new RandomAccessFile(latestPath, "r");
-                    file.seek(44);
-
-                    player.play();
-
-                    Log.d(TAG, "playback started");
-
-                    while (running) {
-
-                        int size = file.read(buffer, 0, buffer.length);
-                        if (size == -1) {
-                            break;
-                        }
-                        player.write(buffer, 0, size);
-                    }
-                    player.flush();
-
-                } catch (Exception e) {
-                    Log.e(TAG, e.getMessage());
-                } finally {
-                    try {
-                        running = false;
-
-                        if (player != null) {
-                            if (player.getPlayState() != AudioTrack.PLAYSTATE_STOPPED) {
-                                player.stop();
-                            }
-                            player.release();
-                        }
-
-                        Log.d(TAG, "playback stoped");
-
-                        if (file != null) {
-                            file.close();
-                        }
-                    } catch (IOException e) {
-                        // ignore
-                    }
-                }
-
-            }
-        });
-
-        return 0;
-    }
-
-
-
-
-    private RandomAccessFile fopen(String path) throws IOException {
-        File f = new File(path);
-
-		if (f.exists()) {
-			f.delete();
-		} else {
-			File parentDir = f.getParentFile();
-			if (!parentDir.exists()) {
-				parentDir.mkdirs();
-			}
-		}
-
-        RandomAccessFile file = new RandomAccessFile(f, "rw");
-
-        /* RIFF header */
-        file.writeBytes("RIFF"); // riff id
-        file.writeInt(0); // riff chunk size *PLACEHOLDER*
-        file.writeBytes("WAVE"); // wave type
-
-        /* fmt chunk */
-        file.writeBytes("fmt "); // fmt id
-        file.writeInt(Integer.reverseBytes(16)); // fmt chunk size
-        file.writeShort(Short.reverseBytes((short) 1)); // format: 1(PCM)
-        file.writeShort(Short.reverseBytes((short) CHANNELS)); // channels: 1
-        file.writeInt(Integer.reverseBytes(FREQUENCY)); // samples per second
-        file.writeInt(Integer.reverseBytes((int) (CHANNELS * FREQUENCY * BITS / 8))); // BPSecond
-        file.writeShort(Short.reverseBytes((short) (CHANNELS * BITS / 8))); // BPSample
-        file.writeShort(Short.reverseBytes((short) (CHANNELS * BITS))); // bPSample
-
-        /* data chunk */
-        file.writeBytes("data"); // data id
-        file.writeInt(0); // data chunk size *PLACEHOLDER*
-
-        Log.d(TAG, "wav path: " + path);
-        return file;
-    }
-
-    private void fwrite(RandomAccessFile file, byte[] data, int offset, int size) throws IOException {
-        file.write(data, offset, size);
-        Log.d(TAG, "fwrite: " + size);
-    }
-
-    private void fclose(RandomAccessFile file) throws IOException {
-        try {
-            file.seek(4); // riff chunk size
-            file.writeInt(Integer.reverseBytes((int) (file.length() - 8)));
-
-            file.seek(40); // data chunk size
-            file.writeInt(Integer.reverseBytes((int) (file.length() - 44)));
-
-            Log.d(TAG, "wav size: " + file.length());
-
-        } finally {
-            file.close();
-        }
-    }
 }
