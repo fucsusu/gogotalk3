@@ -29,7 +29,7 @@ public class AIEngineUtils {
     private long waitStartTime;
     private int rank = 100;
     private String type = "en.word.score";
-   private IEstimateCallback iEstimateCallback;
+    private IEstimateCallback iEstimateCallback;
     private boolean isStart;
     public Context mContext;
     private static AIEngineUtils aiEngineUtils;
@@ -212,9 +212,9 @@ public class AIEngineUtils {
      */
     public void onDestroy() {
         if (engine != 0) {
-            AIEngine.aiengine_delete(engine);
+            int i = AIEngine.aiengine_delete(engine);
             engine = 0;
-            Log.d(TAG, "engine deleted: " + engine);
+            Log.d(TAG, "engine deleted: " + i);
         }
         if (recorder != null) {
             recorder.stop();

@@ -202,8 +202,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
-        AIEngineUtils.getInstance().initSDK(this);
         super.onCreate(savedInstanceState);
+        AIEngineUtils.getInstance().initSDK(this);
         mPresenter.initSdk(finalRoomId, roomRole);//初始化SDK
     }
 
