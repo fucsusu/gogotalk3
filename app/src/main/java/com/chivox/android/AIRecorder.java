@@ -114,8 +114,10 @@ public class AIRecorder {
                     while (running) {
                         Log.d(TAG, "#recorder.getRecordingState() 0");
                         if (recorder.getRecordingState() != AudioRecord.RECORDSTATE_RECORDING) {
+                            Log.d("wuhongjie", "#recorder.getRecordingState() break:"+recorder.getRecordingState());
                             break;
                         }
+                        Log.d("wuhongjie", "#recorder.getRecordingState() :"+recorder.getRecordingState());
                         Log.d(TAG, "#recorder.getRecordingState() 1");
                         Log.d(TAG, "#recorder.read() 0");
 
