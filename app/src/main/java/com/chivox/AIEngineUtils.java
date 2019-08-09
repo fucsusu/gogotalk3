@@ -75,9 +75,9 @@ public class AIEngineUtils {
     }
     public AIEngineUtils setType(String type){
         if("word".equals(type)){
-            type = "en.word.score";
+            this.type = "en.word.score";
         }else if("sent".equals(type)){
-            type = "en.sent.score";
+            this.type = "en.sent.score";
         }
         return this;
     }
