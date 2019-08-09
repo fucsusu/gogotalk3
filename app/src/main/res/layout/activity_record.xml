@@ -7,9 +7,9 @@
 
     <Button
         android:id="@+id/id_mBack_Record"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_margin="10dp"
+        android:layout_width="@dimen/qb_px_36"
+        android:layout_height="@dimen/qb_px_36"
+        android:layout_margin="@dimen/qb_px_10"
         android:background="@mipmap/btn_back" />
 
     <TextView
@@ -17,23 +17,23 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/id_mBack_Record"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/qb_px_10"
         android:text="@string/record_after_class"
         android:textColor="#fff"
-        android:textSize="15sp" />
+        android:textSize="@dimen/qb_px_15" />
 
     <GridView
         android:id="@+id/id_mGridView_Record"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/id_mBack_Record"
-        android:layout_marginTop="15dp"
-        android:horizontalSpacing="15dp"
+        android:layout_marginTop="@dimen/qb_px_15"
+        android:horizontalSpacing="@dimen/qb_px_15"
         android:numColumns="2"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
+        android:paddingLeft="@dimen/qb_px_25"
+        android:paddingRight="@dimen/qb_px_25"
         android:scrollbars="none"
-        android:verticalSpacing="10dp"
+        android:verticalSpacing="@dimen/qb_px_10"
         android:visibility="visible"></GridView>
 
     <LinearLayout
@@ -52,21 +52,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/qb_px_15"
             android:gravity="center"
             android:text="@string/record_empty_msg"
             android:textColor="#000000"
-            android:textSize="14sp" />
+            android:textSize="@dimen/qb_px_14" />
 
         <Button
             android:id="@+id/aboutclass_record"
-            android:layout_width="64dp"
-            android:layout_height="23dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="@dimen/qb_px_64"
+            android:layout_height="@dimen/qb_px_23"
+            android:layout_marginTop="@dimen/qb_px_20"
             android:textColor="#FFFFFF"
             android:background="@mipmap/ic_record_btn_order_class"
             android:text="@string/record_order_class"
-            android:textSize="11sp" />
+            android:textSize="@dimen/qb_px_11" />
     </LinearLayout>
 
 </RelativeLayout>

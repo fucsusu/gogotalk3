@@ -11,8 +11,8 @@
 
     <ImageView
         android:id="@+id/goback_game"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="@dimen/qb_px_25"
+        android:layout_height="@dimen/qb_px_25"
         android:src="@mipmap/video_gobanck_bg"
-        android:layout_margin="10dp"/>
+        android:layout_margin="@dimen/qb_px_10"/>
 </merge>

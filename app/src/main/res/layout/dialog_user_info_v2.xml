@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="366dp"
-    android:layout_height="297dp"
+    android:layout_width="@dimen/qb_px_366"
+    android:layout_height="@dimen/qb_px_297"
     android:background="@mipmap/bg_dialog_check_device"
     android:orientation="vertical">
     <ImageView
-        android:layout_marginRight="17dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginRight="@dimen/qb_px_17"
+        android:layout_marginTop="@dimen/qb_px_17"
         android:layout_gravity="right"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="@dimen/qb_px_20"
+        android:layout_height="@dimen/qb_px_20"
         android:id="@+id/btn_close"
         android:src="@mipmap/ic_btn_common_close"/>
     <LinearLayout
@@ -24,13 +24,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="47dp"
+            android:layout_marginTop="@dimen/qb_px_47"
             android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/rb_man"
-                android:layout_width="58dp"
-                android:layout_height="68dp"
+                android:layout_width="@dimen/qb_px_58"
+                android:layout_height="@dimen/qb_px_68"
                 android:button="@null"
                 android:checked="true"
                 android:drawableTop="@drawable/selector_sex_man"
@@ -38,9 +38,9 @@
 
             <RadioButton
                 android:id="@+id/rb_women"
-                android:layout_width="58dp"
-                android:layout_height="68dp"
-                android:layout_marginLeft="34dp"
+                android:layout_width="@dimen/qb_px_58"
+                android:layout_height="@dimen/qb_px_68"
+                android:layout_marginLeft="@dimen/qb_px_34"
                 android:button="@null"
                 android:drawableTop="@drawable/selector_sex_women"
                 android:gravity="center" />
@@ -49,38 +49,38 @@
         <LinearLayout
             android:id="@+id/layout_select_name"
             android:layout_width="wrap_content"
-            android:layout_height="31dp"
+            android:layout_height="@dimen/qb_px_31"
             android:layout_below="@+id/rg_sex"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="@dimen/qb_px_25"
             android:background="@mipmap/bg_user_info_input"
             android:gravity="center_vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="13dp"
+                android:layout_marginLeft="@dimen/qb_px_13"
                 android:text="英文名"
                 android:textColor="#ff666666"
-                android:textSize="10sp" />
+                android:textSize="@dimen/qb_px_10" />
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="12dp"
+                android:layout_marginLeft="@dimen/qb_px_12"
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="center"
                 android:textColor="#ff333333"
                 android:textCursorDrawable="@null"
-                android:textSize="10sp" />
+                android:textSize="@dimen/qb_px_10" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="6dp"
+                android:layout_marginLeft="@dimen/qb_px_10"
+                android:layout_marginRight="@dimen/qb_px_6"
                 android:src="@mipmap/btn_user_info_right" />
         </LinearLayout>
 
@@ -97,7 +97,7 @@
             <!--android:textSize="11sp" />-->
         <LinearLayout
             android:id="@+id/btn_save"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/qb_px_20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:text="保存信息"
                 android:textColor="@android:color/white"
-                android:textSize="11sp"
+                android:textSize="@dimen/qb_px_11"
                 />
         </LinearLayout>
     </LinearLayout>

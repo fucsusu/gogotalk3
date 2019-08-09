@@ -10,37 +10,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp">
+        android:layout_marginTop="@dimen/qb_px_10"
+        android:paddingRight="@dimen/qb_px_10"
+        android:paddingLeft="@dimen/qb_px_10">
 
         <Button
             android:id="@+id/btn_back"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="@dimen/qb_px_36"
+            android:layout_height="@dimen/qb_px_36"
             android:layout_centerVertical="true"
             android:background="@mipmap/btn_back" />
 
         <RelativeLayout
             android:id="@+id/layout_search"
-            android:layout_width="396dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/qb_px_396"
+            android:layout_height="@dimen/qb_px_30"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:background="@mipmap/bg_select_name_kuang"
-            android:paddingLeft="11dp"
-            android:paddingRight="11dp">
+            android:paddingLeft="@dimen/qb_px_11"
+            android:paddingRight="@dimen/qb_px_11">
 
             <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
+                android:layout_width="@dimen/qb_px_14"
+                android:layout_height="@dimen/qb_px_14"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/ic_select_name_sousuo" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="14dp"
+                android:layout_marginLeft="@dimen/qb_px_14"
                 android:background="@null"
                 android:gravity="center"
                 android:hint="搜索英文名"
@@ -48,19 +48,19 @@
                 android:textColor="#ffffffff"
                 android:textColorHint="#d8c0ff"
                 android:textCursorDrawable="@null"
-                android:textSize="12sp" />
+                android:textSize="@dimen/qb_px_12" />
         </RelativeLayout>
     </RelativeLayout>
 
     <FrameLayout
-        android:layout_margin="11dp"
+        android:layout_margin="@dimen/qb_px_11"
         android:background="@drawable/bg_select_name_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginLeft="42dp"
+            android:layout_marginLeft="@dimen/qb_px_42"
             android:id="@+id/rv_select_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
@@ -71,10 +71,10 @@
             android:layout_height="match_parent"
             app:backgroundColor="#bef9b81b"
             app:chooseTextColor="@android:color/white"
-            app:circleRadius="24dp"
-            app:radius="20dp"
+            app:circleRadius="@dimen/qb_px_24"
+            app:radius="@dimen/qb_px_20"
             app:textColor="#8C5ACC"
-            app:textSize="9sp" />
+            app:textSize="@dimen/qb_px_9" />
     </FrameLayout>
 
 </LinearLayout>

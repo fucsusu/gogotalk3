@@ -177,7 +177,7 @@
             android:gravity="center"
             android:text="去约课"
             android:textColor="#fff"
-            android:textSize="11sp" />
+            android:textSize="@dimen/qb_px_11" />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

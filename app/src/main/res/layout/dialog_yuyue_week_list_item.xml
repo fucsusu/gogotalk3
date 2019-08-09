@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/id_mLayout_MItem"
-    android:layout_width="62dp"
+    android:layout_width="@dimen/qb_px_62"
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:gravity="center"
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="周一"
         android:textColor="#666"
-        android:textSize="11sp" />
+        android:textSize="@dimen/qb_px_11" />
 
     <TextView
         android:id="@+id/id_mDate_MItem"
@@ -21,5 +21,5 @@
         android:layout_height="wrap_content"
         android:text="06-25"
         android:textColor="#666"
-        android:textSize="11sp" />
+        android:textSize="@dimen/qb_px_11" />
 </LinearLayout>

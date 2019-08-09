@@ -3,26 +3,26 @@
     xmlns:roundiv="http://schemas.android.com/apk/res-auto"
     android:id="@+id/id_mLayout_RecordItem"
     android:layout_width="match_parent"
-    android:layout_height="84dp"
+    android:layout_height="@dimen/qb_px_84"
     android:background="@drawable/shap_record"
     android:orientation="horizontal"
-    android:paddingBottom="4dp"
-    android:paddingRight="9dp"
-    android:paddingLeft="6dp"
-    android:paddingTop="6dp">
+    android:paddingBottom="@dimen/qb_px_4"
+    android:paddingRight="@dimen/qb_px_9"
+    android:paddingLeft="@dimen/qb_px_6"
+    android:paddingTop="@dimen/qb_px_6">
 
     <com.gogotalk.system.view.widget.RoundedImageView
         android:id="@+id/id_mImg_RecordItem"
-        android:layout_width="100dp"
+        android:layout_width="@dimen/qb_px_100"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:src="@mipmap/record_grid_item_default_img"
-        roundiv:corner_radius="9dp"
+        roundiv:corner_radius="@dimen/qb_px_9"
        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="@dimen/qb_px_8"
         android:orientation="vertical">
 
         <LinearLayout
@@ -36,27 +36,27 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/shap_record_girid_item"
                 android:gravity="center"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
+                android:paddingLeft="@dimen/qb_px_8"
+                android:paddingRight="@dimen/qb_px_8"
                 android:textColor="#fb8681"
-                android:textSize="15sp" />
+                android:textSize="@dimen/qb_px_15" />
 
             <TextView
                 android:id="@+id/id_mUserName_RecordItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="6dp"
+                android:layout_marginLeft="@dimen/qb_px_6"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textColor="#333"
-                android:textSize="15sp" />
+                android:textSize="@dimen/qb_px_15" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="@dimen/qb_px_6"
             android:orientation="horizontal">
 
             <TextView
@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#666"
-                android:textSize="11sp" />
+                android:textSize="@dimen/qb_px_11" />
 
         </LinearLayout>
 
@@ -80,16 +80,16 @@
                 android:layout_height="wrap_content"
                 android:text="获得奖杯"
                 android:textColor="#ff666666"
-                android:textSize="11sp" />
+                android:textSize="@dimen/qb_px_11" />
 
             <TextView
                 android:id="@+id/id_mSize_RecordItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
+                android:layout_marginLeft="@dimen/qb_px_4"
                 android:text="30"
                 android:textColor="#ff666666"
-                android:textSize="11sp" />
+                android:textSize="@dimen/qb_px_11" />
 
             <LinearLayout
 
@@ -103,8 +103,8 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginRight="3dp"
+                    android:layout_marginBottom="@dimen/qb_px_2"
+                    android:layout_marginRight="@dimen/qb_px_3"
                     android:src="@mipmap/ic_record_btn_after_class" />
 
                 <TextView
@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:text="课后练习"
                     android:textColor="#fffb8681"
-                    android:textSize="11sp"/>
+                    android:textSize="@dimen/qb_px_11"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

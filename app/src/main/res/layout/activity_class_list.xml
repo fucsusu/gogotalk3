@@ -9,9 +9,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/qb_px_10"
         android:orientation="horizontal"
-        android:paddingLeft="10dp">
+        android:paddingLeft="@dimen/qb_px_10">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -21,8 +21,8 @@
 
             <Button
                 android:id="@+id/id_mBack_GoGo"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="@dimen/qb_px_36"
+                android:layout_height="@dimen/qb_px_36"
                 android:background="@mipmap/btn_back" />
         </LinearLayout>
 
@@ -37,12 +37,12 @@
 
         <LinearLayout
             android:id="@+id/layout_level"
-            android:layout_width="126dp"
+            android:layout_width="@dimen/qb_px_126"
             android:layout_height="wrap_content"
             android:background="@mipmap/bg_class_list_level"
             android:gravity="center"
-            android:paddingLeft="12dp"
-            android:paddingRight="10dp">
+            android:paddingLeft="@dimen/qb_px_12"
+            android:paddingRight="@dimen/qb_px_10">
 
             <TextView
                 android:id="@+id/tv_level"
@@ -52,12 +52,12 @@
                 android:singleLine="true"
                 android:text="哈佛外教课L1"
                 android:textColor="#ffffffff"
-                android:textSize="15sp" />
+                android:textSize="@dimen/qb_px_15" />
 
             <ImageView
                 android:id="@+id/iv_level"
-                android:layout_width="10dp"
-                android:layout_height="6dp"
+                android:layout_width="@dimen/qb_px_10"
+                android:layout_height="@dimen/qb_px_6"
                 android:src="@mipmap/ic_class_list_drop_down" />
         </LinearLayout>
 
