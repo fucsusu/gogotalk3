@@ -533,7 +533,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         return super.onKeyDown(keyCode, event);
     }
 
-    @OnClick({R.id.id_mPersonalSettings, R.id.id_mRecord, R.id.id_GoGoTalk_Home, R.id.id_mBtn_HomePage,R.id.id_refresh})
+    @OnClick({R.id.id_mPersonalSettings, R.id.id_mRecord, R.id.id_GoGoTalk_Home, R.id.id_mBtn_HomePage, R.id.id_refresh})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.id_mPersonalSettings:

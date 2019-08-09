@@ -40,6 +40,9 @@ public class Constant {
     //需要跳转的页数
     public static final String INTENT_DATA_KEY_TOPAGE = "timeToPage";
 
+    //信令标识
+    public static final String MESSAGE_SHOW_JB="show_jb";
+
     //apk下载默认前缀
     public static final String DOWNLOAD_APK = "gogotalk";
     //媒体信息标识
@@ -48,6 +51,7 @@ public class Constant {
     public static final int HANDLE_INFO_NEXTPAGE = 3;
     public static final int HANDLE_INFO_MIKE = 4;
     public static final int HANDLE_INFO_JB = 5;
+    public static final int HANDLE_INFO_VOICE = 6;
     //老师的streamId的标识
     public static final String FLAG_TEACHER = "s-AI-teacher-";
     //SDK常量

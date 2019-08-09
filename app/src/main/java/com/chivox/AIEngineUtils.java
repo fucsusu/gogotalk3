@@ -27,6 +27,7 @@ public class AIEngineUtils {
     /**录音文件（.wav）存放本地地址*/
     String wavPath = AIEngineHelper.getFilesDir(AiRoomApplication.getInstance()).getPath() + "/record/" + System.currentTimeMillis() + ".wav";
     private IEstimateCallback iEstimateCallback;
+    private boolean isStart;
 
     public AIEngineUtils setiEstimateCallback(IEstimateCallback iEstimateCallback) {
         this.iEstimateCallback = iEstimateCallback;
@@ -193,6 +194,7 @@ public class AIEngineUtils {
             return;
         }
         if (recorder.getStatus() == MyRecorder.Status.STATUS_NO_READY) {
+            isStart = true;
             //初始化录音
             String fileName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
             recorder.createDefaultAudio(fileName);
@@ -207,8 +209,14 @@ public class AIEngineUtils {
         if (engine == 0 || recorder == null) {
             return;
         }
+        isStart=false;
         recorder.stopRecord();
     }
+
+    public boolean isStart() {
+        return isStart;
+    }
+
     /**
      * 销毁引擎
      */

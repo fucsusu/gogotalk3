@@ -2,7 +2,6 @@ package com.gogotalk.system.app;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -13,7 +12,6 @@ import com.gogotalk.system.di.components.NetComponent;
 import com.gogotalk.system.di.modules.NetModule;
 import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.util.SPUtils;
-import com.gogotalk.system.util.SystemDownLoadFileImpl;
 import com.gogotalk.system.zego.ZGBaseHelper;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.DiskLogAdapter;
@@ -23,7 +21,6 @@ import com.pgyersdk.PgyerActivityManager;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.crash.PgyerCrashObservable;
 import com.pgyersdk.crash.PgyerObserver;
-import com.tencent.smtt.sdk.QbSdk;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -45,33 +42,12 @@ public class AiRoomApplication extends Application {
         initLogger();
         initJGSDK();
         initJpush();
-        //initTenX5();
         SPUtils.initSpUtil(this, AppUtils.getAppName(this));
-        AIEngineUtils.getInstance();
     }
 
     private void initJpush(){
         JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);     		// 初始化 JPush
-    }
-    private void initTenX5() {
-        //非wifi情况下，主动下载x5内核
-        QbSdk.setDownloadWithoutWifi(true);
-        //搜集本地tbs内核信息并上报服务器，服务器返回结果决定使用哪个内核。
-        QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
-            @Override
-            public void onViewInitFinished(boolean arg0) {
-                //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
-                Log.e("TAG", "onViewInitFinished: " + arg0);
-            }
-
-            @Override
-            public void onCoreInitFinished() {
-
-            }
-        };
-        //x5内核初始化接口
-        QbSdk.initX5Environment(getApplicationContext(), cb);
     }
 
     /**

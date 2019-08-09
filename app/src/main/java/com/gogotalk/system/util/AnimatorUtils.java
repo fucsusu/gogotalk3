@@ -3,6 +3,7 @@ package com.gogotalk.system.util;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.view.TextureView;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.LinearInterpolator;
@@ -203,4 +204,25 @@ public class AnimatorUtils {
             }
         });
     }
+
+    public static void startVideoTranstate(TextureView mTV) {
+        ObjectAnimator translationX = ObjectAnimator.ofFloat(mTV, "translationX", 0, -mTV.getMeasuredWidth())
+                .setDuration(1000);
+        ObjectAnimator translationY = ObjectAnimator.ofFloat(mTV, "translationY", 0, mTV.getMeasuredHeight())
+                .setDuration(1000);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(translationX).before(translationY);
+        animatorSet.start();
+    }
+
+    public static void recoverVideoTranstate(TextureView mTV) {
+        ObjectAnimator translationX = ObjectAnimator.ofFloat(mTV, "translationX", -mTV.getMeasuredWidth(), 0)
+                .setDuration(1000);
+        ObjectAnimator translationY = ObjectAnimator.ofFloat(mTV, "translationY", mTV.getMeasuredHeight(), 0)
+                .setDuration(1000);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(translationY).before(translationX);
+        animatorSet.start();
+    }
+
 }

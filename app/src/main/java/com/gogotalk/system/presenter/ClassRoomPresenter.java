@@ -1,9 +1,11 @@
 package com.gogotalk.system.presenter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
+import com.chivox.AIEngineUtils;
 import com.gogotalk.system.model.entity.ActionBean;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.util.AppUtils;
@@ -16,6 +18,9 @@ import com.gogotalk.system.zego.ZGPublishHelper;
 import com.gogotalk.system.zego.ZegoUtil;
 import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
+import com.zego.zegoavkit2.soundlevel.IZegoSoundLevelCallback;
+import com.zego.zegoavkit2.soundlevel.ZegoSoundLevelInfo;
+import com.zego.zegoavkit2.soundlevel.ZegoSoundLevelMonitor;
 import com.zego.zegoliveroom.ZegoLiveRoom;
 import com.zego.zegoliveroom.callback.IZegoCustomCommandCallback;
 import com.zego.zegoliveroom.callback.IZegoInitSDKCompletionCallback;
@@ -45,6 +50,14 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     private String teacherStreamID;//老师的流ID
     private double seqNumber = 0;//媒体信息ID
     private int seq = 0;
+    //麦克风信令回复
+    private String prompt_id;
+    private String correct_resp;
+    //答题回调
+    private String question_id;
+    private String roomId;
+    private Gson gson;
+
 
     @Inject
     public ClassRoomPresenter() {
@@ -53,6 +66,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     {
         ownStreamID = String.valueOf(AppUtils.getUserInfoData().getAccountID());
         ownUserName = String.valueOf(AppUtils.getUserInfoData().getName());
+        gson = new Gson();
     }
 
     @Override
@@ -69,6 +83,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                     ZGMediaSideInfoDemo.sharedInstance().activateMediaSideInfoForPublishChannel(false, 0);
                     ZGMediaSideInfoDemo.sharedInstance().setUseCutomPacket(false);
                     ZGMediaSideInfoDemo.sharedInstance().setMediaSideInfoCallback(callback);
+                    ZegoSoundLevelMonitor.getInstance().setCallback(zegoSoundLevelCallback);
                     ZGBaseHelper.sharedInstance().setZegoRoomCallback(roomCallback);
                     joinRoom(roomID, role);
                 } else {
@@ -80,6 +95,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
 
     @Override
     public void joinRoom(String roomID, int role) {
+        roomId = roomID;
         // 登陆房间
         ZGBaseHelper.sharedInstance().loginRoom(roomID, role, new IZegoLoginCompletionCallback() {
             @Override
@@ -119,18 +135,39 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
         ZGPublishHelper.sharedInstance().startPreview(view, ownStreamID);
     }
 
-    //发送房间信令
+
+    //发送答题结果
     @Override
-    public void sendRoomCommand(Object... contents) {
+    public void sendAnswerRoomCommand(boolean answerResult) {
+        if (!TextUtils.isEmpty(question_id)) {
+            ActionBean.ActionData actionData = new ActionBean.ActionData();
+            actionData.setAnswer(answerResult);
+            actionData.setQuestion_id(question_id);
+            actionData.setUser_id(ownStreamID);
+            actionData.setUser_name(ownUserName);
+            ActionBean actionBean = new ActionBean(seq++, "student", "answer", actionData);
+            String content = gson.toJson(actionBean);
+            boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[]{teacherUser, otherUser}, content, new IZegoCustomCommandCallback() {
+                @Override
+                public void onSendCustomCommand(int i, String s) {
+                    Log.e("TAG", "onSendCustomCommand: " + i + "||" + s);
+                }
+            });
+            Log.e("TAG", "sendRoomCommand: 发送信令结果 " + sendSucess);
+        }
+        question_id = "";
+    }
+
+    //发送展示奖杯
+    @Override
+    public void sendShowJbRoomCommand(int jbNum) {
         ActionBean.ActionData actionData = new ActionBean.ActionData();
-        actionData.setAnswer((String) contents[1]);
-        actionData.setQuestion_id("");
-        actionData.setAnswer("true");
+        actionData.setJb_num(jbNum);
         actionData.setUser_id(ownStreamID);
         actionData.setUser_name(ownUserName);
-        ActionBean actionBean = new ActionBean(seq++, "student", String.valueOf(contents[0]), actionData);
-        String content = new Gson().toJson(actionBean);
-        boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[]{teacherUser, otherUser}, content, new IZegoCustomCommandCallback() {
+        ActionBean actionBean = new ActionBean(seq++, "student", Constant.MESSAGE_SHOW_JB, actionData);
+        String content = gson.toJson(actionBean);
+        boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[]{otherUser}, content, new IZegoCustomCommandCallback() {
             @Override
             public void onSendCustomCommand(int i, String s) {
                 Log.e("TAG", "onSendCustomCommand: " + i + "||" + s);
@@ -204,7 +241,17 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
 
         @Override
         public void onRecvCustomCommand(String id, String name, String content, String roomid) {
-            Log.e("TAG", "onRecvCustomCommand: " + id + name + content + roomid);
+            Log.v("TAG", "onRecvCustomCommand: " + id + name + content + roomid);
+            if (roomid.equals(roomId)) {
+                ActionBean actionBean = gson.fromJson(content, ActionBean.class);
+                switch (actionBean.getAction()) {
+                    case Constant.MESSAGE_SHOW_JB:
+                        getView().openOtherJBAnim(actionBean.getData().getJb_num());
+                        break;
+                }
+            }
+
+
         }
     };
 
@@ -212,7 +259,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
         @Override
         public void onRecvMediaSideInfo(String streamID, String content) {
             //处理媒体次要信息
-            Log.e("TAG", "onRecvMediaSideInfo流ID：" + streamID + "\n媒体次要信息：" + content);
+            Log.v("TAG", "onRecvMediaSideInfo流ID：" + streamID + "\n媒体次要信息：" + content);
             try {
                 JSONObject object = new JSONObject(content);
                 String action = object.getString("action");
@@ -222,6 +269,10 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                     seqNumber = seq;
                     if (action.equals("open_answer")) {//调用JS的exec()方法
                         //开始答题
+                        JSONObject mObjcet = new JSONObject(data);
+                        if (mObjcet.has("question_id") && !mObjcet.isNull("question_id")) {
+                            question_id = mObjcet.getString("question_id");
+                        }
                         getView().sendHandleMessage(Constant.HANDLE_INFO_ANSWER);
                     }
                     if (action.equals("next_page")) {//调用JS的PageDown()方法
@@ -240,14 +291,25 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                         int time = object1.getInt("time");
                         String content1 = "";
                         String type = "";
+
                         if (object1.has("content") && !object1.isNull("content")) {
                             content1 = object1.getString("content");
                         }
                         if (object1.has("type") && !object1.isNull("type")) {
                             type = object1.getString("type");
                         }
-                        getView().sendHandleMessage(content1, type, Constant.HANDLE_INFO_MIKE, 0, time);
-                        Log.e("TAG", "调用麦克风发放奖杯方法\nmsg：" + msg + "\ntime：" + time);
+                        if (object1.has("prompt_id") && !object1.isNull("prompt_id")) {
+                            prompt_id = object1.getString("prompt_id");
+                        }
+                        if (object1.has("correct_resp") && !object1.isNull("correct_resp")) {
+                            correct_resp = object1.getString("correct_resp");
+                        }
+
+                        Log.e("TAG", "onRecvMediaSideInfo: " + content1 + type);
+                        if (!TextUtils.isEmpty(content1) && !TextUtils.isEmpty(type)) {
+                            getAIEngineResult(type, content1);
+                        }
+                        getView().sendHandleMessage(Constant.HANDLE_INFO_MIKE, 0, time);
                     }
                 }
             } catch (JSONException e) {
@@ -260,4 +322,62 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
 
         }
     };
+
+    IZegoSoundLevelCallback zegoSoundLevelCallback = new IZegoSoundLevelCallback() {
+
+        //拉流的声音变化
+        @Override
+        public void onSoundLevelUpdate(ZegoSoundLevelInfo[] zegoSoundLevelInfos) {
+
+        }
+
+        //推流声音变化
+        @Override
+        public void onCaptureSoundLevelUpdate(ZegoSoundLevelInfo zegoSoundLevelInfo) {
+            getView().sendHandleMessage(Constant.HANDLE_INFO_VOICE, 0, (int) zegoSoundLevelInfo.soundLevel);
+        }
+    };
+
+    private void getAIEngineResult(String type, String content) {
+        AIEngineUtils.getInstance()
+                .setUserId(ownStreamID)
+                .setType(type)
+                .setContent(content)
+                .setiEstimateCallback(new AIEngineUtils.IEstimateCallback() {
+                    @Override
+                    public void onEstimateResult(String result, int rank) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+                            String result1 = jsonObject.getString("result");
+                            if (!TextUtils.isEmpty(result1)) {
+                                JSONObject jsonObject1 = new JSONObject(result1);
+                                JSONObject params = jsonObject.getJSONObject("params");
+                                JSONObject request = params.getJSONObject("request");
+                                Log.d("wuhongjie", "===========" + jsonObject1.getInt("overall") + "======" + request.getString("refText") + "=====");
+                                if (isRank100Overall(rank, jsonObject1) || isRank4Overall(rank, jsonObject1)) {
+                                    getView().sendHandleMessage(Constant.HANDLE_INFO_JB, 0, 2);
+                                } else {
+                                    getView().sendHandleMessage(Constant.HANDLE_INFO_JB, 0, 1);
+                                }
+                            } else {
+                                getView().sendHandleMessage(Constant.HANDLE_INFO_JB, 0, 0);
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            getView().sendHandleMessage(Constant.HANDLE_INFO_JB, 0, 0);
+                        }
+                    }
+                })
+                .startRecord();
+    }
+
+    private boolean isRank100Overall(int rank, JSONObject jsonObject1) throws JSONException {
+        return rank == 100 && jsonObject1.getInt("overall") > 50;
+    }
+
+    private boolean isRank4Overall(int rank, JSONObject jsonObject1) throws JSONException {
+        return rank == 4 && jsonObject1.getInt("overall") > 1;
+    }
 }
+

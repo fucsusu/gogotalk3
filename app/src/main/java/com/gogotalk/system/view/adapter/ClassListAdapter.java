@@ -48,7 +48,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
         ImageView mImgs;
         Group mLayout2;
         FrameLayout mLayout3;
-        ImageView ivSuoBg,ivSuo;
+        ImageView ivSuoBg, ivSuo;
         Button mBtn, mPreview, mEnterClassroom;
         int stye;
         int ChapterStatus;
@@ -130,8 +130,8 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
             holder.LessonTime = goItemBean1.getLessonTime();
             String url = goItemBean1.getChapterImagePath();
             AppUtils.bindImageToView(context
-                    , holder.stye!=1?url:null, R.mipmap.ic_main_list_item_header_default
-                    , holder.ivSuoBg, DiskCacheStrategy.ALL,true,9);
+                    , holder.stye != 1 ? url : null, R.mipmap.ic_main_list_item_header_default
+                    , holder.ivSuoBg, DiskCacheStrategy.ALL, true, 9);
             if (holder.stye == 0) {
                 holder.ivSuo.setVisibility(View.GONE);//锁的背景Layout
                 holder.mBtn.setBackgroundResource(R.mipmap.bg_main_list_item_btn_go_room);//立即预约按钮颜色
