@@ -175,6 +175,23 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     }
 
     @Override
+    public void sendEvaluationResult(String promptId,String correctResp,String sessionId) {
+        ActionBean.ActionData actionData = new ActionBean.ActionData();
+        actionData.setPrompt_id(promptId);
+        actionData.setResult(correctResp);
+        actionData.setSession_id(sessionId);
+        ActionBean actionBean = new ActionBean(seq++, "student", "result", actionData);
+        String content = gson.toJson(actionBean);
+        boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[]{teacherUser}, content, new IZegoCustomCommandCallback() {
+            @Override
+            public void onSendCustomCommand(int i, String s) {
+                Log.e("TAG", "onSendCustomCommand: " + i + "||" + s);
+            }
+        });
+        Log.e("TAG", "sendRoomCommand: 发送信令结果 " + sendSucess);
+    }
+
+    @Override
     public void detachView() {
         ZGPlayHelper.sharedInstance().stopPlaying(teacherStreamID);
         ZGPlayHelper.sharedInstance().stopPlaying(otherStreamID);
@@ -262,6 +279,10 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
             try {
                 JSONObject object = new JSONObject(content);
                 String action = object.getString("action");
+                String sessionId="";
+                if(object.has("session_id")&&!object.isNull("session_id")){
+                     sessionId = object.getString("session_id");
+                }
                 String data = object.getString("data");
                 int seq = object.getInt("seq");
                 if (seq > seqNumber) {
@@ -306,7 +327,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
 
                         Log.e("TAG", "onRecvMediaSideInfo: " + content1 + type);
                         if (!TextUtils.isEmpty(content1) && !TextUtils.isEmpty(type)) {
-                            getAIEngineResult(type, content1);
+                            getAIEngineResult(type, content1,prompt_id,correct_resp,sessionId);
                         }
                         getView().sendHandleMessage(Constant.HANDLE_INFO_MIKE, 0, time);
                     }
@@ -337,7 +358,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
         }
     };
 
-    public void getAIEngineResult(String type, String content) {
+    public void getAIEngineResult(String type, String content,String promptId,String correctResp,String sessionId) {
         ZGBaseHelper.sharedInstance().startAudioRecord();
         AIEngineUtils.getInstance()
                 .setUserId(ownStreamID)
@@ -358,12 +379,15 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                                 } else {
                                     getView().sendHandleMessage(Constant.HANDLE_INFO_JB, 0, 1);
                                 }
+                                sendEvaluationResult(promptId,correctResp,sessionId);
                             } else {
                                 getView().sendHandleMessage(Constant.HANDLE_INFO_JB, 0, 0);
+                                sendEvaluationResult(promptId,"false",sessionId);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                             getView().sendHandleMessage(Constant.HANDLE_INFO_JB, 0, 0);
+                            sendEvaluationResult(promptId,"false",sessionId);
                         }
                     }
                 })

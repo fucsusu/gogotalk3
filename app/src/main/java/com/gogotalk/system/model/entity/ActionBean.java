@@ -17,6 +17,24 @@ public class ActionBean {
         private String user_id = "";
         private String user_name = "";
         private int jb_num = 0;
+        private String prompt_id ="";
+        private String result="";
+
+        public String getPrompt_id() {
+            return prompt_id;
+        }
+
+        public void setPrompt_id(String prompt_id) {
+            this.prompt_id = prompt_id;
+        }
+
+        public String getResult() {
+            return result;
+        }
+
+        public void setResult(String result) {
+            this.result = result;
+        }
 
         public String getSession_id() {
             return session_id;

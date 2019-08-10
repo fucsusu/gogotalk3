@@ -427,7 +427,9 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     @JavascriptInterface
     public void answerResult(boolean result) {
         Log.e("TAG", "answerResult: " + result);
-        showJb(1);
+        if(result){
+            showJb(1);
+        }
     }
 
     //开启奖杯
