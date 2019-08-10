@@ -154,12 +154,17 @@
         app:layout_constraintTop_toTopOf="@+id/iv_code_bg"
         />
     <Button
-        android:id="@+id/btn_next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:stateListAnimator="@null"
         app:layout_constraintTop_toBottomOf="@+id/iv_code_bg"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:background="@mipmap/bg_forget_btn_next"/>
+        android:stateListAnimator="@null"
+        android:id="@+id/btn_next"
+        android:layout_marginTop="@dimen/qb_px_28"
+        android:text="下一步"
+        android:textColor="@android:color/white"
+        android:layout_width="@dimen/qb_px_343"
+        android:layout_height="@dimen/qb_px_46"
+        android:textSize="@dimen/qb_px_16"
+        android:background="@mipmap/bg_login_btn_submit"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

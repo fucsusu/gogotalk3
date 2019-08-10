@@ -194,14 +194,18 @@
 
     <Button
         app:layout_constraintTop_toBottomOf="@+id/iv_password_bg"
-        android:id="@+id/btn_reg_submit"
-        android:textColor="@android:color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:stateListAnimator="@null"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:background="@mipmap/bg_reg_btn"/>
+        android:id="@+id/btn_reg_submit"
+        android:layout_marginTop="@dimen/qb_px_28"
+        android:text="注册"
+        android:textColor="@android:color/white"
+        android:layout_width="@dimen/qb_px_343"
+        android:layout_height="@dimen/qb_px_46"
+        android:textSize="@dimen/qb_px_16"
+        android:background="@mipmap/bg_login_btn_submit"/>
+
     <TextView
         android:id="@+id/tv_reg_login"
         android:layout_width="wrap_content"
