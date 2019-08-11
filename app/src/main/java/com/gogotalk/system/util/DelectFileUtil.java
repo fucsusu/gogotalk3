@@ -1,5 +1,11 @@
 package com.gogotalk.system.util;
 
+import android.app.Activity;
+import android.os.Environment;
+import android.util.Log;
+
+import com.gogotalk.system.app.AiRoomApplication;
+
 import java.io.File;
 
 /**
@@ -62,5 +68,46 @@ public class DelectFileUtil {
                 return deleteDirectory(file);
             }
         }
+    }
+
+    /**
+     * 判断下载目录下指定文件是否存在
+     * @param activity
+     * @param fileName
+     * @return
+     */
+    public static boolean isCoursewareExistence(Activity activity, String fileName) {
+        File filesDir = activity.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+        Log.e("TAG", "isCoursewareExistence: " + filesDir.getAbsolutePath());
+        File[] files = filesDir.listFiles();
+        boolean isFileExit = false;
+        for (int i = 0; i < files.length; i++) {
+            if (files[i].getName().equals(fileName)) {
+                Log.e("TAG", "isCoursewareExistence: 已存在课件");
+                isFileExit = true;
+                break;
+            }
+        }
+        return isFileExit;
+    }
+
+    public static void downLoadFIle(Activity activity,String url, String s) {
+        AiRoomApplication.getInstance().getNetComponent().getDownLoadFileImpl()
+                .setDownLoadingLisener(new BaseDownLoadFileImpl.IDownLoadingLisener() {
+                    @Override
+                    public void onDownLoadFinsh() {
+                    }
+
+                    @Override
+                    public void onDownLoadFail() {
+
+                    }
+
+                    @Override
+                    public void onDownLoadProgress(int current, int toatal) {
+
+                    }
+                })
+                .downLoadFile(activity, url, s);
     }
 }

@@ -31,6 +31,24 @@ public class RoomInfoBean {
     private String SystemTime;
     private String LessonTime;
     private int timeToPage;
+    private String MyStudentSoundUrl;
+    private String OtherStudentSoundUrl;
+
+    public String getMyStudentSoundUrl() {
+        return MyStudentSoundUrl;
+    }
+
+    public void setMyStudentSoundUrl(String myStudentSoundUrl) {
+        MyStudentSoundUrl = myStudentSoundUrl;
+    }
+
+    public String getOtherStudentSoundUrl() {
+        return OtherStudentSoundUrl;
+    }
+
+    public void setOtherStudentSoundUrl(String otherStudentSoundUrl) {
+        OtherStudentSoundUrl = otherStudentSoundUrl;
+    }
 
     public int getTimeToPage() {
         return timeToPage;

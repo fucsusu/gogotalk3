@@ -40,6 +40,8 @@ public class Constant {
     //需要跳转的页数
     public static final String INTENT_DATA_KEY_TOPAGE = "timeToPage";
 
+    public static final String INTENT_DATA_KEY_MY = "my";
+    public static final String INTENT_DATA_KEY_OTHER = "other";
     //信令标识
     public static final String MESSAGE_SHOW_JB="show_jb";
 
@@ -56,9 +58,13 @@ public class Constant {
     public static final String FLAG_TEACHER = "s-AI-teacher-";
     //SDK常量
     public static String appid = "2456789202";
+//    public static String appid = "3335035834";
     public static byte[] appSign = new byte[]{(byte) 0xf7, (byte) 0x3b, (byte) 0x2e, (byte) 0x64, (byte) 0xe8, (byte) 0x7f, (byte) 0x2d, (byte) 0xdc, (byte) 0x40,
             (byte) 0x59, (byte) 0x0c, (byte) 0x7b, (byte) 0xcd, (byte) 0xa4, (byte) 0x24, (byte) 0x45, (byte) 0x0d, (byte) 0x02, (byte) 0xb2, (byte) 0x5e,
             (byte) 0x05, (byte) 0xdb, (byte) 0x2d, (byte) 0x32, (byte) 0x68, (byte) 0xd5, (byte) 0xd9, (byte) 0x45, (byte) 0x7a, (byte) 0x39, (byte) 0xad,
             (byte) 0x9e};
-
+//    public static byte[] appSign = new byte[]{(byte)0xe9,(byte)0xfb,(byte)0x5a,(byte)0x56,(byte)0x6f,(byte)0x6d,(byte)0xeb,(byte)0x44,
+//        (byte)0xac,(byte)0x07,(byte)0x77,(byte)0x9b,(byte)0xee,(byte)0x99,(byte)0x52,(byte)0x19,
+//        (byte)0x5d,(byte)0xd5,(byte)0xcb,(byte)0xa3,(byte)0xf4,(byte)0x74,(byte)0x16,(byte)0x70,
+//        (byte)0x74,(byte)0x41,(byte)0x14,(byte)0x60,(byte)0x34,(byte)0x08,(byte)0xc8,(byte)0xa4};
 }

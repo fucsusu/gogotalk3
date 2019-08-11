@@ -233,8 +233,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 if (!PermissionsUtil.getInstance().isPermissions()) {
                     ToastUtils.showLongToast(MainActivity.this, "部分功能未授权，请授权后再试！");
                 }
-                CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(MainActivity.this, coursesBean.getZipDownLoadUrl(),
-                        root_view, coursesBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
+                //http://coursefiles.oss-cn-beijing.aliyuncs.com/Hgogotalk/CourseZip/L1/L1Lesson89.zip
+                String path ="http://coursefiles.oss-cn-beijing.aliyuncs.com/Hgogotalk/CourseZip/L1/L1Lesson21.zip";
+                CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(MainActivity.this, path,
+                        root_view, "daasdasdasdasdasd", new CoursewareDownLoadUtil.CoursewareDownFinsh() {
                             @Override
                             public void finsh(String filePath) {
                                 if (TextUtils.isEmpty(filePath)) {
@@ -268,6 +270,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, bean.getTeacherName());
         mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
         mIntent.putExtra(Constant.INTENT_DATA_KEY_TOPAGE, bean.getTimeToPage());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_MY, bean.getMyStudentSoundUrl());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHER, bean.getOtherStudentSoundUrl());
         startActivity(mIntent);
     }
 

@@ -1,5 +1,7 @@
 package com.gogotalk.system.presenter;
 
+import android.os.Environment;
+
 import com.gogotalk.system.model.api.ApiService;
 import com.gogotalk.system.model.entity.BookLevelBean;
 import com.gogotalk.system.model.entity.GoGoBean;
@@ -9,8 +11,10 @@ import com.gogotalk.system.model.entity.WeekMakeBean;
 import com.gogotalk.system.model.util.CommonSubscriber;
 import com.gogotalk.system.model.util.GsonUtils;
 import com.gogotalk.system.model.util.RxUtil;
+import com.gogotalk.system.util.DelectFileUtil;
 import com.orhanobut.logger.Logger;
 
+import java.io.File;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -105,6 +109,16 @@ public class ClassListPresenter extends RxPresenter<ClassListContract.View> impl
                 .subscribeWith(new CommonSubscriber<RoomInfoBean>(getView()) {
                     @Override
                     public void onNext(RoomInfoBean bean) {
+                        //清除本地已经下载的叫名字自己和其他人的音频文件
+                        if(DelectFileUtil.isCoursewareExistence(getView().getActivity(),"my.mp3")){
+                            DelectFileUtil.deleteFile(new File(getView().getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()+File.separator+"my.mp3"));
+                        }
+                        if(DelectFileUtil.isCoursewareExistence(getView().getActivity(),"other.mp3")){
+                            DelectFileUtil.deleteFile(new File(getView().getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()+File.separator+"other.mp3"));
+                        }
+                        //下载叫名字自己和其他人的音频文件
+                        DelectFileUtil.downLoadFIle(getView().getActivity(),bean.getMyStudentSoundUrl(), "my.mp3");
+                        DelectFileUtil.downLoadFIle(getView().getActivity(),bean.getOtherStudentSoundUrl(), "other.mp3");
                         getView().onRoomInfoSuccess(bean,filePath);
                     }
                 })

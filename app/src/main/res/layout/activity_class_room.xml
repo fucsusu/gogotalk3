@@ -89,8 +89,9 @@
     <!--老师的名字-->
     <TextView
         android:id="@+id/class_room_teacher_name_tv"
-        android:layout_width="@dimen/qb_px_30"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/qb_px_12"
+
         android:layout_margin="@dimen/qb_px_4"
         android:background="@drawable/shap_class_room_teacher_name_bg"
         android:gravity="center"

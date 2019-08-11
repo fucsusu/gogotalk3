@@ -28,6 +28,8 @@ public interface ClassRoomContract {
         void sendEvaluationResult(String promptId,String correctResp,String sessionId);
 
         void getAIEngineResult(String type, String content,String promptId,String correctResp,String sessionId);
+
+
     }
 
     interface IClassRoomView extends BaseContract.View {
@@ -51,5 +53,9 @@ public interface ClassRoomContract {
 
         //发送奖杯
         void openOtherJBAnim(int num);
+        //获取自己的mp3远程地址
+        String getMyMp3Url();
+        //获取其他人的mp3远程地址
+        String getOtherMp3Url();
     }
 }

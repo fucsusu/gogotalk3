@@ -55,9 +55,7 @@ import com.gogotalk.system.zego.ZGPublishHelper;
 import com.orhanobut.logger.Logger;
 import com.zego.zegoavkit2.soundlevel.ZegoSoundLevelMonitor;
 import com.zego.zegoliveroom.constants.ZegoConstants;
-
 import java.io.File;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -156,6 +154,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public String mCoursewareFile = "";
 
     private boolean isWebFinsh = false;
+    private String myMp3Url;
+    private String otherMp3Url;
 
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
@@ -224,6 +224,10 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         jumpPage = mIntent.getIntExtra(Constant.INTENT_DATA_KEY_TOPAGE, -1);
         ownName = AppUtils.getUserInfoData().getName();
         ownStreamID = String.valueOf(AppUtils.getUserInfoData().getAccountID());
+
+        myMp3Url = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_MY);
+        otherMp3Url = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_OTHER);
+        AttendLessonID = "625";
         finalRoomId = "#AI-ClassRoom-" + AttendLessonID;
         Log.e("TAG", "initData: " + finalRoomId);
         // /storage/emulated/0/Android/data/com.gogotalk/files/Download/F3A975D50DE74124B2FB07C5E4CB7348
@@ -252,8 +256,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         if (timeDiff > 0) {
             sendHandleMessage(Constant.HANDLE_INFO_CLASS_BEGIN, 1000, timeDiff);
         } else {
-            classBegin();
         }
+        classBegin();
     }
 
     @OnClick(R.id.class_room_close)
@@ -427,7 +431,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     @JavascriptInterface
     public void answerResult(boolean result) {
         Log.e("TAG", "answerResult: " + result);
-        if(result){
+        if (result) {
             showJb(1);
         }
     }
@@ -485,6 +489,16 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         if (!player.isPlaying()) {
             player.start();
         }
+    }
+
+    @Override
+    public String getMyMp3Url() {
+        return myMp3Url;
+    }
+
+    @Override
+    public String getOtherMp3Url() {
+        return otherMp3Url;
     }
 
 
@@ -767,4 +781,5 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         }
         return super.onKeyDown(keyCode, event);
     }
+
 }
