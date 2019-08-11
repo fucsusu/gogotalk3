@@ -41,7 +41,6 @@ public class RecordPlayer {
     public void pausePalyer() {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
-            Log.e("TAG", "暂停播放");
         }
     }
 

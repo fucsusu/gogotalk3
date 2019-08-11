@@ -176,21 +176,21 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
                     return;
                 }
 
-                if (PermissionsUtil.getInstance().isPermissions()) {
-                    CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(ClassListActivity.this, goItemBean.getZipDownLoadUrl(),
-                            root_view, goItemBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
-                                @Override
-                                public void finsh(String filePath) {
-                                    if (TextUtils.isEmpty(filePath)) {
-                                        ToastUtils.showLongToast(ClassListActivity.this, "课件下载失败请查看网络是否连接正常！");
-                                        return;
-                                    }
-                                    mPresenter.getRoomInfo(goItemBean, filePath);
+//                if (PermissionsUtil.getInstance().isPermissions()) {
+                CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(ClassListActivity.this, goItemBean.getZipDownLoadUrl(),
+                        root_view, goItemBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
+                            @Override
+                            public void finsh(String filePath) {
+                                if (TextUtils.isEmpty(filePath)) {
+                                    ToastUtils.showLongToast(ClassListActivity.this, "课件下载失败请查看网络是否连接正常！");
+                                    return;
                                 }
-                            });
-                } else {
-                    ToastUtils.showLongToast(ClassListActivity.this, "部分功能未授权，请授权后再试！");
-                }
+                                mPresenter.getRoomInfo(goItemBean, filePath);
+                            }
+                        });
+//                } else {
+//                    ToastUtils.showLongToast(ClassListActivity.this, "部分功能未授权，请授权后再试！");
+//                }
             }
 
             @Override

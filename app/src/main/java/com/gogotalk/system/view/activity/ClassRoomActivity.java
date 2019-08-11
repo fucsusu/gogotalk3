@@ -55,7 +55,9 @@ import com.gogotalk.system.zego.ZGPublishHelper;
 import com.orhanobut.logger.Logger;
 import com.zego.zegoavkit2.soundlevel.ZegoSoundLevelMonitor;
 import com.zego.zegoliveroom.constants.ZegoConstants;
+
 import java.io.File;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -227,7 +229,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
 
         myMp3Url = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_MY);
         otherMp3Url = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_OTHER);
-        AttendLessonID = "625";
+        AttendLessonID = "628";
         finalRoomId = "#AI-ClassRoom-" + AttendLessonID;
         Log.e("TAG", "initData: " + finalRoomId);
         // /storage/emulated/0/Android/data/com.gogotalk/files/Download/F3A975D50DE74124B2FB07C5E4CB7348
@@ -256,8 +258,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         if (timeDiff > 0) {
             sendHandleMessage(Constant.HANDLE_INFO_CLASS_BEGIN, 1000, timeDiff);
         } else {
+            classBegin();
         }
-        classBegin();
     }
 
     @OnClick(R.id.class_room_close)
@@ -354,7 +356,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
 
     @Override
     public void teacherJoinRoom(String streamID, String userName) {
-        if (ZGPlayHelper.sharedInstance().startPlaying(streamID, mTeacherTV)) {
+        if (!ZGPlayHelper.sharedInstance().startPlaying(streamID.trim(), mTeacherTV)) {
             AppLogger.getInstance().i(ZGPublishHelper.class, "老师拉流失败, streamID : %s", streamID);
         }
         teacherStreamID = streamID;

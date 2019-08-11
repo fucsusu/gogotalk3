@@ -171,8 +171,8 @@ public class ZGBaseHelper {
         });
 
         ZegoAvConfig zegoAvConfig = new ZegoAvConfig(ZegoAvConfig.Level.High);
-        zegoAvConfig.setVideoCaptureResolution(960, 540);
-        zegoAvConfig.setVideoEncodeResolution(960, 540);
+        zegoAvConfig.setVideoCaptureResolution(598, 358);
+        zegoAvConfig.setVideoEncodeResolution(598, 358);
         zegoLiveRoom.setAVConfig(zegoAvConfig);
         AppLogger.getInstance().i(ZGBaseHelper.class, "初始化zegoSDK");
         return initSDKResults;

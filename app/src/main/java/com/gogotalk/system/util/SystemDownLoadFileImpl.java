@@ -48,7 +48,7 @@ public class SystemDownLoadFileImpl extends BaseDownLoadFileImpl {
         downloadManager = (DownloadManager) context.getApplicationContext().getSystemService(Context.DOWNLOAD_SERVICE);
         //进行下载
         downLoadId = downloadManager.enqueue(request);
-        Log.e("TAG", "downLoadFile: "+downLoadId );
+        LogUtil.e("TAG","downLoadFile"+downLoadId);
 
         Observable.interval(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -105,7 +105,7 @@ public class SystemDownLoadFileImpl extends BaseDownLoadFileImpl {
             }
             if (mDownload_all > 0) {
                 downLoadingLisener.onDownLoadProgress(mDownload_so_far, mDownload_all);
-                Log.e("TAG", "getDownloadPercent: " + downLoadId);
+                LogUtil.e("TAG","getDownloadPercent",downLoadId);
             }
             if (!c.isClosed()) {
                 c.close();

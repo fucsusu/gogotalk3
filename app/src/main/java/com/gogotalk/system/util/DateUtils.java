@@ -60,7 +60,6 @@ public class DateUtils {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Log.e("TAG", "getTimeDifference: " + timeString);
         return timeString;
     }
 
@@ -74,7 +73,6 @@ public class DateUtils {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Log.e("TAG", "getTimeDiff: " + diff);
         return (int) diff;
     }
 
@@ -131,10 +129,6 @@ public class DateUtils {
             String hourString = hour1 + "";
             long min1 = ((diff / (60 * 1000)) - hour1 * 60);
             timeString = hour1 * 60 + min1;
-            // System.out.println(day + "天" + hour + "小时" + min + "分" + s +
-            // "秒");
-
-//            Log.e("TAG", "diff:" + diff + "\nms:" + s);
         } catch (ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

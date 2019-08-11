@@ -132,7 +132,6 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
             AppUtils.bindImageToView(context
                     , holder.stye != 1 ? url : null, R.mipmap.ic_main_list_item_header_default
                     , holder.ivSuoBg, DiskCacheStrategy.ALL, true, 9);
-            holder.stye = 0;
             if (holder.stye == 0) {
                 holder.ivSuo.setVisibility(View.GONE);//锁的背景Layout
                 holder.mBtn.setBackgroundResource(R.mipmap.bg_main_list_item_btn_go_room);//立即预约按钮颜色
@@ -202,7 +201,6 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
                 String mYear = DateUtils.StringDatas();
                 final String LessonTimes = mYear + "-" + holder.LessonTime;
                 String startDateTime = DateUtils.getCurrentTime();
-                Log.e("TAG", "预约时间：" + LessonTimes);
                 final long min = DateUtils.getTimeDifferences(startDateTime, LessonTimes);
                 if (min < 11) {
                     holder.mEnterClassroom.setBackgroundResource(R.mipmap.bg_main_list_item_btn_go_room);

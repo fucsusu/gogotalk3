@@ -7,7 +7,9 @@ import android.view.View;
 import com.chivox.android.AIRecorder;
 import com.chivox.android.MyRecorder;
 import com.gogotalk.system.app.AiRoomApplication;
+import com.gogotalk.system.util.LogUtil;
 import com.gogotalk.system.zego.ZGBaseHelper;
+import com.orhanobut.logger.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -173,6 +175,7 @@ public class AIEngineUtils {
      */
     public void startRecord() {
         if (engine == 0) {
+            LogUtil.e("TAG", "startRecord: ", engine);
             return;
         }
         isStart = true;
@@ -190,11 +193,11 @@ public class AIEngineUtils {
      * 停止录音
      */
     public void stopRecord() {
+        isStart = false;
+        ZGBaseHelper.sharedInstance().stopAudioRecord();
         if (engine == 0) {
             return;
         }
-        isStart = false;
-        ZGBaseHelper.sharedInstance().stopAudioRecord();
         recorderCallback.onStopped();
     }
 

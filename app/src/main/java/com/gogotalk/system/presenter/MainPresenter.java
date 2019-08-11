@@ -2,6 +2,7 @@ package com.gogotalk.system.presenter;
 
 import android.app.Activity;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.gogotalk.system.app.AiRoomApplication;
@@ -24,20 +25,20 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-public class MainPresenter extends RxPresenter<MainContract.View> implements MainContract.Presenter{
+public class MainPresenter extends RxPresenter<MainContract.View> implements MainContract.Presenter {
     private ApiService mApiService;
 
     @Inject
-    public MainPresenter( ApiService apiService){
-        this.mApiService=apiService;
+    public MainPresenter(ApiService apiService) {
+        this.mApiService = apiService;
     }
 
     @Override
-    public void getClassListData(boolean isShowLoading,boolean isHideLoading) {
+    public void getClassListData(boolean isShowLoading, boolean isHideLoading) {
         addSubscribe(mApiService.getClassListData()
                 .compose(RxUtil.rxSchedulerHelper())
-                .compose(RxUtil.handleMyResult(getView(),false))
-                .subscribeWith(new CommonSubscriber<List<CoursesBean>>( getView()){
+                .compose(RxUtil.handleMyResult(getView(), false))
+                .subscribeWith(new CommonSubscriber<List<CoursesBean>>(getView()) {
 
                     @Override
                     public void onNext(List<CoursesBean> coursesBeans) {
@@ -54,7 +55,7 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
 
                     @Override
                     public boolean isShowLoading() {
-                        if(!isShowLoading){
+                        if (!isShowLoading) {
                             return false;
                         }
                         return super.isShowLoading();
@@ -62,11 +63,12 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
 
                     @Override
                     public boolean isHideLoading() {
-                        if(!isHideLoading){
+                        if (!isHideLoading) {
                             return false;
                         }
                         return super.isHideLoading();
                     }
+
                     @Override
                     public void onFail() {
                         getView().showRecelyerViewOrEmptyViewByFlag(false);
@@ -76,25 +78,25 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
     }
 
     @Override
-    public void getUserInfoData(boolean isShowLoading,boolean isHideLoading) {
+    public void getUserInfoData(boolean isShowLoading, boolean isHideLoading) {
         addSubscribe(mApiService.getUserInfoData()
                 .compose(RxUtil.rxSchedulerHelper())
-                .compose(RxUtil.handleMyResult(getView(),false))
-                .subscribeWith(new CommonSubscriber<UserInfoBean>( getView()){
+                .compose(RxUtil.handleMyResult(getView(), false))
+                .subscribeWith(new CommonSubscriber<UserInfoBean>(getView()) {
 
                     @Override
                     public void onNext(UserInfoBean userInfoBean) {
                         if (userInfoBean == null) return;
                         AppUtils.saveUserInfoData(userInfoBean);
                         getView().setUserInfoDataToView(userInfoBean.getImageUrl()
-                                ,userInfoBean.getName()
-                                ,String.valueOf(userInfoBean.getStudentLessonCount())
-                                ,userInfoBean.getExpireTime());
+                                , userInfoBean.getName()
+                                , String.valueOf(userInfoBean.getStudentLessonCount())
+                                , userInfoBean.getExpireTime());
                     }
 
                     @Override
                     public boolean isShowLoading() {
-                        if(!isShowLoading){
+                        if (!isShowLoading) {
                             return false;
                         }
                         return super.isShowLoading();
@@ -102,7 +104,7 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
 
                     @Override
                     public boolean isHideLoading() {
-                        if(!isHideLoading){
+                        if (!isHideLoading) {
                             return false;
                         }
                         return super.isHideLoading();
@@ -115,7 +117,7 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
     public void canelOrderClass(int demandId) {
         addSubscribe(mApiService.cancelOrderClass(demandId)
                 .compose(RxUtil.rxSchedulerHelper())
-                .compose(RxUtil.handleMyResult(getView(),true))
+                .compose(RxUtil.handleMyResult(getView(), true))
                 .subscribeWith(new CommonSubscriber<Object>(getView()) {
                     @Override
                     public void onNext(Object bean) {
@@ -128,12 +130,12 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
 
     @Override
     public void updateUserInfo(String name, int sex) {
-        Map<String,String> map= new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         map.put("EName", name);
-        map.put("Gender",String.valueOf(sex));
+        map.put("Gender", String.valueOf(sex));
         addSubscribe(mApiService.updateUserInfo(HttpUtils.getRequestBody(map))
                 .compose(RxUtil.rxSchedulerHelper())
-                .compose(RxUtil.handleMyResult(getView(),true))
+                .compose(RxUtil.handleMyResult(getView(), true))
                 .subscribeWith(new CommonSubscriber<Object>(getView()) {
                     @Override
                     public void onNext(Object bean) {
@@ -149,30 +151,35 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
     }
 
     @Override
-    public void getRoomInfo(CoursesBean coursesBean,String filePath) {
+    public void getRoomInfo(CoursesBean coursesBean, String filePath) {
         addSubscribe(mApiService.getRoomInfo(String.valueOf(coursesBean.getAttendLessonID()))
                 .compose(RxUtil.rxSchedulerHelper())
-                .compose(RxUtil.handleMyResult(getView(),false))
+                .compose(RxUtil.handleMyResult(getView(), false))
                 .subscribeWith(new CommonSubscriber<RoomInfoBean>(getView()) {
                     @Override
                     public void onNext(RoomInfoBean bean) {
                         //清除本地已经下载的叫名字自己和其他人的音频文件
-                        if(DelectFileUtil.isCoursewareExistence(getView().getActivity(),"my.mp3")){
-                            DelectFileUtil.deleteFile(new File(getView().getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()+File.separator+"my.mp3"));
+                        if (DelectFileUtil.isCoursewareExistence(getView().getActivity(), "my.mp3")) {
+                            DelectFileUtil.deleteFile(new File(getView().getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "my.mp3"));
                         }
-                        if(DelectFileUtil.isCoursewareExistence(getView().getActivity(),"other.mp3")){
-                            DelectFileUtil.deleteFile(new File(getView().getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()+File.separator+"other.mp3"));
+                        if (DelectFileUtil.isCoursewareExistence(getView().getActivity(), "other.mp3")) {
+                            DelectFileUtil.deleteFile(new File(getView().getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "other.mp3"));
                         }
                         //下载叫名字自己和其他人的音频文件
-                        DelectFileUtil.downLoadFIle(getView().getActivity(),bean.getMyStudentSoundUrl(), "my.mp3");
-                        DelectFileUtil.downLoadFIle(getView().getActivity(),bean.getOtherStudentSoundUrl(), "other.mp3");
-                        getView().onRoomInfoSuccess(bean,filePath);
+                        String myStudentSoundUrl = bean.getMyStudentSoundUrl();
+                        if (!TextUtils.isEmpty(myStudentSoundUrl)) {
+                            DelectFileUtil.downLoadFIle(getView().getActivity(), myStudentSoundUrl, "my.mp3");
+                        }
+
+                        String otherStudentSoundUrl = bean.getOtherStudentSoundUrl();
+                        if (!TextUtils.isEmpty(otherStudentSoundUrl)) {
+                            DelectFileUtil.downLoadFIle(getView().getActivity(), otherStudentSoundUrl, "other.mp3");
+                        }
+                        getView().onRoomInfoSuccess(bean, filePath);
                     }
                 })
         );
     }
-
-
 
 
 }
