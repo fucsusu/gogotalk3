@@ -117,9 +117,9 @@ public class CoursewareDownLoadUtil {
      */
     public void mZipProcess() {
         mProgressTxt.setText("加载中...");
-        Observable.create(new ObservableOnSubscribe<Boolean>() {
+        Observable.create(new ObservableOnSubscribe<String>() {
             @Override
-            public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
+            public void subscribe(ObservableEmitter<String> e) throws Exception {
                 ZipUtils.UnZipFolder(zipFile.getAbsolutePath(), saveFile.getAbsolutePath(), new ZipUtils.IProgress() {
                     @Override
                     public void onProgress(int progress) {
@@ -129,24 +129,24 @@ public class CoursewareDownLoadUtil {
                     //解压失败
                     @Override
                     public void onError(String msg) {
-                        e.onNext(false);
+                        e.onNext(msg);
                     }
 
                     //成功
                     @Override
                     public void onDone() {
-                        e.onNext(true);
+                        e.onNext("zip_success");
                     }
                 });
             }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<String>() {
             @Override
-            public void accept(Boolean s) throws Exception {
-                if (s) {
+            public void accept(String s) throws Exception {
+                if ("zip_success".equals(s)) {
                     downLoadSucess();
                 } else {
                     downLoadFail();
-                    ToastUtils.showShortToast(mContent,"解压失败！");
+                    ToastUtils.showShortToast(mContent, "解压失败！" + s);
                 }
             }
         });
@@ -228,7 +228,7 @@ public class CoursewareDownLoadUtil {
             popupWindow.dismiss();
         }
         mDownFinsh.finsh("");
-        ToastUtils.showLongToast(mContent,"下载失败，请查看网络环境是否正常！");
+        ToastUtils.showLongToast(mContent, "下载失败，请查看网络环境是否正常！");
         Log.e("TAG", "getDownloadPercent:下载失败 ");
     }
 }
