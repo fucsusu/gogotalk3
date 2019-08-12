@@ -146,6 +146,7 @@ public class CoursewareDownLoadUtil {
                     downLoadSucess();
                 } else {
                     downLoadFail();
+                    Log.e("TAG", "accept: 解压失败" + s);
                     ToastUtils.showShortToast(mContent, "解压失败！" + s);
                 }
             }

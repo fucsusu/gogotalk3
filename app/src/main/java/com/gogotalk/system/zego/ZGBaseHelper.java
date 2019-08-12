@@ -3,6 +3,9 @@ package com.gogotalk.system.zego;
 import android.app.Application;
 
 import com.gogotalk.system.zego.ZGPublishHelper;
+import com.zego.zegoavkit2.mediarecorder.ZegoMediaRecordChannelIndex;
+import com.zego.zegoavkit2.mediarecorder.ZegoMediaRecordType;
+import com.zego.zegoavkit2.mediarecorder.ZegoMediaRecorder;
 import com.zego.zegoliveroom.ZegoLiveRoom;
 import com.zego.zegoliveroom.callback.IZegoAudioRecordCallback2;
 import com.zego.zegoliveroom.callback.IZegoCustomCommandCallback;
@@ -14,6 +17,9 @@ import com.zego.zegoliveroom.constants.ZegoConstants;
 import com.zego.zegoliveroom.entity.ZegoAudioRecordConfig;
 import com.zego.zegoliveroom.entity.ZegoStreamInfo;
 import com.zego.zegoliveroom.entity.ZegoUser;
+
+import java.io.Externalizable;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Copyright (C)

@@ -10,7 +10,7 @@ import android.view.View;
 public interface ClassRoomContract {
     interface IClassRoomPresenter extends BaseContract.Presenter<ClassRoomContract.IClassRoomView> {
         //初始化SDK
-        void initSdk(String roomID, int role);
+        void initSdk(Context context,String roomID, int role);
 
         //进入房间
         void joinRoom(String roomID, int role);

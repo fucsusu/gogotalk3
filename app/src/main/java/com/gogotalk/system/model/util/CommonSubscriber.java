@@ -50,6 +50,6 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
 
     }
     public String getLoadingTxt(){
-        return null;
+        return "加载中...";
     }
 }

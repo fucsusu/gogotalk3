@@ -1,21 +1,21 @@
 package com.chivox;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
-import android.view.View;
 
 import com.chivox.android.AIRecorder;
-import com.chivox.android.MyRecorder;
 import com.gogotalk.system.app.AiRoomApplication;
 import com.gogotalk.system.util.LogUtil;
 import com.gogotalk.system.zego.ZGBaseHelper;
-import com.orhanobut.logger.Logger;
+import com.zego.zegoavkit2.mediarecorder.ZegoMediaRecordChannelIndex;
+import com.zego.zegoavkit2.mediarecorder.ZegoMediaRecordType;
+import com.zego.zegoavkit2.mediarecorder.ZegoMediaRecorder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -34,6 +34,7 @@ public class AIEngineUtils {
     private IEstimateCallback iEstimateCallback;
     private boolean isStart;
     private static AIEngineUtils aiEngineUtils;
+    public ZegoMediaRecorder zegoMediaRecorder;
 
     public AIEngineUtils setiEstimateCallback(IEstimateCallback iEstimateCallback) {
         this.iEstimateCallback = iEstimateCallback;
@@ -77,6 +78,7 @@ public class AIEngineUtils {
                     /**初始化引擎实例*/
                     engine = AIEngine.aiengine_new(cfg, AiRoomApplication.getInstance().getApplicationContext());
                     Log.d(TAG, "aiengine: " + engine);
+                    zegoMediaRecorder = new ZegoMediaRecorder();
                 }
             }
         });
@@ -173,13 +175,13 @@ public class AIEngineUtils {
     /**
      * 开始录音
      */
-    public void startRecord() {
+    public void startRecord(Context context) {
+        zegoMediaRecorder.startRecord(ZegoMediaRecordChannelIndex.MAIN, ZegoMediaRecordType.AUDIO, context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "recorder", true, 1000);
         if (engine == 0) {
             LogUtil.e("TAG", "startRecord: ", engine);
             return;
         }
         isStart = true;
-        ZGBaseHelper.sharedInstance().startAudioRecord();
         recorderCallback.onStarted();
     }
 
@@ -198,6 +200,7 @@ public class AIEngineUtils {
         if (engine == 0) {
             return;
         }
+        zegoMediaRecorder.stopRecord(ZegoMediaRecordChannelIndex.MAIN);
         recorderCallback.onStopped();
     }
 

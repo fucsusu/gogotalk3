@@ -1,5 +1,6 @@
 package com.gogotalk.system.presenter;
 
+import android.content.Context;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -62,6 +63,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     //答题回调
     private String question_id;
     private String roomId;
+    Context context;
 
     @Inject
     public ClassRoomPresenter() {
@@ -70,11 +72,13 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     {
         ownStreamID = String.valueOf(AppUtils.getUserInfoData().getAccountID());
         ownUserName = String.valueOf(AppUtils.getUserInfoData().getName());
+        ZGMediaPlayerDemo.sharedInstance().setVolume(80);
     }
 
 
     @Override
-    public void initSdk(String roomID, int role) {
+    public void initSdk(Context context, String roomID, int role) {
+        this.context = context;
         long appId = ZegoUtil.parseAppIDFromString(Constant.appid);
         ZGBaseHelper.sharedInstance().initZegoSDK(appId, appSign, false, new IZegoInitSDKCompletionCallback() {
             @Override
@@ -183,7 +187,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
         resultBean.setData(resultMap);
         String content = GsonUtils.gson.toJson(resultBean);
         LogUtil.e("TAG", "sendShowJbRoomCommand: ", content);
-        boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[]{teacherUser}, content, new IZegoCustomCommandCallback() {
+        boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[]{teacherUser, otherUser}, content, new IZegoCustomCommandCallback() {
             @Override
             public void onSendCustomCommand(int i, String s) {
                 LogUtil.e("TAG", "sendShowJbRoomCommand: " + i + "||" + s);
@@ -316,7 +320,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
         @Override
         public void onRecvMediaSideInfo(String streamID, String content) {
             //处理媒体次要信息
-            Log.v("TAG", "onRecvMediaSideInfo流ID：" + streamID + "\n媒体次要信息：" + content);
+            Log.e("TAG", "onRecvMediaSideInfo流ID：" + streamID + "\n媒体次要信息：" + content);
             try {
                 JSONObject object = new JSONObject(content);
                 String action = object.getString("action");
@@ -426,6 +430,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     };
 
     public void getAIEngineResult(String type, String content, String promptId, String correctResp, String sessionId) {
+        ZGBaseHelper.sharedInstance().startAudioRecord();
         AIEngineUtils.getInstance()
                 .setUserId(ownStreamID)
                 .setType(type)
@@ -458,9 +463,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                             }
                             LogUtil.e("TAG", "onEstimateResult: ", rank, overall);
                             //如果奖杯数大于零发送奖杯
-                            if (jbNum > 0) {
-                                getView().sendHandleMessage(Constant.HANDLE_INFO_JB, 0, jbNum);
-                            }
+                            getView().sendHandleMessage(Constant.HANDLE_INFO_JB, 0, jbNum);
                             //发送评估结果信令
                             sendEvaluationResult(promptId, flag, sessionId);
                         } catch (JSONException e) {
@@ -468,14 +471,14 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                         }
                     }
                 })
-                .startRecord();
+                .startRecord(context);
     }
 
     //录制声音回调
     IZegoAudioRecordCallback2 audioRecordCallback2 = new IZegoAudioRecordCallback2() {
         @Override
         public void onAudioRecordCallback(byte[] bytes, int i, int i1, int i2, int i3) {
-            LogUtil.e("TAG", "onAudioRecordCallback: " + bytes.length);
+            Log.e("TAG", "onAudioRecordCallback: " + bytes.length);
             AIEngineUtils.getInstance().writeAudioData(bytes);
         }
     };

@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mian_root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/mian_root_view"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@mipmap/bg_app">
+
     <ImageView
         android:id="@+id/iv_user_bg"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/qb_px_7"
-        android:layout_marginLeft="@dimen/qb_px_8"
         android:layout_width="@dimen/qb_px_297"
         android:layout_height="@dimen/qb_px_50"
+        android:layout_marginLeft="@dimen/qb_px_8"
+        android:layout_marginTop="@dimen/qb_px_7"
         android:src="@mipmap/bg_main_user_info"
-        />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
-        app:layout_constraintTop_toTopOf="@+id/iv_user_bg"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_user_bg"
-        app:layout_constraintLeft_toLeftOf="@+id/iv_user_bg"
         android:id="@+id/id_mPersonalSettings"
         android:layout_width="@dimen/qb_px_36"
         android:layout_height="@dimen/qb_px_36"
@@ -26,11 +24,11 @@
         android:layout_marginLeft="@dimen/qb_px_8"
         android:scaleType="fitXY"
         android:src="@mipmap/ic_main_user_info_header_default"
-        />
-    <TextView
-        app:layout_constraintTop_toTopOf="@+id/iv_user_bg"
         app:layout_constraintBottom_toBottomOf="@+id/iv_user_bg"
-        app:layout_constraintLeft_toRightOf="@+id/id_mPersonalSettings"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_user_bg"
+        app:layout_constraintTop_toTopOf="@+id/iv_user_bg" />
+
+    <TextView
         android:id="@+id/id_mUserName_Home"
         android:layout_width="@dimen/qb_px_59"
         android:layout_height="wrap_content"
@@ -39,20 +37,22 @@
         android:singleLine="true"
         android:text="dfgdfgdfg"
         android:textColor="#fff"
-        android:textSize="11sp" />
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_user_bg"
+        app:layout_constraintLeft_toRightOf="@+id/id_mPersonalSettings"
+        app:layout_constraintTop_toTopOf="@+id/iv_user_bg" />
+
     <ImageView
         android:id="@+id/iv_keshi"
-        app:layout_constraintTop_toTopOf="@+id/iv_user_bg"
+        android:layout_width="@dimen/qb_px_28"
+        android:layout_height="@dimen/qb_px_20"
+        android:layout_marginLeft="@dimen/qb_px_8"
+        android:src="@mipmap/ic_main_user_info_class_period"
         app:layout_constraintBottom_toBottomOf="@+id/iv_user_bg"
         app:layout_constraintLeft_toRightOf="@+id/id_mUserName_Home"
-        android:layout_width="@dimen/qb_px_28"
-        android:layout_marginLeft="@dimen/qb_px_8"
-        android:layout_height="@dimen/qb_px_20"
-        android:src="@mipmap/ic_main_user_info_class_period" />
+        app:layout_constraintTop_toTopOf="@+id/iv_user_bg" />
+
     <TextView
-        app:layout_constraintTop_toTopOf="@+id/iv_user_bg"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_user_bg"
-        app:layout_constraintLeft_toRightOf="@+id/iv_keshi"
         android:id="@+id/id_mKeshi_HomePage"
         android:layout_width="@dimen/qb_px_28"
         android:layout_height="wrap_content"
@@ -60,83 +60,90 @@
         android:layout_marginLeft="@dimen/qb_px_2"
         android:singleLine="true"
         android:textColor="#fff"
-        android:textSize="@dimen/qb_px_13" />
+        android:textSize="@dimen/qb_px_13"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_user_bg"
+        app:layout_constraintLeft_toRightOf="@+id/iv_keshi"
+        app:layout_constraintTop_toTopOf="@+id/iv_user_bg" />
+
     <ImageView
         android:id="@+id/iv_youxiaoqi"
-        app:layout_constraintTop_toTopOf="@+id/iv_user_bg"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_user_bg"
-        app:layout_constraintLeft_toRightOf="@+id/id_mKeshi_HomePage"
         android:layout_width="@dimen/qb_px_28"
         android:layout_height="@dimen/qb_px_20"
         android:layout_marginLeft="@dimen/qb_px_15"
-        android:src="@mipmap/ic_main_user_info_expiry_date" />
-    <TextView
-        app:layout_constraintTop_toTopOf="@+id/iv_user_bg"
+        android:src="@mipmap/ic_main_user_info_expiry_date"
         app:layout_constraintBottom_toBottomOf="@+id/iv_user_bg"
-        app:layout_constraintLeft_toRightOf="@+id/iv_youxiaoqi"
+        app:layout_constraintLeft_toRightOf="@+id/id_mKeshi_HomePage"
+        app:layout_constraintTop_toTopOf="@+id/iv_user_bg" />
+
+    <TextView
         android:id="@+id/tv_youxiaoqi"
         android:layout_width="@dimen/qb_px_70"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="2019.2.26"
         android:singleLine="true"
+        android:text="2019.2.26"
         android:textColor="#fff"
-        android:textSize="@dimen/qb_px_13" />
+        android:textSize="@dimen/qb_px_13"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_user_bg"
+        app:layout_constraintLeft_toRightOf="@+id/iv_youxiaoqi"
+        app:layout_constraintTop_toTopOf="@+id/iv_user_bg" />
+
     <Button
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/id_mRecord"
         android:id="@+id/id_refresh"
         android:layout_width="@dimen/qb_px_40"
         android:layout_height="@dimen/qb_px_40"
         android:layout_marginTop="@dimen/qb_px_10"
-        android:stateListAnimator="@null"
         android:layout_marginRight="@dimen/qb_px_11"
-        android:background="@mipmap/ic_main_refresh" />
+        android:background="@mipmap/ic_main_refresh"
+        android:stateListAnimator="@null"
+        app:layout_constraintRight_toLeftOf="@+id/id_mRecord"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/btn_settingg"
         android:id="@+id/id_mRecord"
-        android:stateListAnimator="@null"
         android:layout_width="@dimen/qb_px_40"
         android:layout_height="@dimen/qb_px_40"
         android:layout_marginTop="@dimen/qb_px_10"
         android:layout_marginRight="@dimen/qb_px_11"
-        android:background="@mipmap/ic_main_btn_after_class" />
+        android:background="@mipmap/ic_main_btn_after_class"
+        android:stateListAnimator="@null"
+        app:layout_constraintRight_toLeftOf="@+id/btn_settingg"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RadioButton
-        android:layout_marginTop="@dimen/qb_px_10"
-        android:layout_marginRight="@dimen/qb_px_11"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/btn_settingg"
         android:layout_width="@dimen/qb_px_40"
         android:layout_height="@dimen/qb_px_40"
+        android:layout_marginTop="@dimen/qb_px_10"
+        android:layout_marginRight="@dimen/qb_px_11"
+        android:background="@drawable/selector_btn_setting"
         android:button="@null"
-        android:background="@drawable/selector_btn_setting" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="@dimen/qb_px_18"
-        app:layout_constraintTop_toBottomOf="@+id/iv_user_bg"
         android:id="@+id/id_mRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:visibility="gone"
-        app:layout_constraintVertical_weight="1"
-        app:layout_constraintBottom_toTopOf="@+id/id_GoGoTalk_Home"
-        />
-    <RelativeLayout
-        app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="@dimen/qb_px_18"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/id_GoGoTalk_Home"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_user_bg"
+        app:layout_constraintVertical_weight="1" />
+
+    <RelativeLayout
         android:id="@+id/id_mQYK_HomePage"
         android:layout_width="@dimen/qb_px_159"
         android:layout_height="@dimen/qb_px_219"
         android:layout_marginLeft="@dimen/qb_px_20"
+        android:layout_marginTop="@dimen/qb_px_18"
         android:background="@mipmap/bg_main_class_list_item_empty"
-        >
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_user_bg">
+
         <ImageView
             android:id="@+id/id_mBJ_Homepage"
             android:layout_width="@dimen/qb_px_149"
@@ -144,6 +151,7 @@
             android:layout_marginLeft="@dimen/qb_px_5"
             android:layout_marginTop="@dimen/qb_px_44"
             android:src="@mipmap/ic_main_class_list_item_empty" />
+
         <TextView
             android:id="@+id/tv_label1"
             android:layout_width="match_parent"
@@ -155,6 +163,7 @@
             android:text="小朋友你还没约课呦，赶"
             android:textColor="#333"
             android:textSize="@dimen/qb_px_10" />
+
         <TextView
             android:id="@+id/id_mStr_HomePage"
             android:layout_width="match_parent"
@@ -171,13 +180,14 @@
             android:layout_width="@dimen/qb_px_63"
             android:layout_height="@dimen/qb_px_23"
             android:layout_below="@+id/id_mStr_HomePage"
-            android:layout_marginTop="@dimen/qb_px_10"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/qb_px_10"
             android:background="@mipmap/bg_main_btn_order_class"
             android:gravity="center"
             android:text="去约课"
             android:textColor="#fff"
             android:textSize="@dimen/qb_px_11" />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -186,16 +196,18 @@
             android:src="@mipmap/ic_main_oder_class" />
 
     </RelativeLayout>
+
     <LinearLayout
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/id_GoGoTalk_Home"
         android:layout_width="@dimen/qb_px_63"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/qb_px_31"
-        android:orientation="vertical"
         android:gravity="center"
-        >
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/qb_px_5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
         <ImageView
             android:layout_width="@dimen/qb_px_63"
             android:layout_height="@dimen/qb_px_51"

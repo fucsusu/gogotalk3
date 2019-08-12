@@ -206,7 +206,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         super.onCreate(savedInstanceState);
         AIEngineUtils.getInstance().initSDK();
-        mPresenter.initSdk(finalRoomId, roomRole);//初始化SDK
+        mPresenter.initSdk(this, finalRoomId, roomRole);//初始化SDK
     }
 
     @Override
@@ -230,6 +230,9 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         otherStudentNameID = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_OTHER_NAME_ID);
         myMp3Url = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_MY);
         otherMp3Url = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_OTHER);
+        if (Constant.DEBUG) {
+            AttendLessonID = "625";
+        }
         finalRoomId = "#AI-ClassRoom-" + AttendLessonID;
         Log.e("TAG", "initData: " + finalRoomId);
     }
@@ -259,6 +262,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         } else {
             classBegin();
         }
+
+        otherSNText.setText(otherStudentName);
     }
 
     @OnClick(R.id.class_room_close)
@@ -282,8 +287,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
 //                    currentContent = sents[sentRan];
 //                }
 //                Log.d("wuhongjie", "=======" + currentType + "=========" + currentContent + "==============");
-                //  openMikeTimer(6, currentType, currentContent);
-
+                // openMikeTimer(6, currentType, currentContent);
                 // mPresenter.sendRoomCommand("answer", "123456", true);
                 break;
         }
@@ -432,6 +436,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         Log.e("TAG", "answerResult: " + result);
         if (result) {
             showJb(1);
+        } else {
+            showJb(0);
         }
     }
 
@@ -451,16 +457,18 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 AnimatorUtils.showOwnJiangbei(mJbX, mOwnJB, mJb_jiasan, mMyJB, mOwnJBNum);
                 break;
         }
-        mPresenter.sendShowJbRoomCommand(addNum);
-        if (TextUtils.isEmpty(otherStudentNameID)) {
+        if (TextUtils.isEmpty(otherStudentNameID) && Math.random() * 10 > 5) {
             openOtherJBAnim(1);
         }
-        //奖杯声音播放
-        if (player == null) {
-            player = MediaPlayer.create(this, R.raw.trophy);
-        }
-        if (!player.isPlaying()) {
-            player.start();
+        if (addNum > 0) {
+            mPresenter.sendShowJbRoomCommand(addNum);
+            //奖杯声音播放
+            if (player == null) {
+                player = MediaPlayer.create(this, R.raw.trophy);
+            }
+            if (!player.isPlaying()) {
+                player.start();
+            }
         }
     }
 
@@ -543,6 +551,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
 
     //跳转页数
     private void toPage(int page) {
+        Log.e("TAG", "toPage: " + page);
         if (page >= 0 && page > pptPage) {
             pptPage = page;
             webView.clearCache(true);

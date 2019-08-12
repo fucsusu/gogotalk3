@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.gogotalk.system.BuildConfig;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.entity.CoursesBean;
 import com.gogotalk.system.model.entity.RoomInfoBean;
@@ -98,10 +99,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @BindView(R.id.id_refresh)
     Button btnRefresh;
     private List<CoursesBean> list = new ArrayList<>();
-    private Dialog dialog;
     private long exitTime = 0;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
     MainRecyclerAdapter recyclerAdapter;
     private PopupWindow popupWindow;
     TextView btn_check_device, btn_clear_cache, btn_about_us, btn_out_login;
@@ -230,12 +228,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     ToastUtils.showLongToast(MainActivity.this, "课前10分钟才可以进入教室");
                     return;
                 }
-//                if (!PermissionsUtil.getInstance().isPermissions()) {
-//                    ToastUtils.showLongToast(MainActivity.this, "部分功能未授权，请授权后再试！");
-//                }
-//                String path ="http://coursefiles.oss-cn-beijing.aliyuncs.com/Hgogotalk/CourseZip/L1/L1Lesson21.zip";
-                CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(MainActivity.this, coursesBean.getZipDownLoadUrl(),
-                        root_view, coursesBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
+                if (!PermissionsUtil.getInstance().isPermissions()) {
+                    ToastUtils.showLongToast(MainActivity.this, "部分功能未授权，请授权后再试！");
+                }
+                String path = "http://coursefiles.oss-cn-beijing.aliyuncs.com/Hgogotalk/CourseZip/L1/L1Lesson21.zip";
+                CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(MainActivity.this, Constant.DEBUG ? path : coursesBean.getZipDownLoadUrl(),
+                        root_view, Constant.DEBUG ? "asadasdas" : coursesBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
                             @Override
                             public void finsh(String filePath) {
                                 if (TextUtils.isEmpty(filePath)) {
@@ -262,7 +260,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     public void onRoomInfoSuccess(RoomInfoBean bean, String filePath) {
-        Log.e("TAG", "onRoomInfoSucces: " + bean);
+        Log.e("TAG", "onRoomInfoSucces: " + bean.toString());
         Intent mIntent = new Intent(MainActivity.this, ClassRoomActivity.class);
         mIntent.putExtra(Constant.INTENT_DATA_KEY_CLASS_ID, bean.getAttendLessonID() + "");
         mIntent.putExtra(Constant.INTENT_DATA_KEY_BEGIN_TIME, bean.getLessonTime());

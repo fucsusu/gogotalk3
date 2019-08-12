@@ -1,5 +1,7 @@
 package com.gogotalk.system.model.entity;
 
+import androidx.annotation.NonNull;
+
 /**
  * @author whj
  * @Description:
@@ -173,4 +175,11 @@ public class RoomInfoBean {
             this.ChapterFilePath = ChapterFilePath;
         }
     }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }
+
