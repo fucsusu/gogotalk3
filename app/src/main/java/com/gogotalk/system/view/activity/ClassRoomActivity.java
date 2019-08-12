@@ -139,6 +139,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public String LessonTime;//开课时间
     public String finalRoomId;//房间号
     public String otherStudentName = "Bella";//其他学生姓名
+    public String otherStudentNameID = "";
     public int roomRole = ZegoConstants.RoomRole.Audience;//用户角色
 
     public boolean isClassBegin = false;//是否开始上课
@@ -196,7 +197,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public WebSettings webSettings;
     public int jumpPage = -1;
     public int pptPage;
-    public boolean isStudentJoin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -226,13 +226,12 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         jumpPage = mIntent.getIntExtra(Constant.INTENT_DATA_KEY_TOPAGE, -1);
         ownName = AppUtils.getUserInfoData().getName();
         ownStreamID = String.valueOf(AppUtils.getUserInfoData().getAccountID());
-        otherStudentName=mIntent.getStringExtra(Constant.INTENT_DATA_KEY_OTHER_NAME);
+        otherStudentName = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_OTHER_NAME);
+        otherStudentNameID = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_OTHER_NAME_ID);
         myMp3Url = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_MY);
         otherMp3Url = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_OTHER);
-        AttendLessonID = "628";
         finalRoomId = "#AI-ClassRoom-" + AttendLessonID;
         Log.e("TAG", "initData: " + finalRoomId);
-        // /storage/emulated/0/Android/data/com.gogotalk/files/Download/F3A975D50DE74124B2FB07C5E4CB7348
     }
 
     @Override
@@ -366,7 +365,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
 
     @Override
     public void studentJoinRoom(String streamID, String userName) {
-        isStudentJoin = true;
         otherStreamID = streamID;
         otherStudentName = userName;
         otherSNText.setText(userName);
@@ -389,7 +387,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
 
     @Override
     public void studentLeaveRoom() {
-        isStudentJoin = false;
         otherSNText.setText("");
         mOtherStudentVideoBg.setImageResource(R.mipmap.bg_class_room_student_video_off);
         mOtherStudentVideoBg.setVisibility(View.VISIBLE);
@@ -455,7 +452,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 break;
         }
         mPresenter.sendShowJbRoomCommand(addNum);
-        if (!isStudentJoin) {
+        if (TextUtils.isEmpty(otherStudentNameID)) {
             openOtherJBAnim(1);
         }
         //奖杯声音播放

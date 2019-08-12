@@ -235,7 +235,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 //                }
 //                String path ="http://coursefiles.oss-cn-beijing.aliyuncs.com/Hgogotalk/CourseZip/L1/L1Lesson21.zip";
                 CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(MainActivity.this, coursesBean.getZipDownLoadUrl(),
-                        root_view,coursesBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
+                        root_view, coursesBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
                             @Override
                             public void finsh(String filePath) {
                                 if (TextUtils.isEmpty(filePath)) {
@@ -271,7 +271,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         mIntent.putExtra(Constant.INTENT_DATA_KEY_TOPAGE, bean.getTimeToPage());
         mIntent.putExtra(Constant.INTENT_DATA_KEY_MY, bean.getMyStudentSoundUrl());
         mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHER, bean.getOtherStudentSoundUrl());
-        mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHER_NAME,bean.getOtherStudnetName());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHER_NAME, bean.getOtherStudnetName());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHER_NAME_ID, bean.getOtherStudentId());
         startActivity(mIntent);
     }
 

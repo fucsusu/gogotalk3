@@ -1,6 +1,7 @@
 package com.gogotalk.system.zego;
 
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -11,59 +12,56 @@ import com.zego.zegoavkit2.ZegoVideoCaptureFactory;
 import com.zego.zegoavkit2.ZegoVideoDataFormat;
 
 /**
- *
  * ZGMediaPlayerDemo
- *
+ * <p>
  * 你可以通过 {@link #startPlay} 来进行播放音视频资源。
  * 支持播放格式  MP3、MP4。
  * 并且可以把播放的内容通过zegoSDK外部采集的方式进行推流。
- *
- *
+ * <p>
+ * <p>
  * 一般是k歌房场景需要使用到该功能。把MV视频作为推流数据推给观众。
  * k歌房还能通过 {@link #setPlayerType} 来指定类型，
  * 传入 {@link ZegoMediaPlayer#PlayerTypeAux} 类型让播放器的声音
  * 也一起混音到推流中。
- *
+ * <p>
  * 基于zegoSDK {@link ZegoMediaPlayer} 播放器 与 zegoSDK {@link ZegoVideoCaptureFactory} 外部采集
  * 工厂实现。
  * <a href="https://doc.zego.im/CN/271.html"> zego外部采集 </a>
  * <a href="https://doc.zego.im/CN/283.html"> zego媒体播放器 </a>
- *   实现步骤如下
+ * 实现步骤如下
+ * <p>
+ * 1.开启zegoSDK外部采集功能
+ * 2.设置外部采集工厂 !!!注意，设置工厂需要在
+ * { @link ZegoLiveRoom#initSDK(long, byte[]) }
+ * 之前。否则设置的工厂不生效
+ * <p>
+ * 3.创建初始化ZegoMediaPlayer播放器
+ * 4.设置ZegoMediaPlayer播放器回调
+ * 5.把ZegoMediaPlayer播放器回调的视频帧塞给外部采集工厂
+ * <p>
+ * <p>
+ * 具体使用方法可以参考以下示例代码
+ * public class MainActivity extends Activity {
  *
- *                 1.开启zegoSDK外部采集功能
- *                 2.设置外部采集工厂 !!!注意，设置工厂需要在
- *                   { @link ZegoLiveRoom#initSDK(long, byte[]) }
- *                   之前。否则设置的工厂不生效
+ * @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
+ * <p>
+ * // 视图设置 view
+ * ZGMediaPlayerDemo.sharedInstance(this).setView(videoView);
+ * <p>
+ * // 音量设置 1-100
+ * ZGMediaPlayerDemo.sharedInstance(this).setVolume(100);
+ * <p>
+ * // 是开启aux混音
+ * ZGMediaPlayerDemo.sharedInstance(MediaPlayerDemoUI.this).setPlayerType(ZegoMediaPlayer.PlayerTypeAux);
+ * <p>
+ * // 播放视频资源
+ * ZGMediaPlayerDemo.sharedInstance(this).startPlay(path, repeat);
+ * <p>
+ * }
+ * }
  *
- *                 3.创建初始化ZegoMediaPlayer播放器
- *                 4.设置ZegoMediaPlayer播放器回调
- *                 5.把ZegoMediaPlayer播放器回调的视频帧塞给外部采集工厂
- *
- *
- *     具体使用方法可以参考以下示例代码
- *     public class MainActivity extends Activity {
- *
- *          @Override
- *          protected void onCreate(@Nullable Bundle savedInstanceState) {
- *
- *               // 视图设置 view
- *               ZGMediaPlayerDemo.sharedInstance(this).setView(videoView);
- *
- *               // 音量设置 1-100
- *               ZGMediaPlayerDemo.sharedInstance(this).setVolume(100);
- *
- *               // 是开启aux混音
- *               ZGMediaPlayerDemo.sharedInstance(MediaPlayerDemoUI.this).setPlayerType(ZegoMediaPlayer.PlayerTypeAux);
- *
- *               // 播放视频资源
- *               ZGMediaPlayerDemo.sharedInstance(this).startPlay(path, repeat);
- *
- *          }
- *     }
- *
- *     <strong>警告:</strong> 如果不用播放器，
- *     请使用 {@link ZGMediaPlayerDemo#unInit()} 释放掉播放器，避免浪费内存
- *
+ * <strong>警告:</strong> 如果不用播放器，
+ * 请使用 {@link ZGMediaPlayerDemo#unInit()} 释放掉播放器，避免浪费内存
  */
 public class ZGMediaPlayerDemo implements IZegoMediaPlayerVideoPlayCallback {
 
@@ -131,7 +129,7 @@ public class ZGMediaPlayerDemo implements IZegoMediaPlayerVideoPlayCallback {
      */
     public void startPlay(String filePath, boolean repeat) {
         Log.e(TAG, String.format("startPlay path: %s", filePath));
-        if (zegoMediaPlayer != null) {
+        if (zegoMediaPlayer != null && !TextUtils.isEmpty(filePath)) {
             zegoMediaPlayer.start(filePath, repeat);
         }
     }
@@ -209,6 +207,7 @@ public class ZGMediaPlayerDemo implements IZegoMediaPlayerVideoPlayCallback {
             zegoMediaPlayer.setPlayerType(type);
         }
     }
+
     /**
      * 获取音轨数量
      */
@@ -288,7 +287,7 @@ public class ZGMediaPlayerDemo implements IZegoMediaPlayerVideoPlayCallback {
 
         @Override
         public void onSnapshot(Bitmap bitmap) {
-            
+
         }
 
         @Override
@@ -297,9 +296,6 @@ public class ZGMediaPlayerDemo implements IZegoMediaPlayerVideoPlayCallback {
         }
 
     };
-
-
-
 
 
 }

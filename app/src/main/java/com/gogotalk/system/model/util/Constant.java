@@ -42,11 +42,13 @@ public class Constant {
 
     public static final String INTENT_DATA_KEY_MY = "my";
     public static final String INTENT_DATA_KEY_OTHER = "other";
-
+    //其他学生的名字
     public static final String INTENT_DATA_KEY_OTHER_NAME = "othername";
+    //其他学生的id
+    public static final String INTENT_DATA_KEY_OTHER_NAME_ID = "othernameid";
 
     //信令标识
-    public static final String MESSAGE_SHOW_JB="show_jb";
+    public static final String MESSAGE_SHOW_JB = "show_jb";
 
     //apk下载默认前缀
     public static final String DOWNLOAD_APK = "gogotalk";
@@ -61,7 +63,7 @@ public class Constant {
     public static final String FLAG_TEACHER = "s-AI-teacher-";
     //SDK常量
     public static String appid = "2456789202";
-//    public static String appid = "3335035834";
+    //    public static String appid = "3335035834";
     public static byte[] appSign = new byte[]{(byte) 0xf7, (byte) 0x3b, (byte) 0x2e, (byte) 0x64, (byte) 0xe8, (byte) 0x7f, (byte) 0x2d, (byte) 0xdc, (byte) 0x40,
             (byte) 0x59, (byte) 0x0c, (byte) 0x7b, (byte) 0xcd, (byte) 0xa4, (byte) 0x24, (byte) 0x45, (byte) 0x0d, (byte) 0x02, (byte) 0xb2, (byte) 0x5e,
             (byte) 0x05, (byte) 0xdb, (byte) 0x2d, (byte) 0x32, (byte) 0x68, (byte) 0xd5, (byte) 0xd9, (byte) 0x45, (byte) 0x7a, (byte) 0x39, (byte) 0xad,

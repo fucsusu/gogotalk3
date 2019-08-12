@@ -182,7 +182,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
         resultMap.put("user_name", ownUserName);
         resultBean.setData(resultMap);
         String content = GsonUtils.gson.toJson(resultBean);
-        LogUtil.e("TAG", "sendShowJbRoomCommand: " + content);
+        LogUtil.e("TAG", "sendShowJbRoomCommand: ", content);
         boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[]{teacherUser}, content, new IZegoCustomCommandCallback() {
             @Override
             public void onSendCustomCommand(int i, String s) {
@@ -264,7 +264,6 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
 
         @Override
         public void onStreamUpdated(int type, ZegoStreamInfo[] zegoStreamInfos, String s) {
-
             //流变动
             for (ZegoStreamInfo streamInfo : zegoStreamInfos) {
                 if (type == ZegoConstants.StreamUpdateType.Added) {

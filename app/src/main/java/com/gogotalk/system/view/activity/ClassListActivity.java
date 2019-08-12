@@ -214,13 +214,17 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
 
 
     @Override
-    public void onRoomInfoSuccess(RoomInfoBean roomInfoBean, String filePath) {
+    public void onRoomInfoSuccess(RoomInfoBean bean, String filePath) {
         Intent mIntent = new Intent(ClassListActivity.this, ClassRoomActivity.class);
-        mIntent.putExtra(Constant.INTENT_DATA_KEY_CLASS_ID, roomInfoBean.getAttendLessonID() + "");
-        mIntent.putExtra(Constant.INTENT_DATA_KEY_BEGIN_TIME, roomInfoBean.getLessonTime());
-        mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, roomInfoBean.getTeacherName());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_CLASS_ID, bean.getAttendLessonID() + "");
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_BEGIN_TIME, bean.getLessonTime());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, bean.getTeacherName());
         mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
-        mIntent.putExtra(Constant.INTENT_DATA_KEY_TOPAGE, roomInfoBean.getTimeToPage());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_TOPAGE, bean.getTimeToPage());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_MY, bean.getMyStudentSoundUrl());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHER, bean.getOtherStudentSoundUrl());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHER_NAME, bean.getOtherStudnetName());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHER_NAME_ID, bean.getOtherStudentId());
         startActivity(mIntent);
     }
 
