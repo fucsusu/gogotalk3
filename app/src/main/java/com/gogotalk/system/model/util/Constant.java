@@ -42,6 +42,9 @@ public class Constant {
 
     public static final String INTENT_DATA_KEY_MY = "my";
     public static final String INTENT_DATA_KEY_OTHER = "other";
+
+    public static final String INTENT_DATA_KEY_OTHER_NAME = "othername";
+
     //信令标识
     public static final String MESSAGE_SHOW_JB="show_jb";
 

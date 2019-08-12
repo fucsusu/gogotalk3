@@ -226,7 +226,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         jumpPage = mIntent.getIntExtra(Constant.INTENT_DATA_KEY_TOPAGE, -1);
         ownName = AppUtils.getUserInfoData().getName();
         ownStreamID = String.valueOf(AppUtils.getUserInfoData().getAccountID());
-
+        otherStudentName=mIntent.getStringExtra(Constant.INTENT_DATA_KEY_OTHER_NAME);
         myMp3Url = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_MY);
         otherMp3Url = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_OTHER);
         AttendLessonID = "628";
@@ -574,6 +574,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         if (!isClassBegin) {
             mLeaveMessage = 1;
             isClassBegin = true;
+            otherSNText.setText(otherStudentName);
             if (!TextUtils.isEmpty(mCoursewareFile) && new File(mCoursewareFile + File.separator + "preview.html").exists()) {
                 webView.loadUrl("file://" + mCoursewareFile + File.separator + "preview.html");
                 //webView.loadUrl("file:///android_asset/index2.html");
