@@ -50,6 +50,8 @@ public class Constant {
     //信令标识
     public static final String MESSAGE_SHOW_JB = "show_jb";
 
+    public static final String MESSAGE_GET_PAGE="getpageindex";
+
     //apk下载默认前缀
     public static final String DOWNLOAD_APK = "gogotalk";
     //媒体信息标识

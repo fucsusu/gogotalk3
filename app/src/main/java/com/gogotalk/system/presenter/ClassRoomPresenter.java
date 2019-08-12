@@ -80,7 +80,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     public void initSdk(Context context, String roomID, int role) {
         this.context = context;
         long appId = ZegoUtil.parseAppIDFromString(Constant.appid);
-        ZGBaseHelper.sharedInstance().initZegoSDK(appId, appSign, false, new IZegoInitSDKCompletionCallback() {
+        ZGBaseHelper.sharedInstance().initZegoSDK(appId, appSign, Constant.DEBUG, new IZegoInitSDKCompletionCallback() {
             @Override
             public void onInitSDK(int errorCode) {
                 // errorCode 非0 代表初始化sdk失败
@@ -142,7 +142,6 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     public void startPreviewOwn(View view) {
         // 预览自己的视频且推流
         ZGPublishHelper.sharedInstance().startPreview(view, ownStreamID);
-
     }
 
 
@@ -220,23 +219,41 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
 //        });
 //        LogUtil.e("TAG", "sendRoomCommand: 发送信令结果 " + sendSucess);
 
+        ResultBean resultBean = new ResultBean();
+        resultBean.setAction(Constant.MESSAGE_SHOW_JB);
+        resultBean.setRole("student");
+        resultBean.setSeq(seq++);
+        HashMap<String, String> resultMap = new HashMap<>();
+        resultMap.put("user_id", ownStreamID);
+        resultMap.put("user_name", ownUserName);
+        resultBean.setData(resultMap);
+        String content = GsonUtils.gson.toJson(resultBean);
+        LogUtil.e("TAG", "sendShowJbRoomCommand: ", content);
+        boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[]{teacherUser, otherUser}, content, new IZegoCustomCommandCallback() {
+            @Override
+            public void onSendCustomCommand(int i, String s) {
+                LogUtil.e("TAG", "sendShowJbRoomCommand: " + i + "||" + s);
+            }
+        });
+        LogUtil.e("TAG", "sendShowJbRoomCommand: 发送信令结果 " + sendSucess);
+    }
+
+    public void sendGetPageData() {
         ActionBean.ActionData actionData = new ActionBean.ActionData();
         actionData.setUser_id(ownStreamID);
         actionData.setUser_name(ownUserName);
-        actionData.setPrompt_id(promptId);
-        actionData.setResult(correctResp);
-        actionData.setSession_id(sessionId);
-        ActionBean actionBean = new ActionBean(seq++, "student", "result", actionData);
+        ActionBean actionBean = new ActionBean(seq++, "student", Constant.MESSAGE_GET_PAGE, actionData);
         String content = GsonUtils.gson.toJson(actionBean);
         Logger.json(content);
         boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[]{teacherUser}, content, new IZegoCustomCommandCallback() {
             @Override
             public void onSendCustomCommand(int i, String s) {
-                Log.e("TAG", "onSendCustomCommand: " + i + "||" + s);
+                Log.e("TAG", "sendGetPageData: " + i + "||" + s);
             }
         });
-        Log.e("TAG", "sendRoomCommand: 发送信令结果 " + sendSucess);
+        Log.e("TAG", "sendGetPageData: 发送信令结果 " + sendSucess);
     }
+
 
     @Override
     public void detachView() {
@@ -304,12 +321,15 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
         @Override
         public void onRecvCustomCommand(String id, String name, String content, String roomid) {
             //收到教室信令
-            Log.v("TAG", "onRecvCustomCommand: " + id + name + content + roomid);
+            Log.e("TAG", "onRecvCustomCommand: " + id + name + content + roomid);
             if (roomid.equals(roomId)) {
                 ResultBean actionBean = GsonUtils.gson.fromJson(content, ResultBean.class);
                 switch (actionBean.getAction()) {
                     case Constant.MESSAGE_SHOW_JB:
                         getView().openOtherJBAnim(Integer.parseInt(actionBean.getData().get("jb_num")));
+                        break;
+                    case Constant.MESSAGE_GET_PAGE:
+                        getView().toPage(Integer.parseInt(actionBean.getData().get("pageindex")));
                         break;
                 }
             }

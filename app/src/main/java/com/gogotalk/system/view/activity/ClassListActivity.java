@@ -219,7 +219,6 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
         mIntent.putExtra(Constant.INTENT_DATA_KEY_BEGIN_TIME, bean.getLessonTime());
         mIntent.putExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME, bean.getTeacherName());
         mIntent.putExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH, filePath);
-        mIntent.putExtra(Constant.INTENT_DATA_KEY_TOPAGE, bean.getTimeToPage());
         mIntent.putExtra(Constant.INTENT_DATA_KEY_MY, bean.getMyStudentSoundUrl());
         mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHER, bean.getOtherStudentSoundUrl());
         mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHER_NAME, bean.getOtherStudnetName());

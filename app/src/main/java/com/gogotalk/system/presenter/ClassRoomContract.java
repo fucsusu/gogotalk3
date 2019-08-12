@@ -27,9 +27,11 @@ public interface ClassRoomContract {
         //发送评估结果
         void sendEvaluationResult(String promptId,String correctResp,String sessionId);
 
+        //获取语音识别结果
         void getAIEngineResult(String type, String content,String promptId,String correctResp,String sessionId);
 
-
+        //获取当前页数
+        void sendGetPageData();
     }
 
     interface IClassRoomView extends BaseContract.View {
@@ -57,5 +59,8 @@ public interface ClassRoomContract {
         String getMyMp3Url();
         //获取其他人的mp3远程地址
         String getOtherMp3Url();
+
+        //跳转页数
+        void toPage(int page);
     }
 }

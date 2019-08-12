@@ -195,7 +195,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public String teacherName;
     public String ownName;
     public WebSettings webSettings;
-    public int jumpPage = -1;
     public int pptPage;
 
     @Override
@@ -223,7 +222,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         LessonTime = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_BEGIN_TIME);
         mCoursewareFile = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_DOWNLOAD_FILE_PATH);
         teacherName = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_TEACHER_NAME);
-        jumpPage = mIntent.getIntExtra(Constant.INTENT_DATA_KEY_TOPAGE, -1);
         ownName = AppUtils.getUserInfoData().getName();
         ownStreamID = String.valueOf(AppUtils.getUserInfoData().getAccountID());
         otherStudentName = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_OTHER_NAME);
@@ -231,7 +229,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         myMp3Url = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_MY);
         otherMp3Url = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_OTHER);
         if (Constant.DEBUG) {
-            AttendLessonID = "625";
+            AttendLessonID = "626";
         }
         finalRoomId = "#AI-ClassRoom-" + AttendLessonID;
         Log.e("TAG", "initData: " + finalRoomId);
@@ -550,7 +548,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     }
 
     //跳转页数
-    private void toPage(int page) {
+    public void toPage(int page) {
         Log.e("TAG", "toPage: " + page);
         if (page >= 0 && page > pptPage) {
             pptPage = page;
@@ -671,7 +669,9 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 if (!isWebFinsh) {
                     isWebFinsh = true;
                     sendName(ownName, otherStudentName);
-                    toPage(jumpPage);
+                    if (isClassBegin) {
+                        mPresenter.sendGetPageData();
+                    }
                 }
             }
 
