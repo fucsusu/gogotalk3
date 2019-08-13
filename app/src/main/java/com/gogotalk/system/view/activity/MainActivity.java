@@ -224,7 +224,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             @Override
             public void onBtnGoClassRoomClick(boolean flag, CoursesBean coursesBean) {
-                if (!flag) {
+                if (!BuildConfig.DEBUG&&!flag) {
                     ToastUtils.showLongToast(MainActivity.this, "课前10分钟才可以进入教室");
                     return;
                 }
@@ -420,10 +420,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         });
         CheckDeviceDialog twoButtonDialog = builder.createTwoButtonDialog();
         twoButtonDialog.show();
-        WindowManager.LayoutParams params = twoButtonDialog.getWindow().getAttributes();
-        params.width = ScreenUtils.dip2px(getApplicationContext(), 366);
-        params.height = ScreenUtils.dip2px(getApplicationContext(), 297);
-        twoButtonDialog.getWindow().setAttributes(params);
+//        WindowManager.LayoutParams params = twoButtonDialog.getWindow().getAttributes();
+//        params.width = ScreenUtils.dip2px(getApplicationContext(), 366);
+//        params.height = ScreenUtils.dip2px(getApplicationContext(), 297);
+//        twoButtonDialog.getWindow().setAttributes(params);
     }
 
     private void showUserInfoDialogV2() {

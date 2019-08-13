@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@mipmap/bg_dialog_common"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    >
+<LinearLayout
     android:layout_width="@dimen/qb_px_235"
     android:layout_height="@dimen/qb_px_136"
-    android:background="@mipmap/bg_dialog_common"
+    android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:orientation="vertical">
-
+    >
     <TextView
         android:id="@+id/tv_message"
         android:layout_width="wrap_content"
@@ -46,4 +51,5 @@
             android:textColor="#ff969696"
             android:textSize="@dimen/qb_px_12" />
     </LinearLayout>
+</LinearLayout>
 </LinearLayout>

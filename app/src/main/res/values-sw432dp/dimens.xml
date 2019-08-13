@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<dimen name="textSize">11.5200sp</dimen>
+	<dimen name="hintTextSize">36.8640sp</dimen>
+	<dimen name="chooseTextSize">13.8240sp</dimen>
+	<dimen name="padding">23.0400dp</dimen>
+	<dimen name="radius">23.0400dp</dimen>
+	<dimen name="circleRadius">27.6480dp</dimen>
+</resources>

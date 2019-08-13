@@ -37,11 +37,10 @@
         android:singleLine="true"
         android:text="dfgdfgdfg"
         android:textColor="#fff"
-        android:textSize="11sp"
+        android:textSize="@dimen/qb_px_11"
         app:layout_constraintBottom_toBottomOf="@+id/iv_user_bg"
         app:layout_constraintLeft_toRightOf="@+id/id_mPersonalSettings"
         app:layout_constraintTop_toTopOf="@+id/iv_user_bg" />
-
     <ImageView
         android:id="@+id/iv_keshi"
         android:layout_width="@dimen/qb_px_28"
@@ -163,7 +162,6 @@
             android:text="小朋友你还没约课呦，赶"
             android:textColor="#333"
             android:textSize="@dimen/qb_px_10" />
-
         <TextView
             android:id="@+id/id_mStr_HomePage"
             android:layout_width="match_parent"
@@ -180,14 +178,13 @@
             android:layout_width="@dimen/qb_px_63"
             android:layout_height="@dimen/qb_px_23"
             android:layout_below="@+id/id_mStr_HomePage"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/qb_px_10"
+            android:layout_centerHorizontal="true"
             android:background="@mipmap/bg_main_btn_order_class"
             android:gravity="center"
             android:text="去约课"
             android:textColor="#fff"
             android:textSize="@dimen/qb_px_11" />
-
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

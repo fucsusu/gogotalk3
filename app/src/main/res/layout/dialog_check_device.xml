@@ -1,204 +1,240 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/qb_px_366"
-    android:layout_height="@dimen/qb_px_297"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:background="@mipmap/bg_dialog_check_device"
     android:orientation="vertical">
-    <ImageView
-        android:layout_marginRight="@dimen/qb_px_17"
-        android:layout_marginTop="@dimen/qb_px_17"
-        android:layout_gravity="right"
-        android:layout_width="@dimen/qb_px_20"
-        android:layout_height="@dimen/qb_px_20"
-        android:id="@+id/btn_close"
-        android:src="@mipmap/ic_btn_common_close"/>
-    <LinearLayout
-        android:paddingTop="@dimen/qb_px_33"
-        android:paddingLeft="@dimen/qb_px_40"
-        android:paddingRight="@dimen/qb_px_56"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="@dimen/qb_px_366"
+        android:layout_height="@dimen/qb_px_297"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/btn_close"
+            android:layout_width="@dimen/qb_px_20"
+            android:layout_height="@dimen/qb_px_20"
+            android:layout_gravity="right"
+            android:layout_marginTop="@dimen/qb_px_17"
+            android:layout_marginRight="@dimen/qb_px_17"
+            android:src="@mipmap/ic_btn_common_close" />
+
         <LinearLayout
-            android:gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/qb_px_40"
+            android:paddingTop="@dimen/qb_px_33"
+            android:paddingRight="@dimen/qb_px_56">
+
             <LinearLayout
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/iv_camera"
-                    android:src="@mipmap/ic_dialog_check_device_camera"
-                    android:layout_width="@dimen/qb_px_54"
-                    android:layout_height="@dimen/qb_px_54" />
-                <TextView
-                    android:layout_marginTop="@dimen/qb_px_2"
-                    android:text="@string/dialog_check_device_camera_label"
-                    android:textColor="#ff333333"
-                    android:textSize="@dimen/qb_px_9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:id="@+id/iv_camera_flag"
-                    android:layout_marginTop="@dimen/qb_px_5"
-                    android:src="@mipmap/ic_dialog_check_device_right"
-                    android:visibility="invisible"
-                    android:layout_width="@dimen/qb_px_10"
-                    android:layout_height="@dimen/qb_px_7" />
-            </LinearLayout>
-            <ImageView
-                android:layout_marginLeft="@dimen/qb_px_7"
-                android:layout_marginRight="@dimen/qb_px_7"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_dialog_check_device_ellipsis"/>
-            <LinearLayout
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/iv_speaker"
-                    android:src="@mipmap/ic_dialog_check_device_speaker"
-                    android:layout_width="@dimen/qb_px_54"
-                    android:layout_height="@dimen/qb_px_54" />
-                <TextView
-                    android:layout_marginTop="@dimen/qb_px_2"
-                    android:text="@string/dialog_check_device_speaker_label"
-                    android:textColor="#ff333333"
-                    android:textSize="@dimen/qb_px_9"
+                android:gravity="center_horizontal">
+
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/iv_camera"
+                        android:layout_width="@dimen/qb_px_54"
+                        android:layout_height="@dimen/qb_px_54"
+                        android:src="@mipmap/ic_dialog_check_device_camera" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/qb_px_2"
+                        android:text="@string/dialog_check_device_camera_label"
+                        android:textColor="#ff333333"
+                        android:textSize="@dimen/qb_px_9" />
+
+                    <ImageView
+                        android:id="@+id/iv_camera_flag"
+                        android:layout_width="@dimen/qb_px_10"
+                        android:layout_height="@dimen/qb_px_7"
+                        android:layout_marginTop="@dimen/qb_px_5"
+                        android:src="@mipmap/ic_dialog_check_device_right"
+                        android:visibility="invisible" />
+                </LinearLayout>
+
                 <ImageView
-                    android:id="@+id/iv_speaker_flag"
-                    android:layout_marginTop="@dimen/qb_px_5"
-                    android:src="@mipmap/ic_dialog_check_device_right"
-                    android:layout_width="@dimen/qb_px_10"
-                    android:visibility="invisible"
-                    android:layout_height="@dimen/qb_px_7" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/qb_px_7"
+                    android:layout_marginRight="@dimen/qb_px_7"
+                    android:src="@mipmap/ic_dialog_check_device_ellipsis" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/iv_speaker"
+                        android:layout_width="@dimen/qb_px_54"
+                        android:layout_height="@dimen/qb_px_54"
+                        android:src="@mipmap/ic_dialog_check_device_speaker" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/qb_px_2"
+                        android:text="@string/dialog_check_device_speaker_label"
+                        android:textColor="#ff333333"
+                        android:textSize="@dimen/qb_px_9" />
+
+                    <ImageView
+                        android:id="@+id/iv_speaker_flag"
+                        android:layout_width="@dimen/qb_px_10"
+                        android:layout_height="@dimen/qb_px_7"
+                        android:layout_marginTop="@dimen/qb_px_5"
+                        android:src="@mipmap/ic_dialog_check_device_right"
+                        android:visibility="invisible" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/qb_px_7"
+                    android:layout_marginRight="@dimen/qb_px_7"
+                    android:src="@mipmap/ic_dialog_check_device_ellipsis" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/iv_micro"
+                        android:layout_width="@dimen/qb_px_54"
+                        android:layout_height="@dimen/qb_px_54"
+                        android:src="@mipmap/ic_dialog_check_device_microphone" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/qb_px_2"
+                        android:text="@string/dialog_check_device_microphone_label"
+                        android:textColor="#ff333333"
+                        android:textSize="@dimen/qb_px_9" />
+
+                    <ImageView
+                        android:id="@+id/iv_micro_flag"
+                        android:layout_width="@dimen/qb_px_10"
+                        android:layout_height="@dimen/qb_px_7"
+                        android:layout_marginTop="@dimen/qb_px_5"
+                        android:src="@mipmap/ic_dialog_check_device_right"
+                        android:visibility="invisible" />
+                </LinearLayout>
             </LinearLayout>
-            <ImageView
-                android:layout_marginLeft="@dimen/qb_px_7"
-                android:layout_marginRight="@dimen/qb_px_7"
-                android:layout_width="wrap_content"
+
+            <FrameLayout
+                android:id="@+id/layout_container"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <include
+                    android:id="@+id/layout_camera"
+                    layout="@layout/dialog_item_camera" />
+
+                <include
+                    android:id="@+id/layout_speaker"
+                    layout="@layout/dialog_item_speaker"
+                    android:visibility="gone" />
+
+                <include
+                    android:id="@+id/layout_microphone"
+                    layout="@layout/dialog_item_microphone"
+                    android:visibility="gone" />
+
+                <include
+                    android:id="@+id/layout_error"
+                    layout="@layout/dialog_item_error"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_double"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_dialog_check_device_ellipsis"/>
+                android:layout_gravity="bottom"
+                android:layout_marginTop="@dimen/qb_px_5"
+                android:layout_marginBottom="@dimen/qb_px_9"
+                android:gravity="center_horizontal">
+
+                <LinearLayout
+                    android:id="@+id/btn_no"
+                    android:layout_width="@dimen/qb_px_103"
+                    android:layout_height="@dimen/qb_px_46"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@mipmap/ic_dialog_check_device_btn_first"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tv_label_no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dialog_check_device_btn_first"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/qb_px_11" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btn_yes"
+                    android:layout_width="@dimen/qb_px_103"
+                    android:layout_height="@dimen/qb_px_46"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@mipmap/ic_dialog_check_device_btn_two"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tv_label_yes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dialog_check_device_btn_two"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/qb_px_11" />
+                </LinearLayout>
+            </LinearLayout>
+
             <LinearLayout
+                android:id="@+id/layout_sigle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="@dimen/qb_px_5"
+                android:layout_marginBottom="@dimen/qb_px_9"
                 android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/iv_micro"
-                    android:src="@mipmap/ic_dialog_check_device_microphone"
-                    android:layout_width="@dimen/qb_px_54"
-                    android:layout_height="@dimen/qb_px_54" />
-                <TextView
-                    android:layout_marginTop="@dimen/qb_px_2"
-                    android:text="@string/dialog_check_device_microphone_label"
-                    android:textColor="#ff333333"
-                    android:textSize="@dimen/qb_px_9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:id="@+id/iv_micro_flag"
-                    android:layout_marginTop="@dimen/qb_px_5"
-                    android:src="@mipmap/ic_dialog_check_device_right"
-                    android:visibility="invisible"
-                    android:layout_width="@dimen/qb_px_10"
-                    android:layout_height="@dimen/qb_px_7" />
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/btn_sigle"
+                    android:layout_width="@dimen/qb_px_103"
+                    android:layout_height="@dimen/qb_px_46"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@mipmap/ic_dialog_check_device_btn_error"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tv_label_sigle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-2dp"
+                        android:text="@string/dialog_check_device_btn_error"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/qb_px_11" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-        <FrameLayout
-            android:id="@+id/layout_container"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="0dp">
-            <include
-                android:id="@+id/layout_camera"
-                layout="@layout/dialog_item_camera" />
-            <include
-                android:visibility="gone"
-                android:id="@+id/layout_speaker"
-                layout="@layout/dialog_item_speaker" />
-            <include
-                android:visibility="gone"
-                android:id="@+id/layout_microphone"
-                layout="@layout/dialog_item_microphone" />
-            <include
-                android:visibility="gone"
-                android:id="@+id/layout_error"
-                layout="@layout/dialog_item_error" />
-        </FrameLayout>
-        <LinearLayout
-            android:id="@+id/layout_double"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="@dimen/qb_px_5"
-            android:layout_marginBottom="@dimen/qb_px_9"
-            android:gravity="center_horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:id="@+id/btn_no"
-                android:layout_width="@dimen/qb_px_103"
-                android:layout_height="@dimen/qb_px_46"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:background="@mipmap/ic_dialog_check_device_btn_first">
-                <TextView
-                    android:id="@+id/tv_label_no"
-                    android:textSize="@dimen/qb_px_11"
-                    android:textColor="@android:color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dialog_check_device_btn_first"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/btn_yes"
-                android:layout_width="@dimen/qb_px_103"
-                android:layout_height="@dimen/qb_px_46"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:background="@mipmap/ic_dialog_check_device_btn_two">
-                <TextView
-                    android:id="@+id/tv_label_yes"
-                    android:textSize="@dimen/qb_px_11"
-                    android:textColor="@android:color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dialog_check_device_btn_two"/>
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/layout_sigle"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="@dimen/qb_px_5"
-            android:layout_marginBottom="@dimen/qb_px_9"
-            android:gravity="center_horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:id="@+id/btn_sigle"
-                android:layout_width="@dimen/qb_px_103"
-                android:layout_height="@dimen/qb_px_46"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:background="@mipmap/ic_dialog_check_device_btn_error">
-                <TextView
-                    android:id="@+id/tv_label_sigle"
-                    android:layout_marginTop="-2dp"
-                    android:textSize="@dimen/qb_px_11"
-                    android:textColor="@android:color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dialog_check_device_btn_error"/>
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
+    </FrameLayout>
 </FrameLayout>

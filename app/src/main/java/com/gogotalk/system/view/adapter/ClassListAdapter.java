@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.gogotalk.system.BuildConfig;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.entity.GoItemBean;
 import com.gogotalk.system.model.util.Constant;
@@ -133,6 +134,9 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
             AppUtils.bindImageToView(context
                     , holder.stye != 1 ? url : null, R.mipmap.ic_main_list_item_header_default
                     , holder.ivSuoBg, DiskCacheStrategy.ALL, true, 9);
+            if(Constant.DEBUG){
+                holder.stye = 0;
+            }
             if (holder.stye == 0) {
                 holder.ivSuo.setVisibility(View.GONE);//锁的背景Layout
                 holder.mBtn.setBackgroundResource(R.mipmap.bg_main_list_item_btn_go_room);//立即预约按钮颜色
