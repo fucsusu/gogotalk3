@@ -238,6 +238,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
         LogUtil.e("TAG", "sendShowJbRoomCommand: 发送信令结果 " + sendSucess);
     }
 
+    //发送获取页数信令
     public void sendGetPageData() {
         ActionBean.ActionData actionData = new ActionBean.ActionData();
         actionData.setUser_id(ownStreamID);

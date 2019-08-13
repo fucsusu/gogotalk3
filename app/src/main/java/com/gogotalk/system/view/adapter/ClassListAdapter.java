@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.entity.GoItemBean;
+import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.util.DateUtils;
 import com.gogotalk.system.util.ToastUtils;

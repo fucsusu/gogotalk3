@@ -363,6 +363,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         teacherStreamID = streamID;
         mTeacherTV.setVisibility(View.VISIBLE);
         classBegin();
+        mPresenter.sendGetPageData();
     }
 
     @Override
