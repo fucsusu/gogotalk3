@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.View;
@@ -221,6 +222,17 @@ public class AppUtils {
             placeholder.transform(new RoundedCorners(circle));
         }
         placeholder.diskCacheStrategy(cache == null ? DiskCacheStrategy.NONE : cache).into(view);
+    }
+    /**
+     * 判断是否是 平板 还是 手机
+     * @return true : 平板 ; false : 手机
+     */
+    public static boolean isTablet(Context context){
+        if ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE){
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

@@ -3,6 +3,7 @@ package com.gogotalk.system.zego;
 import android.view.Surface;
 import android.view.View;
 
+import com.gogotalk.system.util.AppUtils;
 import com.zego.zegoliveroom.ZegoLiveRoom;
 import com.zego.zegoliveroom.callback.IZegoLivePublisherCallback;
 import com.zego.zegoliveroom.constants.ZegoConstants;
@@ -49,7 +50,9 @@ public class ZGPublishHelper {
         AppLogger.getInstance().i(ZGPublishHelper.class, "开始预览");
         ZegoLiveRoom zegoLiveRoom = ZGBaseHelper.sharedInstance().getZegoLiveRoom();
         zegoLiveRoom.setPreviewView(view);
-        zegoLiveRoom.setAppOrientation(Surface.ROTATION_90);
+        if(!AppUtils.isTablet(view.getContext())){
+            zegoLiveRoom.setAppOrientation(Surface.ROTATION_90);
+        }
         zegoLiveRoom.setPreviewViewMode(ZegoVideoViewMode.ScaleAspectFill);
         zegoLiveRoom.startPreview();
     }
@@ -67,7 +70,9 @@ public class ZGPublishHelper {
         AppLogger.getInstance().i(ZGPublishHelper.class, "开始预览");
         ZegoLiveRoom zegoLiveRoom = ZGBaseHelper.sharedInstance().getZegoLiveRoom();
         zegoLiveRoom.setPreviewView(view);
-        zegoLiveRoom.setAppOrientation(Surface.ROTATION_90);
+        if(!AppUtils.isTablet(view.getContext())){
+            zegoLiveRoom.setAppOrientation(Surface.ROTATION_90);
+        }
         zegoLiveRoom.setPreviewViewMode(ZegoVideoViewMode.ScaleAspectFill);
         zegoLiveRoom.startPreview();
         ZGPublishHelper.sharedInstance().startPublishing(publishStreamID, "", ZegoConstants.PublishFlag.JoinPublish);

@@ -260,7 +260,9 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         } else {
             classBegin();
         }
-
+        if(Constant.DEBUG){
+            classBegin();
+        }
         otherSNText.setText(otherStudentName);
     }
 

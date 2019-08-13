@@ -327,10 +327,14 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                 ResultBean actionBean = GsonUtils.gson.fromJson(content, ResultBean.class);
                 switch (actionBean.getAction()) {
                     case Constant.MESSAGE_SHOW_JB:
-                        getView().openOtherJBAnim(Integer.parseInt(actionBean.getData().get("jb_num")));
+                        if(!TextUtils.isEmpty(actionBean.getData().get("jb_num"))){
+                            getView().openOtherJBAnim(Integer.parseInt(actionBean.getData().get("jb_num")));
+                        }
                         break;
                     case Constant.MESSAGE_GET_PAGE:
-                        getView().toPage(Integer.parseInt(actionBean.getData().get("pageindex")));
+                        if(!TextUtils.isEmpty(actionBean.getData().get("pageindex"))){
+                            getView().toPage(Integer.parseInt(actionBean.getData().get("pageindex")));
+                        }
                         break;
                 }
             }
