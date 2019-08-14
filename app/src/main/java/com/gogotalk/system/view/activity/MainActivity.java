@@ -228,8 +228,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     ToastUtils.showLongToast(MainActivity.this, "部分功能未授权，请授权后再试！");
                 }
                 String path = "http://coursefiles.oss-cn-beijing.aliyuncs.com/Hgogotalk/CourseZip/L1/L1Lesson21.zip";
-                CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(MainActivity.this,  coursesBean.getZipDownLoadUrl(),
-                        root_view, coursesBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
+                CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(MainActivity.this,  Constant.DEBUG?path:coursesBean.getZipDownLoadUrl(),
+                        root_view,  Constant.DEBUG?"aaaaaaaaa":coursesBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
                             @Override
                             public void finsh(String filePath) {
                                 if (TextUtils.isEmpty(filePath)) {

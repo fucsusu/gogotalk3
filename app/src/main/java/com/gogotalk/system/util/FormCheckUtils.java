@@ -96,7 +96,8 @@ public class FormCheckUtils {
      * @return
      */
     public static boolean checkPasswordFormat(String password){
-        if(!password.matches("^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$")){
+//        ^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$
+        if(!password.matches("^.{6,16}$")){
             ToastUtils.showShortToast(applicationContext, applicationContext.getString(R.string.reg_password_error_format_toast_txt));
             return true;
         }

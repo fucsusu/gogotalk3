@@ -213,10 +213,11 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
         boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[]{teacherUser}, content, new IZegoCustomCommandCallback() {
             @Override
             public void onSendCustomCommand(int i, String s) {
-                LogUtil.e("TAG", "sendEvaluationResult: " + i + "||" + s);
+                LogUtil.e("TAG", "onSendCustomCommand: " + i + "||" + s);
             }
         });
-        LogUtil.e("TAG", "sendEvaluationResult: 发送信令结果 " + sendSucess);
+        LogUtil.e("TAG", "sendRoomCommand: 发送信令结果 " + sendSucess);
+
     }
 
     //发送获取页数信令
@@ -365,6 +366,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                                     .startPlay(getView().getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "other.mp3", false);
                             return;
                         }
+                        ZGMediaPlayerDemo.sharedInstance().unInit();
                     }
                     if (action.equals("open_answer")) {//调用JS的exec()方法
                         //开始答题
@@ -405,7 +407,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                             correct_resp = object1.getString("correct_resp");
                         }
 
-                        Log.e("TAGaaa", "onRecvMediaSideInfo: " + content1 + type + time);
+                        Log.e("TAG", "onRecvMediaSideInfo: " + content1 + type);
                         if (!TextUtils.isEmpty(content1) && !TextUtils.isEmpty(type)) {
                             getAIEngineResult(type, content1, prompt_id, correct_resp, sessionId);
                         }
@@ -461,20 +463,21 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                             int overall = jsonObject1.getInt("overall");
                             String flag = "";
                             int jbNum = 0;
-                            if (overall >= 60) {
+                            if (overall > 60) {
+
                                 jbNum = 2;
                                 flag = correctResp;
-                            } else if (overall > 0) {
+                            } else if (overall > 0 && overall < 60) {
                                 jbNum = 1;
                                 flag = correctResp;
                             } else {
                                 flag = "";
                             }
-                            LogUtil.e("TAGaaa", "onEstimateResult: ", rank, overall);
-                            //发送评估结果信令
-                            sendEvaluationResult(promptId, flag, sessionId);
+                            LogUtil.e("TAG", "onEstimateResult: ", rank, overall);
                             //如果奖杯数大于零发送奖杯
                             getView().sendHandleMessage(Constant.HANDLE_INFO_JB, 0, jbNum);
+                            //发送评估结果信令
+                            sendEvaluationResult(promptId, flag, sessionId);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -487,6 +490,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     IZegoAudioRecordCallback2 audioRecordCallback2 = new IZegoAudioRecordCallback2() {
         @Override
         public void onAudioRecordCallback(byte[] bytes, int i, int i1, int i2, int i3) {
+            Log.e("TAG", "onAudioRecordCallback: " + bytes.length);
             AIEngineUtils.getInstance().writeAudioData(bytes);
         }
     };
