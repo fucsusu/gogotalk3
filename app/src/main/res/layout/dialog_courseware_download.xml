@@ -29,7 +29,7 @@
             android:layout_below="@id/courseware_title_popup"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/qb_px_15"
-            android:text="@string/courseware_load_txt"
+            android:text="@string/connect_load_txt"
             android:textColor="@color/popup_courseware_title" />
 
         <ProgressBar

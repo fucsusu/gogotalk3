@@ -256,12 +256,7 @@ public class ToastUtils {
      * @param duration 显示时长
      */
     private static void showToast(Context context, CharSequence text, int duration) {
-        if (sToast == null) {
-            sToast = Toast.makeText(context, text, duration);
-        } else {
-            if (sIsCancel) sToast.cancel();
-            sToast.setText(text);
-        }
+        sToast = Toast.makeText(context, text, duration);
         sToast.setGravity(Gravity.CENTER, AppUtils.getNavigationBarHeight(context) / 2, 250);
         sToast.show();
     }

@@ -27,7 +27,7 @@ public class WelcomeActivity extends BaseActivity<LoginPresenter> implements Log
                 startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
                 finish();
             }
-        }, 2000);
+        }, 1000);
     }
 
     @Override

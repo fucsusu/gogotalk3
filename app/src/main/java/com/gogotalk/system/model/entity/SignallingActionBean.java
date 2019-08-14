@@ -7,7 +7,7 @@ import java.util.Map;
  * Created by fucc
  * Date: 2019-08-11 14:06
  */
-public class ResultBean {
+public class SignallingActionBean {
     public int seq;
     public String action;
     public String role;

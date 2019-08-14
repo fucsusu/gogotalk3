@@ -7,8 +7,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.chivox.AIEngineUtils;
-import com.gogotalk.system.model.entity.ActionBean;
-import com.gogotalk.system.model.entity.ResultBean;
+import com.gogotalk.system.model.entity.SignallingActionBean;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.model.util.GsonUtils;
 import com.gogotalk.system.util.AppUtils;
@@ -149,17 +148,17 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     @Override
     public void sendAnswerRoomCommand(boolean answerResult) {
         if (!TextUtils.isEmpty(question_id)) {
-            ResultBean resultBean = new ResultBean();
-            resultBean.setAction(Constant.MESSAGE_ANSWER);
-            resultBean.setRole("student");
-            resultBean.setSeq(seq++);
+            SignallingActionBean signallingActionBean = new SignallingActionBean();
+            signallingActionBean.setAction(Constant.MESSAGE_ANSWER);
+            signallingActionBean.setRole("student");
+            signallingActionBean.setSeq(seq++);
             HashMap<String, String> resultMap = new HashMap<>();
             resultMap.put("question_id", question_id);
             resultMap.put("user_id", ownStreamID);
             resultMap.put("user_name", ownUserName);
             resultMap.put("result", answerResult + "");
-            resultBean.setData(resultMap);
-            String content = GsonUtils.gson.toJson(resultBean);
+            signallingActionBean.setData(resultMap);
+            String content = GsonUtils.gson.toJson(signallingActionBean);
             LogUtil.e("TAG", "sendAnswerRoomCommand: " + content);
             boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[]{teacherUser}, content, new IZegoCustomCommandCallback() {
                 @Override
@@ -175,16 +174,16 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     //发送展示奖杯
     @Override
     public void sendShowJbRoomCommand(int jbNum) {
-        ResultBean resultBean = new ResultBean();
-        resultBean.setAction(Constant.MESSAGE_SHOW_JB);
-        resultBean.setRole("student");
-        resultBean.setSeq(seq++);
+        SignallingActionBean signallingActionBean = new SignallingActionBean();
+        signallingActionBean.setAction(Constant.MESSAGE_SHOW_JB);
+        signallingActionBean.setRole("student");
+        signallingActionBean.setSeq(seq++);
         HashMap<String, String> resultMap = new HashMap<>();
         resultMap.put("jb_num", jbNum + "");
         resultMap.put("user_id", ownStreamID);
         resultMap.put("user_name", ownUserName);
-        resultBean.setData(resultMap);
-        String content = GsonUtils.gson.toJson(resultBean);
+        signallingActionBean.setData(resultMap);
+        String content = GsonUtils.gson.toJson(signallingActionBean);
         LogUtil.e("TAG", "sendShowJbRoomCommand: ", content);
         boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[]{otherUser}, content, new IZegoCustomCommandCallback() {
             @Override
@@ -198,18 +197,18 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     //发送语音判断结果
     @Override
     public void sendEvaluationResult(String promptId, String correctResp, String sessionId) {
-        ResultBean resultBean = new ResultBean();
-        resultBean.setAction(Constant.MESSAGE_RESULT);
-        resultBean.setRole("student");
-        resultBean.setSeq(seq++);
+        SignallingActionBean signallingActionBean = new SignallingActionBean();
+        signallingActionBean.setAction(Constant.MESSAGE_RESULT);
+        signallingActionBean.setRole("student");
+        signallingActionBean.setSeq(seq++);
         HashMap<String, String> resultMap = new HashMap<>();
         resultMap.put("prompt_id", promptId);
         resultMap.put("result", correctResp);
         resultMap.put("session_id", sessionId);
         resultMap.put("user_id", ownStreamID);
         resultMap.put("user_name", ownUserName);
-        resultBean.setData(resultMap);
-        String content = GsonUtils.gson.toJson(resultBean);
+        signallingActionBean.setData(resultMap);
+        String content = GsonUtils.gson.toJson(signallingActionBean);
         LogUtil.e("TAG", "sendEvaluationResult: " + content);
         boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[]{teacherUser}, content, new IZegoCustomCommandCallback() {
             @Override
@@ -223,15 +222,15 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
 
     //发送获取页数信令
     public void sendGetPageData() {
-        ResultBean resultBean = new ResultBean();
-        resultBean.setAction(Constant.MESSAGE_GET_PAGE);
-        resultBean.setRole("student");
-        resultBean.setSeq(seq++);
+        SignallingActionBean signallingActionBean = new SignallingActionBean();
+        signallingActionBean.setAction(Constant.MESSAGE_GET_PAGE);
+        signallingActionBean.setRole("student");
+        signallingActionBean.setSeq(seq++);
         HashMap<String, String> resultMap = new HashMap<>();
         resultMap.put("user_id", ownStreamID);
         resultMap.put("user_name", ownUserName);
-        resultBean.setData(resultMap);
-        String content = GsonUtils.gson.toJson(resultBean);
+        signallingActionBean.setData(resultMap);
+        String content = GsonUtils.gson.toJson(signallingActionBean);
         LogUtil.e("TAG", "sendGetPageData: " + content);
         boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[]{teacherUser}, content, new IZegoCustomCommandCallback() {
             @Override
@@ -311,7 +310,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
             //收到教室信令
             Log.e("TAG", "onRecvCustomCommand: " + id + name + content + roomid);
             if (roomid.equals(roomId)) {
-                ResultBean actionBean = GsonUtils.gson.fromJson(content, ResultBean.class);
+                SignallingActionBean actionBean = GsonUtils.gson.fromJson(content, SignallingActionBean.class);
                 switch (actionBean.getAction()) {
                     case Constant.MESSAGE_SHOW_JB:
                         if (!TextUtils.isEmpty(actionBean.getData().get("jb_num"))) {

@@ -7,6 +7,7 @@ import com.gogotalk.system.model.api.ApiService;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.model.util.GsonUtils;
 import com.gogotalk.system.util.BaseDownLoadFileImpl;
+import com.gogotalk.system.util.OkHttpDownLoadFileImpl;
 import com.gogotalk.system.util.SPUtils;
 import com.gogotalk.system.util.SystemDownLoadFileImpl;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -34,7 +35,7 @@ public class NetModule {
 
     @Provides
     public BaseDownLoadFileImpl provideDownLoadFileImpl() {
-        return new SystemDownLoadFileImpl();
+        return new OkHttpDownLoadFileImpl();
     }
 
     @Provides

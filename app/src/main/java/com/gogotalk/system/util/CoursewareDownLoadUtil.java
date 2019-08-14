@@ -168,7 +168,7 @@ public class CoursewareDownLoadUtil {
         popupWindow.setContentView(courseware_popup);
         mProgress = courseware_popup.findViewById(R.id.courseware_load_progress_popup);
         mProgressTxt = courseware_popup.findViewById(R.id.courseware_load_txt_popup);
-        mProgressTxt.setText(mContent.getResources().getString(R.string.courseware_load_txt) + "0%");
+        //mProgressTxt.setText(mContent.getResources().getString(R.string.courseware_load_txt) + "0%");
         courseware_popup.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {

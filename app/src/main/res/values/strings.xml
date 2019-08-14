@@ -50,6 +50,7 @@
     <string name="courseware_load_txt1">课件加载中......  请耐心等待！</string>
     <string name="courseware_load_txt2">为保证正常加载，请您不要退出或处于后台运行。</string>
     <string name="courseware_load_txt">已加载:</string>
+    <string name="connect_load_txt">服务器连接中...</string>
     <string name="poivacy_statement">隐私声明</string>
     <string name="reg_login_txt">已有账号,去登录</string>
 
