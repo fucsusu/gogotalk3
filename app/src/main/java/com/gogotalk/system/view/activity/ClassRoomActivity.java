@@ -1,19 +1,5 @@
 package com.gogotalk.system.view.activity;
 
-/**
- * 跳水
- * 南瓜
- * 抓娃娃 1
- * 鸡 1
- * 掉娃娃 1 香蕉
- * 南瓜
- * 旷工 1
- * 鸡
- * 打地鼠
- *
- *
- */
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
