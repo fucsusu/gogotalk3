@@ -150,7 +150,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     public void sendAnswerRoomCommand(boolean answerResult) {
         if (!TextUtils.isEmpty(question_id)) {
             ResultBean resultBean = new ResultBean();
-            resultBean.setAction(Constant.MESSAGE_SHOW_JB);
+            resultBean.setAction(Constant.MESSAGE_ANSWER);
             resultBean.setRole("student");
             resultBean.setSeq(seq++);
             HashMap<String, String> resultMap = new HashMap<>();
@@ -186,7 +186,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
         resultBean.setData(resultMap);
         String content = GsonUtils.gson.toJson(resultBean);
         LogUtil.e("TAG", "sendShowJbRoomCommand: ", content);
-        boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[]{teacherUser, otherUser}, content, new IZegoCustomCommandCallback() {
+        boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[]{otherUser}, content, new IZegoCustomCommandCallback() {
             @Override
             public void onSendCustomCommand(int i, String s) {
                 LogUtil.e("TAG", "sendShowJbRoomCommand: " + i + "||" + s);
@@ -198,29 +198,33 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     //发送语音判断结果
     @Override
     public void sendEvaluationResult(String promptId, String correctResp, String sessionId) {
-//        ResultBean resultBean = new ResultBean();
-//        resultBean.setAction("result");
-//        resultBean.setRole("student");
-//        resultBean.setSeq(seq++);
-//        HashMap<String, String> resultMap = new HashMap<>();
-//        resultMap.put("prompt_id", promptId);
-//        resultMap.put("result", correctResp);
-//        resultMap.put("session_id", sessionId);
-//        resultMap.put("user_id", ownStreamID);
-//        resultMap.put("user_name", ownUserName);
-//        resultBean.setData(resultMap);
-//        String content = GsonUtils.gson.toJson(resultBean);
-//        LogUtil.e("TAG", "sendEvaluationResult: " + content);
-//        boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[]{teacherUser}, content, new IZegoCustomCommandCallback() {
-//            @Override
-//            public void onSendCustomCommand(int i, String s) {
-//                LogUtil.e("TAG", "onSendCustomCommand: " + i + "||" + s);
-//            }
-//        });
-//        LogUtil.e("TAG", "sendRoomCommand: 发送信令结果 " + sendSucess);
-
         ResultBean resultBean = new ResultBean();
-        resultBean.setAction(Constant.MESSAGE_SHOW_JB);
+        resultBean.setAction(Constant.MESSAGE_RESULT);
+        resultBean.setRole("student");
+        resultBean.setSeq(seq++);
+        HashMap<String, String> resultMap = new HashMap<>();
+        resultMap.put("prompt_id", promptId);
+        resultMap.put("result", correctResp);
+        resultMap.put("session_id", sessionId);
+        resultMap.put("user_id", ownStreamID);
+        resultMap.put("user_name", ownUserName);
+        resultBean.setData(resultMap);
+        String content = GsonUtils.gson.toJson(resultBean);
+        LogUtil.e("TAG", "sendEvaluationResult: " + content);
+        boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[]{teacherUser}, content, new IZegoCustomCommandCallback() {
+            @Override
+            public void onSendCustomCommand(int i, String s) {
+                LogUtil.e("TAG", "onSendCustomCommand: " + i + "||" + s);
+            }
+        });
+        LogUtil.e("TAG", "sendRoomCommand: 发送信令结果 " + sendSucess);
+
+    }
+
+    //发送获取页数信令
+    public void sendGetPageData() {
+        ResultBean resultBean = new ResultBean();
+        resultBean.setAction(Constant.MESSAGE_GET_PAGE);
         resultBean.setRole("student");
         resultBean.setSeq(seq++);
         HashMap<String, String> resultMap = new HashMap<>();
@@ -228,31 +232,14 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
         resultMap.put("user_name", ownUserName);
         resultBean.setData(resultMap);
         String content = GsonUtils.gson.toJson(resultBean);
-        LogUtil.e("TAG", "sendShowJbRoomCommand: ", content);
-        boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[]{teacherUser, otherUser}, content, new IZegoCustomCommandCallback() {
-            @Override
-            public void onSendCustomCommand(int i, String s) {
-                LogUtil.e("TAG", "sendShowJbRoomCommand: " + i + "||" + s);
-            }
-        });
-        LogUtil.e("TAG", "sendShowJbRoomCommand: 发送信令结果 " + sendSucess);
-    }
-
-    //发送获取页数信令
-    public void sendGetPageData() {
-        ActionBean.ActionData actionData = new ActionBean.ActionData();
-        actionData.setUser_id(ownStreamID);
-        actionData.setUser_name(ownUserName);
-        ActionBean actionBean = new ActionBean(seq++, "student", Constant.MESSAGE_GET_PAGE, actionData);
-        String content = GsonUtils.gson.toJson(actionBean);
-        Logger.json(content);
+        LogUtil.e("TAG", "sendGetPageData: " + content);
         boolean sendSucess = ZGBaseHelper.sharedInstance().sendCustomCommand(new ZegoUser[]{teacherUser}, content, new IZegoCustomCommandCallback() {
             @Override
             public void onSendCustomCommand(int i, String s) {
-                Log.e("TAG", "sendGetPageData: " + i + "||" + s);
+                LogUtil.e("TAG", "sendGetPageData: " + i + "||" + s);
             }
         });
-        Log.e("TAG", "sendGetPageData: 发送信令结果 " + sendSucess);
+        LogUtil.e("TAG", "sendGetPageData: 发送信令结果 " + sendSucess);
     }
 
 
@@ -327,12 +314,12 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                 ResultBean actionBean = GsonUtils.gson.fromJson(content, ResultBean.class);
                 switch (actionBean.getAction()) {
                     case Constant.MESSAGE_SHOW_JB:
-                        if(!TextUtils.isEmpty(actionBean.getData().get("jb_num"))){
+                        if (!TextUtils.isEmpty(actionBean.getData().get("jb_num"))) {
                             getView().openOtherJBAnim(Integer.parseInt(actionBean.getData().get("jb_num")));
                         }
                         break;
                     case Constant.MESSAGE_GET_PAGE:
-                        if(!TextUtils.isEmpty(actionBean.getData().get("pageindex"))){
+                        if (!TextUtils.isEmpty(actionBean.getData().get("pageindex"))) {
                             getView().toPage(Integer.parseInt(actionBean.getData().get("pageindex")));
                         }
                         break;
