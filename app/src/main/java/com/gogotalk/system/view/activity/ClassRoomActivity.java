@@ -1,5 +1,18 @@
 package com.gogotalk.system.view.activity;
 
+/**
+ * 跳水
+ * 南瓜
+ * 抓娃娃 1
+ * 鸡 1
+ * 掉娃娃 1 香蕉
+ * 南瓜
+ * 旷工 1
+ * 鸡
+ * 打地鼠
+ *
+ *
+ */
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -229,7 +242,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         myMp3Url = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_MY);
         otherMp3Url = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_OTHER);
         if (Constant.DEBUG) {
-            AttendLessonID = "626";
+            AttendLessonID = "636";
         }
         finalRoomId = "#AI-ClassRoom-" + AttendLessonID;
         Log.e("TAG", "initData: " + finalRoomId);
@@ -260,7 +273,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         } else {
             classBegin();
         }
-        if(Constant.DEBUG){
+        if (Constant.DEBUG) {
             classBegin();
         }
         otherSNText.setText(otherStudentName);
@@ -392,7 +405,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
 
     @Override
     public void studentLeaveRoom() {
-        otherSNText.setText("");
         mOtherStudentVideoBg.setImageResource(R.mipmap.bg_class_room_student_video_off);
         mOtherStudentVideoBg.setVisibility(View.VISIBLE);
         mOtherTV.setVisibility(View.INVISIBLE);
@@ -541,7 +553,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         } else {
             //关闭麦克风倒计时
             isHideMicor(true);
-            Log.e("TAG", "openMikeTimer: " + AIEngineUtils.getInstance().isStart());
             if (AIEngineUtils.getInstance().isStart()) {
                 AIEngineUtils.getInstance().stopRecord();
             } else {
@@ -555,7 +566,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         Log.e("TAG", "toPage: " + page);
         if (page >= 0 && page > pptPage) {
             pptPage = page;
-            webView.clearCache(true);
             webView.evaluateJavascript("javascript:ToPage(" + page + ")", new ValueCallback<String>() {
                 @Override
                 public void onReceiveValue(String value) {
@@ -567,6 +577,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
 
     //答题处理
     private void startAnswer() {
+        Log.e("TAG", "startAnswer: ");
         webView.evaluateJavascript("javascript:exec()", new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
@@ -668,7 +679,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                view.loadUrl("javascript:try{autoplay();}catch(e){}");
                 if (!isWebFinsh) {
                     isWebFinsh = true;
                     sendName(ownName, otherStudentName);

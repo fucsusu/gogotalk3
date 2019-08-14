@@ -1,8 +1,6 @@
 package com.gogotalk.system.view.activity;
 
-import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,7 +11,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,7 +26,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.gogotalk.system.BuildConfig;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.entity.CoursesBean;
 import com.gogotalk.system.model.entity.RoomInfoBean;
@@ -224,7 +220,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
             @Override
             public void onBtnGoClassRoomClick(boolean flag, CoursesBean coursesBean) {
-                if (!BuildConfig.DEBUG&&!flag) {
+                if (!Constant.DEBUG&&!flag) {
                     ToastUtils.showLongToast(MainActivity.this, "课前10分钟才可以进入教室");
                     return;
                 }

@@ -3,32 +3,25 @@ package com.gogotalk.system.view.adapter;
 import android.app.Activity;
 import android.graphics.Color;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.Group;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.gogotalk.system.BuildConfig;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.entity.GoItemBean;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.util.DateUtils;
 import com.gogotalk.system.util.ToastUtils;
-import com.gogotalk.system.view.activity.ClassDetailActivity;
 
 import java.util.List;
 

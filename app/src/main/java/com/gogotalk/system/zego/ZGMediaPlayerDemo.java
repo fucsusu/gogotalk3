@@ -283,6 +283,7 @@ public class ZGMediaPlayerDemo implements IZegoMediaPlayerVideoPlayCallback {
         @Override
         public void onSeekComplete(int code, long millisecond) {
             Log.v(TAG, "onSeekComplete");
+            unInit();
         }
 
         @Override
