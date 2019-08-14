@@ -10,6 +10,7 @@ import com.gogotalk.system.util.BaseDownLoadFileImpl;
 import com.gogotalk.system.util.OkHttpDownLoadFileImpl;
 import com.gogotalk.system.util.SPUtils;
 import com.gogotalk.system.util.SystemDownLoadFileImpl;
+import com.gogotalk.system.util.okHttpdownfile.ProgressHelper;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.orhanobut.logger.Logger;
 
@@ -43,7 +44,7 @@ public class NetModule {
     public OkHttpClient provideOkHttpClient() {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
-        OkHttpClient okhttpClient = new OkHttpClient.Builder()
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .connectTimeout(20, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)
@@ -61,10 +62,9 @@ public class NetModule {
                         Logger.i("===================" + usertoken + "=====================");
                         return chain.proceed(build);
                     }
-                })
-                .build();
+                });
 
-        return okhttpClient;
+        return ProgressHelper.addProgress(builder).build();
     }
 
     @Provides

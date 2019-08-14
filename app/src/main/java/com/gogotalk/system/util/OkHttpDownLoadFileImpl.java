@@ -4,9 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.util.Log;
 
 import com.gogotalk.system.app.AiRoomApplication;
 import com.gogotalk.system.model.api.ApiService;
+import com.gogotalk.system.util.okHttpdownfile.DownloadProgressHandler;
+import com.gogotalk.system.util.okHttpdownfile.ProgressHelper;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,7 +22,15 @@ import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Interceptor;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
+import okio.Buffer;
+import okio.BufferedSource;
+import okio.ForwardingSource;
+import okio.Okio;
+import okio.Source;
 
 public class OkHttpDownLoadFileImpl extends BaseDownLoadFileImpl{
     Disposable disposable;
@@ -24,6 +38,14 @@ public class OkHttpDownLoadFileImpl extends BaseDownLoadFileImpl{
     @Override
     public void downLoadFile(Context context, String fileUrl, String fileName) {
         mContext = context;
+        ProgressHelper.setProgressHandler(new DownloadProgressHandler() {
+            @Override
+            protected void onProgress(long bytesRead, long contentLength, boolean done) {
+                if(downLoadingLisener!=null){
+                    downLoadingLisener.onDownLoadProgress((int) bytesRead,(int)contentLength);
+                }
+            }
+        });
         ApiService apiService = AiRoomApplication.getInstance().getNetComponent().getApiService();
         Observable<ResponseBody> observable = apiService.downLoadClassFile(fileUrl);
         observable.subscribeOn(Schedulers.io())
@@ -71,21 +93,9 @@ public class OkHttpDownLoadFileImpl extends BaseDownLoadFileImpl{
         try {
             int index;
             byte[] bytes = new byte[1024];
-            int currentLength = 0;
             writer = new BufferedOutputStream(new FileOutputStream(file,false));
             while ((index = stream.read(bytes)) != -1) {
                 writer.write(bytes, 0, index);
-                currentLength += index;
-                if(downLoadingLisener!=null){
-                    int finalCurrentLength = currentLength;
-                    ((Activity)mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            downLoadingLisener.onDownLoadProgress(finalCurrentLength,(int) totalLength);
-                        }
-                    });
-
-                }
                 writer.flush();
             }
             if(downLoadingLisener!=null) {
