@@ -66,7 +66,13 @@ public class UpdatePasswordActivity extends BaseActivity<UpdatePasswordPresenter
                 if (FormCheckUtils.checkPasswordEmpty(etPassword01.getText().toString())) {
                     return;
                 }
+                if (FormCheckUtils.checkPasswordFormat(etPassword01.getText().toString())) {
+                    return;
+                }
                 if (FormCheckUtils.checkTwoPasswordEmpty(etPassword02.getText().toString())) {
+                    return;
+                }
+                if (FormCheckUtils.checkPasswordFormat(etPassword02.getText().toString())) {
                     return;
                 }
                 if (FormCheckUtils.checkPasswordSame(etPassword01.getText().toString(),etPassword02.getText().toString())) {
