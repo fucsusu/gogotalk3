@@ -34,7 +34,7 @@ public class SendEvaluationResultAction {
         SignallingActionBean signallingActionBean = new SignallingActionBean();
         signallingActionBean.setAction(Constant.MESSAGE_RESULT);
         signallingActionBean.setRole("student");
-        signallingActionBean.setSeq(presenter.seq++);
+//        signallingActionBean.setSeq(presenter.seq++);
         HashMap<String, String> resultMap = new HashMap<>();
         resultMap.put("prompt_id", promptId);
         resultMap.put("result", result);

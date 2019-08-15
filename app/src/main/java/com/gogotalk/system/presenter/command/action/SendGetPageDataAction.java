@@ -27,7 +27,7 @@ public class SendGetPageDataAction {
         SignallingActionBean signallingActionBean = new SignallingActionBean();
         signallingActionBean.setAction(Constant.MESSAGE_GET_PAGE);
         signallingActionBean.setRole("student");
-        signallingActionBean.setSeq(presenter.seq++);
+//        signallingActionBean.setSeq(presenter.seq++);
         HashMap<String, String> resultMap = new HashMap<>();
         resultMap.put("user_id", String.valueOf(AppUtils.getUserInfoData().getAccountID()));
         resultMap.put("user_name", String.valueOf(AppUtils.getUserInfoData().getName()));

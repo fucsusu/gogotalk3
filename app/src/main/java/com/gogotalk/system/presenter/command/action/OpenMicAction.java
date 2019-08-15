@@ -46,10 +46,10 @@ public class OpenMicAction {
                 type = object1.getString("type");
             }
             if (object1.has("prompt_id") && !object1.isNull("prompt_id")) {
-                presenter.prompt_id = object1.getString("prompt_id");
+//                presenter.prompt_id = object1.getString("prompt_id");
             }
             if (object1.has("correct_resp") && !object1.isNull("correct_resp")) {
-                presenter.correct_resp = object1.getString("correct_resp");
+//                presenter.correct_resp = object1.getString("correct_resp");
             }
             Log.e("TAG", "onRecvMediaSideInfo: " + content1 + type);
             if (!TextUtils.isEmpty(content1) && !TextUtils.isEmpty(type)) {

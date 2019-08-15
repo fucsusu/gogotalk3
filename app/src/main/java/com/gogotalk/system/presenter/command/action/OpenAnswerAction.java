@@ -24,7 +24,7 @@ public class OpenAnswerAction {
             mObjcet = new JSONObject(data);
 
             if (mObjcet.has("question_id") && !mObjcet.isNull("question_id")) {
-                presenter.question_id =  mObjcet.getString("question_id");
+//                presenter.question_id =  mObjcet.getString("question_id");
             }
             view.sendHandleMessage(Constant.HANDLE_INFO_ANSWER);
         } catch (JSONException e) {

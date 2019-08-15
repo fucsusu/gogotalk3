@@ -26,8 +26,8 @@ public class CommandOptUtil {
             String action = object.getString("action");
             String data = object.getString("data");
             int seq = object.getInt("seq");
-            if (seq > presenter.seqNumber) {
-                presenter.seqNumber = seq;
+//            if (seq > presenter.seqNumber) {
+//                presenter.seqNumber = seq;
                 Command command = null;
                 if ("next_page".equals(action)) {
                     command = new NextPageCommandImpl(new NextPageAction(presenter,view, data));
@@ -39,7 +39,7 @@ public class CommandOptUtil {
                     command = new OpenAnswerCommandImpl(new OpenAnswerAction(presenter,view, data));
                 }
                 command.execute();
-            }
+//            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
