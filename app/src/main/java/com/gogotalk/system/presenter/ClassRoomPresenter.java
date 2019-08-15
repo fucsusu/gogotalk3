@@ -1,17 +1,16 @@
 package com.gogotalk.system.presenter;
 
 import android.content.Context;
-import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
 import com.chivox.AIEngineUtils;
+import com.gogotalk.system.model.entity.ActionBean;
 import com.gogotalk.system.model.entity.SignallingActionBean;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.model.util.GsonUtils;
 import com.gogotalk.system.util.AppUtils;
-import com.gogotalk.system.util.DelectFileUtil;
 import com.gogotalk.system.util.LogUtil;
 import com.gogotalk.system.zego.ZGBaseHelper;
 import com.gogotalk.system.zego.ZGMediaPlayerDemo;
@@ -36,11 +35,15 @@ import com.zego.zegoliveroom.entity.ZegoUser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
+import static com.gogotalk.system.model.util.Constant.ACTION_ANSWER;
+import static com.gogotalk.system.model.util.Constant.ACTION_AUX;
+import static com.gogotalk.system.model.util.Constant.ACTION_NEXTPAGE;
+import static com.gogotalk.system.model.util.Constant.ACTION_OPENMIKE;
 import static com.gogotalk.system.model.util.Constant.appSign;
 
 /**
@@ -332,90 +335,32 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
         public void onRecvMediaSideInfo(String streamID, String content) {
             //处理媒体次要信息
             Log.e("TAG", "onRecvMediaSideInfo流ID：" + streamID + "\n媒体次要信息：" + content);
-            try {
-                JSONObject object = new JSONObject(content);
-                String action = object.getString("action");
-                String data = object.getString("data");
-                int seq = object.getInt("seq");
-                if (seq > seqNumber) {
-                    seqNumber = seq;
-                    if (action.equals("aux")) {
-                        JSONObject mObjcet = new JSONObject(data);
-                        String title = mObjcet.getString("title");
-                        String msg = title.replace("\\", "");
-                        JSONObject object1 = new JSONObject(msg);
-                        String userid = object1.getString("userid");
-                        String username = object1.getString("username");
-                        if ("1".equals(username)) {
-                            if (!DelectFileUtil.isCoursewareExistence(getView().getActivity(), "my.mp3")) {
-                                ZGMediaPlayerDemo.sharedInstance()
-                                        .startPlay(getView().getMyMp3Url(), false);
-                                return;
-                            }
-                            ZGMediaPlayerDemo.sharedInstance()
-                                    .startPlay(getView().getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "my.mp3", false);
-                            return;
-                        }
-                        if ("2".equals(username)) {
-                            if (!DelectFileUtil.isCoursewareExistence(getView().getActivity(), "other.mp3")) {
-                                ZGMediaPlayerDemo.sharedInstance()
-                                        .startPlay(getView().getOtherMp3Url(), false);
-                                return;
-                            }
-                            ZGMediaPlayerDemo.sharedInstance()
-                                    .startPlay(getView().getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "other.mp3", false);
-                            return;
-                        }
-                        ZGMediaPlayerDemo.sharedInstance().unInit();
-                    }
-                    if (action.equals("open_answer")) {//调用JS的exec()方法
-                        //开始答题
-                        JSONObject mObjcet = new JSONObject(data);
-                        if (mObjcet.has("question_id") && !mObjcet.isNull("question_id")) {
-                            question_id = mObjcet.getString("question_id");
-                        }
+            ActionBean actionBean = GsonUtils.gson.fromJson(content, ActionBean.class);
+            Map map = null;
+            if (!TextUtils.isEmpty(actionBean.getData().getTitle()) && !actionBean.getData().getTitle().equals("\"\"")) {
+                map = GsonUtils.gson.fromJson(actionBean.getData().getTitle(), Map.class);
+            }
+            if (actionBean.getSeq() > seqNumber) {
+                seqNumber = actionBean.getSeq();
+                switch (actionBean.getAction()) {
+                    case ACTION_AUX:
+                        getView().playNameMp3((String) map.get("username"));
+                        break;
+                    case ACTION_ANSWER:
                         getView().sendHandleMessage(Constant.HANDLE_INFO_ANSWER);
-                    }
-                    if (action.equals("next_page")) {//调用JS的PageDown()方法
-                        JSONObject mObjcet = new JSONObject(data);
-                        String title = mObjcet.getString("title");
-                        String msg = title.replace("\\", "");
-                        JSONObject object1 = new JSONObject(msg);
-                        int page = object1.getInt("page");
+                        break;
+                    case ACTION_NEXTPAGE:
+                        int page = (int) Double.parseDouble(String.valueOf(map.get("page")));
                         getView().sendHandleMessage(Constant.HANDLE_INFO_NEXTPAGE, 0, page);
-                    }
-                    if (action.equals("open_mic")) {//打开麦克风，倒计时6秒
-                        JSONObject mObjcet = new JSONObject(data);
-                        String sessionId = mObjcet.getString("session_id");
-                        String title = mObjcet.getString("title");
-                        String msg = title.replace("\\", "");
-                        JSONObject object1 = new JSONObject(msg);
-                        int time = object1.getInt("time");
-                        String content1 = "";
-                        String type = "";
-
-                        if (object1.has("content") && !object1.isNull("content")) {
-                            content1 = object1.getString("content");
-                        }
-                        if (object1.has("type") && !object1.isNull("type")) {
-                            type = object1.getString("type");
-                        }
-                        if (object1.has("prompt_id") && !object1.isNull("prompt_id")) {
-                            prompt_id = object1.getString("prompt_id");
-                        }
-                        if (object1.has("correct_resp") && !object1.isNull("correct_resp")) {
-                            correct_resp = object1.getString("correct_resp");
-                        }
-
-                        Log.e("TAG", "onRecvMediaSideInfo: " + content1 + type);
-                        if (!TextUtils.isEmpty(content1) && !TextUtils.isEmpty(type)) {
-                            getAIEngineResult(type, content1, prompt_id, correct_resp, sessionId);
-                        }
-                        getView().sendHandleMessage(Constant.HANDLE_INFO_MIKE, 0, time);
-                    }
+                        break;
+                    case ACTION_OPENMIKE:
+                        prompt_id = (String) map.get("prompt_id");
+                        correct_resp = (String) map.get("correct_resp");
+                        getAIEngineResult((String) map.get("type"), (String) map.get("content"),
+                                prompt_id, correct_resp, actionBean.getData().getSession_id());
+                        getView().sendHandleMessage(Constant.HANDLE_INFO_MIKE, 0, (int) Double.parseDouble(String.valueOf(map.get("time"))));
+                        break;
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
         }
 
@@ -441,6 +386,9 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     };
 
     public void getAIEngineResult(String type, String content, String promptId, String correctResp, String sessionId) {
+        if (TextUtils.isEmpty(type) || TextUtils.isEmpty(content) || TextUtils.isEmpty(promptId) || TextUtils.isEmpty(correctResp)) {
+            return;
+        }
         ZGBaseHelper.sharedInstance().startAudioRecord();
         AIEngineUtils.getInstance()
                 .setUserId(ownStreamID)

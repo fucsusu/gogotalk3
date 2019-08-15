@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -42,16 +43,19 @@ import com.gogotalk.system.presenter.ClassRoomPresenter;
 import com.gogotalk.system.util.AnimatorUtils;
 import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.util.DateUtils;
+import com.gogotalk.system.util.DelectFileUtil;
 import com.gogotalk.system.util.ToastUtils;
 import com.gogotalk.system.view.widget.AnswerCountDown;
 import com.gogotalk.system.view.widget.MikeRateView;
 import com.gogotalk.system.view.widget.MyVoiceValue;
 import com.gogotalk.system.zego.AppLogger;
 import com.gogotalk.system.zego.ZGBaseHelper;
+import com.gogotalk.system.zego.ZGMediaPlayerDemo;
 import com.gogotalk.system.zego.ZGMediaSideInfoDemo;
 import com.gogotalk.system.zego.ZGPlayHelper;
 import com.gogotalk.system.zego.ZGPublishHelper;
 import com.orhanobut.logger.Logger;
+import com.zego.zegoavkit2.ZegoMediaPlayer;
 import com.zego.zegoavkit2.soundlevel.ZegoSoundLevelMonitor;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 
@@ -270,24 +274,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         switch (view.getId()) {
             case R.id.class_room_close:
                 dialog();
-//                String[] types = new String[]{"word", "sent"};
-//                String[] words = new String[]{"zoo", "tiger", "monkey", "parrot", "crocodile", "snake"};
-//                String[] sents = new String[]{"Let's go to the zoo!", "It's a tiger", "It's a monkey", "It's a parrot", "It's a crocodile", "It's a snake"};
-//                int typeMax = types.length;
-//                int max = words.length, min = 0;
-//                int typeRan = (int) (Math.random() * (typeMax - min) + min);
-//                int wordRan = (int) (Math.random() * (max - min) + min);
-//                int sentRan = (int) (Math.random() * (max - min) + min);
-//                String currentType = types[typeRan];
-//                String currentContent = "";
-//                if ("word".equals(currentType)) {
-//                    currentContent = words[wordRan];
-//                } else {
-//                    currentContent = sents[sentRan];
-//                }
-//                Log.d("wuhongjie", "=======" + currentType + "=========" + currentContent + "==============");
-                // openMikeTimer(6, currentType, currentContent);
-                // mPresenter.sendRoomCommand("answer", "123456", true);
                 break;
         }
 
@@ -456,6 +442,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 AnimatorUtils.showOwnJiangbei(mJbX, mOwnJB, mJb_jiasan, mMyJB, mOwnJBNum);
                 break;
         }
+
         if (TextUtils.isEmpty(otherStudentNameID) && Math.random() * 10 > 5) {
             openOtherJBAnim(1);
         }
@@ -505,6 +492,21 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     @Override
     public String getOtherMp3Url() {
         return otherMp3Url;
+    }
+
+    //播放名字MP3地址
+    public void playNameMp3(String username) {
+        if (TextUtils.isEmpty(username)) {
+            return;
+        }
+        if ("1".equals(username)) {
+            ZGMediaPlayerDemo.sharedInstance()
+                    .startPlay(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + username + ".mp3", myMp3Url, false);
+        } else {
+            ZGMediaPlayerDemo.sharedInstance()
+                    .startPlay(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + username + ".mp3", otherMp3Url, false);
+
+        }
     }
 
 
