@@ -21,6 +21,7 @@ import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.presenter.RegContract;
 import com.gogotalk.system.presenter.RegPresenter;
 import com.gogotalk.system.util.FormCheckUtils;
+import com.gogotalk.system.util.ToastUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -42,6 +43,7 @@ public class RegActivity extends BaseActivity<RegPresenter> implements RegContra
     ImageView btnBack;
     CountDownTimer countDownTimer;
     int direct;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_reg;
@@ -56,15 +58,15 @@ public class RegActivity extends BaseActivity<RegPresenter> implements RegContra
     protected void initView() {
         super.initView();
         initRegToLoginTxt();
-        if(isFirstReg()){
+        if (isFirstReg()) {
             btnBack.setVisibility(View.GONE);
-        }else{
+        } else {
             btnBack.setVisibility(View.VISIBLE);
         }
     }
 
-    private boolean isFirstReg(){
-        if(direct==0){
+    private boolean isFirstReg() {
+        if (direct == 0) {
             return true;
         }
         return false;
@@ -73,7 +75,7 @@ public class RegActivity extends BaseActivity<RegPresenter> implements RegContra
     @Override
     public void getIntentData() {
         super.getIntentData();
-        direct = getIntent().getIntExtra(Constant.INTENT_DATA_KEY_DIRECTION,0);
+        direct = getIntent().getIntExtra(Constant.INTENT_DATA_KEY_DIRECTION, 0);
     }
 
     private void initRegToLoginTxt() {
@@ -82,8 +84,8 @@ public class RegActivity extends BaseActivity<RegPresenter> implements RegContra
         spannableString.setSpan(new NoLineCllikcSpan() {
             @Override
             public void onClick(View view) {
-                if(isFirstReg()){
-                    startActivity(new Intent(RegActivity.this,LoginActivity.class));
+                if (isFirstReg()) {
+                    startActivity(new Intent(RegActivity.this, LoginActivity.class));
                 }
                 finish();
             }
@@ -97,11 +99,11 @@ public class RegActivity extends BaseActivity<RegPresenter> implements RegContra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        countDownTimer = new CountDownTimer(60*1000,1000) {
+        countDownTimer = new CountDownTimer(60 * 1000, 1000) {
             @Override
             public void onTick(long l) {
                 btnCode.setBackgroundResource(R.mipmap.bg_reg_code_selected);
-                btnCode.setText(((l/1000)<10?"0"+(l/1000):(l/1000))+" S");
+                btnCode.setText(((l / 1000) < 10 ? "0" + (l / 1000) : (l / 1000)) + " S");
                 btnCode.setTextColor(Color.WHITE);
                 btnCode.setEnabled(false);
             }
@@ -116,33 +118,33 @@ public class RegActivity extends BaseActivity<RegPresenter> implements RegContra
         };
     }
 
-    @OnClick({R.id.btn_code, R.id.btn_reg_submit,R.id.btn_back})
+    @OnClick({R.id.btn_code, R.id.btn_reg_submit, R.id.btn_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_code:
-                if(FormCheckUtils.checkPhoneEmpty(etRegPhone.getText().toString())){
+                if (FormCheckUtils.checkPhoneEmpty(etRegPhone.getText().toString())) {
                     return;
                 }
                 countDownTimer.start();
                 mPresenter.sendCode(etRegPhone.getText().toString());
                 break;
             case R.id.btn_reg_submit:
-                if(FormCheckUtils.checkPhoneEmpty(etRegPhone.getText().toString())){
+                if (FormCheckUtils.checkPhoneEmpty(etRegPhone.getText().toString())) {
                     return;
                 }
-                if(FormCheckUtils.checkCodeEmpty(etRegCode.getText().toString())){
+                if (FormCheckUtils.checkCodeEmpty(etRegCode.getText().toString())) {
                     return;
                 }
-                if(FormCheckUtils.checkCodeFormat(etRegCode.getText().toString())){
+                if (FormCheckUtils.checkCodeFormat(etRegCode.getText().toString())) {
                     return;
                 }
-                if(FormCheckUtils.checkPasswordEmpty(etRegPassword.getText().toString())){
+                if (FormCheckUtils.checkPasswordEmpty(etRegPassword.getText().toString())) {
                     return;
                 }
-                if(FormCheckUtils.checkPasswordFormat(etRegPassword.getText().toString())){
+                if (FormCheckUtils.checkPasswordFormat(etRegPassword.getText().toString())) {
                     return;
                 }
-                mPresenter.regUser(etRegPhone.getText().toString(),etRegCode.getText().toString(),etRegPassword.getText().toString());
+                mPresenter.regUser(etRegPhone.getText().toString(), etRegCode.getText().toString(), etRegPassword.getText().toString());
                 break;
             case R.id.btn_back:
                 finish();
@@ -152,8 +154,9 @@ public class RegActivity extends BaseActivity<RegPresenter> implements RegContra
 
     @Override
     public void onRegSuccess() {
-        if(isFirstReg()){
-            startActivity(new Intent(RegActivity.this,LoginActivity.class));
+        ToastUtils.showShortToast(this, "注册成功！");
+        if (isFirstReg()) {
+            startActivity(new Intent(RegActivity.this, LoginActivity.class));
             finish();
             return;
         }

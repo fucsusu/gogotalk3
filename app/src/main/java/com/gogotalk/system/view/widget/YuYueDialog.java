@@ -1,6 +1,5 @@
 package com.gogotalk.system.view.widget;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.entity.TimeMakeBean;
 import com.gogotalk.system.model.entity.WeekMakeBean;
-import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.view.adapter.TimeAdapter;
 import com.gogotalk.system.view.adapter.WeekAdapter;
 
@@ -38,6 +36,7 @@ public class YuYueDialog extends ABBaseDialog {
 
     private static String currentDate;
     private static String currentTime;
+
     public static class Builder {
         private View view;
         private YuYueDialog dialog;
@@ -237,6 +236,8 @@ public class YuYueDialog extends ABBaseDialog {
                 timeMakeBean.setChecked(false);
             }
             fillTimeData(this.weekBeans.get(postion).getTimeList());
+            currentTime = "";
+//            currentDate = "";
         }
 
         private void shangwuListItemClick(View view, int postion) {

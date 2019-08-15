@@ -8,7 +8,12 @@ import io.reactivex.subscribers.ResourceSubscriber;
 
 public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
     private BaseContract.View mView;
+    private String msg="";
 
+    protected CommonSubscriber(BaseContract.View view,String message) {
+        this.mView = view;
+        this.msg=message;
+    }
     protected CommonSubscriber(BaseContract.View view) {
         this.mView = view;
     }
@@ -21,8 +26,8 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
         if (isHideLoading()) {
             mView.hideLoading();
         }
-        if (Constant.DEBUG) {
-            ToastUtils.showLongToast(mView.getActivity(), e.getMessage());
+        if (isError()) {
+            ToastUtils.showLongToast(mView.getActivity(), msg+e.getMessage());
         }
     }
 

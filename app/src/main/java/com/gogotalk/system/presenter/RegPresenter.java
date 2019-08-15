@@ -12,18 +12,17 @@ public class RegPresenter extends RxPresenter<RegContract.View> implements RegCo
     private ApiService mApiService;
 
     @Inject
-    public RegPresenter(ApiService apiService){
-        this.mApiService=apiService;
+    public RegPresenter(ApiService apiService) {
+        this.mApiService = apiService;
     }
 
 
     @Override
     public void regUser(String phone, String code, String password) {
-        addSubscribe(mApiService.regUser(phone,code,password)
+        addSubscribe(mApiService.regUser(phone, code, password)
                 .compose(RxUtil.rxSchedulerHelper())
-                .compose(RxUtil.handleMyResult(getView(),true))
-                .subscribeWith(new CommonSubscriber<Object>(getView()){
-
+                .compose(RxUtil.handleMyResult(getView(), false))
+                .subscribeWith(new CommonSubscriber<Object>(getView(), "注册失败") {
                     @Override
                     public void onNext(Object o) {
                         getView().onRegSuccess();
@@ -36,11 +35,11 @@ public class RegPresenter extends RxPresenter<RegContract.View> implements RegCo
     public void sendCode(String phone) {
         addSubscribe(mApiService.sendCode(phone)
                 .compose(RxUtil.rxSchedulerHelper())
-                .compose(RxUtil.handleMyResult(getView(),false))
-                .subscribeWith(new CommonSubscriber<Object>( getView()){
+                .compose(RxUtil.handleMyResult(getView(), false))
+                .subscribeWith(new CommonSubscriber<Object>(getView()) {
                     @Override
                     public void onNext(Object mapData) {
-                        ToastUtils.showShortToast(getView().getActivity(),"您即将获取验证码请注意查收！");
+                        ToastUtils.showShortToast(getView().getActivity(), "您即将获取验证码请注意查收！");
                     }
                 })
         );
