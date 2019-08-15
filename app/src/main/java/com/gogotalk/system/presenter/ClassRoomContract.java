@@ -10,7 +10,7 @@ import android.view.View;
 public interface ClassRoomContract {
     interface IClassRoomPresenter extends BaseContract.Presenter<ClassRoomContract.IClassRoomView> {
         //初始化SDK
-        void initSdk(Context context,String roomID, int role);
+        void initSdk(Context context, String roomID, int role);
 
         //进入房间
         void joinRoom(String roomID, int role);
@@ -25,10 +25,10 @@ public interface ClassRoomContract {
         void sendShowJbRoomCommand(int jbNum);
 
         //发送评估结果
-        void sendEvaluationResult(String promptId,String correctResp,String sessionId);
+        void sendEvaluationResult(String promptId, String correctResp, String sessionId);
 
         //获取语音识别结果
-        void getAIEngineResult(String type, String content,String promptId,String correctResp,String sessionId);
+        void getAIEngineResult(String type, String content, String promptId, String correctResp, String sessionId);
 
         //获取当前页数
         void sendGetPageData();
@@ -55,10 +55,15 @@ public interface ClassRoomContract {
 
         //发送奖杯
         void openOtherJBAnim(int num);
+
         //获取自己的mp3远程地址
         String getMyMp3Url();
+
         //获取其他人的mp3远程地址
         String getOtherMp3Url();
+
+        //播放名字MP3地址
+        void playNameMp3(String name);
 
         //跳转页数
         void toPage(int page);

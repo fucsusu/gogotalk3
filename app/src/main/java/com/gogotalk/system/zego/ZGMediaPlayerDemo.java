@@ -11,6 +11,8 @@ import com.zego.zegoavkit2.ZegoMediaPlayer;
 import com.zego.zegoavkit2.ZegoVideoCaptureFactory;
 import com.zego.zegoavkit2.ZegoVideoDataFormat;
 
+import java.io.File;
+
 /**
  * ZGMediaPlayerDemo
  * <p>
@@ -131,6 +133,19 @@ public class ZGMediaPlayerDemo implements IZegoMediaPlayerVideoPlayCallback {
         Log.e(TAG, String.format("startPlay path: %s", filePath));
         if (zegoMediaPlayer != null && !TextUtils.isEmpty(filePath)) {
             zegoMediaPlayer.start(filePath, repeat);
+        }
+    }
+
+    public void startPlay(String filePath, String url, boolean repeat) {
+        Log.e(TAG, String.format("startPlay path: %s", filePath));
+        File file = new File(filePath);
+
+        if (zegoMediaPlayer != null && !TextUtils.isEmpty(filePath)) {
+            if (file.exists()) {
+                zegoMediaPlayer.start(filePath, repeat);
+            }else {
+                zegoMediaPlayer.start(url, repeat);
+            }
         }
     }
 

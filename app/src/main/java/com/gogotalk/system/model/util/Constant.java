@@ -1,7 +1,7 @@
 package com.gogotalk.system.model.util;
 
 public class Constant {
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
     /**
      * app网络请求基路径
      * PATH_RELEASE_URL 正式发布路径
@@ -55,6 +55,14 @@ public class Constant {
     public static final String MESSAGE_RESULT = "result";
     //发送答题结果
     public static final String MESSAGE_ANSWER = "answer";
+
+    public static final String ACTION_AUX="aux";
+
+    public static final String ACTION_ANSWER="open_answer";
+
+    public static final String ACTION_NEXTPAGE="next_page";
+
+    public static final String ACTION_OPENMIKE="open_mic";
 
     //apk下载默认前缀
     public static final String DOWNLOAD_APK = "gogotalk";

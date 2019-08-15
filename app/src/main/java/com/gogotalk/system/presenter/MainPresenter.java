@@ -159,21 +159,21 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
                     @Override
                     public void onNext(RoomInfoBean bean) {
                         //清除本地已经下载的叫名字自己和其他人的音频文件
-                        if (DelectFileUtil.isCoursewareExistence(getView().getActivity(), "my.mp3")) {
+                        if (DelectFileUtil.isCoursewareExistence(getView().getActivity(), "1.mp3")) {
                             DelectFileUtil.deleteFile(new File(getView().getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "my.mp3"));
                         }
-                        if (DelectFileUtil.isCoursewareExistence(getView().getActivity(), "other.mp3")) {
+                        if (DelectFileUtil.isCoursewareExistence(getView().getActivity(), "2.mp3")) {
                             DelectFileUtil.deleteFile(new File(getView().getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "other.mp3"));
                         }
                         //下载叫名字自己和其他人的音频文件
                         String myStudentSoundUrl = bean.getMyStudentSoundUrl();
                         if (!TextUtils.isEmpty(myStudentSoundUrl)) {
-                            DelectFileUtil.downLoadFIle(getView().getActivity(), myStudentSoundUrl, "my.mp3");
+                            DelectFileUtil.downLoadFIle(getView().getActivity(), myStudentSoundUrl, "1.mp3");
                         }
 
                         String otherStudentSoundUrl = bean.getOtherStudentSoundUrl();
                         if (!TextUtils.isEmpty(otherStudentSoundUrl)) {
-                            DelectFileUtil.downLoadFIle(getView().getActivity(), otherStudentSoundUrl, "other.mp3");
+                            DelectFileUtil.downLoadFIle(getView().getActivity(), otherStudentSoundUrl, "2.mp3");
                         }
                         getView().onRoomInfoSuccess(bean, filePath);
                     }

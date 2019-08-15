@@ -16,7 +16,7 @@
         android:clipChildren="false"
         android:visibility="visible"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/class_room_teacher_video_bg"
+        app:layout_constraintRight_toLeftOf="@id/class_room_own_video"
         tools:ignore="MissingConstraints">
         <!--课件-->
         <WebView
@@ -34,7 +34,7 @@
         android:layout_marginRight="@dimen/qb_px_5"
         android:background="@mipmap/bg_class_room_wait_class_begin"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/class_room_teacher_video_bg"
+        app:layout_constraintRight_toLeftOf="@id/class_room_own_video"
         tools:ignore="MissingConstraints" />
 
     <!--上课倒计时-->
@@ -69,10 +69,10 @@
         android:scaleType="fitXY"
         android:src="@mipmap/bg_class_room_wait_teacher"
         app:layout_constraintBottom_toTopOf="@id/class_room_own_video"
-        app:layout_constraintDimensionRatio="58:39"
+        app:layout_constraintDimensionRatio="5:4"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_weight="1"
+        app:layout_constraintVertical_weight="260"
         tools:ignore="MissingConstraints" />
 
     <!--老师的视频-->
@@ -111,10 +111,10 @@
         android:layout_marginTop="@dimen/qb_px_5"
         android:layout_marginBottom="@dimen/qb_px_5"
         app:layout_constraintBottom_toTopOf="@id/class_room_other_video_bg"
-        app:layout_constraintDimensionRatio="58:39"
+        app:layout_constraintDimensionRatio="4:3"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/class_room_teacher_video_bg"
-        app:layout_constraintVertical_weight="1" />
+        app:layout_constraintVertical_weight="245" />
 
     <!--自己名字背景-->
     <ImageView
@@ -203,10 +203,10 @@
         android:scaleType="fitXY"
         android:src="@mipmap/bg_class_room_student_video_off"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="58:39"
+        app:layout_constraintDimensionRatio="4:3"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/class_room_own_video"
-        app:layout_constraintVertical_weight="1"
+        app:layout_constraintVertical_weight="245"
         tools:ignore="MissingConstraints" />
 
 
