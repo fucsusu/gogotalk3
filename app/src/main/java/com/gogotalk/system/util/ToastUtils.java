@@ -257,6 +257,7 @@ public class ToastUtils {
      */
     private static void showToast(Context context, CharSequence text, int duration) {
         sToast = Toast.makeText(context, text, duration);
+        sToast.setText(text);
         sToast.setGravity(Gravity.CENTER, AppUtils.getNavigationBarHeight(context) / 2, 250);
         sToast.show();
     }
