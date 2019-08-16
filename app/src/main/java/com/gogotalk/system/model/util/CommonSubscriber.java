@@ -1,6 +1,7 @@
 package com.gogotalk.system.model.util;
 
 import com.gogotalk.system.model.exception.ApiException;
+import com.gogotalk.system.model.exception.NoNetworkException;
 import com.gogotalk.system.presenter.BaseContract;
 import com.gogotalk.system.util.ToastUtils;
 
@@ -25,6 +26,10 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
         }
         if (isHideLoading()) {
             mView.hideLoading();
+        }
+        if (e instanceof NoNetworkException) {
+            ToastUtils.showShortToast(mView.getActivity(),"网络异常，请检查网络后重试");
+            return;
         }
         if (isError()) {
             ToastUtils.showLongToast(mView.getActivity(), msg+e.getMessage());

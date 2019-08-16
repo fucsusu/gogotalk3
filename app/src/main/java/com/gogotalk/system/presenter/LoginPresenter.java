@@ -66,15 +66,10 @@ public class LoginPresenter extends RxPresenter<LoginContract.View> implements L
                         return super.isHideLoading();
                     }
 
-                    @Override
-                    public void onFail() {
-                        super.onFail();
-                    }
 
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        ToastUtils.showShortToast(getView().getActivity(), "登录失败！");
                         if (isAuto) {
                             getView().getActivity().startActivity(new Intent(getView().getActivity(), LoginActivity.class));
                             getView().getActivity().finish();

@@ -141,11 +141,6 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
                     public void onNext(Object bean) {
                         getView().onUpdateUserInfoSuceess();
                     }
-
-                    @Override
-                    public boolean isHideLoading() {
-                        return false;
-                    }
                 })
         );
     }
