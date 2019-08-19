@@ -76,6 +76,7 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter.getLevelListData();
         mPresenter.getClassByLevel(AppUtils.getUserInfoData().getLevel());
     }
 
@@ -250,7 +251,6 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
                     AppUtils.fullScreenImmersive(popupWindow.getContentView());
                     popupWindow.setFocusable(true);
                     popupWindow.update();
-                    mPresenter.getLevelListData();
                 }
                 break;
         }
@@ -270,6 +270,11 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
         levelBeans.clear();
         levelBeans.addAll(beans);
         levelAdapter.notifyDataSetChanged();
+        for(BookLevelBean levelBean:levelBeans){
+            if(AppUtils.getUserInfoData().getLevel()==levelBean.getBookLevel()){
+                tvLevel.setText(levelBean.getBookName());
+            }
+        }
     }
 
     @Override
