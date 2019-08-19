@@ -116,7 +116,7 @@
         android:textSize="@dimen/qb_px_15"
         android:layout_marginLeft="@dimen/qb_px_9"
         app:layout_constraintBottom_toBottomOf="@+id/iv_code_bg"
-        app:layout_constraintRight_toLeftOf="@+id/et_login_password"
+        app:layout_constraintRight_toLeftOf="@+id/et_code"
         app:layout_constraintTop_toTopOf="@+id/iv_code_bg"
         app:layout_constraintLeft_toRightOf="@+id/imageView3"
         />
