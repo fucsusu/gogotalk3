@@ -2,6 +2,7 @@ package com.chivox;
 
 import android.content.Context;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.chivox.android.AIRecorder;
@@ -42,7 +43,7 @@ public class AIEngineUtils {
     }
 
     public interface IEstimateCallback {
-        void onEstimateResult(String result, int rank);
+        void onEstimateResult(int result, int rank);
     }
 
     private AIEngineUtils() {
@@ -156,7 +157,13 @@ public class AIEngineUtils {
                         ZGBaseHelper.sharedInstance().stopAudioRecord();
                         waitEndTime = System.currentTimeMillis();
                         Log.d(TAG, "wait time for result: " + (waitEndTime - waitStartTime));
-                        iEstimateCallback.onEstimateResult(result, rank);
+                        String result1 = json.getString("result");
+                        if (!TextUtils.isEmpty(result1)) {
+                            JSONObject jsonObject1 = new JSONObject(result1);
+                            int overall = jsonObject1.getInt("overall");
+                            iEstimateCallback.onEstimateResult(overall, rank);
+                        }
+
                     }
                 } catch (JSONException e) {
                     /* ignore */

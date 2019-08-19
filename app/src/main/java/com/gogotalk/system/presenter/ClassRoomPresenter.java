@@ -396,39 +396,27 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                 .setContent(content)
                 .setiEstimateCallback(new AIEngineUtils.IEstimateCallback() {
                     @Override
-                    public void onEstimateResult(String result, int rank) {
-                        try {
-                            //解析驰声sdk评估结果 overall
-                            JSONObject jsonObject = new JSONObject(result);
-                            String result1 = jsonObject.getString("result");
-                            if (TextUtils.isEmpty(result1)) {
-                                return;
-                            }
-                            JSONObject jsonObject1 = new JSONObject(result1);
-                            JSONObject params = jsonObject.getJSONObject("params");
-                            JSONObject request = params.getJSONObject("request");
-
-                            int overall = jsonObject1.getInt("overall");
-                            String flag = "";
-                            int jbNum = 0;
-                            if (overall > 60) {
-
-                                jbNum = 2;
-                                flag = correctResp;
-                            } else if (overall > 0 && overall < 60) {
-                                jbNum = 1;
-                                flag = correctResp;
-                            } else {
-                                flag = "";
-                            }
-                            LogUtil.e("TAG", "onEstimateResult: ", rank, overall);
-                            //如果奖杯数大于零发送奖杯
-                            getView().sendHandleMessage(Constant.HANDLE_INFO_JB, 0, jbNum);
-                            //发送评估结果信令
-                            sendEvaluationResult(promptId, flag, sessionId);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                    public void onEstimateResult(int overall, int rank) {
+                        //解析驰声sdk评估结果 overall
+                        String flag = "";
+                        int jbNum = 0;
+                        if (overall > 80) {
+                            jbNum = 3;
+                            flag = correctResp;
+                        } else if (overall > 50) {
+                            jbNum = 2;
+                            flag = correctResp;
+                        } else if (overall > 10) {
+                            jbNum = 1;
+                            flag = correctResp;
+                        } else {
+                            flag = "";
                         }
+                        LogUtil.e("TAG", "onEstimateResult: ", rank, overall);
+                        //如果奖杯数大于零发送奖杯
+                        getView().sendHandleMessage(Constant.HANDLE_INFO_JB, 0, jbNum);
+                        //发送评估结果信令
+                        sendEvaluationResult(promptId, flag, sessionId);
                     }
                 })
                 .startRecord(context);
@@ -438,7 +426,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     IZegoAudioRecordCallback2 audioRecordCallback2 = new IZegoAudioRecordCallback2() {
         @Override
         public void onAudioRecordCallback(byte[] bytes, int i, int i1, int i2, int i3) {
-            Log.e("TAG", "onAudioRecordCallback: " + bytes.length);
+            Log.d("TAG", "onAudioRecordCallback: " + bytes.length);
             AIEngineUtils.getInstance().writeAudioData(bytes);
         }
     };

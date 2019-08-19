@@ -232,7 +232,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         myMp3Url = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_MY);
         otherMp3Url = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_OTHER);
         if (Constant.DEBUG) {
-            AttendLessonID = "636";
+            AttendLessonID = "638";
         }
         finalRoomId = "#AI-ClassRoom-" + AttendLessonID;
         Log.e("TAG", "initData: " + finalRoomId);

@@ -37,49 +37,48 @@ public class ReceiveEvaluationResultAction {
     }
 
     public void action() {
-        ZGBaseHelper.sharedInstance().startAudioRecord();
-        AIEngineUtils.getInstance()
-                .setUserId(String.valueOf(AppUtils.getUserInfoData().getAccountID()))
-                .setType(type)
-                .setContent(content)
-                .setiEstimateCallback(new AIEngineUtils.IEstimateCallback() {
-                    @Override
-                    public void onEstimateResult(String result, int rank) {
-                        try {
-                            //解析驰声sdk评估结果 overall
-                            JSONObject jsonObject = new JSONObject(result);
-                            String result1 = jsonObject.getString("result");
-                            if (TextUtils.isEmpty(result1)) {
-                                return;
-                            }
-                            JSONObject jsonObject1 = new JSONObject(result1);
-                            JSONObject params = jsonObject.getJSONObject("params");
-                            JSONObject request = params.getJSONObject("request");
-
-                            int overall = jsonObject1.getInt("overall");
-                            String flag = "";
-                            int jbNum = 0;
-                            if (overall > 60) {
-
-                                jbNum = 2;
-                                flag = correctResp;
-                            } else if (overall > 0 && overall < 60) {
-                                jbNum = 1;
-                                flag = correctResp;
-                            } else {
-                                flag = "";
-                            }
-                            LogUtil.e("TAG", "onEstimateResult: ", rank, overall);
-                            //如果奖杯数大于零发送奖杯
-                            view.sendHandleMessage(Constant.HANDLE_INFO_JB, 0, jbNum);
-                            //发送评估结果信令
-                            SendEvaluationResultAction sendEvaluationResultAction = new SendEvaluationResultAction(presenter,promptId, flag, sessionId,correctResp,user);
-                            sendEvaluationResultAction.action();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                })
-                .startRecord(view.getActivity());
+//        ZGBaseHelper.sharedInstance().startAudioRecord();
+//        AIEngineUtils.getInstance()
+//                .setUserId(String.valueOf(AppUtils.getUserInfoData().getAccountID()))
+//                .setType(type)
+//                .setContent(content)
+//                .setiEstimateCallback(new AIEngineUtils.IEstimateCallback() {
+//                    @Override
+//                    public void onEstimateResult(String result, int rank) {
+//                        try {
+//                            //解析驰声sdk评估结果 overall
+//                            JSONObject jsonObject = new JSONObject(result);
+//                            String result1 = jsonObject.getString("result");
+//                            if (TextUtils.isEmpty(result1)) {
+//                                return;
+//                            }
+//                            JSONObject jsonObject1 = new JSONObject(result1);
+//                            JSONObject params = jsonObject.getJSONObject("params");
+//                            JSONObject request = params.getJSONObject("request");
+//
+//                            int overall = jsonObject1.getInt("overall");
+//                            String flag = "";
+//                            int jbNum = 0;
+//                            if (overall > 60) {
+//                                jbNum = 2;
+//                                flag = correctResp;
+//                            } else if (overall > 0 && overall < 60) {
+//                                jbNum = 1;
+//                                flag = correctResp;
+//                            } else {
+//                                flag = "";
+//                            }
+//                            LogUtil.e("TAG", "onEstimateResult: ", rank, overall);
+//                            //如果奖杯数大于零发送奖杯
+//                            view.sendHandleMessage(Constant.HANDLE_INFO_JB, 0, jbNum);
+//                            //发送评估结果信令
+//                            SendEvaluationResultAction sendEvaluationResultAction = new SendEvaluationResultAction(presenter,promptId, flag, sessionId,correctResp,user);
+//                            sendEvaluationResultAction.action();
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                })
+//                .startRecord(view.getActivity());
     }
 }
