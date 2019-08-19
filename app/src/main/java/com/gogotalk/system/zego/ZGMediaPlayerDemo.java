@@ -69,10 +69,10 @@ public class ZGMediaPlayerDemo implements IZegoMediaPlayerVideoPlayCallback {
 
     static private ZGMediaPlayerDemo zgMediaPlayerDemo;
 
-    public static ZGMediaPlayerDemo sharedInstance() {
+    public static ZGMediaPlayerDemo sharedInstance(int index) {
         synchronized (ZGMediaPlayerDemo.class) {
             if (zgMediaPlayerDemo == null) {
-                zgMediaPlayerDemo = new ZGMediaPlayerDemo();
+                zgMediaPlayerDemo = new ZGMediaPlayerDemo(index);
             }
         }
         return zgMediaPlayerDemo;
@@ -81,11 +81,11 @@ public class ZGMediaPlayerDemo implements IZegoMediaPlayerVideoPlayCallback {
     public String TAG = "MediaPlayerDemo";
 
 
-    public ZGMediaPlayerDemo() {
+    public ZGMediaPlayerDemo(int index) {
         // 创建播放器对象
         zegoMediaPlayer = new ZegoMediaPlayer();
         // 初始化播放器
-        zegoMediaPlayer.init(ZegoMediaPlayer.PlayerTypePlayer);
+        zegoMediaPlayer.init(ZegoMediaPlayer.PlayerTypePlayer,index);
         // 设置播放器回调
         zegoMediaPlayer.setCallback(zgMediaPlayerCallback);
     }
@@ -139,7 +139,7 @@ public class ZGMediaPlayerDemo implements IZegoMediaPlayerVideoPlayCallback {
     public void startPlay(String filePath, String url, boolean repeat) {
         Log.e(TAG, String.format("startPlay path: %s", filePath));
         File file = new File(filePath);
-
+        setVolume(100);
         if (zegoMediaPlayer != null && !TextUtils.isEmpty(filePath)) {
             if (file.exists()) {
                 zegoMediaPlayer.start(filePath, repeat);

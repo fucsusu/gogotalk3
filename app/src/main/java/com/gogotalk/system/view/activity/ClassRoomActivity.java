@@ -476,12 +476,13 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 break;
         }
         //奖杯声音播放
-        if (player == null) {
-            player = MediaPlayer.create(this, R.raw.trophy);
-        }
-        if (!player.isPlaying()) {
-            player.start();
-        }
+//        if (player == null) {
+//            player = MediaPlayer.create(this, R.raw.trophy);
+//        }
+//        if (!player.isPlaying()) {
+//            player.start();
+//        }
+        ZGMediaPlayerDemo.sharedInstance(3).startPlay("android.resource://" + getPackageName() + "/" + R.raw.trophy,false);
     }
 
     @Override
@@ -500,10 +501,10 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
             return;
         }
         if ("1".equals(username)) {
-            ZGMediaPlayerDemo.sharedInstance()
+            ZGMediaPlayerDemo.sharedInstance(1)
                     .startPlay(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + username + ".mp3", myMp3Url, false);
         } else {
-            ZGMediaPlayerDemo.sharedInstance()
+            ZGMediaPlayerDemo.sharedInstance(2)
                     .startPlay(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + username + ".mp3", otherMp3Url, false);
 
         }

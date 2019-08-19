@@ -74,7 +74,6 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     {
         ownStreamID = String.valueOf(AppUtils.getUserInfoData().getAccountID());
         ownUserName = String.valueOf(AppUtils.getUserInfoData().getName());
-        ZGMediaPlayerDemo.sharedInstance().setVolume(80);
     }
 
 
