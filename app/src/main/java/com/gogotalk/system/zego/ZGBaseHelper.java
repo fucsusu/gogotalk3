@@ -100,6 +100,11 @@ public class ZGBaseHelper {
             }
 
             @Override
+            public String getSubLogFolder() {
+                return null;
+            }
+
+            @Override
             public String getSoFullPath() {
                 return soFullPath; // return null 表示使用默认方式加载 libzegoliveroom.so
                 // 此处可以返回 so 的绝对路径，用来指定从这个位置加载 libzegoliveroom.so，确保应用具备存取此路径的权限

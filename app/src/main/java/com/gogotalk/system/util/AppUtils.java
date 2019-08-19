@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -61,11 +63,13 @@ public class AppUtils {
             decorView.setSystemUiVisibility(uiOptions);
         }
     }
+
     public static void fullScreenImmersive(Window window) {
         if (window != null) {
             fullScreenImmersive(window.getDecorView());
         }
     }
+
     public static void fullScreenImmersive(View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -77,9 +81,11 @@ public class AppUtils {
             view.setSystemUiVisibility(uiOptions);
         }
     }
+
     /**
      * dialog 需要全屏的时候用，和clearFocusNotAle() 成对出现
      * 在show 前调用  focusNotAle   show后调用clearFocusNotAle
+     *
      * @param window
      */
     static public void focusNotAle(Window window) {
@@ -90,11 +96,13 @@ public class AppUtils {
     /**
      * dialog 需要全屏的时候用，focusNotAle() 成对出现
      * 在show 前调用  focusNotAle   show后调用clearFocusNotAle
+     *
      * @param window
      */
     static public void clearFocusNotAle(Window window) {
         window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
     }
+
     /**
      * 获取App版本号
      *
@@ -153,51 +161,58 @@ public class AppUtils {
         }
     }
 
-    public static UserInfoBean getUserInfoData(){
+    public static UserInfoBean getUserInfoData() {
         String userJson = SPUtils.getString(Constant.SP_KEY_USERINFO);
-        return GsonUtils.gson.fromJson(userJson,UserInfoBean.class);
+        return GsonUtils.gson.fromJson(userJson, UserInfoBean.class);
     }
-    public static void saveUserInfoData(UserInfoBean userInfoBean){
-        SPUtils.putString(Constant.SP_KEY_USERINFO,GsonUtils.gson.toJson(userInfoBean));
+
+    public static void saveUserInfoData(UserInfoBean userInfoBean) {
+        SPUtils.putString(Constant.SP_KEY_USERINFO, GsonUtils.gson.toJson(userInfoBean));
     }
+
     /**
      * 非全面屏下 虚拟键实际高度(隐藏后高度为0)
+     *
      * @param activity
      * @return
      */
-    public static int getCurrentNavigationBarHeight(Activity activity){
-        if(isNavigationBarShown(activity)){
+    public static int getCurrentNavigationBarHeight(Activity activity) {
+        if (isNavigationBarShown(activity)) {
             return getNavigationBarHeight(activity);
-        } else{
+        } else {
             return 0;
         }
     }
+
     /**
      * 非全面屏下 虚拟按键是否打开
+     *
      * @param activity
      * @return
      */
-    public static boolean isNavigationBarShown(Activity activity){
+    public static boolean isNavigationBarShown(Activity activity) {
         //虚拟键的view,为空或者不可见时是隐藏状态
-        View view  = activity.findViewById(android.R.id.navigationBarBackground);
-        if(view == null){
+        View view = activity.findViewById(android.R.id.navigationBarBackground);
+        if (view == null) {
             return false;
         }
         int visible = view.getVisibility();
-        if(visible == View.GONE || visible == View.INVISIBLE){
-            return false ;
-        }else{
+        if (visible == View.GONE || visible == View.INVISIBLE) {
+            return false;
+        } else {
             return true;
         }
     }
+
     /**
      * 非全面屏下 虚拟键高度(无论是否隐藏)
+     *
      * @param context
      * @return
      */
-    public static int getNavigationBarHeight(Context context){
+    public static int getNavigationBarHeight(Context context) {
         int result = 0;
-        int resourceId = context.getResources().getIdentifier("navigation_bar_height","dimen", "android");
+        int resourceId = context.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
         if (resourceId > 0) {
             result = context.getResources().getDimensionPixelSize(resourceId);
         }
@@ -206,12 +221,13 @@ public class AppUtils {
 
     /**
      * 异步加载图片
+     *
      * @param context
      * @param imageUrl
      * @param defaultResId
      * @param view
      */
-    public static void bindImageToView(Context context, String imageUrl, int defaultResId, ImageView view,DiskCacheStrategy cache,boolean isCircle,int circle) {
+    public static void bindImageToView(Context context, String imageUrl, int defaultResId, ImageView view, DiskCacheStrategy cache, boolean isCircle, int circle) {
         DrawableCrossFadeFactory drawableCrossFadeFactory = new DrawableCrossFadeFactory.Builder(300).setCrossFadeEnabled(true).build();
         RequestBuilder<Drawable> placeholder = Glide.with(context)
                 .load(imageUrl)
@@ -223,16 +239,39 @@ public class AppUtils {
         }
         placeholder.diskCacheStrategy(cache == null ? DiskCacheStrategy.NONE : cache).into(view);
     }
+
     /**
      * 判断是否是 平板 还是 手机
+     *
      * @return true : 平板 ; false : 手机
      */
-    public static boolean isTablet(Context context){
-        if ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE){
+    public static boolean isTablet(Context context) {
+        if (isPad(context) || (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >=
+                Configuration.SCREENLAYOUT_SIZE_LARGE) {
             return true;
         } else {
             return false;
         }
+    }
+
+    private static boolean isPad(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        // 屏幕宽度
+        float screenWidth = display.getWidth();
+        // 屏幕高度
+        float screenHeight = display.getHeight();
+        DisplayMetrics dm = new DisplayMetrics();
+        display.getMetrics(dm);
+        double x = Math.pow(dm.widthPixels / dm.xdpi, 2);
+        double y = Math.pow(dm.heightPixels / dm.ydpi, 2);
+        // 屏幕尺寸
+        double screenInches = Math.sqrt(x + y);
+        // 大于6尺寸则为Pad
+        if (screenInches >= 7.0) {
+            return true;
+        }
+        return false;
     }
 
 }

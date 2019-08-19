@@ -276,7 +276,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 dialog();
                 break;
         }
-
     }
 
     /**

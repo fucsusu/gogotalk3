@@ -32,9 +32,6 @@ import com.zego.zegoliveroom.constants.ZegoConstants;
 import com.zego.zegoliveroom.entity.ZegoStreamInfo;
 import com.zego.zegoliveroom.entity.ZegoUser;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -200,6 +197,9 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     //发送语音判断结果
     @Override
     public void sendEvaluationResult(String promptId, String correctResp, String sessionId) {
+        if (TextUtils.isEmpty(promptId)) {
+            return;
+        }
         SignallingActionBean signallingActionBean = new SignallingActionBean();
         signallingActionBean.setAction(Constant.MESSAGE_RESULT);
         signallingActionBean.setRole("student");
@@ -386,7 +386,8 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     };
 
     public void getAIEngineResult(String type, String content, String promptId, String correctResp, String sessionId) {
-        if (TextUtils.isEmpty(type) || TextUtils.isEmpty(content) || TextUtils.isEmpty(promptId) || TextUtils.isEmpty(correctResp)) {
+        Log.e("ATGAA", "getAIEngineResult: 开始录音" + type + content + promptId + correctResp + sessionId);
+        if (TextUtils.isEmpty(type) || TextUtils.isEmpty(content)) {
             return;
         }
         ZGBaseHelper.sharedInstance().startAudioRecord();
