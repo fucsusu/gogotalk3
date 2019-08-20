@@ -37,6 +37,7 @@ import com.gogotalk.system.util.AutoUpdateUtil;
 import com.gogotalk.system.util.CoursewareDownLoadUtil;
 import com.gogotalk.system.util.DataCleanManager;
 import com.gogotalk.system.util.DelectFileUtil;
+import com.gogotalk.system.util.FileUtil;
 import com.gogotalk.system.util.PermissionsUtil;
 import com.gogotalk.system.util.SPUtils;
 import com.gogotalk.system.util.ScreenUtils;
@@ -114,6 +115,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         intervalUpdateData();
         AutoUpdateUtil.getInstance().checkForUpdates(this);
         delectCoursewareFile();
+        FileUtil.saveTrophy(this,getExternalCacheDir().getPath()+ File.separator + "trophy.mp3");
     }
 
     /**

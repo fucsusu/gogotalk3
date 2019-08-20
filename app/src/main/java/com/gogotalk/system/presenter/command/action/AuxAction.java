@@ -34,24 +34,24 @@ public class AuxAction {
             JSONObject object1 = new JSONObject(msg);
             String userid = object1.getString("userid");
             String username = object1.getString("username");
-            if ("1".equals(username)) {
-                if (!DelectFileUtil.isCoursewareExistence(view.getActivity(), "my.mp3")) {
-                    ZGMediaPlayerDemo.sharedInstance()
-                            .startPlay(view.getMyMp3Url(), false);
-                    return;
-                }
-                ZGMediaPlayerDemo.sharedInstance()
-                        .startPlay(view.getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "my.mp3", false);
-            }
-            if ("2".equals(username)) {
-                if (!DelectFileUtil.isCoursewareExistence(view.getActivity(), "other.mp3")) {
-                    ZGMediaPlayerDemo.sharedInstance()
-                            .startPlay(view.getOtherMp3Url(), false);
-                    return;
-                }
-                ZGMediaPlayerDemo.sharedInstance()
-                        .startPlay(view.getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "other.mp3", false);
-            }
+//            if ("1".equals(username)) {
+//                if (!DelectFileUtil.isCoursewareExistence(view.getActivity(), "my.mp3")) {
+//                    ZGMediaPlayerDemo.sharedInstance()
+//                            .startPlay(view.getMyMp3Url(), false);
+//                    return;
+//                }
+//                ZGMediaPlayerDemo.sharedInstance()
+//                        .startPlay(view.getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "my.mp3", false);
+//            }
+//            if ("2".equals(username)) {
+//                if (!DelectFileUtil.isCoursewareExistence(view.getActivity(), "other.mp3")) {
+//                    ZGMediaPlayerDemo.sharedInstance()
+//                            .startPlay(view.getOtherMp3Url(), false);
+//                    return;
+//                }
+//                ZGMediaPlayerDemo.sharedInstance()
+//                        .startPlay(view.getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "other.mp3", false);
+//            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -69,14 +69,14 @@ public class ZGMediaPlayerDemo implements IZegoMediaPlayerVideoPlayCallback {
 
     static private ZGMediaPlayerDemo zgMediaPlayerDemo;
 
-    public static ZGMediaPlayerDemo sharedInstance(int index) {
-        synchronized (ZGMediaPlayerDemo.class) {
-            if (zgMediaPlayerDemo == null) {
-                zgMediaPlayerDemo = new ZGMediaPlayerDemo(index);
-            }
-        }
-        return zgMediaPlayerDemo;
-    }
+//    public static ZGMediaPlayerDemo sharedInstance(int index) {
+//        synchronized (ZGMediaPlayerDemo.class) {
+//            if (zgMediaPlayerDemo == null) {
+//                zgMediaPlayerDemo = new ZGMediaPlayerDemo(index);
+//            }
+//        }
+//        return zgMediaPlayerDemo;
+//    }
 
     public String TAG = "MediaPlayerDemo";
 
@@ -85,7 +85,7 @@ public class ZGMediaPlayerDemo implements IZegoMediaPlayerVideoPlayCallback {
         // 创建播放器对象
         zegoMediaPlayer = new ZegoMediaPlayer();
         // 初始化播放器
-        zegoMediaPlayer.init(ZegoMediaPlayer.PlayerTypePlayer,index);
+        zegoMediaPlayer.init(ZegoMediaPlayer.PlayerTypePlayer, index);
         // 设置播放器回调
         zegoMediaPlayer.setCallback(zgMediaPlayerCallback);
     }
@@ -129,22 +129,100 @@ public class ZGMediaPlayerDemo implements IZegoMediaPlayerVideoPlayCallback {
      * @param filePath file路径
      * @param repeat   是否重复播放
      */
-    public void startPlay(String filePath, boolean repeat) {
-        Log.e(TAG, String.format("startPlay path: %s", filePath));
-        if (zegoMediaPlayer != null && !TextUtils.isEmpty(filePath)) {
-            zegoMediaPlayer.start(filePath, repeat);
-        }
+    public static void startPlay(String filePath, boolean repeat, int index) {
+        // 创建播放器对象
+        final ZegoMediaPlayer zegoMediaPlayer = new ZegoMediaPlayer();
+        // 初始化播放器
+        zegoMediaPlayer.init(ZegoMediaPlayer.PlayerTypePlayer, index);
+        // 设置播放器回调
+        zegoMediaPlayer.setCallback(new IZegoMediaPlayerCallback() {
+            @Override
+            public void onPlayStart() {
+
+            }
+
+            @Override
+            public void onPlayPause() {
+
+            }
+
+            @Override
+            public void onPlayStop() {
+
+            }
+
+            @Override
+            public void onPlayResume() {
+
+            }
+
+            @Override
+            public void onPlayError(int i) {
+
+            }
+
+            @Override
+            public void onVideoBegin() {
+
+            }
+
+            @Override
+            public void onAudioBegin() {
+
+            }
+
+            @Override
+            public void onPlayEnd() {
+
+            }
+
+            @Override
+            public void onBufferBegin() {
+
+            }
+
+            @Override
+            public void onBufferEnd() {
+
+            }
+
+            @Override
+            public void onSeekComplete(int i, long l) {
+                zegoMediaPlayer.stop();
+                zegoMediaPlayer.setCallback(null);
+                zegoMediaPlayer.setVideoPlayCallback(null, 0);
+                zegoMediaPlayer.uninit();
+                zgMediaPlayerDemo = null;
+            }
+
+            @Override
+            public void onSnapshot(Bitmap bitmap) {
+
+            }
+
+            @Override
+            public void onLoadComplete() {
+
+            }
+
+            @Override
+            public void onProcessInterval(long l) {
+
+            }
+        });
+        zegoMediaPlayer.setVolume(100);
+        zegoMediaPlayer.start(filePath, repeat);
     }
 
-    public void startPlay(String filePath, String url, boolean repeat) {
-        Log.e(TAG, String.format("startPlay path: %s", filePath));
+
+    public static void startPlay(String filePath, String url, boolean repeat,int index) {
+        Log.e("TAG", String.format("startPlay path: %s", filePath));
         File file = new File(filePath);
-        setVolume(100);
-        if (zegoMediaPlayer != null && !TextUtils.isEmpty(filePath)) {
+        if (!TextUtils.isEmpty(filePath)) {
             if (file.exists()) {
-                zegoMediaPlayer.start(filePath, repeat);
-            }else {
-                zegoMediaPlayer.start(url, repeat);
+                startPlay(filePath, repeat, index);
+            } else {
+                startPlay(url, repeat, index);
             }
         }
     }

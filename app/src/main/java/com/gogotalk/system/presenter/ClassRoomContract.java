@@ -56,12 +56,6 @@ public interface ClassRoomContract {
         //发送奖杯
         void openOtherJBAnim(int num);
 
-        //获取自己的mp3远程地址
-        String getMyMp3Url();
-
-        //获取其他人的mp3远程地址
-        String getOtherMp3Url();
-
         //播放名字MP3地址
         void playNameMp3(String name);
 

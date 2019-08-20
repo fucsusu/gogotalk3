@@ -3,7 +3,6 @@ package com.gogotalk.system.view.activity;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -43,7 +42,6 @@ import com.gogotalk.system.presenter.ClassRoomPresenter;
 import com.gogotalk.system.util.AnimatorUtils;
 import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.util.DateUtils;
-import com.gogotalk.system.util.DelectFileUtil;
 import com.gogotalk.system.util.ToastUtils;
 import com.gogotalk.system.view.widget.AnswerCountDown;
 import com.gogotalk.system.view.widget.MikeRateView;
@@ -55,7 +53,6 @@ import com.gogotalk.system.zego.ZGMediaSideInfoDemo;
 import com.gogotalk.system.zego.ZGPlayHelper;
 import com.gogotalk.system.zego.ZGPublishHelper;
 import com.orhanobut.logger.Logger;
-import com.zego.zegoavkit2.ZegoMediaPlayer;
 import com.zego.zegoavkit2.soundlevel.ZegoSoundLevelMonitor;
 import com.zego.zegoliveroom.constants.ZegoConstants;
 
@@ -154,9 +151,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public String teacherStreamID;//老师的流ID
 
     public int mLeaveMessage = 0;//离开教室的提示信息
-
-    public MediaPlayer player;//奖杯声音播放
-
     public String mCoursewareFile = "";
 
     private boolean isWebFinsh = false;
@@ -273,7 +267,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public void btnClick(View view) {
         switch (view.getId()) {
             case R.id.class_room_close:
-                dialog();
+                //dialog();
+                showJb(2);
                 break;
         }
     }
@@ -448,12 +443,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         if (addNum > 0) {
             mPresenter.sendShowJbRoomCommand(addNum);
             //奖杯声音播放
-            if (player == null) {
-                player = MediaPlayer.create(this, R.raw.trophy);
-            }
-            if (!player.isPlaying()) {
-                player.start();
-            }
+            ZGMediaPlayerDemo.startPlay(getExternalCacheDir().getPath() + File.separator + "trophy.mp3", false, 3);
         }
     }
 
@@ -468,30 +458,14 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 AnimatorUtils.showOtherJiangbei(mJB_xing_other, mJB_other, mJB_jiayi_other, mOtherJBNum, mOtherJbNum);
                 break;
             case 2:
-                AnimatorUtils.showOtherJiangbei(mJB_xing_other, mJB_other, mJB_jiayi_other, mOtherJBNum, mOtherJbNum);
+                AnimatorUtils.showOtherJiangbei(mJB_xing_other, mJB_other, mJB_jiaer_other, mOtherJBNum, mOtherJbNum);
                 break;
             case 3:
-                AnimatorUtils.showOtherJiangbei(mJB_xing_other, mJB_other, mJB_jiayi_other, mOtherJBNum, mOtherJbNum);
+                AnimatorUtils.showOtherJiangbei(mJB_xing_other, mJB_other, mJB_jiaSan_other, mOtherJBNum, mOtherJbNum);
                 break;
         }
         //奖杯声音播放
-//        if (player == null) {
-//            player = MediaPlayer.create(this, R.raw.trophy);
-//        }
-//        if (!player.isPlaying()) {
-//            player.start();
-//        }
-        ZGMediaPlayerDemo.sharedInstance(3).startPlay("android.resource://" + getPackageName() + "/" + R.raw.trophy,false);
-    }
-
-    @Override
-    public String getMyMp3Url() {
-        return myMp3Url;
-    }
-
-    @Override
-    public String getOtherMp3Url() {
-        return otherMp3Url;
+        ZGMediaPlayerDemo.startPlay(getExternalCacheDir().getPath() + File.separator + "trophy.mp3", false, 3);
     }
 
     //播放名字MP3地址
@@ -500,12 +474,9 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
             return;
         }
         if ("1".equals(username)) {
-            ZGMediaPlayerDemo.sharedInstance(1)
-                    .startPlay(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + username + ".mp3", myMp3Url, false);
+            ZGMediaPlayerDemo.startPlay(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + username + ".mp3", myMp3Url, false, 1);
         } else {
-            ZGMediaPlayerDemo.sharedInstance(2)
-                    .startPlay(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + username + ".mp3", otherMp3Url, false);
-
+            ZGMediaPlayerDemo.startPlay(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + username + ".mp3", otherMp3Url, false, 2);
         }
     }
 
@@ -762,10 +733,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         AIEngineUtils.getInstance().onDestroy();
         courseware_class.removeView(webView);
         webView.destroy();
-        if (player != null) {
-            player.release();
-            player = null;
-        }
         if (handler != null) {
             handler = null;
         }
