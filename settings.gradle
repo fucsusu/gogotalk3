@@ -1,1 +1,1 @@
-include ':app',':smallestWidth'
+include ':app',':smallestWidth', ':wheelLibrary'
