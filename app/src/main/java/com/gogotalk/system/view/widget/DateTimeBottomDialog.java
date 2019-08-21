@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.gogotalk.system.R;
 import com.gogotalk.system.util.AppUtils;
 
 import jsc.kit.wheel.dialog.DateTimeWheelDialog;
