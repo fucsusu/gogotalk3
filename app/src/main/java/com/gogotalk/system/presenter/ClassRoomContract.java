@@ -32,6 +32,9 @@ public interface ClassRoomContract {
 
         //获取当前页数
         void sendGetPageData();
+
+        //存储奖杯数量
+        void saveJbNum(int attendDetialId, int jbNum);
     }
 
     interface IClassRoomView extends BaseContract.View {
@@ -61,5 +64,8 @@ public interface ClassRoomContract {
 
         //跳转页数
         void toPage(int page);
+
+        //奖杯存储后
+        void saveJbNumFinsh();
     }
 }

@@ -37,8 +37,6 @@ public class Constant {
     public static final String INTENT_DATA_KEY_CLASS_ID = "AttendLessonID";
     //开始上课时间
     public static final String INTENT_DATA_KEY_BEGIN_TIME = "LessonTime";
-    //需要跳转的页数
-    public static final String INTENT_DATA_KEY_TOPAGE = "timeToPage";
 
     public static final String INTENT_DATA_KEY_MY = "my";
     public static final String INTENT_DATA_KEY_OTHER = "other";
@@ -46,6 +44,12 @@ public class Constant {
     public static final String INTENT_DATA_KEY_OTHER_NAME = "othername";
     //其他学生的id
     public static final String INTENT_DATA_KEY_OTHER_NAME_ID = "othernameid";
+    //教室的详情ID
+    public static final String INTENT_DATA_KEY_DETADIL_RECORDID = "DetailRecordID";
+    //自己的奖杯数量
+    public static final String INTENT_DATA_KEY_OWNJBNUM = "MyGiftCupNum";
+    //其他人的奖杯数量
+    public static final String INTENT_DATA_KEY_OTHERJBNUM = "OtherGiftCupNum";
 
     //信令标识
     public static final String MESSAGE_SHOW_JB = "show_jb";

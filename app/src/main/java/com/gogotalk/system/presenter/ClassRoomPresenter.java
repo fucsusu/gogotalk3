@@ -6,10 +6,13 @@ import android.util.Log;
 import android.view.View;
 
 import com.chivox.AIEngineUtils;
+import com.gogotalk.system.model.api.ApiService;
 import com.gogotalk.system.model.entity.ActionBean;
 import com.gogotalk.system.model.entity.SignallingActionBean;
+import com.gogotalk.system.model.util.CommonSubscriber;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.model.util.GsonUtils;
+import com.gogotalk.system.model.util.RxUtil;
 import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.util.LogUtil;
 import com.gogotalk.system.zego.ZGBaseHelper;
@@ -63,8 +66,12 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     private String roomId;
     Context context;
 
+
+    private ApiService mApiService;
+
     @Inject
-    public ClassRoomPresenter() {
+    public ClassRoomPresenter(ApiService apiService) {
+        this.mApiService = apiService;
     }
 
     {
@@ -240,6 +247,38 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
             }
         });
         LogUtil.e("TAG", "sendGetPageData: 发送信令结果 " + sendSucess);
+    }
+
+    @Override
+    public void saveJbNum(int attendDetialId, int jbNum) {
+        if (attendDetialId > 0 && jbNum > 0) {
+            addSubscribe(mApiService.saveJbNum(attendDetialId, jbNum)
+                    .compose(RxUtil.rxSchedulerHelper())
+                    .compose(RxUtil.handleMyResult(getView(), false))
+                    .subscribeWith(new CommonSubscriber<Object>(getView()) {
+                        @Override
+                        public void onNext(Object o) {
+                            Log.e("TAG", "onNext: " + o.toString());
+                            getView().saveJbNumFinsh();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
+                            Log.e("TAG", "onError: ");
+                            getView().saveJbNumFinsh();
+
+                        }
+
+                        @Override
+                        public void onFail() {
+                            super.onFail();
+                            Log.e("TAG", "onFail: ");
+                            getView().saveJbNumFinsh();
+                        }
+                    })
+            );
+        }
     }
 
 

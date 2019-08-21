@@ -224,6 +224,9 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
         mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHER, bean.getOtherStudentSoundUrl());
         mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHER_NAME, bean.getOtherStudnetName());
         mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHER_NAME_ID, bean.getOtherStudentId());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_DETADIL_RECORDID, bean.getDetialRecordID());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_OWNJBNUM,bean.getMyGiftCupNum());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHERJBNUM,bean.getOtherGiftCupNum());
         startActivity(mIntent);
     }
 
@@ -270,8 +273,8 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
         levelBeans.clear();
         levelBeans.addAll(beans);
         levelAdapter.notifyDataSetChanged();
-        for(BookLevelBean levelBean:levelBeans){
-            if(AppUtils.getUserInfoData().getLevel()==levelBean.getBookLevel()){
+        for (BookLevelBean levelBean : levelBeans) {
+            if (AppUtils.getUserInfoData().getLevel() == levelBean.getBookLevel()) {
                 tvLevel.setText(levelBean.getBookName());
             }
         }

@@ -3,6 +3,7 @@ package com.gogotalk.system.view.activity;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -193,6 +194,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public String ownName;
     public WebSettings webSettings;
     public int pptPage;
+    public int detailRecordid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -225,6 +227,10 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         otherStudentNameID = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_OTHER_NAME_ID);
         myMp3Url = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_MY);
         otherMp3Url = mIntent.getStringExtra(Constant.INTENT_DATA_KEY_OTHER);
+        detailRecordid = mIntent.getIntExtra(Constant.INTENT_DATA_KEY_DETADIL_RECORDID, -1);
+        mOwnJBNum = mIntent.getIntExtra(Constant.INTENT_DATA_KEY_OWNJBNUM, 0);
+        mOtherJbNum = mIntent.getIntExtra(Constant.INTENT_DATA_KEY_OTHERJBNUM, 0);
+
         if (Constant.DEBUG) {
             AttendLessonID = "638";
         }
@@ -302,8 +308,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
             @Override
             public void onClick(View v) {
                 loadingDialog.dismiss();
-                startActivity(new Intent(ClassRoomActivity.this, MainActivity.class));
-                finish();
+                mPresenter.saveJbNum(detailRecordid, mOwnJBNum);
             }
         });
         mBtn2.setOnClickListener(new View.OnClickListener() {
@@ -333,6 +338,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         Logger.e("登录房间成功 roomId:", finalRoomId);
         // 预览自己的视频且推流
         mPresenter.startPreviewOwn(mOwnTV);
+        mMyJB.setText(mOwnJBNum);
     }
 
     @Override
@@ -351,6 +357,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         otherStreamID = streamID;
         otherStudentName = userName;
         otherSNText.setText(userName);
+        mOtherJBNum.setText(mOtherJbNum);
         mvideo_switch_other.setClickable(true);
         mvoice_switch_other.setClickable(true);
         mvoice_switch_other.setOnCheckedChangeListener(this);
@@ -531,6 +538,12 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 }
             });
         }
+    }
+
+    @Override
+    public void saveJbNumFinsh() {
+        startActivity(new Intent(ClassRoomActivity.this, MainActivity.class));
+        finish();
     }
 
     //答题处理

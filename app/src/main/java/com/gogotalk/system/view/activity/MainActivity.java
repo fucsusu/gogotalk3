@@ -115,7 +115,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         intervalUpdateData();
         AutoUpdateUtil.getInstance().checkForUpdates(this);
         delectCoursewareFile();
-        FileUtil.saveTrophy(this,getExternalCacheDir().getPath()+ File.separator + "trophy.mp3");
+        FileUtil.saveTrophy(this, getExternalCacheDir().getPath() + File.separator + "trophy.mp3");
     }
 
     /**
@@ -258,7 +258,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     public void onRoomInfoSuccess(RoomInfoBean bean, String filePath) {
-        Log.e("TAG", "onRoomInfoSucces: " + bean.toString());
         Intent mIntent = new Intent(MainActivity.this, ClassRoomActivity.class);
         mIntent.putExtra(Constant.INTENT_DATA_KEY_CLASS_ID, bean.getAttendLessonID() + "");
         mIntent.putExtra(Constant.INTENT_DATA_KEY_BEGIN_TIME, bean.getLessonTime());
@@ -268,6 +267,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHER, bean.getOtherStudentSoundUrl());
         mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHER_NAME, bean.getOtherStudnetName());
         mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHER_NAME_ID, bean.getOtherStudentId());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_DETADIL_RECORDID, bean.getDetialRecordID());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_OWNJBNUM,bean.getMyGiftCupNum());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHERJBNUM,bean.getOtherGiftCupNum());
         startActivity(mIntent);
     }
 

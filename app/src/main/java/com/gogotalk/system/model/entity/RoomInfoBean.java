@@ -35,6 +35,17 @@ public class RoomInfoBean {
     private int timeToPage;
     private String MyStudentSoundUrl;
     private String OtherStudentSoundUrl;
+    private int DetialRecordID;
+    private int MyGiftCupNum;
+    private int OtherGiftCupNum;
+
+    public int getDetialRecordID() {
+        return DetialRecordID;
+    }
+
+    public void setDetialRecordID(int detialRecordID) {
+        DetialRecordID = detialRecordID;
+    }
 
     public String getMyStudentSoundUrl() {
         return MyStudentSoundUrl;
@@ -138,6 +149,22 @@ public class RoomInfoBean {
 
     public void setLessonTime(String LessonTime) {
         this.LessonTime = LessonTime;
+    }
+
+    public int getMyGiftCupNum() {
+        return MyGiftCupNum;
+    }
+
+    public void setMyGiftCupNum(int myGiftCupNum) {
+        MyGiftCupNum = myGiftCupNum;
+    }
+
+    public int getOtherGiftCupNum() {
+        return OtherGiftCupNum;
+    }
+
+    public void setOtherGiftCupNum(int otherGiftCupNum) {
+        OtherGiftCupNum = otherGiftCupNum;
     }
 
     public static class ChapterDataBean {

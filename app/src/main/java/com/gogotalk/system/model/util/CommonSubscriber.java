@@ -28,11 +28,11 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
             mView.hideLoading();
         }
         if (e instanceof NoNetworkException) {
-            ToastUtils.showShortToast(mView.getActivity(),"网络异常，请检查网络后重试");
+            ToastUtils.showShortToast(mView.getActivity(), "网络异常，请检查网络后重试");
             return;
         }
         if (isError()) {
-            ToastUtils.showLongToast(mView.getActivity(), msg+e.getMessage());
+            ToastUtils.showLongToast(mView.getActivity(), msg + e.getMessage());
         }
     }
 

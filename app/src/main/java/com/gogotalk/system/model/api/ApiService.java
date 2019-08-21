@@ -53,7 +53,6 @@ public interface ApiService {
     @GET("/api/Lesson/GetLessonUnitList")
     Flowable<ResponseModel<List<GoGoBean>>> getClassByLevel(@Query("level") String level);
 
-
     @GET("/api/Lesson/CancelLesson")
     Flowable<ResponseModel<Object>> cancelOrderClass(@Query("DemandId") int demandId);
 
@@ -74,7 +73,7 @@ public interface ApiService {
     Flowable<ResponseModel<EnglishNameListBean>> getEnglishNameListData(@Query("sexFlag") int sex);
 
     @GET("/api/User/SeacheEnglishName")
-    Flowable<ResponseModel<List<String>>> searchEnglishNameListData(@Query("sexFlag") int sex,@Query("wordName") String keyword);
+    Flowable<ResponseModel<List<String>>> searchEnglishNameListData(@Query("sexFlag") int sex, @Query("wordName") String keyword);
 
     @Streaming
     @GET
@@ -87,14 +86,18 @@ public interface ApiService {
     Flowable<ResponseModel<Object>> sendCode(@Query("Phone") String phone);
 
     @GET("/api/User/CheckCodeByPhone")
-    Flowable<ResponseModel<Object>> checkCode(@Query("Phone") String phone,@Query("Code") String code);
+    Flowable<ResponseModel<Object>> checkCode(@Query("Phone") String phone, @Query("Code") String code);
 
     @Headers({"Content-Type:application/json", "Accept: application/json"})
     @POST("/api/User/ModifyPassword")
     Flowable<ResponseModel<Object>> updatePassword(@Body RequestBody body);
 
     @GET("/api/User/UserRegister")
-    Flowable<ResponseModel<Object>> regUser(@Query("Phone") String phone,@Query("Code") String code,@Query("Password") String password);
+    Flowable<ResponseModel<Object>> regUser(@Query("Phone") String phone, @Query("Code") String code, @Query("Password") String password);
+
+    //更新数据库奖杯数量
+    @GET("/api/Lesson/UpdateGiftCupNum")
+    Flowable<ResponseModel<Object>> saveJbNum(@Query("attendDetialId") int attendDetialId, @Query("giftCupNum") int giftCupNum);
 
 }
 

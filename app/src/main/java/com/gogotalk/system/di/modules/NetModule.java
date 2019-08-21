@@ -32,6 +32,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.gogotalk.system.model.util.Constant.PATH_DEBUG_URL;
 import static com.gogotalk.system.model.util.Constant.PATH_RELEASE_URL;
 
 @Module
