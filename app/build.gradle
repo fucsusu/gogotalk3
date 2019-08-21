@@ -96,4 +96,5 @@ dependencies {
     implementation 'com.pgyersdk:sdk:3.0.4'
     implementation files('libs/jcore-android-2.0.1.jar')
     implementation files('libs/jpush-android-3.3.4.jar')
+    implementation 'jsc.kit.wheel:wheel-view:0.5.4'
 }

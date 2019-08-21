@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@drawable/bg_search_name"
+    android:orientation="vertical">
+
+    <TextView
+        android:textColor="#333333"
+        android:id="@+id/tv_question_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="宝贝学习英语的时长"
+        android:textSize="@dimen/qb_px_18" />
+
+    <RadioGroup
+        android:id="@+id/rg_question_item"
+        android:layout_marginTop="@dimen/qb_px_30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_next_repeat"
+        android:textSize="@dimen/qb_px_14"
+        android:layout_marginTop="@dimen/qb_px_39"
+        android:layout_width="@dimen/qb_px_103"
+        android:layout_height="@dimen/qb_px_34"
+        android:stateListAnimator="@null"
+        android:enabled="false"
+        android:text="下一步"
+        android:background="@mipmap/bg_level_btn_next_gray"
+        android:textColor="@color/color_white" />
+</LinearLayout>

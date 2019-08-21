@@ -34,7 +34,7 @@ public class SelectNameActivity extends BaseActivity<SelectNamePresenter> implem
     @BindView(R.id.layout_search)
     RelativeLayout layoutSearch;
     private int sex;
-
+    private int direction;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +54,8 @@ public class SelectNameActivity extends BaseActivity<SelectNamePresenter> implem
     @Override
     public void getIntentData() {
         super.getIntentData();
-        sex = getIntent().getIntExtra("sex", 0);
+        sex = getIntent().getIntExtra(Constant.INTENT_DATA_KEY_SEX, 0);
+        direction = getIntent().getIntExtra(Constant.INTENT_DATA_KEY_DIRECTION, 0);
     }
 
     @Override
@@ -75,6 +76,9 @@ public class SelectNameActivity extends BaseActivity<SelectNamePresenter> implem
             public void onClick(View view) {
                 Intent intent = new Intent(SelectNameActivity.this, SearchNameActivity.class);
                 intent.putExtra(Constant.INTENT_DATA_KEY_SEX, sex);
+                if(direction==Constant.DIRECTION_LEVEL_TO_SELECTNAME){
+                    intent.putExtra(Constant.INTENT_DATA_KEY_DIRECTION,Constant.DIRECTION_LEVEL_TO_SELECTNAME);
+                }
                 startActivity(intent);
                 overridePendingTransition(0, 0);
             }
@@ -86,7 +90,7 @@ public class SelectNameActivity extends BaseActivity<SelectNamePresenter> implem
 
     @Override
     public void updateRecelyerViewData(EnglishNameListBean bean) {
-        mAdapter = new SelectNameAdapter(bean);
+        mAdapter = new SelectNameAdapter(bean,direction);
         SectionedSpanSizeLookup lookup = new SectionedSpanSizeLookup(mAdapter, manager);
         manager.setSpanSizeLookup(lookup);
         mRecyclerView.setAdapter(mAdapter);
