@@ -13,7 +13,6 @@ import com.gogotalk.system.model.util.GsonUtils;
 import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.util.LogUtil;
 import com.gogotalk.system.zego.ZGBaseHelper;
-import com.gogotalk.system.zego.ZGMediaPlayerDemo;
 import com.gogotalk.system.zego.ZGMediaSideInfoDemo;
 import com.gogotalk.system.zego.ZGPlayHelper;
 import com.gogotalk.system.zego.ZGPublishHelper;

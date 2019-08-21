@@ -1,8 +1,6 @@
 package com.gogotalk.system.util;
 
 import android.content.Context;
-import android.os.Environment;
-import android.util.Log;
 
 import com.gogotalk.system.R;
 

@@ -56,13 +56,13 @@ public class Constant {
     //发送答题结果
     public static final String MESSAGE_ANSWER = "answer";
 
-    public static final String ACTION_AUX="aux";
+    public static final String ACTION_AUX = "aux";
 
-    public static final String ACTION_ANSWER="open_answer";
+    public static final String ACTION_ANSWER = "open_answer";
 
-    public static final String ACTION_NEXTPAGE="next_page";
+    public static final String ACTION_NEXTPAGE = "next_page";
 
-    public static final String ACTION_OPENMIKE="open_mic";
+    public static final String ACTION_OPENMIKE = "open_mic";
 
     //apk下载默认前缀
     public static final String DOWNLOAD_APK = "gogotalk";

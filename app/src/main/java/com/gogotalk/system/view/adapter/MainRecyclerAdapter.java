@@ -33,7 +33,6 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         this.btnClickLisener = btnClickLisener;
     }
 
-
     static class ViewHolder extends RecyclerView.ViewHolder {
         RelativeLayout mLayout;
         TextView contentsText, mTitle, mTime, mTime1;

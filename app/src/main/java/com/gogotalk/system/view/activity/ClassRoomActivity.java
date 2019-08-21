@@ -267,8 +267,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     public void btnClick(View view) {
         switch (view.getId()) {
             case R.id.class_room_close:
-                //dialog();
-                showJb(2);
+                dialog();
                 break;
         }
     }
