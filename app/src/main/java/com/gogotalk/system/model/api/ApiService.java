@@ -7,6 +7,9 @@ import com.gogotalk.system.model.entity.ClassDetailBean;
 import com.gogotalk.system.model.entity.CoursesBean;
 import com.gogotalk.system.model.entity.EnglishNameListBean;
 import com.gogotalk.system.model.entity.GoGoBean;
+import com.gogotalk.system.model.entity.LevelListBean;
+import com.gogotalk.system.model.entity.LevelResultBean;
+import com.gogotalk.system.model.entity.QuestionsBean;
 import com.gogotalk.system.model.entity.RecordBean;
 import com.gogotalk.system.model.entity.ResponseModel;
 import com.gogotalk.system.model.entity.RoomInfoBean;
@@ -98,6 +101,19 @@ public interface ApiService {
     //更新数据库奖杯数量
     @GET("/api/Lesson/UpdateGiftCupNum")
     Flowable<ResponseModel<Object>> saveJbNum(@Query("attendDetialId") int attendDetialId, @Query("giftCupNum") int giftCupNum);
+
+    @GET("/api/User/GetSurveyQuestion")
+    Flowable<ResponseModel<QuestionsBean>> getSurveyQuestion();
+
+    @Headers({"Content-Type:application/json", "Accept: application/json"})
+    @POST("/api/User/GradeInvestigation")
+    Flowable<ResponseModel<LevelResultBean>> gradeInvestigation(@Body RequestBody body);
+
+    @GET("/api/User/UpdateStudentLevel")
+    Flowable<ResponseModel<Object>> updateStudentLevel(@Query("level") int level);
+
+    @GET("/api/User/GetLeveInfoList")
+    Flowable<ResponseModel<List<LevelListBean>>> getLeveInfoList();
 
 }
 

@@ -26,9 +26,14 @@ public class Constant {
     public static final String INTENT_DATA_KEY_NAME = "name";
     public static final String INTENT_DATA_KEY_PHONE = "phone";
     public static final String INTENT_DATA_KEY_DIRECTION = "direction";
+    public static final String INTENT_DATA_KEY_LEVEL = "level";
 
     public static final int DIRECTION_SELECTNAME_TO_HOME = 1;
     public static final int DIRECTION_LOGIN_TO_REG = 2;
+    public static final int DIRECTION_LEVEL_TO_SELECTNAME = 3;
+    public static final int DIRECTION_SELECTNAME_TO_LEVEL = 4;
+    public static final int DIRECTION_LEVEL_TO_CLASS = 5;
+    public static final int DIRECTION_CLASS_TO_LEVEL = 6;
     //老师名字
     public static final String INTENT_DATA_KEY_TEACHER_NAME = "teachername";
     //文件下载路径

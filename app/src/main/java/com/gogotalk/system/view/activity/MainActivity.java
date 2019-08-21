@@ -554,6 +554,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 cancelIntervalUpdateData();
                 isFirstLoadData = false;
                 intervalUpdateData();
+//                startActivity(new Intent(MainActivity.this,LevelActivity.class));
                 break;
         }
     }

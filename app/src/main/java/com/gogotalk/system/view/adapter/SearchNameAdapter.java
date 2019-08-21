@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.util.Constant;
+import com.gogotalk.system.view.activity.LevelActivity;
 import com.gogotalk.system.view.activity.MainActivity;
 
 import java.util.List;
@@ -19,8 +20,10 @@ import java.util.List;
 public class SearchNameAdapter extends RecyclerView.Adapter<SearchNameAdapter.SearchNameHodler> {
     private Context context;
     List<String> list;
-    public SearchNameAdapter(List<String> list){
+    private int direction;
+    public SearchNameAdapter(List<String> list,int direction){
         this.list = list;
+        this.direction = direction;
     }
 
 
@@ -38,6 +41,13 @@ public class SearchNameAdapter extends RecyclerView.Adapter<SearchNameAdapter.Se
         searchNameHodler.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(direction==Constant.DIRECTION_LEVEL_TO_SELECTNAME){
+                    Intent intent = new Intent(context, LevelActivity.class);
+                    intent.putExtra(Constant.INTENT_DATA_KEY_NAME,searchNameHodler.tv_name.getText());
+                    intent.putExtra(Constant.INTENT_DATA_KEY_DIRECTION,Constant.DIRECTION_SELECTNAME_TO_LEVEL);
+                    context.startActivity(intent);
+                    return;
+                }
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.putExtra(Constant.INTENT_DATA_KEY_NAME,searchNameHodler.tv_name.getText());
                 intent.putExtra(Constant.INTENT_DATA_KEY_DIRECTION,Constant.DIRECTION_SELECTNAME_TO_HOME);

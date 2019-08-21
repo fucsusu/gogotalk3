@@ -6,6 +6,7 @@ import com.gogotalk.system.view.activity.ClassDetailActivity;
 import com.gogotalk.system.view.activity.ClassListActivity;
 import com.gogotalk.system.view.activity.ClassRoomActivity;
 import com.gogotalk.system.view.activity.ForgetActivity;
+import com.gogotalk.system.view.activity.LevelActivity;
 import com.gogotalk.system.view.activity.LoginActivity;
 import com.gogotalk.system.view.activity.MainActivity;
 import com.gogotalk.system.view.activity.RecordActivity;
@@ -32,4 +33,5 @@ public interface ActivityComponent {
     void inject(ForgetActivity activity);
     void inject(UpdatePasswordActivity activity);
     void inject(RegActivity activity);
+    void inject(LevelActivity activity);
 }

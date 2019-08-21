@@ -2,8 +2,10 @@ package com.gogotalk.system.presenter;
 
 import com.gogotalk.system.model.api.ApiService;
 import com.gogotalk.system.model.util.CommonSubscriber;
+import com.gogotalk.system.model.util.GsonUtils;
 import com.gogotalk.system.model.util.RxUtil;
 import com.gogotalk.system.util.ToastUtils;
+import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
 
@@ -25,6 +27,7 @@ public class RegPresenter extends RxPresenter<RegContract.View> implements RegCo
                 .subscribeWith(new CommonSubscriber<Object>(getView(), "注册失败") {
                     @Override
                     public void onNext(Object o) {
+                        Logger.json(GsonUtils.gson.toJson(o));
                         getView().onRegSuccess();
                     }
                 })

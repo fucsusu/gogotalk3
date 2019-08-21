@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gogotalk.system.R;
+import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.presenter.SearchNameContract;
 import com.gogotalk.system.presenter.SearchNamePresenter;
 import com.gogotalk.system.util.ScreenUtils;
@@ -36,6 +37,7 @@ public class SearchNameActivity extends BaseActivity<SearchNamePresenter> implem
     private SearchNameAdapter mAdapter;
     private GridLayoutManager manager;
     private int sex;
+    private int direction;
     private List<String> list = new ArrayList<>();
 
     @Override
@@ -58,6 +60,7 @@ public class SearchNameActivity extends BaseActivity<SearchNamePresenter> implem
     public void getIntentData() {
         super.getIntentData();
         sex = getIntent().getIntExtra("sex", 0);
+        direction = getIntent().getIntExtra(Constant.INTENT_DATA_KEY_DIRECTION, 0);
     }
 
     @Override
@@ -90,7 +93,7 @@ public class SearchNameActivity extends BaseActivity<SearchNamePresenter> implem
             }
         });
         manager = new GridLayoutManager(this, 5);
-        mAdapter = new SearchNameAdapter(list);
+        mAdapter = new SearchNameAdapter(list,direction);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(ScreenUtils.dip2px(SearchNameActivity.this, 11)));
