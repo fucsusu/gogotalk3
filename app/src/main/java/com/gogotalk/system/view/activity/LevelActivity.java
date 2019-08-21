@@ -94,16 +94,27 @@ public class LevelActivity extends BaseActivity<LevelPresenter> implements Level
     Button btnNextRepeat;
     @BindView(R.id.btn_enter)
     Button btnEnter;
+    //当前性别
     private int currentSex = 1;
+    //当前问题索引
     private int currentQuestionIndex = 0;
+    //当前步骤
     private int currentStep = 1;
+    //存储问题选择结果
     private Map<String,String> questionResult=new HashMap<>();
+    //接口返回问题
     private QuestionsBean questionsBean;
+    //接口返回分级结果
     private LevelResultBean resultBean;
+    //接口返回分级列表
     private List<LevelListBean> levelListBeans=new ArrayList<>();
+    //当前等级
     private int currentLevel = 1;
+    //存储请求参数
     private Map<String,String> requestParams=new HashMap<>();
+    //存储来自方向 例如：从课程列表页跳到定级页
     private int direction;
+
     private long exitTime = 0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -123,13 +134,20 @@ public class LevelActivity extends BaseActivity<LevelPresenter> implements Level
     @Override
     public void getIntentData() {
         super.getIntentData();
+        //第一步默认因此返回按钮
         showBtnBack(false);
+        //获取来自方向
         direction = getIntent().getIntExtra(Constant.INTENT_DATA_KEY_DIRECTION, 0);
         switch (direction){
+            //来自课程列表页
             case Constant.DIRECTION_CLASS_TO_LEVEL:
+                //接受当前等级
                 currentLevel = getIntent().getIntExtra(Constant.INTENT_DATA_KEY_LEVEL, 1);
+                //显示返回按钮
                 showBtnBack(true);
+                //定位到第三步
                 switchLayout(3);
+                //请求获取分级列表数据
                 mPresenter.getLeveInfoList();
                 break;
         }
@@ -138,7 +156,9 @@ public class LevelActivity extends BaseActivity<LevelPresenter> implements Level
     @Override
     protected void initView() {
         super.initView();
+        //获取本地用户数据
         UserInfoBean userInfoData = AppUtils.getUserInfoData();
+        //设置性别
         int sex = userInfoData.getSex();
         if(sex==0){
             rgSex.check(R.id.rb_women);
@@ -147,9 +167,13 @@ public class LevelActivity extends BaseActivity<LevelPresenter> implements Level
             rgSex.check(R.id.rb_man);
             currentSex = 1;
         }
+        //设置英文名
         tvName.setText(TextUtils.isEmpty(userInfoData.getNameEn())?"":userInfoData.getNameEn());
+        //设置出生日期
         tvBirthday.setText(TextUtils.isEmpty(userInfoData.getAge())?"":userInfoData.getAge());
+        //校验是否可以点击下一步按钮
         checkData();
+        //性别选择按钮状态改变监听
         rgSex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -159,35 +183,46 @@ public class LevelActivity extends BaseActivity<LevelPresenter> implements Level
                     currentSex = 0;
                 }
                 tvName.setText("");
+                //校验是否可以点击下一步按钮
                 checkData();
             }
         });
+        //问题选项按钮状态改变监听
         rgQuestionItem.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 RadioButton radiobutton = (RadioButton) radioGroup.getChildAt(i);
                 if(radiobutton ==null)return;
+                //初始化所有选项按钮字体颜色
                 for(int j=0;j<radioGroup.getChildCount();j++){
                     ((RadioButton)radioGroup.getChildAt(j)).setTextColor(Color.parseColor("#333333"));
                 }
+                //选中的按钮字体颜色设为白色
                 radiobutton.setTextColor(Color.WHITE);
+                //存储选择问题答案结果
                 QuestionsBean.ListBean listBean = questionsBean.getList().get(currentQuestionIndex);
                 questionResult.put(""+(int)listBean.getKey(),""+(int)listBean.getQuestionValue().get(i).getValue());
+                //允许点击下一步按钮
                 btnNextRepeat.setEnabled(true);
                 btnNextRepeat.setBackgroundResource(R.mipmap.bg_level_btn_next_active);
             }
         });
+        //第三步tab按钮切换状态改变监听
         rgTab.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 RadioButton radiobutton = (RadioButton) radioGroup.getChildAt(i);
                 if(radiobutton ==null)return;
+                //初始化所有tab按钮字体颜色
                 for(int j=0;j<radioGroup.getChildCount();j++){
                     ((RadioButton)radioGroup.getChildAt(j)).setTextColor(Color.parseColor("#949494"));
                 }
+                //设置当前选择的等级
                 currentLevel = (int)levelListBeans.get(i).getLevel();
+                //切换tab切换状态
                 setTabState(levelListBeans.get(i), radiobutton);
                 radiobutton.setTextColor(Color.WHITE);
+                //切换背景图
                 AppUtils.bindImageToView(LevelActivity.this,levelListBeans.get(i).getPhoneImgUrl(),0,ivBg,null,false,0);
             }
         });
@@ -198,6 +233,7 @@ public class LevelActivity extends BaseActivity<LevelPresenter> implements Level
         super.onNewIntent(intent);
         if (intent != null) {
             switch (intent.getIntExtra(Constant.INTENT_DATA_KEY_DIRECTION, 0)) {
+                //选名字返回
                 case Constant.DIRECTION_SELECTNAME_TO_LEVEL:
                     tvName.setText(intent.getStringExtra(Constant.INTENT_DATA_KEY_NAME));
                     checkData();
@@ -206,6 +242,10 @@ public class LevelActivity extends BaseActivity<LevelPresenter> implements Level
         }
     }
 
+    /**
+     * 校验第一步的下一步按钮是否可以点击
+     * @return
+     */
     private boolean checkData() {
         if (!TextUtils.isEmpty(tvName.getText()) && !TextUtils.isEmpty(tvBirthday.getText())) {
             btnNext.setBackgroundResource(R.mipmap.bg_level_btn_next_active);
@@ -221,6 +261,7 @@ public class LevelActivity extends BaseActivity<LevelPresenter> implements Level
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_enter:
+                //如果来自课程列表页就不更新等级
                 if(direction!=Constant.DIRECTION_CLASS_TO_LEVEL){
                     mPresenter.updateStudentLevel(currentLevel);
                 }
@@ -231,14 +272,19 @@ public class LevelActivity extends BaseActivity<LevelPresenter> implements Level
                 finish();
                 break;
             case R.id.btn_back:
+                //来自课程列表页直接finish
                 if(direction==Constant.DIRECTION_CLASS_TO_LEVEL){
                     finish();
                     return;
                 }
+                //递减步骤
                 currentStep--;
+                //根据当前步骤切换界面UI
                 switchLayout(currentStep);
+                //只要不是第三步就将title设置为"完善宝贝信息"
                 tvLevelTitle.setText("完善宝贝信息");
                 if(currentStep==1){
+                    //这里是处理多题目返回逻辑
                     currentQuestionIndex--;
                     if(currentQuestionIndex<0){
                         currentQuestionIndex = 0;
@@ -252,12 +298,14 @@ public class LevelActivity extends BaseActivity<LevelPresenter> implements Level
                 }
                 break;
             case R.id.btn_next:
+                //步骤加一
                 currentStep++;
                 showBtnBack(true);
                 requestParams.clear();
                 requestParams.put("EName",tvName.getText().toString());
                 requestParams.put("Birthday",tvBirthday.getText().toString());
                 requestParams.put("Gender",currentSex+"");
+                //获取题目
                 mPresenter.getSurveyQuestion();
                 break;
             case R.id.layout_select_name:
@@ -274,8 +322,10 @@ public class LevelActivity extends BaseActivity<LevelPresenter> implements Level
                 }
                 break;
             case R.id.btn_next_repeat:
+                //步骤加一
                 currentStep++;
                 showBtnBack(true);
+                //问题索引加一
                 ++currentQuestionIndex;
                 //当前题下标小于题目总数说明还有下一题
                 if(currentQuestionIndex<questionsBean.getList().size()){

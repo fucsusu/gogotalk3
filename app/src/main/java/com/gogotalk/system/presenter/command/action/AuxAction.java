@@ -36,20 +36,20 @@ public class AuxAction {
             String username = object1.getString("username");
             if ("1".equals(username)) {
                 if (!DelectFileUtil.isCoursewareExistence(view.getActivity(), "my.mp3")) {
-                    ZGMediaPlayerDemo.sharedInstance()
+                    ZGMediaPlayerDemo.sharedInstance(1)
                             .startPlay(view.getMyMp3Url(), false);
                     return;
                 }
-                ZGMediaPlayerDemo.sharedInstance()
+                ZGMediaPlayerDemo.sharedInstance(1)
                         .startPlay(view.getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "my.mp3", false);
             }
             if ("2".equals(username)) {
                 if (!DelectFileUtil.isCoursewareExistence(view.getActivity(), "other.mp3")) {
-                    ZGMediaPlayerDemo.sharedInstance()
+                    ZGMediaPlayerDemo.sharedInstance(1)
                             .startPlay(view.getOtherMp3Url(), false);
                     return;
                 }
-                ZGMediaPlayerDemo.sharedInstance()
+                ZGMediaPlayerDemo.sharedInstance(1)
                         .startPlay(view.getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "other.mp3", false);
             }
         } catch (JSONException e) {
