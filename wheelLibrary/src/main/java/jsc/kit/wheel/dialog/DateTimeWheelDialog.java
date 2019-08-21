@@ -356,7 +356,7 @@ public class DateTimeWheelDialog extends Dialog {
         int minute = selectedCalendar.get(Calendar.MINUTE);
         int index = findSelectedIndexByValue(yearItems, year);
         yearWheelItemView.setSelectedIndex(index, false);
-        index = findSelectedIndexByValue(monthItems, month);
+        index = findSelectedIndexByValue(monthItems, month+1);
         monthWheelItemView.setSelectedIndex(index, false);
         index = findSelectedIndexByValue(dayItems, day);
         dayWheelItemView.setSelectedIndex(index, false);
