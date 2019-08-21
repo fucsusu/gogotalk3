@@ -1,6 +1,7 @@
 package com.gogotalk.system.presenter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,6 +18,7 @@ import com.gogotalk.system.model.util.RxUtil;
 import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.util.BaseDownLoadFileImpl;
 import com.gogotalk.system.util.DelectFileUtil;
+import com.gogotalk.system.view.activity.LevelActivity;
 
 import java.io.File;
 import java.util.HashMap;
@@ -88,8 +90,14 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
                     public void onNext(UserInfoBean userInfoBean) {
                         if (userInfoBean == null) return;
                         AppUtils.saveUserInfoData(userInfoBean);
+                        if(userInfoBean.getLevel()==-1){
+                            Activity activity = getView().getActivity();
+                            Intent intent = new Intent(activity, LevelActivity.class);
+                            activity.startActivity(intent);
+                            return;
+                        }
                         getView().setUserInfoDataToView(userInfoBean.getImageUrl()
-                                , userInfoBean.getName()
+                                , userInfoBean.getNameEn()
                                 , String.valueOf(userInfoBean.getStudentLessonCount())
                                 , userInfoBean.getExpireTime());
                     }

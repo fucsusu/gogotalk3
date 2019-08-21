@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.entity.EnglishNameListBean;
 import com.gogotalk.system.model.util.Constant;
+import com.gogotalk.system.view.activity.LevelActivity;
 import com.gogotalk.system.view.activity.MainActivity;
 
 import java.util.ArrayList;
@@ -22,7 +23,9 @@ public class SelectNameAdapter extends SimpleSectionedAdapter<SelectNameAdapter.
     private Context context;
     private EnglishNameListBean mNameListBean;
     List<String> list=new ArrayList<>();
-    public SelectNameAdapter(EnglishNameListBean nameListBean){
+    private int direction;
+    public SelectNameAdapter(EnglishNameListBean nameListBean,int direction){
+        this.direction =direction;
         if(nameListBean==null)return;
         this.mNameListBean = nameListBean;
         list.clear();
@@ -83,6 +86,13 @@ public class SelectNameAdapter extends SimpleSectionedAdapter<SelectNameAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(direction==Constant.DIRECTION_LEVEL_TO_SELECTNAME){
+                    Intent intent = new Intent(context, LevelActivity.class);
+                    intent.putExtra(Constant.INTENT_DATA_KEY_NAME,holder.tv_name.getText());
+                    intent.putExtra(Constant.INTENT_DATA_KEY_DIRECTION,Constant.DIRECTION_SELECTNAME_TO_LEVEL);
+                    context.startActivity(intent);
+                    return;
+                }
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.putExtra(Constant.INTENT_DATA_KEY_NAME,holder.tv_name.getText());
                 intent.putExtra(Constant.INTENT_DATA_KEY_DIRECTION,Constant.DIRECTION_SELECTNAME_TO_HOME);

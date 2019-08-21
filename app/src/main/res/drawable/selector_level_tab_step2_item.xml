@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    　　　　
+    <item android:drawable="@mipmap/bg_level_tab_step2_item_active" android:state_checked="true" />
+    　　　　
+    <item android:drawable="@drawable/bg_level_step_item" android:state_checked="false" />
+    　　
+</selector>

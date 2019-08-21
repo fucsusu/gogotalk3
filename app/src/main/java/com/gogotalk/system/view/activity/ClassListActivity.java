@@ -72,12 +72,25 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
     private YuYueDialog.Builder builder;
     private int mBookId;
     private int mChaptId;
+    private int currentLevel = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter.getLevelListData();
-        mPresenter.getClassByLevel(AppUtils.getUserInfoData().getLevel());
+        mPresenter.getClassByLevel(currentLevel);
+    }
+
+    @Override
+    public void getIntentData() {
+        super.getIntentData();
+        currentLevel = AppUtils.getUserInfoData().getLevel();
+        int direction = getIntent().getIntExtra(Constant.INTENT_DATA_KEY_DIRECTION, 0);
+        switch (direction){
+            case Constant.DIRECTION_LEVEL_TO_CLASS:
+                currentLevel = getIntent().getIntExtra(Constant.INTENT_DATA_KEY_LEVEL,1);
+                break;
+        }
     }
 
     @Override
@@ -239,19 +252,23 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
                 this.onBackPressed();
                 break;
             case R.id.layout_level:
-                if (!popupWindow.isShowing()) {
-                    ivLevel.setImageResource(R.mipmap.ic_class_list_drop_up);
-                    popupWindow.setFocusable(false);
-                    popupWindow.update();
-                    if ("MI 8".equals(Build.MODEL)) {
-                        popupWindow.showAsDropDown(v, AppUtils.getNavigationBarHeight(ClassListActivity.this) - 25, 10);
-                    } else {
-                        popupWindow.showAsDropDown(v, 10, 10);
-                    }
-                    AppUtils.fullScreenImmersive(popupWindow.getContentView());
-                    popupWindow.setFocusable(true);
-                    popupWindow.update();
-                }
+                Intent intent = new Intent(ClassListActivity.this, LevelActivity.class);
+                intent.putExtra(Constant.INTENT_DATA_KEY_DIRECTION,Constant.DIRECTION_CLASS_TO_LEVEL);
+                intent.putExtra(Constant.INTENT_DATA_KEY_LEVEL,currentLevel);
+                startActivity(intent);
+//                if (!popupWindow.isShowing()) {
+//                    ivLevel.setImageResource(R.mipmap.ic_class_list_drop_up);
+//                    popupWindow.setFocusable(false);
+//                    popupWindow.update();
+//                    if ("MI 8".equals(Build.MODEL)) {
+//                        popupWindow.showAsDropDown(v, AppUtils.getNavigationBarHeight(ClassListActivity.this) - 25, 10);
+//                    } else {
+//                        popupWindow.showAsDropDown(v, 10, 10);
+//                    }
+//                    AppUtils.fullScreenImmersive(popupWindow.getContentView());
+//                    popupWindow.setFocusable(true);
+//                    popupWindow.update();
+//                }
                 break;
         }
     }
@@ -271,7 +288,7 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
         levelBeans.addAll(beans);
         levelAdapter.notifyDataSetChanged();
         for(BookLevelBean levelBean:levelBeans){
-            if(AppUtils.getUserInfoData().getLevel()==levelBean.getBookLevel()){
+            if(currentLevel==levelBean.getBookLevel()){
                 tvLevel.setText(levelBean.getBookName());
             }
         }
