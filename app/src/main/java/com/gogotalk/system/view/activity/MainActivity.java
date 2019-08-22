@@ -430,11 +430,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     private void showUserInfoDialogV2() {
         if (AppUtils.getUserInfoData() == null) return;
-        userInfoDialogBuilder.setSex(AppUtils.getUserInfoData().getSex()).setName(AppUtils.getUserInfoData().getNameEn());
+        userInfoDialogBuilder.setSex(AppUtils.getUserInfoData().getSex())
+                .setName(AppUtils.getUserInfoData().getNameEn())
+                .setBirthday(AppUtils.getUserInfoData().getAge());
         userInfoDialog.setSaveClickLisener(new UserInfoDialogV2.OnSaveClickLisener() {
             @Override
-            public void onClick(int sex, String name) {
-                mPresenter.updateUserInfo(name, sex);
+            public void onClick(int sex, String name,String birthday) {
+                mPresenter.updateUserInfo(name, sex,birthday);
             }
         });
         userInfoDialog.show();

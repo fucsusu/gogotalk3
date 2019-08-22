@@ -75,7 +75,7 @@
                     android:id="@+id/tv_name"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/qb_px_12"
+                    android:layout_marginLeft="@dimen/qb_px_20"
                     android:layout_weight="1"
                     android:background="@null"
                     android:gravity="center"
@@ -90,7 +90,39 @@
                     android:layout_marginRight="@dimen/qb_px_6"
                     android:src="@mipmap/btn_user_info_right" />
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout_birthday"
+                android:layout_width="@dimen/qb_px_220"
+                android:layout_height="@dimen/qb_px_31"
+                android:layout_below="@+id/rg_sex"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/qb_px_20"
+                android:background="@mipmap/bg_user_info_input"
+                android:gravity="center_vertical">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/qb_px_13"
+                    android:text="宝贝生日"
+                    android:textColor="#ff666666"
+                    android:textSize="@dimen/qb_px_10" />
+
+                <TextView
+                    android:id="@+id/tv_birthday"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/qb_px_12"
+                    android:layout_marginRight="@dimen/qb_px_29"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="请输入宝贝的出生日期"
+                    android:textColor="#ff333333"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/qb_px_10" />
+
+            </LinearLayout>
             <!--<Button-->
             <!--android:id="@+id/btn_save"-->
             <!--android:layout_width="wrap_content"-->
