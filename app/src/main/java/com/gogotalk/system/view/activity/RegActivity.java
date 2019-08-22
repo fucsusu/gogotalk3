@@ -21,7 +21,10 @@ import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.presenter.RegContract;
 import com.gogotalk.system.presenter.RegPresenter;
 import com.gogotalk.system.util.FormCheckUtils;
+import com.gogotalk.system.util.SPUtils;
 import com.gogotalk.system.util.ToastUtils;
+
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -42,7 +45,7 @@ public class RegActivity extends BaseActivity<RegPresenter> implements RegContra
     @BindView(R.id.btn_back)
     ImageView btnBack;
     CountDownTimer countDownTimer;
-    int direct;
+//    int direct;
 
     @Override
     protected int getLayoutId() {
@@ -58,25 +61,25 @@ public class RegActivity extends BaseActivity<RegPresenter> implements RegContra
     protected void initView() {
         super.initView();
         initRegToLoginTxt();
-        if (isFirstReg()) {
-            btnBack.setVisibility(View.GONE);
-        } else {
-            btnBack.setVisibility(View.VISIBLE);
-        }
+//        if (isFirstReg()) {
+//            btnBack.setVisibility(View.GONE);
+//        } else {
+//            btnBack.setVisibility(View.VISIBLE);
+//        }
     }
 
-    private boolean isFirstReg() {
-        if (direct == 0) {
-            return true;
-        }
-        return false;
-    }
+//    private boolean isFirstReg() {
+//        if (direct == 0) {
+//            return true;
+//        }
+//        return false;
+//    }
 
-    @Override
-    public void getIntentData() {
-        super.getIntentData();
-        direct = getIntent().getIntExtra(Constant.INTENT_DATA_KEY_DIRECTION, 0);
-    }
+//    @Override
+//    public void getIntentData() {
+//        super.getIntentData();
+//        direct = getIntent().getIntExtra(Constant.INTENT_DATA_KEY_DIRECTION, 0);
+//    }
 
     private void initRegToLoginTxt() {
         SpannableString spannableString = new SpannableString(getString(R.string.reg_login_txt));
@@ -84,9 +87,9 @@ public class RegActivity extends BaseActivity<RegPresenter> implements RegContra
         spannableString.setSpan(new NoLineCllikcSpan() {
             @Override
             public void onClick(View view) {
-                if (isFirstReg()) {
+//                if (isFirstReg()) {
                     startActivity(new Intent(RegActivity.this, LoginActivity.class));
-                }
+//                }
                 finish();
             }
         }, 6, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -152,15 +155,6 @@ public class RegActivity extends BaseActivity<RegPresenter> implements RegContra
         }
     }
 
-    @Override
-    public void onRegSuccess() {
-        ToastUtils.showShortToast(this, "注册成功！");
-        if (isFirstReg()) {
-            startActivity(new Intent(RegActivity.this, LoginActivity.class));
-            finish();
-            return;
-        }
-    }
 
 
     class NoLineCllikcSpan extends ClickableSpan {
