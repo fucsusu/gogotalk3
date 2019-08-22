@@ -25,6 +25,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gogotalk.system.R;
 import com.gogotalk.system.app.AppManager;
 import com.gogotalk.system.model.entity.LevelListBean;
@@ -166,9 +167,9 @@ public class LevelActivity extends BaseActivity<LevelPresenter> implements Level
             currentSex = 1;
         }
         //设置英文名
-        tvName.setText(TextUtils.isEmpty(userInfoData.getNameEn())?"":userInfoData.getNameEn());
+        //tvName.setText(TextUtils.isEmpty(userInfoData.getNameEn())?"":userInfoData.getNameEn());
         //设置出生日期
-        tvBirthday.setText(TextUtils.isEmpty(userInfoData.getAge())?"":userInfoData.getAge());
+        //tvBirthday.setText(TextUtils.isEmpty(userInfoData.getAge())?"":userInfoData.getAge());
         //校验是否可以点击下一步按钮
         checkData();
         //性别选择按钮状态改变监听
@@ -221,7 +222,7 @@ public class LevelActivity extends BaseActivity<LevelPresenter> implements Level
                 setTabState(levelListBeans.get(i), radiobutton);
                 radiobutton.setTextColor(Color.WHITE);
                 //切换背景图
-                AppUtils.bindImageToView(LevelActivity.this,levelListBeans.get(i).getPhoneImgUrl(),0,ivBg,null,false,0);
+                AppUtils.bindImageToView(LevelActivity.this,levelListBeans.get(i).getPhoneImgUrl(),0,ivBg, DiskCacheStrategy.ALL,false,0);
             }
         });
     }
@@ -512,7 +513,7 @@ public class LevelActivity extends BaseActivity<LevelPresenter> implements Level
                 radioButton.setChecked(true);
                 radioButton.setTextColor(Color.WHITE);
             }
-            RadioGroup.MarginLayoutParams params = new RadioGroup.MarginLayoutParams((int) (getResources().getDimension(R.dimen.qb_px_123)), (int) (getResources().getDimension(R.dimen.qb_px_35)));
+            RadioGroup.MarginLayoutParams params = new RadioGroup.MarginLayoutParams((int) (getResources().getDimension(R.dimen.qb_px_110)), (int) (getResources().getDimension(R.dimen.qb_px_28)));
             rgTab.addView(radioButton,count,params);
             count++;
         }

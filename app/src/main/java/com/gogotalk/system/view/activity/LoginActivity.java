@@ -18,6 +18,7 @@ import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.presenter.LoginContract;
 import com.gogotalk.system.presenter.LoginPresenter;
 import com.gogotalk.system.util.FormCheckUtils;
+import com.gogotalk.system.util.PermissionsUtil;
 import com.gogotalk.system.util.SPUtils;
 import com.gogotalk.system.util.ToastUtils;
 
@@ -42,6 +43,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         checkLocalStorage();
+        PermissionsUtil.getInstance().requestPermissions(this);
     }
 
     @Override
@@ -65,13 +67,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @OnClick(R.id.btn_login_submit)
     void submit() {
-        if(FormCheckUtils.checkPhoneEmpty(etLoginPhone.getText().toString())){
+        if (FormCheckUtils.checkPhoneEmpty(etLoginPhone.getText().toString())) {
             return;
         }
-        if(FormCheckUtils.checkPasswordEmpty(etLoginPassword.getText().toString())){
+        if (FormCheckUtils.checkPasswordEmpty(etLoginPassword.getText().toString())) {
             return;
         }
-        if(FormCheckUtils.checkPasswordFormat(etLoginPassword.getText().toString())){
+        if (FormCheckUtils.checkPasswordFormat(etLoginPassword.getText().toString())) {
             return;
         }
         mPresenter.login(etLoginPhone.getText().toString(), etLoginPassword.getText().toString(), true, false);
@@ -90,15 +92,15 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         }
     }
 
-    @OnClick({R.id.btn_forget,R.id.tv_reg})
+    @OnClick({R.id.btn_forget, R.id.tv_reg})
     public void onViewClicked(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_forget:
                 startActivity(new Intent(LoginActivity.this, ForgetActivity.class));
                 break;
             case R.id.tv_reg:
                 Intent intent = new Intent(LoginActivity.this, RegActivity.class);
-                intent.putExtra(Constant.INTENT_DATA_KEY_DIRECTION,Constant.DIRECTION_LOGIN_TO_REG);
+                intent.putExtra(Constant.INTENT_DATA_KEY_DIRECTION, Constant.DIRECTION_LOGIN_TO_REG);
                 startActivity(intent);
                 break;
         }

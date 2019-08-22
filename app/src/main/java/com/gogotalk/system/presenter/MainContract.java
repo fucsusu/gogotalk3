@@ -16,7 +16,7 @@ public interface MainContract {
     }
     interface Presenter extends BaseContract.Presenter<MainContract.View>{
         void getClassListData(boolean isShowLoading,boolean isHideLoading);
-        void getUserInfoData(boolean isShowLoading,boolean isHideLoading);
+        void getUserInfoData(boolean isShowLoading,boolean isHideLoading,boolean isGetClassList);
         void canelOrderClass(int demandId);
         void updateUserInfo(String name,int sex,String birthday);
         void getRoomInfo(CoursesBean coursesBean,String filePath);

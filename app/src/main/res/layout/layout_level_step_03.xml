@@ -1,23 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_search_name"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_search_name"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/iv_bg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:scaleType="fitXY"
-            android:src="@mipmap/l1" />
-    <ScrollView
-        android:layout_marginTop="@dimen/qb_px_13"
         android:layout_gravity="center_horizontal"
-        android:layout_width="@dimen/qb_px_600"
-        android:layout_height="wrap_content">
+        android:scaleType="fitXY"
+        android:src="@mipmap/l1" />
+
+    <ScrollView
+        android:id="@+id/sv_leval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/qb_px_55"
+        android:layout_marginTop="@dimen/qb_px_13">
+
         <RadioGroup
             android:id="@+id/rg_tab"
             android:layout_width="wrap_content"
@@ -27,47 +30,59 @@
             android:orientation="horizontal">
 
             <!--<RadioButton-->
-                <!--android:layout_width="@dimen/qb_px_123"-->
-                <!--android:layout_height="@dimen/qb_px_35"-->
-                <!--android:background="@drawable/selector_level_tab"-->
-                <!--android:button="@null"-->
-                <!--android:checked="true"-->
-                <!--android:gravity="center"-->
-                <!--android:text="L1"-->
-                <!--android:textColor="@color/color_white"-->
-                <!--android:textSize="@dimen/qb_px_13" />-->
+            <!--android:layout_width="@dimen/qb_px_123"-->
+            <!--android:layout_height="@dimen/qb_px_35"-->
+            <!--android:background="@drawable/selector_level_tab"-->
+            <!--android:button="@null"-->
+            <!--android:checked="true"-->
+            <!--android:gravity="center"-->
+            <!--android:text="L1"-->
+            <!--android:textColor="@color/color_white"-->
+            <!--android:textSize="@dimen/qb_px_13" />-->
 
             <!--<RadioButton-->
-                <!--android:layout_width="@dimen/qb_px_123"-->
-                <!--android:layout_height="@dimen/qb_px_35"-->
-                <!--android:background="@drawable/selector_level_tab"-->
-                <!--android:button="@null"-->
-                <!--android:gravity="center"-->
-                <!--android:text="L2"-->
-                <!--android:textColor="#949494"-->
-                <!--android:textSize="@dimen/qb_px_13" />-->
+            <!--android:layout_width="@dimen/qb_px_123"-->
+            <!--android:layout_height="@dimen/qb_px_35"-->
+            <!--android:background="@drawable/selector_level_tab"-->
+            <!--android:button="@null"-->
+            <!--android:gravity="center"-->
+            <!--android:text="L2"-->
+            <!--android:textColor="#949494"-->
+            <!--android:textSize="@dimen/qb_px_13" />-->
 
             <!--<RadioButton-->
-                <!--android:layout_width="@dimen/qb_px_123"-->
-                <!--android:layout_height="@dimen/qb_px_35"-->
-                <!--android:background="@drawable/selector_level_tab"-->
-                <!--android:button="@null"-->
-                <!--android:gravity="center"-->
-                <!--android:text="L3"-->
-                <!--android:textColor="#949494"-->
-                <!--android:textSize="@dimen/qb_px_13" />-->
+            <!--android:layout_width="@dimen/qb_px_123"-->
+            <!--android:layout_height="@dimen/qb_px_35"-->
+            <!--android:background="@drawable/selector_level_tab"-->
+            <!--android:button="@null"-->
+            <!--android:gravity="center"-->
+            <!--android:text="L3"-->
+            <!--android:textColor="#949494"-->
+            <!--android:textSize="@dimen/qb_px_13" />-->
         </RadioGroup>
     </ScrollView>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/sv_leval"
+        android:layout_marginLeft="@dimen/qb_px_10"
+        android:layout_toRightOf="@id/sv_leval"
+        android:text="点击不同级别\n查看级别详情"
+        android:textSize="@dimen/qb_px_10" />
+
     <Button
         android:id="@+id/btn_enter"
-        android:layout_gravity="right|bottom"
-        android:layout_marginTop="@dimen/qb_px_39"
         android:layout_width="@dimen/qb_px_103"
         android:layout_height="@dimen/qb_px_34"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/qb_px_39"
+        android:background="@mipmap/bg_level_btn_next_active"
         android:stateListAnimator="@null"
         android:text="进入课程"
-        android:textSize="@dimen/qb_px_14"
-        android:background="@mipmap/bg_level_btn_next_active"
-        android:textColor="@color/color_white" />
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/qb_px_14" />
 
-</FrameLayout>
+</RelativeLayout>

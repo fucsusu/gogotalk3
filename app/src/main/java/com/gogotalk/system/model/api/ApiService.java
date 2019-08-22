@@ -96,7 +96,7 @@ public interface ApiService {
     Flowable<ResponseModel<Object>> updatePassword(@Body RequestBody body);
 
     @GET("/api/User/UserRegister")
-    Flowable<ResponseModel<Object>> regUser(@Query("Phone") String phone, @Query("Code") String code, @Query("Password") String password);
+    Flowable<ResponseModel<Map<String, String>>> regUser(@Query("Phone") String phone, @Query("Code") String code, @Query("Password") String password);
 
     //更新数据库奖杯数量
     @GET("/api/Lesson/UpdateGiftCupNum")

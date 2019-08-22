@@ -80,7 +80,7 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
     }
 
     @Override
-    public void getUserInfoData(boolean isShowLoading, boolean isHideLoading) {
+    public void getUserInfoData(boolean isShowLoading, boolean isHideLoading, boolean isGetClassList) {
         addSubscribe(mApiService.getUserInfoData()
                 .compose(RxUtil.rxSchedulerHelper())
                 .compose(RxUtil.handleMyResult(getView(), false))
@@ -90,10 +90,12 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
                     public void onNext(UserInfoBean userInfoBean) {
                         if (userInfoBean == null) return;
                         AppUtils.saveUserInfoData(userInfoBean);
-                        if (userInfoBean.getLevel() < 0) {
+                        Log.e("test", "onNext: " + userInfoBean.getLevel());
+                        if (userInfoBean.getLevel() <= 0) {
                             Activity activity = getView().getActivity();
                             Intent intent = new Intent(activity, LevelActivity.class);
                             activity.startActivity(intent);
+                            setNext(false);
                             return;
                         }
                         getView().setUserInfoDataToView(userInfoBean.getImageUrl()
@@ -116,6 +118,14 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
                             return false;
                         }
                         return super.isHideLoading();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        super.onComplete();
+                        if (isGetClassList && next) {
+                            getClassListData(false, isShowLoading);
+                        }
                     }
                 })
         );

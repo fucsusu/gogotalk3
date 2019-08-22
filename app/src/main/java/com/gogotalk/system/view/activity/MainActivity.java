@@ -111,7 +111,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PermissionsUtil.getInstance().requestPermissions(this);
         initEvent();
         isFirstLoadData = false;
         intervalUpdateData();
@@ -157,11 +156,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                         Log.e("wuhongjie", "我轮训了=========");
                         if (!isFirstLoadData) {
                             isFirstLoadData = true;
-                            mPresenter.getUserInfoData(true, false);
-                            mPresenter.getClassListData(false, true);
+                            mPresenter.getUserInfoData(true, false, true);
                         } else {
-                            mPresenter.getUserInfoData(false, false);
-                            mPresenter.getClassListData(false, false);
+                            mPresenter.getUserInfoData(false, false, true);
                         }
                     }
 
@@ -300,7 +297,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     public void onUpdateUserInfoSuceess() {
         userInfoDialog.dismiss();
-        mPresenter.getUserInfoData(false, true);
+        mPresenter.getUserInfoData(false, true, false);
     }
 
 
@@ -435,8 +432,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 .setBirthday(AppUtils.getUserInfoData().getAge());
         userInfoDialog.setSaveClickLisener(new UserInfoDialogV2.OnSaveClickLisener() {
             @Override
-            public void onClick(int sex, String name,String birthday) {
-                mPresenter.updateUserInfo(name, sex,birthday);
+            public void onClick(int sex, String name, String birthday) {
+                mPresenter.updateUserInfo(name, sex, birthday);
             }
         });
         userInfoDialog.show();

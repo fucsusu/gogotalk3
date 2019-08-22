@@ -1,5 +1,8 @@
 package com.gogotalk.system.model.util;
 
+import android.util.Log;
+
+import com.gogotalk.system.model.api.ApiService;
 import com.gogotalk.system.model.exception.ApiException;
 import com.gogotalk.system.model.exception.NoNetworkException;
 import com.gogotalk.system.presenter.BaseContract;
@@ -9,12 +12,14 @@ import io.reactivex.subscribers.ResourceSubscriber;
 
 public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
     private BaseContract.View mView;
-    private String msg="";
+    private String msg = "";
+    public boolean next = true;
 
-    protected CommonSubscriber(BaseContract.View view,String message) {
+    protected CommonSubscriber(BaseContract.View view, String message) {
         this.mView = view;
-        this.msg=message;
+        this.msg = message;
     }
+
     protected CommonSubscriber(BaseContract.View view) {
         this.mView = view;
     }
@@ -27,7 +32,7 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
         if (isHideLoading()) {
             mView.hideLoading();
         }
-        if (e instanceof NoNetworkException) {
+        if (!(e instanceof ApiException)) {
             ToastUtils.showShortToast(mView.getActivity(), "网络异常，请检查网络后重试");
             return;
         }
@@ -49,6 +54,10 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
 
     public boolean isHideLoading() {
         return true;
+    }
+
+    public void setNext(boolean next) {
+        this.next = next;
     }
 
     public boolean isError() {
