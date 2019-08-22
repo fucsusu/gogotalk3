@@ -34,6 +34,7 @@ import com.gogotalk.system.presenter.MainContract;
 import com.gogotalk.system.presenter.MainPresenter;
 import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.util.AutoUpdateUtil;
+import com.gogotalk.system.util.CameraUtils;
 import com.gogotalk.system.util.CoursewareDownLoadUtil;
 import com.gogotalk.system.util.DataCleanManager;
 import com.gogotalk.system.util.DelectFileUtil;
@@ -48,6 +49,7 @@ import com.gogotalk.system.view.widget.CheckDeviceDialog;
 import com.gogotalk.system.view.widget.CommonDialog;
 import com.gogotalk.system.view.widget.SpaceItemDecoration;
 import com.gogotalk.system.view.widget.UserInfoDialogV2;
+import com.gogotalk.system.zego.ZGBaseHelper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -229,7 +231,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 if (!PermissionsUtil.getInstance().isPermissions()) {
                     ToastUtils.showLongToast(MainActivity.this, "部分功能未授权，请授权后再试！");
                 }
-                String path = "http://coursefiles.oss-cn-beijing.aliyuncs.com/Hgogotalk/CourseZip/L1/L1Lesson1.zip";
+                String path = "http://coursefiles.oss-cn-beijing.aliyuncs.com/Hgogotalk/CourseZip/L1/L1Lesson2.zip";
                 CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(MainActivity.this, coursesBean.getZipDownLoadUrl(),
                         root_view, coursesBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
                             @Override
@@ -268,8 +270,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHER_NAME, bean.getOtherStudnetName());
         mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHER_NAME_ID, bean.getOtherStudentId());
         mIntent.putExtra(Constant.INTENT_DATA_KEY_DETADIL_RECORDID, bean.getDetialRecordID());
-        mIntent.putExtra(Constant.INTENT_DATA_KEY_OWNJBNUM,bean.getMyGiftCupNum());
-        mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHERJBNUM,bean.getOtherGiftCupNum());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_OWNJBNUM, bean.getMyGiftCupNum());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHERJBNUM, bean.getOtherGiftCupNum());
         startActivity(mIntent);
     }
 

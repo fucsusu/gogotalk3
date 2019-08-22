@@ -14,6 +14,7 @@ import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.model.util.GsonUtils;
 import com.gogotalk.system.model.util.RxUtil;
 import com.gogotalk.system.util.AppUtils;
+import com.gogotalk.system.util.CameraUtils;
 import com.gogotalk.system.util.LogUtil;
 import com.gogotalk.system.zego.ZGBaseHelper;
 import com.gogotalk.system.zego.ZGMediaSideInfoDemo;
@@ -278,6 +279,8 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                         }
                     })
             );
+        }else {
+            getView().saveJbNumFinsh();
         }
     }
 
