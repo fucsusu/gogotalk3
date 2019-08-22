@@ -2,6 +2,7 @@ package com.gogotalk.system.util;
 
 import android.app.Activity;
 import android.hardware.Camera;
+import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 
@@ -353,6 +354,16 @@ public class CameraUtils {
         }
         mOrientation = result;
         return result;
+    }
+
+    public static int getCameraOrition() {
+        Camera.CameraInfo info = new Camera.CameraInfo();
+        Camera.getCameraInfo(mCameraID, info);
+        if (info.orientation % 180 == 0) {
+            return 0;
+        } else {
+            return 90;
+        }
     }
 
 

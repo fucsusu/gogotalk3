@@ -2,6 +2,7 @@ package com.gogotalk.system.zego;
 
 import android.app.Application;
 
+import com.gogotalk.system.util.AppUtils;
 import com.gogotalk.system.zego.ZGPublishHelper;
 import com.zego.zegoavkit2.mediarecorder.ZegoMediaRecordChannelIndex;
 import com.zego.zegoavkit2.mediarecorder.ZegoMediaRecordType;
@@ -208,6 +209,7 @@ public class ZGBaseHelper {
     public void setAudioCallbcak(IZegoAudioRecordCallback2 callback) {
         zegoLiveRoom.setZegoAudioRecordCallback(callback);
     }
+
 
     /**
      * 释放 zegoSDK

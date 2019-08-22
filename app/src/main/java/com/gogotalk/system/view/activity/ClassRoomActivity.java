@@ -42,6 +42,7 @@ import com.gogotalk.system.presenter.ClassRoomContract;
 import com.gogotalk.system.presenter.ClassRoomPresenter;
 import com.gogotalk.system.util.AnimatorUtils;
 import com.gogotalk.system.util.AppUtils;
+import com.gogotalk.system.util.CameraUtils;
 import com.gogotalk.system.util.DateUtils;
 import com.gogotalk.system.util.ToastUtils;
 import com.gogotalk.system.view.widget.AnswerCountDown;
@@ -267,6 +268,8 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
             classBegin();
         }
         otherSNText.setText(otherStudentName);
+        mMyJB.setText(String.valueOf(mOwnJBNum));
+        mOtherJBNum.setText(String.valueOf(mOtherJbNum));
     }
 
     @OnClick(R.id.class_room_close)
@@ -338,7 +341,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         Logger.e("登录房间成功 roomId:", finalRoomId);
         // 预览自己的视频且推流
         mPresenter.startPreviewOwn(mOwnTV);
-        mMyJB.setText(mOwnJBNum);
     }
 
     @Override
@@ -357,7 +359,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         otherStreamID = streamID;
         otherStudentName = userName;
         otherSNText.setText(userName);
-        mOtherJBNum.setText(mOtherJbNum);
         mvideo_switch_other.setClickable(true);
         mvoice_switch_other.setClickable(true);
         mvoice_switch_other.setOnCheckedChangeListener(this);
