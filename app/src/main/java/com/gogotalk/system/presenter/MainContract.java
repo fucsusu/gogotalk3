@@ -18,7 +18,7 @@ public interface MainContract {
         void getClassListData(boolean isShowLoading,boolean isHideLoading);
         void getUserInfoData(boolean isShowLoading,boolean isHideLoading);
         void canelOrderClass(int demandId);
-        void updateUserInfo(String name,int sex);
+        void updateUserInfo(String name,int sex,String birthday);
         void getRoomInfo(CoursesBean coursesBean,String filePath);
     }
 }

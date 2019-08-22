@@ -137,10 +137,11 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
     }
 
     @Override
-    public void updateUserInfo(String name, int sex) {
+    public void updateUserInfo(String name, int sex,String birthday) {
         Map<String, String> map = new HashMap<>();
         map.put("EName", name);
         map.put("Gender", String.valueOf(sex));
+        map.put("Birthday", birthday);
         addSubscribe(mApiService.updateUserInfo(HttpUtils.getRequestBody(map))
                 .compose(RxUtil.rxSchedulerHelper())
                 .compose(RxUtil.handleMyResult(getView(), true))
