@@ -261,9 +261,9 @@ public class LevelActivity extends BaseActivity<LevelPresenter> implements Level
         switch (view.getId()) {
             case R.id.btn_enter:
                 //如果来自课程列表页就不更新等级
-                if(direction!=Constant.DIRECTION_CLASS_TO_LEVEL){
+//                if(direction!=Constant.DIRECTION_CLASS_TO_LEVEL){
                     mPresenter.updateStudentLevel(currentLevel);
-                }
+//                }
                 Intent intent1 = new Intent(LevelActivity.this, ClassListActivity.class);
                 intent1.putExtra(Constant.INTENT_DATA_KEY_DIRECTION,Constant.DIRECTION_LEVEL_TO_CLASS);
                 intent1.putExtra(Constant.INTENT_DATA_KEY_LEVEL,currentLevel);
