@@ -26,15 +26,6 @@
                 android:background="@mipmap/btn_back" />
         </LinearLayout>
 
-        <!--<TextView-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_weight="4"-->
-        <!--android:gravity="center"-->
-        <!--android:text="哈佛外教课"-->
-        <!--android:textColor="#fff"-->
-        <!--android:textSize="15sp" />-->
-
         <LinearLayout
             android:id="@+id/layout_level"
             android:layout_width="@dimen/qb_px_126"

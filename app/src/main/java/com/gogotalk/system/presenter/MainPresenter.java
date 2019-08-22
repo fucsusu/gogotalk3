@@ -90,7 +90,7 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
                     public void onNext(UserInfoBean userInfoBean) {
                         if (userInfoBean == null) return;
                         AppUtils.saveUserInfoData(userInfoBean);
-                        if(userInfoBean.getLevel()==-1){
+                        if (userInfoBean.getLevel() < 0) {
                             Activity activity = getView().getActivity();
                             Intent intent = new Intent(activity, LevelActivity.class);
                             activity.startActivity(intent);
@@ -137,7 +137,7 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
     }
 
     @Override
-    public void updateUserInfo(String name, int sex,String birthday) {
+    public void updateUserInfo(String name, int sex, String birthday) {
         Map<String, String> map = new HashMap<>();
         map.put("EName", name);
         map.put("Gender", String.valueOf(sex));

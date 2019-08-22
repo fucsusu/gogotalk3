@@ -50,7 +50,7 @@ import butterknife.OnClick;
 import jsc.kit.wheel.dialog.DateTimeWheelDialog;
 
 /**
- * 登录页
+ * 完善信息页
  */
 public class LevelActivity extends BaseActivity<LevelPresenter> implements LevelContract.View {
     @BindView(R.id.tv_level_title)

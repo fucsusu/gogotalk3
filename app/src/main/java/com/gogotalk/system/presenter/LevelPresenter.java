@@ -39,6 +39,7 @@ public class LevelPresenter extends RxPresenter<LevelContract.View> implements L
         );
     }
 
+    //定级接口
     @Override
     public void gradeInvestigation(Map<String, String> map) {
         addSubscribe(mApiService.gradeInvestigation(HttpUtils.getRequestBody(map))
