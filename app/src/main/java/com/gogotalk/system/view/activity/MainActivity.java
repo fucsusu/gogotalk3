@@ -226,7 +226,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     return;
                 }
                 if (!PermissionsUtil.getInstance().isPermissions()) {
-                    ToastUtils.showLongToast(MainActivity.this, "部分功能未授权，请授权后再试！");
+                    ToastUtils.showLongToast(MainActivity.this, "部分功能未授权，请授权！");
                 }
                 String path = "http://coursefiles.oss-cn-beijing.aliyuncs.com/Hgogotalk/CourseZip/L1/L1Lesson2.zip";
                 CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(MainActivity.this, coursesBean.getZipDownLoadUrl(),

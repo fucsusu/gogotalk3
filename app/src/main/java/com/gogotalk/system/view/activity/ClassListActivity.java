@@ -86,9 +86,9 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
         super.getIntentData();
         currentLevel = AppUtils.getUserInfoData().getLevel();
         int direction = getIntent().getIntExtra(Constant.INTENT_DATA_KEY_DIRECTION, 0);
-        switch (direction){
+        switch (direction) {
             case Constant.DIRECTION_LEVEL_TO_CLASS:
-                currentLevel = getIntent().getIntExtra(Constant.INTENT_DATA_KEY_LEVEL,1);
+                currentLevel = getIntent().getIntExtra(Constant.INTENT_DATA_KEY_LEVEL, 1);
                 break;
         }
     }
@@ -191,7 +191,7 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
                 }
 
                 if (PermissionsUtil.getInstance().isPermissions()) {
-                    ToastUtils.showLongToast(ClassListActivity.this, "部分功能未授权，请授权后再试！");
+                    ToastUtils.showLongToast(ClassListActivity.this, "部分功能未授权，请授权！");
                 }
                 CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(ClassListActivity.this, goItemBean.getZipDownLoadUrl(),
                         root_view, goItemBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
@@ -238,8 +238,8 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
         mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHER_NAME, bean.getOtherStudnetName());
         mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHER_NAME_ID, bean.getOtherStudentId());
         mIntent.putExtra(Constant.INTENT_DATA_KEY_DETADIL_RECORDID, bean.getDetialRecordID());
-        mIntent.putExtra(Constant.INTENT_DATA_KEY_OWNJBNUM,bean.getMyGiftCupNum());
-        mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHERJBNUM,bean.getOtherGiftCupNum());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_OWNJBNUM, bean.getMyGiftCupNum());
+        mIntent.putExtra(Constant.INTENT_DATA_KEY_OTHERJBNUM, bean.getOtherGiftCupNum());
         startActivity(mIntent);
     }
 
@@ -256,8 +256,8 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
                 break;
             case R.id.layout_level:
                 Intent intent = new Intent(ClassListActivity.this, LevelActivity.class);
-                intent.putExtra(Constant.INTENT_DATA_KEY_DIRECTION,Constant.DIRECTION_CLASS_TO_LEVEL);
-                intent.putExtra(Constant.INTENT_DATA_KEY_LEVEL,currentLevel);
+                intent.putExtra(Constant.INTENT_DATA_KEY_DIRECTION, Constant.DIRECTION_CLASS_TO_LEVEL);
+                intent.putExtra(Constant.INTENT_DATA_KEY_LEVEL, currentLevel);
                 startActivity(intent);
 //                if (!popupWindow.isShowing()) {
 //                    ivLevel.setImageResource(R.mipmap.ic_class_list_drop_up);
@@ -290,8 +290,8 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
         levelBeans.clear();
         levelBeans.addAll(beans);
         levelAdapter.notifyDataSetChanged();
-        for(BookLevelBean levelBean:levelBeans){
-            if(currentLevel==levelBean.getBookLevel()){
+        for (BookLevelBean levelBean : levelBeans) {
+            if (currentLevel == levelBean.getBookLevel()) {
                 tvLevel.setText(levelBean.getBookName());
             }
         }

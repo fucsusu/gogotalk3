@@ -5,12 +5,9 @@
     <!-- Required -->
     <permission
         android:name="com.gogotalk.system.permission.JPUSH_MESSAGE"
-        android:protectionLevel="signature" />
-
-    <!-- Required  一些系统要求的权限，如访问网络等-->
+        android:protectionLevel="signature" /> <!-- Required  一些系统要求的权限，如访问网络等 -->
     <uses-permission android:name="com.gogotalk.system.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-
     <uses-permission
         android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" /> <!-- SDK 必须使用的权限 -->
@@ -32,10 +29,7 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
     <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
-
-
-    <!-- Required -->
+    <uses-feature android:name="android.hardware.camera.autofocus" /> <!-- Required -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission
@@ -51,6 +45,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".view.activity.AfterClassReporActivity"></activity>
         <activity
             android:name=".view.activity.ClassRoomActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -136,16 +131,12 @@
             android:exported="false" /> <!-- 必选 -->
         <meta-data
             android:name="PGYER_APPID"
-            android:value="9a55702201cdb5aafc2850204e7d4795" />
-
-        <!--jpush-->
-        <!-- Rich push 核心功能 since 2.0.6-->
+            android:value="9a55702201cdb5aafc2850204e7d4795" /> <!-- jpush -->
+        <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
             android:exported="false"
-            android:theme="@style/MyDialogStyle"></activity>
-
-        <!-- Required SDK核心功能-->
+            android:theme="@style/MyDialogStyle" /> <!-- Required SDK核心功能 -->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -157,9 +148,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="com.gogotalk.system" />
             </intent-filter>
-        </activity>
-
-        <!-- Required SDK 核心功能-->
+        </activity> <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <service
             android:name="cn.jpush.android.service.PushService"
@@ -171,25 +160,22 @@
                 <action android:name="cn.jpush.android.intent.PushService" />
                 <action android:name="cn.jpush.android.intent.PUSH_TIME" />
             </intent-filter>
-        </service>
-        <!-- since 3.0.9 Required SDK 核心功能-->
+        </service> <!-- since 3.0.9 Required SDK 核心功能 -->
         <provider
             android:name="cn.jpush.android.service.DataProvider"
             android:authorities="com.gogotalk.system.DataProvider"
             android:exported="false"
-            android:process=":pushcore" />
-        <!-- since 3.1.0 Required SDK 核心功能-->
+            android:process=":pushcore" /> <!-- since 3.1.0 Required SDK 核心功能 -->
         <provider
             android:name="cn.jpush.android.service.DownloadProvider"
             android:authorities="com.gogotalk.system.DownloadProvider"
-            android:exported="true" />
-        <!-- Required SDK核心功能-->
+            android:exported="true" /> <!-- Required SDK核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter android:priority="1000">
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />   <!--Required  显示通知栏 -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" /> <!-- Required  显示通知栏 -->
                 <category android:name="com.gogotalk.system" />
             </intent-filter>
             <intent-filter>
@@ -203,14 +189,10 @@
 
                 <data android:scheme="package" />
             </intent-filter>
-        </receiver>
-
-        <!-- Required SDK核心功能-->
+        </receiver> <!-- Required SDK核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.AlarmReceiver"
-            android:exported="false" />
-
-        <!--since 3.3.0 Required SDK核心功能-->
+            android:exported="false" /> <!-- since 3.3.0 Required SDK核心功能 -->
         <activity
             android:name="cn.jpush.android.service.JNotifyActivity"
             android:exported="true"
@@ -218,62 +200,53 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.JNotifyActivity" />
+
                 <category android:name="com.gogotalk.system" />
             </intent-filter>
-        </activity>
-
-        <!-- Since JCore2.0.0 Required SDK核心功能-->
+        </activity> <!-- Since JCore2.0.0 Required SDK核心功能 -->
         <!-- 这个Service要继承JCommonService -->
         <service android:name=".jpush.PushService">
             <intent-filter>
                 <action android:name="cn.jiguang.user.service.action" />
             </intent-filter>
-        </service>
-
-
-        <!-- User defined.  For test only  用户自定义的广播接收器-->
+        </service> <!-- User defined.  For test only  用户自定义的广播接收器 -->
         <receiver
             android:name=".jpush.MyReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!--Required  用户注册SDK的intent-->
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required  用户接收SDK消息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!--Required  用户接收SDK通知栏信息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!--Required  用户打开自定义通知栏的intent-->
-                <action android:name="cn.jpush.android.intent.CONNECTION" /><!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!-- Required  用户注册SDK的intent -->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!-- Required  用户接收SDK消息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!-- Required  用户接收SDK通知栏信息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!-- Required  用户打开自定义通知栏的intent -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" /> <!-- 接收网络变化 连接/断开 since 1.6.3 -->
                 <category android:name="com.gogotalk.system" />
             </intent-filter>
-        </receiver>
-
-        <!-- User defined.  For test only  用户自定义接收消息器,3.0.7开始支持,目前新tag/alias接口设置结果会在该广播接收器对应的方法中回调-->
+        </receiver> <!-- User defined.  For test only  用户自定义接收消息器,3.0.7开始支持,目前新tag/alias接口设置结果会在该广播接收器对应的方法中回调 -->
         <receiver android:name=".jpush.MyJPushMessageReceiver">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
-                <category android:name="com.gogotalk.system"></category>
+
+                <category android:name="com.gogotalk.system" />
             </intent-filter>
-        </receiver>
-        <!-- Required  . Enable it you can get statistics data with channel -->
+        </receiver> <!-- Required  . Enable it you can get statistics data with channel -->
         <meta-data
             android:name="JPUSH_CHANNEL"
             android:value="developer-default" />
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="c4bebb643e34942792e6cf47" /> <!--  </>值来自开发者平台取得的AppKey-->
-
-
-        <!-- Required SDK核心功能-->
+            android:value="0adf9cdf590c706c31d834ff" /> <!-- </>值来自开发者平台取得的AppKey -->
+        <!-- Required SDK核心功能 -->
         <activity
             android:name="cn.jiguang.share.android.ui.JiguangShellActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
-
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".wxapi.WXEntryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
 
 </manifest>
