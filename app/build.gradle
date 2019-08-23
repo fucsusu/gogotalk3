@@ -94,7 +94,9 @@ dependencies {
     implementation files('libs/zegoliveroom.jar')
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.pgyersdk:sdk:3.0.4'
-    implementation files('libs/jcore-android-2.0.1.jar')
     implementation files('libs/jpush-android-3.3.4.jar')
-    compile project(path: ':wheelLibrary')
+    implementation project(path: ':wheelLibrary')
+    implementation files('libs/jcore-android-2.1.2.jar')
+    implementation files('libs/jshare-wechat-android-1.7.1.jar')
+    implementation files('libs/jshare-android-1.7.1.jar')
 }

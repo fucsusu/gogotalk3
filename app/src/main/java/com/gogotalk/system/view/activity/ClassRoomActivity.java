@@ -173,7 +173,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                     }
                     break;
                 case Constant.HANDLE_INFO_ANSWER:
-                    startAnswer();
+                    startAnswer(msg.arg1);
                     break;
                 case Constant.HANDLE_INFO_NEXTPAGE:
                     toPage(msg.arg1);
@@ -548,7 +548,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
     }
 
     //答题处理
-    private void startAnswer() {
+    private void startAnswer(int time) {
         Log.e("TAG", "startAnswer: ");
         webView.evaluateJavascript("javascript:exec()", new ValueCallback<String>() {
             @Override
@@ -556,7 +556,7 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
                 Log.i("TAG", value);
             }
         });
-        answer_countdown.startCountDown();
+        answer_countdown.startCountDown(time);
     }
 
     //教室开始上课

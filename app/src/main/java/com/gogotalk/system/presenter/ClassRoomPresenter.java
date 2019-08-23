@@ -279,7 +279,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                         }
                     })
             );
-        }else {
+        } else {
             getView().saveJbNumFinsh();
         }
     }
@@ -387,7 +387,11 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
                         getView().playNameMp3((String) map.get("username"));
                         break;
                     case ACTION_ANSWER:
-                        getView().sendHandleMessage(Constant.HANDLE_INFO_ANSWER);
+                        if (map != null && map.size() > 0) {
+                            getView().sendHandleMessage(Constant.HANDLE_INFO_ANSWER, 0, (int) Double.parseDouble(String.valueOf(map.get("time"))));
+                        } else {
+                            getView().sendHandleMessage(Constant.HANDLE_INFO_ANSWER, 0, 10);
+                        }
                         break;
                     case ACTION_NEXTPAGE:
                         int page = (int) Double.parseDouble(String.valueOf(map.get("page")));

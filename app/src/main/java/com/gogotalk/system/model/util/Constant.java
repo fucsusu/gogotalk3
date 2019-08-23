@@ -1,7 +1,7 @@
 package com.gogotalk.system.model.util;
 
 public class Constant {
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
     /**
      * app网络请求基路径
      * PATH_RELEASE_URL 正式发布路径

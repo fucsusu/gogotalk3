@@ -30,7 +30,6 @@ public class AnswerCountDown extends View {
     private TextPaint mTxtPaint;
 
     private int time = 11;
-    private CountDownTimer countDownTimer;
     private AnswerCountDown answerCountDown = this;
     public Disposable mDisposable;
 
@@ -83,13 +82,13 @@ public class AnswerCountDown extends View {
         canvas.drawText(time + "", getWidth() / 2 - textL / 2, getHeight() / 2 + progressWith - 10, mTxtPaint);
     }
 
-    public void startCountDown() {
+    public void startCountDown(int times) {
         if (mDisposable != null && !mDisposable.isDisposed()) {
             mDisposable.dispose();
             mDisposable = null;
         }
         Observable.interval(0, 1, TimeUnit.SECONDS).
-                take(11).observeOn(AndroidSchedulers.mainThread())//ui线程中进行控件更新
+                take(times + 1).observeOn(AndroidSchedulers.mainThread())//ui线程中进行控件更新
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
@@ -104,7 +103,7 @@ public class AnswerCountDown extends View {
 
                     @Override
                     public void onNext(Long num) {
-                        time = (int) (10 - num);
+                        time = (int) (times - num);
                         postInvalidate();
                     }
 
@@ -118,7 +117,7 @@ public class AnswerCountDown extends View {
                         answerCountDown.setVisibility(GONE);
                     }
                 });
-        time = 10;
+        time = times;
         answerCountDown.setVisibility(VISIBLE);
     }
 }

@@ -90,7 +90,6 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
                     public void onNext(UserInfoBean userInfoBean) {
                         if (userInfoBean == null) return;
                         AppUtils.saveUserInfoData(userInfoBean);
-                        Log.e("test", "onNext: " + userInfoBean.getLevel());
                         if (userInfoBean.getLevel() <= 0) {
                             Activity activity = getView().getActivity();
                             Intent intent = new Intent(activity, LevelActivity.class);
