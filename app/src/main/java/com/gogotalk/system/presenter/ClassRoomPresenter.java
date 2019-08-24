@@ -85,7 +85,7 @@ public class ClassRoomPresenter extends RxPresenter<ClassRoomContract.IClassRoom
     public void initSdk(Context context, String roomID, int role) {
         this.context = context;
         long appId = ZegoUtil.parseAppIDFromString(Constant.appid);
-        ZGBaseHelper.sharedInstance().initZegoSDK(appId, appSign, Constant.DEBUG, new IZegoInitSDKCompletionCallback() {
+        ZGBaseHelper.sharedInstance().initZegoSDK(appId, appSign, false, new IZegoInitSDKCompletionCallback() {
             @Override
             public void onInitSDK(int errorCode) {
                 // errorCode 非0 代表初始化sdk失败

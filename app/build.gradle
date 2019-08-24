@@ -15,8 +15,8 @@ android {
         applicationId "com.gogotalk.system"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 9
-        versionName "1.1.6"
+        versionCode 8
+        versionName "1.1.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {

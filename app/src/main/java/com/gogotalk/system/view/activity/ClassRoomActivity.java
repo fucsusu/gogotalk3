@@ -232,9 +232,6 @@ public class ClassRoomActivity extends BaseActivity<ClassRoomPresenter> implemen
         mOwnJBNum = mIntent.getIntExtra(Constant.INTENT_DATA_KEY_OWNJBNUM, 0);
         mOtherJbNum = mIntent.getIntExtra(Constant.INTENT_DATA_KEY_OTHERJBNUM, 0);
 
-        if (Constant.DEBUG) {
-            AttendLessonID = "638";
-        }
         finalRoomId = "#AI-ClassRoom-" + AttendLessonID;
         Log.e("TAG", "initData: " + finalRoomId);
     }
