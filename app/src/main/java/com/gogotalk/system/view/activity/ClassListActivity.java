@@ -18,9 +18,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gogotalk.system.R;
+import com.gogotalk.system.app.AppManager;
 import com.gogotalk.system.model.entity.BookLevelBean;
 import com.gogotalk.system.model.entity.GoGoBean;
 import com.gogotalk.system.model.entity.GoItemBean;
+import com.gogotalk.system.model.entity.ResponseModel;
 import com.gogotalk.system.model.entity.RoomInfoBean;
 import com.gogotalk.system.model.entity.WeekMakeBean;
 import com.gogotalk.system.model.util.Constant;
@@ -33,6 +35,7 @@ import com.gogotalk.system.util.ToastUtils;
 import com.gogotalk.system.view.adapter.ClassListAdapter;
 import com.gogotalk.system.view.adapter.ClassListLevelAdapter;
 import com.gogotalk.system.view.adapter.ClassListUnitAdapter;
+import com.gogotalk.system.view.widget.CommonDialog;
 import com.gogotalk.system.view.widget.SpaceItemDecoration;
 import com.gogotalk.system.view.widget.YuYueDialog;
 
@@ -310,14 +313,29 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
 
     //约课成功
     @Override
-    public void onOrderClassSuccess() {
+    public void onOrderClassSuccess(String msg) {
         yuYueDialog.dismiss();
         ToastUtils.showShortToast(this, "约课成功！");
+//        if (TextUtils.isEmpty(msg)) {
+//        } else {
+//            CommonDialog.Builder builder = new CommonDialog.Builder(ClassListActivity.this);
+//            builder.setMessage(msg);
+//            builder.setPositiveButton("知道啦", new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    builder.getDialog().dismiss();
+//                }
+//            });
+//            builder.createOneButtonDialog().show();
+//        }
     }
 
     @Override
-    public void setDataToYuyueDialogShow(List<WeekMakeBean> beans) {
-        builder.setWeekBeans(beans);
+    public void setDataToYuyueDialogShow(ResponseModel<List<WeekMakeBean>> beans) {
+        builder.setTips(beans.getMsg());
+        if (beans.getData() != null) {
+            builder.setWeekBeans(beans.getData());
+        }
         yuYueDialog.show();
     }
 }

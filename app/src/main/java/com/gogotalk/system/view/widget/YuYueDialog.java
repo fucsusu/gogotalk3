@@ -1,6 +1,7 @@
 package com.gogotalk.system.view.widget;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class YuYueDialog extends ABBaseDialog {
+
+
     public interface IyuYuClickListener {
         void yuYuClick(String date, String time);
     }
@@ -62,6 +65,8 @@ public class YuYueDialog extends ABBaseDialog {
         private TimeAdapter xiawuAdapter;
         private TimeAdapter wanshangAdapter;
         private IyuYuClickListener iyuYuClickListener;
+        private TextView tv_tips;
+
 
         public void setIyuYuClickListener(IyuYuClickListener iyuYuClickListener) {
             this.iyuYuClickListener = iyuYuClickListener;
@@ -91,6 +96,16 @@ public class YuYueDialog extends ABBaseDialog {
             weekAdapter.notifyDataSetChanged();
             fillTimeData(weekBeans.get(0).getTimeList());
             return this;
+        }
+
+        public void setTips(String msg) {
+            if (TextUtils.isEmpty(msg)) {
+                tv_tips.setText("");
+                tv_tips.setVisibility(View.INVISIBLE);
+            } else {
+                tv_tips.setText(msg);
+                tv_tips.setVisibility(View.VISIBLE);
+            }
         }
 
         private void fillTimeData(List<TimeMakeBean> timeMakeBeans) {
@@ -151,6 +166,7 @@ public class YuYueDialog extends ABBaseDialog {
             tv_shangwu = view.findViewById(R.id.id_mTest2_Make);//上午
             tv_xiawu = view.findViewById(R.id.id_mTest_Make);//下午
             tv_wanshang = view.findViewById(R.id.id_mTest1_Make);//晚上
+            tv_tips = view.findViewById(R.id.order_tips);
             tv_shangwu.setText("上" + "\n" + "午");
             tv_xiawu.setText("下" + "\n" + "午");
             tv_wanshang.setText("晚" + "\n" + "上");

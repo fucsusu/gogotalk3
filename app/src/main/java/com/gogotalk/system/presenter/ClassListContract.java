@@ -3,6 +3,7 @@ package com.gogotalk.system.presenter;
 import com.gogotalk.system.model.entity.BookLevelBean;
 import com.gogotalk.system.model.entity.GoGoBean;
 import com.gogotalk.system.model.entity.GoItemBean;
+import com.gogotalk.system.model.entity.ResponseModel;
 import com.gogotalk.system.model.entity.RoomInfoBean;
 import com.gogotalk.system.model.entity.WeekMakeBean;
 
@@ -14,9 +15,9 @@ public interface ClassListContract {
 
         void updateUnitAndClassRecelyerViewData(List<GoGoBean> beans);
 
-        void onOrderClassSuccess();
+        void onOrderClassSuccess(String msg);
 
-        void setDataToYuyueDialogShow(List<WeekMakeBean> beans);
+        void setDataToYuyueDialogShow(ResponseModel<List<WeekMakeBean>> beans);
 
         void onRoomInfoSuccess(RoomInfoBean bean, String filePath);
     }

@@ -64,6 +64,16 @@ public class CommonDialog extends ABBaseDialog {
         }
 
         //设置两按钮提示
+        public CommonDialog createOneButtonDialog() {
+            if (positiveButtonText != null && !"".equals(positiveButtonText)) {
+                ((Button) layout.findViewById(R.id.btn_ok)).setText(positiveButtonText);
+            }
+            layout.findViewById(R.id.btn_cancel).setVisibility(View.GONE);
+            create();
+            return dialog;
+        }
+
+        //设置两按钮提示
         public CommonDialog createTwoButtonDialog() {
             if (positiveButtonText != null && !"".equals(positiveButtonText)) {
                 ((Button) layout.findViewById(R.id.btn_ok)).setText(positiveButtonText);
@@ -98,6 +108,10 @@ public class CommonDialog extends ABBaseDialog {
             dialog.setContentView(layout);
             dialog.setCancelable(flag);     //用户可以点击手机Back键取消对话框显示
             dialog.setCanceledOnTouchOutside(false);        //用户不能通过点击对话框之外的地方取消对话框显示
+            return dialog;
+        }
+
+        public CommonDialog getDialog() {
             return dialog;
         }
     }

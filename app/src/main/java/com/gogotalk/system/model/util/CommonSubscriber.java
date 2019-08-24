@@ -12,12 +12,10 @@ import io.reactivex.subscribers.ResourceSubscriber;
 
 public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
     private BaseContract.View mView;
-    private String msg = "";
     public boolean next = true;
 
     protected CommonSubscriber(BaseContract.View view, String message) {
         this.mView = view;
-        this.msg = message;
     }
 
     protected CommonSubscriber(BaseContract.View view) {
@@ -37,7 +35,7 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
             return;
         }
         if (isError()) {
-            ToastUtils.showLongToast(mView.getActivity(), msg + e.getMessage());
+            ToastUtils.showLongToast(mView.getActivity(), e.getMessage());
         }
     }
 

@@ -21,6 +21,7 @@ import io.reactivex.schedulers.Schedulers;
 public class RxUtil {
     /**
      * 统一线程处理
+     *
      * @param <T>
      * @return
      */
@@ -33,6 +34,42 @@ public class RxUtil {
             }
         };
     }
+
+    /**
+     * 统一返回结果处理
+     *
+     * @param <T>
+     * @return
+     */
+    public static <T> FlowableTransformer<ResponseModel<T>, ResponseModel<T>> handleMyResult(BaseContract.View view) {   //compose判断结果
+        return new FlowableTransformer<ResponseModel<T>, ResponseModel<T>>() {
+            @Override
+            public Flowable<ResponseModel<T>> apply(Flowable<ResponseModel<T>> httpResponseFlowable) {
+                return httpResponseFlowable.flatMap(new Function<ResponseModel<T>, Flowable<ResponseModel<T>>>() {
+                    @Override
+                    public Flowable<ResponseModel<T>> apply(ResponseModel<T> responseModel) {
+                        if (responseModel.getResult() == Constant.HTTP_SUCCESS_CODE) {
+                            return createData(responseModel);
+                        } else if (responseModel.getResult() == Constant.HTTP_TOKEN_EXPIRE_CODE) {
+                            if (view != null) {
+                                AppManager.getAppManager().finishAllActivity();
+                                view.getActivity().startActivity(new Intent(view.getActivity(), LoginActivity.class));
+                            }
+                            return Flowable.error(new ApiException(responseModel.getMsg(),
+                                    Integer.valueOf(responseModel.getResult())));
+                        } else if (responseModel.getResult() == Constant.HTTP_FAIL_CODE) {
+                            return Flowable.error(new ApiException(responseModel.getMsg(),
+                                    Integer.valueOf(responseModel.getResult())));
+                        } else {
+                            return Flowable.error(new ApiException(responseModel.getMsg(),
+                                    Integer.valueOf(responseModel.getResult())));
+                        }
+                    }
+                });
+            }
+        };
+    }
+
     /**
      * 统一返回结果处理
      *
@@ -70,6 +107,28 @@ public class RxUtil {
             }
         };
     }
+
+
+    /**
+     * 生成Flowable
+     *
+     * @param <T>
+     * @return
+     */
+    public static <T> Flowable<ResponseModel<T>> createData(ResponseModel<T> t) {
+        return Flowable.create(new FlowableOnSubscribe<ResponseModel<T>>() {
+            @Override
+            public void subscribe(FlowableEmitter<ResponseModel<T>> emitter) throws Exception {
+                try {
+                    emitter.onNext(t);
+                    emitter.onComplete();
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            }
+        }, BackpressureStrategy.BUFFER);
+    }
+
     /**
      * 生成Flowable
      *

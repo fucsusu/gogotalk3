@@ -6,6 +6,7 @@
     android:layout_gravity="center"
     android:background="@drawable/dot_yuyuetanchuang"
     android:gravity="center_horizontal"
+    android:paddingBottom="@dimen/qb_px_13"
     android:orientation="vertical">
 
 
@@ -161,11 +162,20 @@
         android:layout_height="@dimen/qb_px_24"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/qb_px_13"
-        android:layout_marginBottom="@dimen/qb_px_22"
         android:background="@mipmap/bg_dialog_yuyue_btn_submit"
         android:gravity="center"
         android:text="确定预约"
         android:textColor="#fff"
         android:textSize="@dimen/qb_px_12" />
+
+
+    <TextView
+        android:id="@+id/order_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/qb_px_5"
+        android:textSize="@dimen/qb_px_11"
+        android:visibility="visible" />
 
 </LinearLayout>

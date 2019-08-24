@@ -31,7 +31,7 @@ public class RegPresenter extends RxPresenter<RegContract.View> implements RegCo
         addSubscribe(mApiService.regUser(phone, code, password)
                 .compose(RxUtil.rxSchedulerHelper())
                 .compose(RxUtil.handleMyResult(getView(), false))
-                .subscribeWith(new CommonSubscriber<Map<String, String>>(getView(), "注册失败") {
+                .subscribeWith(new CommonSubscriber<Map<String, String>>(getView()) {
                     @Override
                     public void onNext(Map<String, String> mapData) {
                         ToastUtils.showShortToast(getView().getActivity(), "注册成功！");
