@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gogotalk.system.R;
 import com.gogotalk.system.model.entity.ClassDetailBean;
+import com.gogotalk.system.model.entity.ResponseModel;
 import com.gogotalk.system.model.entity.WeekMakeBean;
 import com.gogotalk.system.model.util.Constant;
 import com.gogotalk.system.presenter.ClassDetailContract;
@@ -140,8 +141,11 @@ public class ClassDetailActivity extends BaseActivity<ClassDetailPresenter> impl
     }
 
     @Override
-    public void setDataToYuyueDialogShow(List<WeekMakeBean> beans) {
-        builder.setWeekBeans(beans);
+    public void setDataToYuyueDialogShow(ResponseModel<List<WeekMakeBean>> beans) {
+        builder.setTips(beans.getMsg());
+        if (beans.getData() != null) {
+            builder.setWeekBeans(beans.getData());
+        }
         yuYueDialog.show();
     }
 

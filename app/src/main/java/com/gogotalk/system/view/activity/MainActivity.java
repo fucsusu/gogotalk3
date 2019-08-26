@@ -225,9 +225,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     ToastUtils.showLongToast(MainActivity.this, "课前10分钟才可以进入教室");
                     return;
                 }
-                if (!PermissionsUtil.getInstance().isPermissions()) {
-                    ToastUtils.showLongToast(MainActivity.this, "部分功能未授权，请授权！");
-                }
+//                if (!PermissionsUtil.getInstance().isPermissions()) {
+//                    ToastUtils.showLongToast(MainActivity.this, "部分功能未授权，请授权！");
+//                }
                 String path = "http://coursefiles.oss-cn-beijing.aliyuncs.com/Hgogotalk/CourseZip/L1/L1Lesson2.zip";
                 CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(MainActivity.this, coursesBean.getZipDownLoadUrl(),
                         root_view, coursesBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {

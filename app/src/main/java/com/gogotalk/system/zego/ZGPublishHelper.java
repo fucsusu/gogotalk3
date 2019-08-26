@@ -1,5 +1,6 @@
 package com.gogotalk.system.zego;
 
+import android.graphics.drawable.GradientDrawable;
 import android.view.Surface;
 import android.view.View;
 
@@ -69,7 +70,7 @@ public class ZGPublishHelper {
         ZegoLiveRoom zegoLiveRoom = ZGBaseHelper.sharedInstance().getZegoLiveRoom();
         zegoLiveRoom.setPreviewView(view);
         zegoLiveRoom.setPreviewViewMode(ZegoVideoViewMode.ScaleAspectFill);
-        zegoLiveRoom.setPreviewRotation(CameraUtils.getCameraOrition());
+        zegoLiveRoom.setAppOrientation(CameraUtils.getCameraOrition());
         zegoLiveRoom.startPreview();
         ZGPublishHelper.sharedInstance().startPublishing(publishStreamID, "", ZegoConstants.PublishFlag.JoinPublish);
     }

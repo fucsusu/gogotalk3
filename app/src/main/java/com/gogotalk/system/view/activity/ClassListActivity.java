@@ -193,9 +193,9 @@ public class ClassListActivity extends BaseActivity<ClassListPresenter> implemen
                     return;
                 }
 
-                if (PermissionsUtil.getInstance().isPermissions()) {
-                    ToastUtils.showLongToast(ClassListActivity.this, "部分功能未授权，请授权！");
-                }
+//                if (PermissionsUtil.getInstance().isPermissions()) {
+//                    ToastUtils.showLongToast(ClassListActivity.this, "部分功能未授权，请授权！");
+//                }
                 CoursewareDownLoadUtil.getCoursewareUtil().downloadCourseware(ClassListActivity.this, goItemBean.getZipDownLoadUrl(),
                         root_view, goItemBean.getZipEncrypInfo(), new CoursewareDownLoadUtil.CoursewareDownFinsh() {
                             @Override

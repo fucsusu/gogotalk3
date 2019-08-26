@@ -359,10 +359,11 @@ public class CameraUtils {
     public static int getCameraOrition() {
         Camera.CameraInfo info = new Camera.CameraInfo();
         Camera.getCameraInfo(mCameraID, info);
+        Log.e("TAG", "getCameraOrition: "+info.orientation );
         if (info.orientation % 180 == 0) {
-            return 0;
+            return Surface.ROTATION_0;
         } else {
-            return 90;
+            return Surface.ROTATION_90;
         }
     }
 

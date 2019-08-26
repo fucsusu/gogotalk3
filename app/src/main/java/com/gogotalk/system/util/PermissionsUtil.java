@@ -2,6 +2,7 @@ package com.gogotalk.system.util;
 
 import android.Manifest;
 import android.app.Activity;
+import android.util.Log;
 
 import androidx.fragment.app.FragmentActivity;
 
